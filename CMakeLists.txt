@@ -5,7 +5,7 @@ file(GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 
 include_directories(include/)
 
-add_JAKARTA(JAKARTA ${SOURCES})
+add_executable(JAKARTA ${SOURCES})
 
 set_target_properties(JAKARTA PROPERTIES 
                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
