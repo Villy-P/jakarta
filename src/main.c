@@ -15,9 +15,14 @@ int main(int argc, char *argv[]) {
                 jakarta_error_file_does_not_exist(file_location);
 
             i++;
+            fclose(file_ptr);
         } else if (strcmp(argv[i], "-o") == 0) {
             if (i == argc - 1)
                 jakarta_error_no_file_location("-o");
+            char* file_location = argv[i + 1];
+            FILE* file_ptr = fopen(file_location, "w");
+            
+            fclose(file_ptr);
         }
     }
 }
