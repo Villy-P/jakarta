@@ -3,26 +3,13 @@
 #include <stdlib.h>
 
 #include "error.h"
+#include "cmd.h"
 
 int main(int argc, char *argv[]) {
     for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-f") == 0) {
-            if (i == argc - 1)
-                jakarta_error_no_file_location("-f");
-            char* file_location = argv[i + 1];
-            FILE* file_ptr = fopen(file_location, "r");
-            if (file_ptr == NULL)
-                jakarta_error_file_does_not_exist(file_location);
-
-            i++;
-            fclose(file_ptr);
-        } else if (strcmp(argv[i], "-o") == 0) {
-            if (i == argc - 1)
-                jakarta_error_no_file_location("-o");
-            char* file_location = argv[i + 1];
-            FILE* file_ptr = fopen(file_location, "w");
-            
-            fclose(file_ptr);
-        }
+        if (strcmp(argv[i], "-f") == 0)
+            jakarta_cmd_read_file(i++, argc, argv[i + 1]);
+        else if (strcmp(argv[i], "-o") == 0)
+            jakarta_cmd_out_file(i++, argc, argv[i + 1]);
     }
 }
