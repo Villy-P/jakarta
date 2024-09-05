@@ -15,3 +15,5 @@ target_compile_options(JAKARTA PRIVATE
     "-fdiagnostics-color=always"
     "-g"
 )
+
+target_link_libraries(JAKARTA "regex")
