@@ -8,6 +8,10 @@
 #define REGEX_FLAGS 0
 
 void read_line(char* line) {
+    
+}
+
+void get_string(char* line) {
     regex_t reegex;
     regmatch_t groups[MAX_REGEX_GROUPS];
     int value;

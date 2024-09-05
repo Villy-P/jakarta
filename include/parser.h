@@ -14,4 +14,6 @@ typedef enum {
 
 void read_line(char* line);
 
+void get_string(char* line);
+
 #endif
