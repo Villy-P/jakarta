@@ -6,12 +6,22 @@
 #include "cmd.h"
 
 #define STRING_EQUAL 0
+#define FILE_NAME_SIZE 256
 
 int main(int argc, char *argv[]) {
+    char input_file[FILE_NAME_SIZE];
+    char output_file[FILE_NAME_SIZE];
     for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-f") == STRING_EQUAL)
-            jakarta_cmd_read_file(i++, argc, argv[i + 1]);
-        else if (strcmp(argv[i], "-o") == STRING_EQUAL)
-            jakarta_cmd_out_file(i++, argc, argv[i + 1]);
+        if (strcmp(argv[i], "-f") == STRING_EQUAL) {
+            if (i == argc - 1)
+                jakarta_error_no_file_location("-f");
+            strncpy(input_file, argv[i + 1], 256);
+        } else if (strcmp(argv[i], "-o") == STRING_EQUAL) {
+            if (i == argc - 1)
+                jakarta_error_no_file_location("-o");
+            strncpy(output_file, argv[i + 1], 256);
+        }
     }
+    jakarta_cmd_read_file(input_file);
+    jakarta_cmd_out_file(output_file);
 }
