@@ -15,11 +15,11 @@ int main(int argc, char *argv[]) {
         if (strcmp(argv[i], "-f") == STRING_EQUAL) {
             if (i == argc - 1)
                 jakarta_error_no_file_location("-f");
-            strncpy(input_file, argv[i + 1], 256);
+            strncpy(input_file, argv[i + 1], FILE_NAME_SIZE);
         } else if (strcmp(argv[i], "-o") == STRING_EQUAL) {
             if (i == argc - 1)
                 jakarta_error_no_file_location("-o");
-            strncpy(output_file, argv[i + 1], 256);
+            strncpy(output_file, argv[i + 1], FILE_NAME_SIZE);
         }
     }
     jakarta_cmd_read_file(input_file);
