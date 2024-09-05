@@ -12,4 +12,6 @@ typedef enum {
     close_parenthesis
 } Symbol;
 
+void read_line(char* line);
+
 #endif
