@@ -3,15 +3,15 @@
 
 #include "parser.h"
 
-#define REGEX_SUCCESSFUL 0
-
 void read_line(char* line) {
     regex_t reegex;
     int value;
-    value = regcomp(&reegex, "[:word:]", 0);
+    value = regcomp(&reegex, "^\\w+", REG_EXTENDED);
     value = regexec(&reegex, line, 0, NULL, 0);
 
-    if (value == REGEX_SUCCESSFUL) {
+    if (value == REG_OK) {
         printf("%s", line);
+    } else if (value == REG_NOMATCH) {
+        printf("No line detected");
     }
 }
