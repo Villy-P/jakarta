@@ -1,0 +1,26 @@
+func uint factorial(uint n) {
+    if (n == 0) {
+        ret 0;
+    }
+    ret n * factorial(n);
+}
+
+func uint main(str[] argv) {
+    str input_file;
+    str output_file;
+    for (uint i = 1; i < argv.len; i++) {
+        if (argv[i] == "-f") {
+            if (i == argv.len - 1) {
+                jakarta_error_no_file_location("-f");
+            }
+            input_file = argv[i + 1];
+        } else if (argv[i] == "-o") {
+            if (i == argv.len - 1) {
+                jakarta_error_no_file_location("-o");
+            }
+            output_file = argv[i + 1];
+        }
+    }
+    jakarta_cmd_read_file(input_file);
+    jakarta_cmd_out_file(output_file);
+}
