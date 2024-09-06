@@ -1,3 +1,5 @@
+import * from "math.jk" as math;
+
 func uint factorial(uint n) {
     if (n == 0) {
         ret 0;
@@ -18,9 +20,41 @@ func uint main(str[] argv) {
             if (i == argv.len - 1) {
                 jakarta_error_no_file_location("-o");
             }
-            output_file = argv[i + 1];
+            output_file := argv[i + 1];
         }
     }
     jakarta_cmd_read_file(input_file);
     jakarta_cmd_out_file(output_file);
+
+    println(output_file);
+}
+
+class Node<E> {
+    pub E val;
+    pub Node<E> next;
+    pub ulong i;
+
+    pub constructor(E e) {
+        this.val := e;
+    }
+}
+
+
+class List<E> {
+    private Node<E> head;
+
+    pub void add(E e) {
+        constant Node<E> node = new Node(e) {
+            i := 23
+        };
+        if (this.head == nul) {
+            this.head := node;
+            ret;
+        }
+        Node<E> current = this.head;
+        while (current.next != nul) {
+            current := current.next;
+        }
+        current.next := node;
+    }
 }
