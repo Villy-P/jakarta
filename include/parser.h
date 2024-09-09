@@ -24,6 +24,6 @@ extern unsigned int token_length;
 
 void read_line(char* line);
 
-char* get_string(char* line);
+char* get_string(char** line);
 
 #endif
