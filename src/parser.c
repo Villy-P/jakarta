@@ -4,11 +4,17 @@
 
 #include "parser.h"
 
+#define INITIAL_TOKENS_LENGTH 64
 #define MAX_REGEX_GROUPS 1
 #define REGEX_FLAGS 0
 
+Token** tokens = NULL;
+unsigned int token_length = INITIAL_TOKENS_LENGTH;
+
 void read_line(char* line) {
-    
+    if (tokens == NULL)
+        tokens = malloc(sizeof(Token) * INITIAL_TOKENS_LENGTH);
+    return;
 }
 
 void get_string(char* line) {

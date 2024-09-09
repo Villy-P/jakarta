@@ -19,6 +19,9 @@ typedef struct {
     char* content;
 } Token;
 
+extern Token** tokens;
+extern unsigned int token_length;
+
 void read_line(char* line);
 
 void get_string(char* line);
