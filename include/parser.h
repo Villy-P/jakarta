@@ -12,6 +12,13 @@ typedef enum {
     close_parenthesis
 } Symbol;
 
+typedef struct {
+    Symbol sybmol;
+    unsigned int line;
+    unsigned int col;
+    char* content;
+} Token;
+
 void read_line(char* line);
 
 void get_string(char* line);
