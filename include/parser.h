@@ -1,7 +1,7 @@
 #ifndef __JAKARTA_ERROR_H__
 #define __JAKARTA_ERROR_H__
 
-typedef enum {
+typedef enum SymbolDef {
     indentation,
     comma,
     period,
@@ -12,7 +12,7 @@ typedef enum {
     close_parenthesis
 } Symbol;
 
-typedef struct {
+typedef struct TokenDef {
     Symbol sybmol;
     unsigned int line;
     unsigned int col;
@@ -25,5 +25,7 @@ extern unsigned int token_length;
 void read_line(char* line);
 
 char* get_string(char** line);
+
+Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content);
 
 #endif

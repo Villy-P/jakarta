@@ -15,8 +15,8 @@ unsigned int token_length = INITIAL_TOKENS_LENGTH;
 
 void read_line(char* line) {
     if (tokens == NULL)
-        tokens = malloc(sizeof(Token) * INITIAL_TOKENS_LENGTH);
-    printf("Line: %s\n", line);
+        tokens = malloc(sizeof(Token*) * INITIAL_TOKENS_LENGTH);
+    printf("Line: %s %d\n", line, sizeof(Token*));
     while (strcmp(line, "\0") >= STRING_UNEQUAL) {
         char* str = get_string(&line);
         if (str != NULL) {
@@ -58,4 +58,9 @@ char* get_string(char** line) {
     *line += str_length;
 
     return str;
+}
+
+Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content) {
+    Token* item = malloc(sizeof(Token*));
+    item->line = line;
 }
