@@ -22,6 +22,8 @@ void read_line(char* line) {
         if (str != NULL) {
             printf("str:   %s\n", str);
             Token* token = create_token(SYMBOL_STRING, 0, 0, str);
+
+            free(token);
         } else {
             char token = line[0];
             printf("other: %c\n", token);
