@@ -9,7 +9,8 @@ typedef enum SymbolDef {
     apostrophe,
     function,
     open_parenthesis,
-    close_parenthesis
+    close_parenthesis,
+    SYMBOL_STRING
 } Symbol;
 
 typedef struct TokenDef {

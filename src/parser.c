@@ -21,6 +21,7 @@ void read_line(char* line) {
         char* str = get_string(&line);
         if (str != NULL) {
             printf("str:   %s\n", str);
+            Token* token = create_token(SYMBOL_STRING, 0, 0, str);
         } else {
             char token = line[0];
             printf("other: %c\n", token);
@@ -61,6 +62,11 @@ char* get_string(char** line) {
 }
 
 Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content) {
-    Token* item = malloc(sizeof(Token*));
+    Token* item = malloc(sizeof(Token));
+    item->symbol = symbol;
     item->line = line;
+    item->col = col;
+    item->content = malloc(sizeof(char));
+    strcpy(item->content, content);
+    return item;
 }
