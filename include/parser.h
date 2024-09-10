@@ -1,5 +1,5 @@
-#ifndef __JAKARTA_ERROR_H__
-#define __JAKARTA_ERROR_H__
+#ifndef __JAKARTA_PARSER_H__
+#define __JAKARTA_PARSER_H__
 
 typedef enum SymbolDef {
     indentation,
@@ -13,7 +13,7 @@ typedef enum SymbolDef {
 } Symbol;
 
 typedef struct TokenDef {
-    Symbol sybmol;
+    Symbol symbol;
     unsigned int line;
     unsigned int col;
     char* content;
