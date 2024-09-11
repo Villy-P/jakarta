@@ -18,7 +18,7 @@ unsigned int current_token_length = 0;
 void read_line(char* line) {
     if (tokens == NULL)
         tokens = malloc(sizeof(Token*) * INITIAL_TOKENS_LENGTH);
-    printf("Line: %s %d\n", line, sizeof(Token*));
+    printf("Line: %s\n", line);
     while (strcmp(line, "\0") >= STRING_UNEQUAL) {
         char* str = get_string(&line);
         if (str != NULL) {
