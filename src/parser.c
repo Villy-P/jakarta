@@ -114,6 +114,7 @@ Symbol get_symbol_from_char(char ch) {
         case '.': return SYMBOL_PERIOD;
         case '?': return SYMBOL_QUESTION;
         case '/': return SYMBOL_SLASH;
+        case ' ': return SYMBOL_SPACE;
         case '\n': return SYMBOL_NEWLINE;
         case '\\': return SYMBOL_BACKSLASH;
         case '\'': return SYMBOL_APOSTRAPHE;
