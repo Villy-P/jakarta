@@ -127,4 +127,5 @@ Symbol get_symbol_from_char(char ch) {
         case '\'': return SYMBOL_APOSTRAPHE;
     };
     jakarta_error_unknown_symbol(ch);
+    return SYMBOL_NONE;
 }

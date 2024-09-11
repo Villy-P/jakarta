@@ -36,7 +36,8 @@ typedef enum SymbolDef {
     SYMBOL_QUESTION,
     SYMBOL_SLASH,
     SYMBOL_NEWLINE,
-    SYMBOL_SPACE
+    SYMBOL_SPACE,
+    SYMBOL_NONE
 } Symbol;
 
 typedef struct TokenDef {
