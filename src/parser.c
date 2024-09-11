@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "parser.h"
+#include "error.h"
 
 #define INITIAL_TOKENS_LENGTH 64
 #define MAX_REGEX_GROUPS 1
@@ -116,4 +117,5 @@ Symbol get_symbol_from_char(char ch) {
         case '\\': return SYMBOL_BACKSLASH;
         case '\'': return SYMBOL_APOSTRAPHE;
     };
+    jakarta_error_unknown_symbol(char symbol);
 }

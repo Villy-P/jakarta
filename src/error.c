@@ -18,3 +18,11 @@ void jakarta_error_file_does_not_exist(char* file_name) {
     printf("Enter a correct file name after -f.\033[0m\n");
     exit(1);
 }
+
+// Code 3
+void jakarta_error_unknown_symbol(char symbol) {
+    printf("\033[31mThere was an error while running your code: ERR_CODE_3\n");
+    printf("Compiler Error: Symbol %c not recognized.\n", symbol);
+    printf("Enter a correct file name after -f.\033[0m\n");
+    exit(1);
+}

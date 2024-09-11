@@ -3,5 +3,6 @@
 
 void jakarta_error_no_file_location(char* prefix);
 void jakarta_error_file_does_not_exist(char* file_name);
+void jakarta_error_unknown_symbol(char symbol);
 
 #endif
