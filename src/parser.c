@@ -27,6 +27,7 @@ void read_line(char* line) {
         } else {
             char token = line[0];
             printf("other: %c\n", token);
+            Symbol token_symbol = get_symbol_from_char(token);
             line += 1;
         }
     }
