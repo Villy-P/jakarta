@@ -29,6 +29,8 @@ void read_line(char* line) {
             char token = line[0];
             printf("other: %c\n", token);
             Symbol token_symbol = get_symbol_from_char(token);
+            Token* token_obj = create_token(token_symbol, 0, 0, &token);
+            add_token(token_obj);
             line += 1;
         }
     }
@@ -37,6 +39,11 @@ void read_line(char* line) {
 
 void add_token(Token* token) {
     if (current_token_length <= max_token_length) {
+        tokens[current_token_length] = token;
+        current_token_length++;
+    } else {
+        max_token_length *= 2;
+        tokens = realloc(tokens, max_token_length * sizeof(Token*));
         tokens[current_token_length] = token;
         current_token_length++;
     }
