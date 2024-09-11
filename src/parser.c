@@ -11,7 +11,8 @@
 #define REGEX_FLAGS 0
 
 Token** tokens = NULL;
-unsigned int token_length = INITIAL_TOKENS_LENGTH;
+unsigned int max_token_length = INITIAL_TOKENS_LENGTH;
+unsigned int current_token_length = 0;
 
 void read_line(char* line) {
     if (tokens == NULL)
@@ -31,6 +32,10 @@ void read_line(char* line) {
         }
     }
     return;
+}
+
+void add_token(Token* token) {
+    
 }
 
 char* get_string(char** line) {
