@@ -23,8 +23,7 @@ void read_line(char* line) {
         if (str != NULL) {
             printf("str:   %s\n", str);
             Token* token = create_token(SYMBOL_STRING, 0, 0, str);
-
-            free(token);
+            add_token(token);
         } else {
             char token = line[0];
             printf("other: %c\n", token);
@@ -35,7 +34,10 @@ void read_line(char* line) {
 }
 
 void add_token(Token* token) {
-    
+    if (current_token_length <= max_token_length) {
+        tokens[current_token_length] = token;
+        current_token_length++;
+    }
 }
 
 char* get_string(char** line) {
