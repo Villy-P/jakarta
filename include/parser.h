@@ -34,7 +34,10 @@ typedef enum SymbolDef {
     SYMBOL_COMMA,
     SYMBOL_PERIOD,
     SYMBOL_QUESTION,
-    SYMBOL_SLASH
+    SYMBOL_SLASH,
+    SYMBOL_NEWLINE,
+    SYMBOL_SPACE,
+    SYMBOL_NONE
 } Symbol;
 
 typedef struct TokenDef {
@@ -45,7 +48,8 @@ typedef struct TokenDef {
 } Token;
 
 extern Token** tokens;
-extern unsigned int token_length;
+extern unsigned int max_token_length;
+extern unsigned int current_token_length;
 
 void read_line(char* line);
 
@@ -53,5 +57,7 @@ char* get_string(char** line);
 
 Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content);
 Symbol get_symbol_from_char(char ch);
+
+void add_token(Token* token);
 
 #endif

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "parser.h"
+#include "error.h"
 
 #define INITIAL_TOKENS_LENGTH 64
 #define MAX_REGEX_GROUPS 1
@@ -11,26 +12,41 @@
 #define REGEX_FLAGS 0
 
 Token** tokens = NULL;
-unsigned int token_length = INITIAL_TOKENS_LENGTH;
+unsigned int max_token_length = INITIAL_TOKENS_LENGTH;
+unsigned int current_token_length = 0;
 
 void read_line(char* line) {
     if (tokens == NULL)
         tokens = malloc(sizeof(Token*) * INITIAL_TOKENS_LENGTH);
-    printf("Line: %s %d\n", line, sizeof(Token*));
+    printf("Line: %s\n", line);
     while (strcmp(line, "\0") >= STRING_UNEQUAL) {
         char* str = get_string(&line);
         if (str != NULL) {
             printf("str:   %s\n", str);
             Token* token = create_token(SYMBOL_STRING, 0, 0, str);
-
-            free(token);
+            add_token(token);
         } else {
             char token = line[0];
             printf("other: %c\n", token);
+            Symbol token_symbol = get_symbol_from_char(token);
+            Token* token_obj = create_token(token_symbol, 0, 0, &token);
+            add_token(token_obj);
             line += 1;
         }
     }
     return;
+}
+
+void add_token(Token* token) {
+    if (current_token_length <= max_token_length) {
+        tokens[current_token_length] = token;
+        current_token_length++;
+    } else {
+        max_token_length *= 2;
+        tokens = realloc(tokens, max_token_length * sizeof(Token*));
+        tokens[current_token_length] = token;
+        current_token_length++;
+    }
 }
 
 char* get_string(char** line) {
@@ -105,7 +121,11 @@ Symbol get_symbol_from_char(char ch) {
         case '.': return SYMBOL_PERIOD;
         case '?': return SYMBOL_QUESTION;
         case '/': return SYMBOL_SLASH;
+        case ' ': return SYMBOL_SPACE;
+        case '\n': return SYMBOL_NEWLINE;
         case '\\': return SYMBOL_BACKSLASH;
         case '\'': return SYMBOL_APOSTRAPHE;
     };
+    jakarta_error_unknown_symbol(ch);
+    return SYMBOL_NONE;
 }
