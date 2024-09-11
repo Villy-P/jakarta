@@ -72,3 +72,10 @@ Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* co
     strcpy(item->content, content);
     return item;
 }
+
+Symbol get_symbol_from_char(char ch) {
+    switch (ch) {
+        case '`':
+            return;
+    };
+}
