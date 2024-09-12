@@ -125,6 +125,7 @@ Symbol get_symbol_from_char(char ch) {
         case '\n': return SYMBOL_NEWLINE;
         case '\\': return SYMBOL_BACKSLASH;
         case '\'': return SYMBOL_APOSTRAPHE;
+        default: break;
     };
     jakarta_error_unknown_symbol(ch);
     return SYMBOL_NONE;
