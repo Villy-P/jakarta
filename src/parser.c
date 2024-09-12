@@ -8,7 +8,7 @@
 
 #define INITIAL_TOKENS_LENGTH 64
 #define MAX_REGEX_GROUPS 1
-#define STRING_UNEQUAL 1
+#define STRING_UNEQUAL 0
 #define REGEX_FLAGS 0
 
 Token** tokens = NULL;
@@ -19,7 +19,7 @@ void read_line(char* line) {
     if (tokens == NULL)
         tokens = malloc(sizeof(Token*) * INITIAL_TOKENS_LENGTH);
     printf("Line: %s\n", line);
-    while (strcmp(line, "\0") >= STRING_UNEQUAL) {
+    while (strcmp(line, "\0") != STRING_UNEQUAL) {
         char* str = get_string(&line);
         if (str != NULL) {
             printf("str:   %s\n", str);
