@@ -22,7 +22,13 @@ void jakarta_error_file_does_not_exist(char* file_name) {
 // Code 3
 void jakarta_error_unknown_symbol(char symbol) {
     printf("\033[31mThere was an error while running your code: ERR_CODE_3\n");
-    printf("Compiler Error: Symbol %c not recognized.\n", symbol);
-    printf("Enter a correct file name after -f.\033[0m\n");
+    printf("Compiler Error: Symbol %c not recognized.\033[0m\n", symbol);
+    exit(1);
+}
+
+// Code 4
+void jakarta_error_cannot_close_file(char* file_name) {
+    printf("\033[31mThere was an error while running your code: ERR_CODE_4\n");
+    printf("I/O Error: Could not close file %s.\033[0m\n", file_name);
     exit(1);
 }
