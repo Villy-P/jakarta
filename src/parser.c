@@ -140,7 +140,7 @@ void print_tokens() {
     for (int i = 0; i < current_token_length; i++) {
         Token* token = tokens[i];
         printf(
-            "Token #%d: %s at %d:%d, with symbol %d\n", i, 
+            "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
             token->content, 
             token->col, 
             token->line, 
