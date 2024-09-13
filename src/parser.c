@@ -22,18 +22,22 @@ void read_line(char* line) {
     while (strcmp(line, "\0") >= STRING_UNEQUAL) {
         char* str = get_string(&line);
         if (str != NULL) {
-            printf("str:   %s\n", str);
+            printf("str:   %s %lld\n", str, strlen(str));
             Token* token = create_token(SYMBOL_STRING, 0, 0, str);
             add_token(token);
         } else {
             char token = line[0];
+            char* token_ptr = malloc(2 * sizeof(char));
+            token_ptr[0] = token;
+            token_ptr[1] = '\0';
             printf("other: %c\n", token);
             Symbol token_symbol = get_symbol_from_char(token);
-            Token* token_obj = create_token(token_symbol, 0, 0, &token);
+            Token* token_obj = create_token(token_symbol, 0, 0, token_ptr);
             add_token(token_obj);
             line += 1;
         }
     }
+    print_tokens();
     return;
 }
 
@@ -74,9 +78,11 @@ char* get_string(char** line) {
     regfree(&reegex);
 
     int str_length = strlen(str);
+    char* dest = calloc(sizeof(char), str_length + 1);
+    strncpy(dest, str, str_length);
     *line += str_length;
 
-    return str;
+    return dest;
 }
 
 Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content) {
@@ -128,4 +134,16 @@ Symbol get_symbol_from_char(char ch) {
     };
     jakarta_error_unknown_symbol(ch);
     return SYMBOL_NONE;
+}
+
+void print_tokens() {
+    for (int i = 0; i < current_token_length; i++) {
+        Token* token = tokens[i];
+        printf(
+            "Token #%d: %s at %d:%d, with symbol %d\n", i, 
+            token->content, 
+            token->col, 
+            token->line, 
+            token->symbol);
+    }
 }
