@@ -97,7 +97,7 @@ Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* co
     item->symbol = symbol;
     item->line = line;
     item->col = col;
-    item->content = malloc(sizeof(char));
+    item->content = malloc(strlen(content) + 1);
     strcpy(item->content, content);
     return item;
 }
