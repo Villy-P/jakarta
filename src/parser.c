@@ -27,6 +27,10 @@ void read_line(char* line) {
             add_token(token);
         } else {
             char token = line[0];
+            if (token == ' ') {
+                line += 1;
+                continue;
+            }
             char* token_ptr = malloc(2 * sizeof(char));
             token_ptr[0] = token;
             token_ptr[1] = '\0';
@@ -57,19 +61,22 @@ char* get_string(char** line) {
     regex_t reegex;
     regmatch_t groups[MAX_REGEX_GROUPS];
     int value;
-    value = regcomp(&reegex, "^(\\w+)", REG_EXTENDED);
+    value = regcomp(&reegex, "^(\\w+)", REG_EXTENDED|REG_NOSUB);
     value = regexec(&reegex, *line, MAX_REGEX_GROUPS, groups, REGEX_FLAGS);
 
-    char* str = NULL;
+    char* str = malloc(1);
+    size_t size = 1;
 
     if (value == REG_OK) {
         for (unsigned int g = 0; g < MAX_REGEX_GROUPS; g++){
             if (groups[g].rm_so == (size_t) - 1)
                 break;
-            char sourceCopy[strlen(*line) + 1];
-            strcpy(sourceCopy, *line);
-            sourceCopy[groups[g].rm_eo] = 0;
-            str = sourceCopy + groups[g].rm_so;
+            char* substr = calloc(sizeof(char), groups[g].rm_eo + 1);
+            memcpy(substr, *line, groups[g].rm_eo);
+            substr[groups[g].rm_eo] = '\0';
+            strcpy(str, substr);
+            size = groups[g].rm_eo;
+            free(substr);
         }
     } else {
         return NULL;
@@ -78,9 +85,9 @@ char* get_string(char** line) {
     regfree(&reegex);
 
     int str_length = strlen(str);
-    char* dest = calloc(sizeof(char), str_length + 1);
-    strncpy(dest, str, str_length);
-    *line += str_length;
+    char* dest = calloc(sizeof(char), size + 1);
+    strncpy(dest, str, size);
+    *line += size;
 
     return dest;
 }
@@ -141,7 +148,7 @@ void print_tokens() {
         Token* token = tokens[i];
         printf(
             "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
-            token->content, 
+            token->symbol != SYMBOL_NEWLINE ? token->content : "NEWLINE", 
             token->col, 
             token->line, 
             token->symbol);
