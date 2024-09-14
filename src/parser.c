@@ -71,11 +71,12 @@ char* get_string(char** line) {
         for (unsigned int g = 0; g < MAX_REGEX_GROUPS; g++){
             if (groups[g].rm_so == (size_t) - 1)
                 break;
-            char* substr = calloc(sizeof(char), groups[g].rm_eo + 1);
-            memcpy(substr, *line, groups[g].rm_eo);
-            substr[groups[g].rm_eo] = '\0';
-            strncpy(str, substr, groups[g].rm_eo);
-            size = groups[g].rm_eo;
+            size_t substr_len = groups[g].rm_eo;
+            char* substr = calloc(sizeof(char), substr_len + 1);
+            memcpy(substr, *line, substr_len);
+            substr[substr_len] = '\0';
+            strncpy(str, substr, substr_len);
+            size = substr_len;
             free(substr);
         }
     } else {
