@@ -74,7 +74,7 @@ char* get_string(char** line) {
             char* substr = calloc(sizeof(char), groups[g].rm_eo + 1);
             memcpy(substr, *line, groups[g].rm_eo);
             substr[groups[g].rm_eo] = '\0';
-            strcpy(str, substr);
+            strncpy(str, substr, groups[g].rm_eo);
             size = groups[g].rm_eo;
             free(substr);
         }
