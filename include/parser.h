@@ -59,5 +59,6 @@ Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* co
 Symbol get_symbol_from_char(char ch);
 
 void add_token(Token* token);
+void print_tokens();
 
 #endif
