@@ -56,14 +56,9 @@ char* get_string(char** line) {
             if (groups[g].rm_so == (size_t) - 1)
                 break;
             size_t substr_len = groups[g].rm_eo;
-            char* substr = calloc(sizeof(char), substr_len + 1);
             str = calloc(sizeof(char), substr_len + 1);
-            memcpy(substr, *line, substr_len);
-            substr[substr_len] = '\0';
-            strncpy(str, substr, substr_len);
+            memcpy(str, *line, substr_len);
             size = substr_len;
-            printf("%s --- %s --- %d\n", str, substr, size);
-            free(substr);
         }
     } else {
         return NULL;
