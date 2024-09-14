@@ -1,7 +1,7 @@
 #ifndef __JAKARTA_TOKEN_H__
 #define __JAKARTA_TOKEN_H__
 
-#include "parser.h"
+#include "symbol.h"
 
 #define INITIAL_TOKENS_LENGTH 64
 
