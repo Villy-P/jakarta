@@ -40,25 +40,10 @@ typedef enum SymbolDef {
     SYMBOL_NONE
 } Symbol;
 
-typedef struct TokenDef {
-    Symbol symbol;
-    unsigned int line;
-    unsigned int col;
-    char* content;
-} Token;
-
-extern Token** tokens;
-extern unsigned int max_token_length;
-extern unsigned int current_token_length;
-
 void read_line(char* line);
 
 char* get_string(char** line);
 
-Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content);
 Symbol get_symbol_from_char(char ch);
-
-void add_token(Token* token);
-void print_tokens();
 
 #endif

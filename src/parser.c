@@ -5,15 +5,11 @@
 
 #include "parser.h"
 #include "error.h"
+#include "token.h"
 
-#define INITIAL_TOKENS_LENGTH 64
 #define MAX_REGEX_GROUPS 1
 #define STRING_UNEQUAL 0
 #define REGEX_FLAGS 0
-
-Token** tokens = NULL;
-unsigned int max_token_length = INITIAL_TOKENS_LENGTH;
-unsigned int current_token_length = 0;
 
 void read_line(char* line) {
     if (tokens == NULL)
@@ -45,18 +41,6 @@ void read_line(char* line) {
     return;
 }
 
-void add_token(Token* token) {
-    if (current_token_length <= max_token_length) {
-        tokens[current_token_length] = token;
-        current_token_length++;
-    } else {
-        max_token_length *= 2;
-        tokens = realloc(tokens, max_token_length * sizeof(Token*));
-        tokens[current_token_length] = token;
-        current_token_length++;
-    }
-}
-
 char* get_string(char** line) {
     regex_t reegex;
     regmatch_t groups[MAX_REGEX_GROUPS];
@@ -85,22 +69,9 @@ char* get_string(char** line) {
 
     regfree(&reegex);
 
-    int str_length = strlen(str);
-    char* dest = calloc(sizeof(char), size + 1);
-    strncpy(dest, str, size);
     *line += size;
 
-    return dest;
-}
-
-Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content) {
-    Token* item = malloc(sizeof(Token));
-    item->symbol = symbol;
-    item->line = line;
-    item->col = col;
-    item->content = malloc(strlen(content) + 1);
-    strcpy(item->content, content);
-    return item;
+    return str;
 }
 
 Symbol get_symbol_from_char(char ch) {
@@ -143,16 +114,4 @@ Symbol get_symbol_from_char(char ch) {
     };
     jakarta_error_unknown_symbol(ch);
     return SYMBOL_NONE;
-}
-
-void print_tokens() {
-    for (int i = 0; i < current_token_length; i++) {
-        Token* token = tokens[i];
-        printf(
-            "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
-            token->symbol != SYMBOL_NEWLINE ? token->content : "NEWLINE", 
-            token->col, 
-            token->line, 
-            token->symbol);
-    }
 }
