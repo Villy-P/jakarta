@@ -1,4 +1,5 @@
 #include "symbol.h"
+#include "error.h"
 
 Symbol get_symbol_from_char(char ch) {
     switch (ch) {
