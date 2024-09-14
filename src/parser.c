@@ -67,7 +67,7 @@ char* get_string(char** line) {
     char* str = malloc(1);
     size_t size = 1;
 
-    if (value == REG_OK) {
+    if (value != REG_NOMATCH) {
         for (unsigned int g = 0; g < MAX_REGEX_GROUPS; g++){
             if (groups[g].rm_so == (size_t) - 1)
                 break;
