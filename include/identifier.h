@@ -1,16 +1,18 @@
 #ifndef __JAKARTA_IDENTIFIER_H__
 #define __JAKARTA_IDENTIFIER_H__
 
-typedef enum IdentifierType {
+typedef enum IdentifierTypeDef {
     TYPE,
     VARIABLE
-};
+} IdentifierType;
 
-typedef struct IdentiferDef {
+typedef struct IdentifierDef {
     IdentifierType type;
     char* name;
     char* content;
     unsigned char size;
-} Identifer;
+} Identifier;
+
+Identifier* create_identifier(Identifier type, char* name, char* content, unsigned char size);
 
 #endif
