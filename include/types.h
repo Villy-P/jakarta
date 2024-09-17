@@ -10,5 +10,6 @@ extern unsigned int max_type_length;
 extern unsigned int current_type_length;
 
 void create_base_types();
+void add_type(Identifier* type);
 
 #endif
