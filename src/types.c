@@ -9,7 +9,20 @@ unsigned int current_type_length = 0;
 void create_base_types() {
     if (types == NULL)
         types = malloc(sizeof(Identifier*) * INITIAL_TYPES_LENGTH);
-    add_type(create_identifier(TYPE, "char", "", 1));
+    add_type(create_identifier(TYPE, "char",    "", 1));
+    add_type(create_identifier(TYPE, "bool",    "", 1));
+    add_type(create_identifier(TYPE, "uchar",   "", 1));
+    add_type(create_identifier(TYPE, "short",   "", 2));
+    add_type(create_identifier(TYPE, "ushort",  "", 2));
+    add_type(create_identifier(TYPE, "int",     "", 4));
+    add_type(create_identifier(TYPE, "uint",    "", 4));
+    add_type(create_identifier(TYPE, "long",    "", 8));
+    add_type(create_identifier(TYPE, "ulong",   "", 8));
+    add_type(create_identifier(TYPE, "llong",   "", 16));
+    add_type(create_identifier(TYPE, "ullong",  "", 16));
+    add_type(create_identifier(TYPE, "float",   "", 4));
+    add_type(create_identifier(TYPE, "double",  "", 8));
+    add_type(create_identifier(TYPE, "ldouble", "", 16));
 }
 
 void add_type(Identifier* type) {
