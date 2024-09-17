@@ -10,6 +10,7 @@ typedef struct IdentiferDef {
     IdentifierType type;
     char* name;
     char* content;
+    unsigned char size;
 } Identifer;
 
 #endif
