@@ -4,11 +4,14 @@
 
 #include "error.h"
 #include "cmd.h"
+#include "types.h"
 
 #define STRING_EQUAL 0
 #define FILE_NAME_SIZE 256
 
 int main(int argc, char *argv[]) {
+    create_base_types();
+
     char input_file[FILE_NAME_SIZE];
     char output_file[FILE_NAME_SIZE];
     for (int i = 1; i < argc; i++) {
