@@ -9,6 +9,7 @@ unsigned int current_type_length = 0;
 void create_base_types() {
     if (types == NULL)
         types = malloc(sizeof(Identifier*) * INITIAL_TYPES_LENGTH);
+    add_type(create_identifier(TYPE, "char", "", 1));
 }
 
 void add_type(Identifier* type) {
