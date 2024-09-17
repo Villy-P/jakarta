@@ -1,5 +1,7 @@
 import * from "math.jk" as math;
 
+typedef Dogs uint
+
 func uint factorial(uint n) {
     if (n == 0) {
         ret 0;
