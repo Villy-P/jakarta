@@ -1,31 +1,33 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "types.h"
 
-Identifier** types = NULL;
+Type** types = NULL;
 unsigned int max_type_length = INITIAL_TYPES_LENGTH;
 unsigned int current_type_length = 0;
 
 void create_base_types() {
     if (types == NULL)
-        types = malloc(sizeof(Identifier*) * INITIAL_TYPES_LENGTH);
-    add_type(create_identifier(TYPE, "char",    "", 1));
-    add_type(create_identifier(TYPE, "bool",    "", 1));
-    add_type(create_identifier(TYPE, "uchar",   "", 1));
-    add_type(create_identifier(TYPE, "short",   "", 2));
-    add_type(create_identifier(TYPE, "ushort",  "", 2));
-    add_type(create_identifier(TYPE, "int",     "", 4));
-    add_type(create_identifier(TYPE, "uint",    "", 4));
-    add_type(create_identifier(TYPE, "long",    "", 8));
-    add_type(create_identifier(TYPE, "ulong",   "", 8));
-    add_type(create_identifier(TYPE, "llong",   "", 16));
-    add_type(create_identifier(TYPE, "ullong",  "", 16));
-    add_type(create_identifier(TYPE, "float",   "", 4));
-    add_type(create_identifier(TYPE, "double",  "", 8));
-    add_type(create_identifier(TYPE, "ldouble", "", 16));
+        types = malloc(sizeof(Type*) * INITIAL_TYPES_LENGTH);
+    add_type(create_type("char",    8,   UNUM));
+    add_type(create_type("bool",    1,   ONEBIT));
+    add_type(create_type("byte",    8,   NUM));
+    add_type(create_type("short",   16,  NUM));
+    add_type(create_type("int",     32,  NUM));
+    add_type(create_type("long",    64,  NUM));
+    add_type(create_type("llong",   128, NUM));
+    add_type(create_type("ubyte",   8,   UNUM));
+    add_type(create_type("ushort",  16,  UNUM));
+    add_type(create_type("uint",    32,  UNUM));
+    add_type(create_type("ulong",   64,  UNUM));
+    add_type(create_type("ullong" , 128, UNUM));
+    add_type(create_type("float",   32,  DECIMAL));
+    add_type(create_type("double",  64,  DECIMAL));
+    add_type(create_type("ldouble", 128, DECIMAL));
 }
 
-void add_type(Identifier* type) {
+void add_type(Type* type) {
     if (current_type_length <= max_type_length) {
         types[current_type_length] = type;
         current_type_length++;
@@ -35,4 +37,13 @@ void add_type(Identifier* type) {
         types[current_type_length] = type;
         current_type_length++;
     }
+}
+
+Type* create_type(char* name, unsigned char bit_size, TypeOptions option) {
+    Type* type = malloc(sizeof(Type));
+    type->name = malloc(strlen(name) + 1);
+    strcpy(type->name, name);
+    type->bit_size = bit_size;
+    type->option = option;
+    return type;
 }
