@@ -36,3 +36,12 @@ void add_type(Identifier* type) {
         current_type_length++;
     }
 }
+
+void create_type(char* name, unsigned char bit_size, bool is_unsigned) {
+    Type* type = malloc(sizeof(Type));
+    type->name = malloc(strlen(name) + 1);
+    strcpy(type->name, name);
+    type->bit_size = bit_size;
+    type->is_unsigned = is_unsigned;
+    return type;
+}

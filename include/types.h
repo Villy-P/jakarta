@@ -1,6 +1,8 @@
 #ifndef __JAKARTA_TYPES_H__
 #define __JAKARTA_TYPES_H__
 
+#include <stdbool.h>
+
 #include "identifier.h"
 
 #define INITIAL_TYPES_LENGTH 64
@@ -8,8 +10,7 @@
 typedef struct TypeDef {
     char* name;
     unsigned char bit_size;
-    size_t lower_bound;
-    size_t upper_bound;
+    bool is_unsigned;
 } Type;
 
 extern Identifier** types;
@@ -18,6 +19,6 @@ extern unsigned int current_type_length;
 
 void create_base_types();
 void add_type(Identifier* type);
-void create_type();
+void create_type(char* name, unsigned char bit_size, bool is_unsigned);
 
 #endif
