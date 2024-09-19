@@ -73,5 +73,6 @@ typedef enum SymbolDef {
 } Symbol;
 
 Symbol get_symbol_from_char(char ch);
+Symbol get_keyword_from_str(char* str);
 
 #endif
