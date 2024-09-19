@@ -9,7 +9,7 @@ unsigned int current_type_length = 0;
 
 void create_base_types() {
     if (types == NULL)
-        types = malloc(sizeof(Identifier*) * INITIAL_TYPES_LENGTH);
+        types = malloc(sizeof(Type*) * INITIAL_TYPES_LENGTH);
     add_type(create_type("char",    8,   UNUM));
     add_type(create_type("bool",    1,   ONEBIT));
     add_type(create_type("byte",    8,   NUM));
