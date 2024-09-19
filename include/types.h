@@ -13,12 +13,12 @@ typedef struct TypeDef {
     bool is_unsigned;
 } Type;
 
-extern Identifier** types;
+extern Type** types;
 extern unsigned int max_type_length;
 extern unsigned int current_type_length;
 
 void create_base_types();
-void add_type(Identifier* type);
+void add_type(Type* type);
 void create_type(char* name, unsigned char bit_size, bool is_unsigned);
 
 #endif

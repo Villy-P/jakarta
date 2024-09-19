@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-Identifier** types = NULL;
+Type** types = NULL;
 unsigned int max_type_length = INITIAL_TYPES_LENGTH;
 unsigned int current_type_length = 0;
 
