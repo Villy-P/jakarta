@@ -7,10 +7,17 @@
 
 #define INITIAL_TYPES_LENGTH 64
 
+typedef enum TypeOptionsDef {
+    NUM,
+    UNUM,
+    ONEBIT,
+    DECIMAL
+} TypeOptions;
+
 typedef struct TypeDef {
     char* name;
     unsigned char bit_size;
-    bool is_unsigned;
+    TypeOptions option;
 } Type;
 
 extern Type** types;
@@ -19,6 +26,6 @@ extern unsigned int current_type_length;
 
 void create_base_types();
 void add_type(Type* type);
-Type* create_type(char* name, unsigned char bit_size, bool is_unsigned);
+Type* create_type(char* name, unsigned char bit_size, TypeOptions option);
 
 #endif

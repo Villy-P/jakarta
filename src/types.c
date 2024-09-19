@@ -10,21 +10,21 @@ unsigned int current_type_length = 0;
 void create_base_types() {
     if (types == NULL)
         types = malloc(sizeof(Identifier*) * INITIAL_TYPES_LENGTH);
-    add_type(create_type("char", 8, false));
-    add_type(create_type("bool", 1, false));
-    add_type(create_type("byte", 8, false));
-    add_type(create_type("short", 16, false));
-    add_type(create_type("int", 32, false));
-    add_type(create_type("long", 64, false));
-    add_type(create_type("llong", 128, false));
-    add_type(create_type("ubyte", 8, true));
-    add_type(create_type("ushort", 16, true));
-    add_type(create_type("uint", 32, true));
-    add_type(create_type("ulong", 64, true));
-    add_type(create_type("ullong", 128, true));
-    add_type(create_type("float", 32, false));
-    add_type(create_type("double", 64, false));
-    add_type(create_type("ldouble", 128, false));
+    add_type(create_type("char",    8,   UNUM));
+    add_type(create_type("bool",    1,   ONEBIT));
+    add_type(create_type("byte",    8,   NUM));
+    add_type(create_type("short",   16,  NUM));
+    add_type(create_type("int",     32,  NUM));
+    add_type(create_type("long",    64,  NUM));
+    add_type(create_type("llong",   128, NUM));
+    add_type(create_type("ubyte",   8,   UNUM));
+    add_type(create_type("ushort",  16,  UNUM));
+    add_type(create_type("uint",    32,  UNUM));
+    add_type(create_type("ulong",   64,  UNUM));
+    add_type(create_type("ullong" , 128, UNUM));
+    add_type(create_type("float",   32,  DECIMAL));
+    add_type(create_type("double",  64,  DECIMAL));
+    add_type(create_type("ldouble", 128, DECIMAL));
 }
 
 void add_type(Type* type) {
@@ -39,11 +39,11 @@ void add_type(Type* type) {
     }
 }
 
-Type* create_type(char* name, unsigned char bit_size, bool is_unsigned) {
+Type* create_type(char* name, unsigned char bit_size, TypeOptions option) {
     Type* type = malloc(sizeof(Type));
     type->name = malloc(strlen(name) + 1);
     strcpy(type->name, name);
     type->bit_size = bit_size;
-    type->is_unsigned = is_unsigned;
+    type->option = option;
     return type;
 }
