@@ -19,6 +19,6 @@ extern unsigned int current_type_length;
 
 void create_base_types();
 void add_type(Type* type);
-void create_type(char* name, unsigned char bit_size, bool is_unsigned);
+Type* create_type(char* name, unsigned char bit_size, bool is_unsigned);
 
 #endif
