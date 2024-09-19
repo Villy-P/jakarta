@@ -37,7 +37,16 @@ typedef enum SymbolDef {
     SYMBOL_SLASH,
     SYMBOL_NEWLINE,
     SYMBOL_SPACE,
-    SYMBOL_NONE
+    SYMBOL_NONE,
+
+    KEYWORD_ASSERT,
+    KEYWORD_BREAK,
+    KEYWORD_CASE,
+    KEYWORD_CATCH,
+    KEYWORD_CLASS,
+    KEYWORD_FUNC,
+    KEYWORD_NEW,
+    KEYWORD_TYPEDEF
 } Symbol;
 
 Symbol get_symbol_from_char(char ch);
