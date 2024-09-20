@@ -12,6 +12,7 @@ set_target_properties(JAKARTA PROPERTIES
 
 target_compile_options(JAKARTA PRIVATE 
     "-Wall" 
+    "-gdwarf-2"
     "-fdiagnostics-color=always"
     "-g"
 )

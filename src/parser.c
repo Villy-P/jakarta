@@ -35,6 +35,7 @@ void read_line(char* line) {
             Token* token_obj = create_token(token_symbol, 0, 0, token_ptr);
             add_token(token_obj);
             line += 1;
+            free(token_ptr);
         }
     }
     print_tokens();
@@ -48,7 +49,7 @@ char* get_string(char** line) {
     value = regcomp(&reegex, "^(\\w+)", REG_EXTENDED);
     value = regexec(&reegex, *line, MAX_REGEX_GROUPS, groups, REGEX_FLAGS);
 
-    char* str = malloc(1);
+    char* str = NULL;
     size_t size = 1;
 
     if (value != REG_NOMATCH) {
@@ -61,6 +62,7 @@ char* get_string(char** line) {
             size = substr_len;
         }
     } else {
+        regfree(&reegex);
         return NULL;
     }
 
