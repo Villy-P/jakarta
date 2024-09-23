@@ -5,6 +5,7 @@
 #include "error.h"
 #include "cmd.h"
 #include "types.h"
+#include "free.h"
 
 #define STRING_EQUAL 0
 #define FILE_NAME_SIZE 256
@@ -27,4 +28,6 @@ int main(int argc, char *argv[]) {
     }
     jakarta_cmd_read_file(input_file);
     jakarta_cmd_out_file(output_file);
+
+    free_type_data();
 }
