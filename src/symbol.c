@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "symbol.h"
 #include "error.h"
 
@@ -75,4 +77,5 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "try")       == 0) return KEYWORD_TRY;
     if (strcmp(str, "typedef")   == 0) return KEYWORD_TYPEDEF;
     if (strcmp(str, "while")     == 0) return KEYWORD_WHILE;
+    return SYMBOL_STRING;
 }

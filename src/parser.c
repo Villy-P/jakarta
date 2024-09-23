@@ -19,7 +19,8 @@ void read_line(char* line) {
         char* str = get_string(&line);
         if (str != NULL) {
             printf("str:   %s %lld\n", str, strlen(str));
-            Token* token = create_token(SYMBOL_STRING, 0, 0, str);
+            Symbol symbol = get_keyword_from_str(str);
+            Token* token = create_token(symbol, 0, 0, str);
             add_token(token);
         } else {
             char token = line[0];
