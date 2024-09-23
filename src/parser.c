@@ -12,15 +12,10 @@
 #define STRING_UNEQUAL 0
 #define REGEX_FLAGS 0
 
-void read_line(char* line) {
-    if (tokens == NULL)
-        tokens = malloc(sizeof(Token*) * INITIAL_TOKENS_LENGTH);
-    Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
-    printf("Line: %s\n", line);
+void read_line(char* line, Tokenizer* tokenizer) {
     while (strcmp(line, "\0") != STRING_UNEQUAL) {
         char* str = get_string(&line);
         if (str != NULL) {
-            printf("str:   %s %lld\n", str, strlen(str));
             Symbol symbol = get_keyword_from_str(str);
             Token* token = create_token(symbol, 0, 0, str);
             add_token(tokenizer, token);
@@ -33,7 +28,6 @@ void read_line(char* line) {
             char* token_ptr = malloc(2 * sizeof(char));
             token_ptr[0] = token;
             token_ptr[1] = '\0';
-            printf("other: %c\n", token);
             Symbol token_symbol = get_symbol_from_char(token);
             Token* token_obj = create_token(token_symbol, 0, 0, token_ptr);
             add_token(tokenizer, token_obj);
@@ -42,8 +36,6 @@ void read_line(char* line) {
         }
         free(str);
     }
-    print_tokens(tokenizer);
-    free(tokenizer);
     return;
 }
 
