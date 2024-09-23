@@ -6,6 +6,7 @@
 #include "parser.h"
 #include "error.h"
 #include "token.h"
+#include "tokenizer.h"
 
 #define MAX_REGEX_GROUPS 1
 #define STRING_UNEQUAL 0
@@ -14,6 +15,7 @@
 void read_line(char* line) {
     if (tokens == NULL)
         tokens = malloc(sizeof(Token*) * INITIAL_TOKENS_LENGTH);
+    Tokenizer* tokenzier = create_tokenizer(INITIAL_TOKENS_LENGTH);
     printf("Line: %s\n", line);
     while (strcmp(line, "\0") != STRING_UNEQUAL) {
         char* str = get_string(&line);
@@ -41,6 +43,7 @@ void read_line(char* line) {
         free(str);
     }
     print_tokens();
+    free(tokenzier);
     return;
 }
 

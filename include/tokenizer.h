@@ -3,7 +3,7 @@
 
 #include "token.h"
 
-typedef struct TokenzierDef {
+typedef struct TokenizerDef {
     Token** tokens;
     unsigned int max_token_length;
     unsigned int current_token_length;
