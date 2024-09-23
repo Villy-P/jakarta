@@ -37,6 +37,7 @@ void read_line(char* line) {
             line += 1;
             free(token_ptr);
         }
+        free(str);
     }
     print_tokens();
     return;
