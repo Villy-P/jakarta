@@ -9,4 +9,6 @@ typedef struct TokenzierDef {
     unsigned int current_token_length;
 } Tokenizer;
 
+Tokenizer* create_tokenizer(unsigned int initial_size);
+
 #endif
