@@ -21,7 +21,7 @@ void read_line(char* line, Tokenizer* tokenizer) {
             add_token(tokenizer, token);
         } else {
             char token = line[0];
-            if (token == ' ') {
+            if (token == ' ' || token == '\n') {
                 line += 1;
                 continue;
             }
