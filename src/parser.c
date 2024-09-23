@@ -6,22 +6,19 @@
 #include "parser.h"
 #include "error.h"
 #include "token.h"
+#include "tokenizer.h"
 
 #define MAX_REGEX_GROUPS 1
 #define STRING_UNEQUAL 0
 #define REGEX_FLAGS 0
 
-void read_line(char* line) {
-    if (tokens == NULL)
-        tokens = malloc(sizeof(Token*) * INITIAL_TOKENS_LENGTH);
-    printf("Line: %s\n", line);
+void read_line(char* line, Tokenizer* tokenizer) {
     while (strcmp(line, "\0") != STRING_UNEQUAL) {
         char* str = get_string(&line);
         if (str != NULL) {
-            printf("str:   %s %lld\n", str, strlen(str));
             Symbol symbol = get_keyword_from_str(str);
             Token* token = create_token(symbol, 0, 0, str);
-            add_token(token);
+            add_token(tokenizer, token);
         } else {
             char token = line[0];
             if (token == ' ') {
@@ -31,16 +28,14 @@ void read_line(char* line) {
             char* token_ptr = malloc(2 * sizeof(char));
             token_ptr[0] = token;
             token_ptr[1] = '\0';
-            printf("other: %c\n", token);
             Symbol token_symbol = get_symbol_from_char(token);
             Token* token_obj = create_token(token_symbol, 0, 0, token_ptr);
-            add_token(token_obj);
+            add_token(tokenizer, token_obj);
             line += 1;
             free(token_ptr);
         }
         free(str);
     }
-    print_tokens();
     return;
 }
 

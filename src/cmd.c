@@ -4,6 +4,7 @@
 #include "cmd.h"
 #include "error.h"
 #include "parser.h"
+#include "tokenizer.h"
 
 #define STRING_BUFFER_LENGTH 256
 
@@ -12,9 +13,11 @@ void jakarta_cmd_read_file(char* file_location) {
     if (file_ptr == NULL)
         jakarta_error_file_does_not_exist(file_location);
     char buffer[STRING_BUFFER_LENGTH];
-    while (fgets(buffer, sizeof(buffer), file_ptr)) {
-        read_line(buffer);
-    }
+    Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
+    while (fgets(buffer, sizeof(buffer), file_ptr))
+        read_line(buffer, tokenizer);
+    print_tokens(tokenizer);
+    free(tokenizer);
     if (fclose(file_ptr) != 0)
         jakarta_error_cannot_close_file(file_location);
 }
