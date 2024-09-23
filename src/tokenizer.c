@@ -9,3 +9,15 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     tokenizer->current_token_length = 0;
     return tokenizer;
 }
+
+void add_token(Tokenizer* tokenizer, Token* token) {
+    if (tokenizer->current_token_length <= tokenizer->max_token_length) {
+        tokenizer->tokens[tokenizer->current_token_length] = token;
+        tokenizer->current_token_length++;
+    } else {
+        tokenizer->max_token_length *= 2;
+        tokenizer->tokens = realloc(tokenizer->tokens, tokenizer->max_token_length * sizeof(Token*));
+        tokenizer->tokens[tokenizer->current_token_length] = token;
+        tokenizer->current_token_length++;
+    }
+}

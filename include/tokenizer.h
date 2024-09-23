@@ -10,5 +10,6 @@ typedef struct TokenizerDef {
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
+void add_token(Tokenizer* tokenizer, Token* token);
 
 #endif
