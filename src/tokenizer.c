@@ -28,7 +28,7 @@ void print_tokens(Tokenizer* tokenizer) {
         Token* token = tokenizer->tokens[i];
         printf(
             "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
-            token->symbol != SYMBOL_NEWLINE ? token->content : "NEWLINE", 
+            token->content, 
             token->col, 
             token->line, 
             token->symbol);
