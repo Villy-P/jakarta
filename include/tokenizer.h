@@ -11,5 +11,6 @@ typedef struct TokenizerDef {
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
 void add_token(Tokenizer* tokenizer, Token* token);
+void print_tokens(Tokenizer* tokenizer);
 
 #endif

@@ -42,7 +42,7 @@ void read_line(char* line) {
         }
         free(str);
     }
-    print_tokens();
+    print_tokens(tokenizer);
     free(tokenizer);
     return;
 }
