@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "symbol.h"
 #include "error.h"
 
