@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "tokenizer.h"
 
 Tokenizer* create_tokenizer(unsigned int initial_size) {
