@@ -39,7 +39,7 @@ void add_type(Type* type) {
     }
 }
 
-Type* create_type(char* name, unsigned char bit_size, TypeOptions option) {
+Type* create_type(const char* name, unsigned char bit_size, TypeOptions option) {
     Type* type = malloc(sizeof(Type));
     type->name = malloc(strlen(name) + 1);
     strcpy(type->name, name);

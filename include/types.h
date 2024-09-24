@@ -26,6 +26,6 @@ extern unsigned int current_type_length;
 
 void create_base_types();
 void add_type(Type* type);
-Type* create_type(char* name, unsigned char bit_size, TypeOptions option);
+Type* create_type(const char* name, unsigned char bit_size, TypeOptions option);
 
 #endif
