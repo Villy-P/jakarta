@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 project(Jakarta)
 
 if (UNIX)
-    set(PROJECT_NAME "JAKARTA")
-else()
     set(PROJECT_NAME "JAKARTA.exe")
+else()
+    set(PROJECT_NAME "JAKARTA")
 endif()
 
 file(GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
