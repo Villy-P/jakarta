@@ -24,7 +24,7 @@ void add_token(Tokenizer* tokenizer, Token* token) {
 }
 
 void print_tokens(Tokenizer* tokenizer) {
-    for (int i = 0; i < tokenizer->current_token_length; i++) {
+    for (unsigned int i = 0; i < tokenizer->current_token_length; i++) {
         Token* token = tokenizer->tokens[i];
         printf(
             "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
