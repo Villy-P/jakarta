@@ -1,20 +1,30 @@
 cmake_minimum_required(VERSION 3.10)
 project(Jakarta)
 
+if (UNIX)
+    set(PROJECT_NAME "JAKARTA")
+else()
+    set(PROJECT_NAME "JAKARTA.exe")
+endif()
+
 file(GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 
 include_directories(include/)
 
-add_executable(JAKARTA ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
-set_target_properties(JAKARTA PROPERTIES 
+set_target_properties(${PROJECT_NAME} PROPERTIES 
                       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_compile_options(JAKARTA PRIVATE 
+target_compile_options(${PROJECT_NAME} PRIVATE 
     "-Wall" 
     "-gdwarf-2"
     "-fdiagnostics-color=always"
     "-g"
 )
 
-target_link_libraries(JAKARTA "regex")
+if (UNIX)
+    target_link_libraries(${PROJECT_NAME})
+else()
+    target_link_libraries(${PROJECT_NAME} "regex")
+endif()
