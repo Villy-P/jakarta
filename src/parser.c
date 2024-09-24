@@ -51,9 +51,9 @@ char* get_string(char** line) {
 
     if (value != REG_NOMATCH) {
         for (unsigned int g = 0; g < MAX_REGEX_GROUPS; g++){
-            if (groups[g].rm_so == (size_t) - 1)
+            if ((size_t)groups[g].rm_so == (size_t) - 1)
                 break;
-            size_t substr_len = groups[g].rm_eo;
+            size_t substr_len = (size_t)groups[g].rm_eo;
             str = calloc(sizeof(char), substr_len + 1);
             memcpy(str, *line, substr_len);
             size = substr_len;
