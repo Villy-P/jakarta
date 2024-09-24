@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(Jakarta VERSION 1.0)
 
-if (UNIX)
+if(UNIX)
     set(PROJECT_NAME "JAKARTA.exe")
 else()
     set(PROJECT_NAME "JAKARTA")
@@ -16,11 +16,11 @@ include_directories(include/)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES 
-                      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_compile_options(${PROJECT_NAME} PRIVATE 
-    "-Wall" 
+target_compile_options(${PROJECT_NAME} PRIVATE
+    "-Wall"
     "-Wextra"
     "-gdwarf-2"
     "-fdiagnostics-color=always"
@@ -42,7 +42,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
     "-Wunreachable-code"
 )
 
-if (UNIX)
+if(UNIX)
     target_link_libraries(${PROJECT_NAME})
 else()
     target_link_libraries(${PROJECT_NAME} "regex")
