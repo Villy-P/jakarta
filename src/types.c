@@ -7,7 +7,7 @@ Type** types = NULL;
 unsigned int max_type_length = INITIAL_TYPES_LENGTH;
 unsigned int current_type_length = 0;
 
-void create_base_types() {
+void create_base_types(void) {
     if (types == NULL)
         types = malloc(sizeof(Type*) * INITIAL_TYPES_LENGTH);
     add_type(create_type("char",    8,   UNUM));

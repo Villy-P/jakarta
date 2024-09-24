@@ -1,6 +1,6 @@
 #ifndef __JAKARTA_FREE_H__
 #define __JAKARTA_FREE_H__
 
-void free_type_data();
+void free_type_data(void);
 
 #endif
