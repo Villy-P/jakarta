@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(Jakarta)
+project(Jakarta VERSION 1.0)
 
 if (UNIX)
     set(PROJECT_NAME "JAKARTA.exe")
