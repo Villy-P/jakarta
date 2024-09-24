@@ -7,6 +7,7 @@ else()
     set(PROJECT_NAME "JAKARTA")
 endif()
 
+set(CMAKE_C_STANDARD 17)
 file(GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 
 include_directories(include/)

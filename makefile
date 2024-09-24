@@ -10,4 +10,8 @@ reset:
 # Run this whenever you want to re-compile your project and run it.
 run:
 	ninja -C build
+	.\JAKARTA.exe $(args)
+
+run-linux:
+	ninja -C build
 	./JAKARTA.exe $(args)
