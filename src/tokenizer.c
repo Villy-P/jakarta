@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "tokenizer.h"
+#include "free.h"
 
 Tokenizer* create_tokenizer(unsigned int initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
@@ -36,9 +37,10 @@ void print_tokens(Tokenizer* tokenizer) {
 }
 
 void consume(Tokenizer* tokenizer) {
-
+    free_token(tokenizer->tokens[0]);
+    tokenizer->tokens += sizeof(Token*);
 }
 
 bool peek(Tokenizer* tokenizer) {
-    
+
 }
