@@ -34,3 +34,11 @@ void print_tokens(Tokenizer* tokenizer) {
             token->symbol);
     }
 }
+
+void consume(Tokenizer* tokenizer) {
+
+}
+
+bool peek(Tokenizer* tokenizer) {
+    
+}
