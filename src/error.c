@@ -3,12 +3,14 @@
 
 #include "error.h"
 
+#define DEFAULT_ERROR_CODE 1
+
 // Code 1
 void jakarta_error_no_file_location(const char* prefix) {
     printf("\033[31mThere was an error while running your code: ERR_CODE_1\n");
     printf("Compiler Error: No file argument found for %s.\n", prefix);
     printf("Enter a file name or location after %s in your compiler args.\033[0m\n", prefix);
-    exit(1);
+    exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 2
@@ -16,19 +18,19 @@ void jakarta_error_file_does_not_exist(const char* file_name) {
     printf("\033[31mThere was an error while running your code: ERR_CODE_2\n");
     printf("Compiler Error: File %s does not exist.\n", file_name);
     printf("Enter a correct file name after -f.\033[0m\n");
-    exit(1);
+    exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 3
 void jakarta_error_unknown_symbol(const char symbol) {
     printf("\033[31mThere was an error while running your code: ERR_CODE_3\n");
     printf("Compiler Error: Symbol %c not recognized.\033[0m\n", symbol);
-    exit(1);
+    exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 4
 void jakarta_error_cannot_close_file(const char* file_name) {
     printf("\033[31mThere was an error while running your code: ERR_CODE_4\n");
     printf("I/O Error: Could not close file %s.\033[0m\n", file_name);
-    exit(1);
+    exit(DEFAULT_ERROR_CODE);
 }
