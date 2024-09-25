@@ -17,5 +17,5 @@ void free_tokenizer(Tokenizer* tokenizer) {
 
 void free_token(Token* token) {
     free(token->content);
-    free(token]);
+    free(token);
 }
