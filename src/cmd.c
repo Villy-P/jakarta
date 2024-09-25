@@ -6,6 +6,7 @@
 #include "lexer.h"
 #include "tokenizer.h"
 #include "free.h"
+#include "parser.h"
 
 #define STRING_BUFFER_LENGTH 256
 
@@ -18,6 +19,7 @@ void jakarta_cmd_read_file(const char* file_location) {
     while (fgets(buffer, sizeof(buffer), file_ptr))
         read_line(buffer, tokenizer);
     print_tokens(tokenizer);
+    parse(tokenizer);
     free_tokenizer(tokenizer);
     if (fclose(file_ptr) != 0)
         jakarta_error_cannot_close_file(file_location);
