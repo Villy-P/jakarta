@@ -1,6 +1,8 @@
 #ifndef __JAKARTA_TOKENIZER_H__
 #define __JAKARTA_TOKENIZER_H__
 
+#include <stdbool.h>
+
 #include "token.h"
 
 typedef struct TokenizerDef {
@@ -12,5 +14,7 @@ typedef struct TokenizerDef {
 Tokenizer* create_tokenizer(unsigned int initial_size);
 void add_token(Tokenizer* tokenizer, Token* token);
 void print_tokens(Tokenizer* tokenizer);
+void consume(Tokenizer* tokenizer);
+bool peek(Tokenizer* tokenizer, Symbol symbol);
 
 #endif
