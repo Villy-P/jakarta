@@ -27,7 +27,7 @@ void create_base_types(void) {
     add_type(create_type("float",   32,  DECIMAL));
     add_type(create_type("double",  64,  DECIMAL));
     add_type(create_type("ldouble", 128, DECIMAL));
-    debug_message("Finished Creating Base Types", TOP_LEVEL);
+    debug_message("Created Base Types", CREATION);
 }
 
 void add_type(Type* type) {
