@@ -2,7 +2,7 @@
 
 #include "debug.h"
 
-void debug_message(char* message) {
+void debug_message(const char* message, unsigned char type) {
     if (PRODUCTION)
-        printf("\033[32m%s\033[0m\n", message);
+        printf("\033[%dm%s\033[0m\n", type, message);
 }

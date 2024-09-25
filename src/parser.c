@@ -2,5 +2,5 @@
 #include "debug.h"
 
 void parse(Tokenizer* tokenizer) {
-    debug_message("Begun Parsing");
+    debug_message("Begun Parsing", TOP_LEVEL);
 }

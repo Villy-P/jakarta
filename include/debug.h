@@ -3,6 +3,11 @@
 
 #define PRODUCTION 1
 
-void debug_message(char* message);
+#define TOP_LEVEL 34
+#define CREATION 32
+#define REMOVAL 31
+#define LOG 36
+
+void debug_message(const char* message, unsigned char type);
 
 #endif

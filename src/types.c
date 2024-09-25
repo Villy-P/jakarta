@@ -9,7 +9,7 @@ unsigned int max_type_length = INITIAL_TYPES_LENGTH;
 unsigned int current_type_length = 0;
 
 void create_base_types(void) {
-    debug_message("Begun Creating Base Types");
+    debug_message("Begun Creating Base Types", TOP_LEVEL);
     if (types == NULL)
         types = malloc(sizeof(Type*) * INITIAL_TYPES_LENGTH);
     add_type(create_type("char",    8,   UNUM));
@@ -27,7 +27,7 @@ void create_base_types(void) {
     add_type(create_type("float",   32,  DECIMAL));
     add_type(create_type("double",  64,  DECIMAL));
     add_type(create_type("ldouble", 128, DECIMAL));
-    debug_message("Finished Creating Base Types");
+    debug_message("Finished Creating Base Types", TOP_LEVEL);
 }
 
 void add_type(Type* type) {
