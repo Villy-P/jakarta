@@ -3,7 +3,7 @@
 
 #include "cmd.h"
 #include "error.h"
-#include "parser.h"
+#include "lexer.h"
 #include "tokenizer.h"
 #include "free.h"
 

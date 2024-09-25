@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "parser.h"
+#include "lexer.h"
 #include "error.h"
 #include "token.h"
 #include "tokenizer.h"
