@@ -6,6 +6,7 @@
 #include "cmd.h"
 #include "types.h"
 #include "free.h"
+#include "debug.h"
 
 #define STRING_EQUAL 0
 #define FILE_NAME_SIZE 256
@@ -13,6 +14,8 @@
 #define OUTPUT_FILE_ARGUMENT "-o"
 
 int main(int argc, char *argv[]) {
+    debug_message("Started Program");
+
     create_base_types();
 
     char input_file[FILE_NAME_SIZE];
@@ -21,10 +24,12 @@ int main(int argc, char *argv[]) {
         if (strcmp(argv[i], INPUT_FILE_ARGUMENT) == STRING_EQUAL) {
             if (i == argc - 1)
                 jakarta_error_no_file_location(INPUT_FILE_ARGUMENT);
+            debug_message("Found Input File");
             strncpy(input_file, argv[i + 1], FILE_NAME_SIZE);
         } else if (strcmp(argv[i], OUTPUT_FILE_ARGUMENT) == STRING_EQUAL) {
             if (i == argc - 1)
                 jakarta_error_no_file_location(OUTPUT_FILE_ARGUMENT);
+            debug_message("Found Input File");
             strncpy(output_file, argv[i + 1], FILE_NAME_SIZE);
         }
     }
