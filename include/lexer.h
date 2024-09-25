@@ -1,5 +1,5 @@
-#ifndef __JAKARTA_PARSER_H__
-#define __JAKARTA_PARSER_H__
+#ifndef __JAKARTA_LEXER_H__
+#define __JAKARTA_LEXER_H__
 
 #include "tokenizer.h"
 
