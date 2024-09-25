@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "tokenizer.h"
 #include "free.h"
@@ -41,6 +42,7 @@ void consume(Tokenizer* tokenizer) {
     tokenizer->tokens += sizeof(Token*);
 }
 
-bool peek(Tokenizer* tokenizer) {
-
+bool peek(Tokenizer* tokenizer, Symbol symbol) {
+    Token* token = tokenizer->tokens[0];
+    return token->symbol == symbol;
 }
