@@ -36,13 +36,12 @@ void read_line(char* line, Tokenizer* tokenizer) {
         }
         free(str);
     }
-    return;
 }
 
 char* get_string(char** line) {
     regex_t reegex;
     regmatch_t groups[MAX_REGEX_GROUPS];
-    int value;
+    int value = 0;
     value = regcomp(&reegex, "^(\\w+)", REG_EXTENDED);
     value = regexec(&reegex, *line, MAX_REGEX_GROUPS, groups, REGEX_FLAGS);
 
