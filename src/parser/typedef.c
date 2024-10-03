@@ -14,4 +14,9 @@ void parse_typedef(Tokenizer* tokenizer) {
     Type* type = get_type(tokenizer, type_name);
     if (type == NULL)
         jakarta_error_undefined_identifier(type_name);
+    if (!peek(tokenizer, SYMBOL_SEMICOLON))
+        jakarta_error_invalid_token(";", tokenizer->tokens[0]->content);
+    TypeAlias* alias = create_type_alias(type_alias, type);
+    add_type_alias(tokenizer, alias);
+    consume(tokenizer);
 }
