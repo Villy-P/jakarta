@@ -5,11 +5,17 @@
 #include "tokenizer.h"
 #include "free.h"
 
+#define INITIAL_TYPE_ALIAS_SIZE 20
+
 Tokenizer* create_tokenizer(unsigned int initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
     tokenizer->tokens = malloc(sizeof(Token*) * initial_size);
     tokenizer->max_token_length = initial_size;
     tokenizer->current_token_length = 0;
+
+    tokenizer->type_aliases = malloc(sizeof(TypeAlias*) * INITIAL_TYPE_ALIAS_SIZE);
+    tokenizer->max_type_alias_length = INITIAL_TYPE_ALIAS_SIZE;
+    tokenizer->current_type_alias_length = 0;
     return tokenizer;
 }
 
@@ -23,6 +29,18 @@ void add_token(Tokenizer* tokenizer, Token* token) {
         tokenizer->tokens[tokenizer->current_token_length] = token;
         tokenizer->current_token_length++;
     }
+}
+
+void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
+    if (tokenizer->current_type_alias_length <= tokenizer->max_type_alias_length) {
+        tokenizer->type_aliases[tokenizer->current_type_alias_length] = type_alias;
+        tokenizer->current_type_alias_length++;
+    } else {
+        tokenizer->max_type_alias_length *= 2;
+        tokenizer->type_aliases = realloc(tokenizer->type_aliases, tokenizer->max_type_alias_length * sizeof(Token*));
+        tokenizer->type_aliases[tokenizer->current_type_alias_length] = type_alias;
+        tokenizer->current_type_alias_length++;
+    } 
 }
 
 void print_tokens(Tokenizer* tokenizer) {
