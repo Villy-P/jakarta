@@ -34,6 +34,14 @@ Type* create_type(const char* name, unsigned char bit_size, TypeOptions option) 
     return type;
 }
 
+TypeAlias* create_type_alias(const char* name, Type* refers_to) {
+    TypeAlias* type_alias = malloc(sizeof(TypeAlias));
+    type_alias->name = malloc(strlen(name) + 1);
+    strcpy(type_alias->name, name);
+    type_alias->refers_to = refers_to;
+    return type_alias;
+}
+
 Type* get_type(Tokenizer* tokenizer, char* type_name) {
     for (unsigned int i = 0; i < tokenizer->current_type_length; i++)
         if (strcmp(type_name, tokenizer->types[i]->name))

@@ -20,9 +20,10 @@ typedef struct TypeDef {
 
 typedef struct TypeAliasDef {
     char* name;
-    char* refers_to;
+    Type* refers_to;
 } TypeAlias;
 
 Type* create_type(const char* name, unsigned char bit_size, TypeOptions option);
+TypeAlias* create_type_alias(const char* name, Type* refers_to);
 
 #endif
