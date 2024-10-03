@@ -31,6 +31,18 @@ void add_token(Tokenizer* tokenizer, Token* token) {
     }
 }
 
+void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
+    if (tokenizer->current_type_alias_length <= tokenizer->max_type_alias_length) {
+        tokenizer->type_aliases[tokenizer->current_type_alias_length] = type_alias;
+        tokenizer->current_type_alias_length++;
+    } else {
+        tokenizer->max_type_alias_length *= 2;
+        tokenizer->type_aliases = realloc(tokenizer->type_aliases, tokenizer->max_type_alias_length * sizeof(Token*));
+        tokenizer->type_aliases[tokenizer->current_type_alias_length] = type_alias;
+        tokenizer->current_type_alias_length++;
+    } 
+}
+
 void print_tokens(Tokenizer* tokenizer) {
     for (unsigned int i = 0; i < tokenizer->current_token_length; i++) {
         Token* token = tokenizer->tokens[i];
