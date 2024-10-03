@@ -29,10 +29,6 @@ extern Type** types;
 extern unsigned int max_type_length;
 extern unsigned int current_type_length;
 
-extern Type** type_aliases;
-extern unsigned int max_type_alias_length;
-extern unsigned int current_type_alias_length;
-
 void create_base_types(void);
 void add_type(Type* type);
 Type* create_type(const char* name, unsigned char bit_size, TypeOptions option);
