@@ -33,3 +33,10 @@ Type* create_type(const char* name, unsigned char bit_size, TypeOptions option) 
     type->option = option;
     return type;
 }
+
+Type* get_type(Tokenizer* tokenizer, char* type_name) {
+    for (unsigned int i = 0; i < tokenizer->current_type_length; i++)
+        if (strcmp(type_name, tokenizer->types[i]->name))
+            return tokenizer->types[i];
+    return NULL;
+}
