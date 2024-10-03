@@ -4,24 +4,7 @@
 #include <stdbool.h>
 
 #include "token.h"
-
-typedef enum TypeOptionsDef {
-    NUM,
-    UNUM,
-    ONEBIT,
-    DECIMAL
-} TypeOptions;
-
-typedef struct TypeDef {
-    char* name;
-    unsigned char bit_size;
-    TypeOptions option;
-} Type;
-
-typedef struct TypeAliasDef {
-    char* name;
-    char* refers_to;
-} TypeAlias;
+#include "types.h"
 
 typedef struct TokenizerDef {
     Token** tokens;
@@ -44,5 +27,7 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
 void print_tokens(Tokenizer* tokenizer);
 void consume(Tokenizer* tokenizer);
 bool peek(Tokenizer* tokenizer, Symbol symbol);
+
+void create_base_types(Tokenizer* tokenizer);
 
 #endif
