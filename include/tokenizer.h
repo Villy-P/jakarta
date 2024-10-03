@@ -14,13 +14,20 @@ typedef struct TokenizerDef {
     TypeAlias** type_aliases;
     unsigned int max_type_alias_length;
     unsigned int current_type_alias_length;
+
+    Type** types;
+    unsigned int max_type_length;
+    unsigned int current_type_length;
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
 void add_token(Tokenizer* tokenizer, Token* token);
+void add_type(Tokenizer* tokenizer, Type* type);
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
 void print_tokens(Tokenizer* tokenizer);
 void consume(Tokenizer* tokenizer);
 bool peek(Tokenizer* tokenizer, Symbol symbol);
+
+void create_base_types(Tokenizer* tokenizer);
 
 #endif

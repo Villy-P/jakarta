@@ -14,8 +14,6 @@
 int main(int argc, char *argv[]) {
     debug_message("Started Program", TOP_LEVEL);
 
-    create_base_types();
-
     char input_file[FILE_NAME_SIZE];
     char output_file[FILE_NAME_SIZE];
     for (int i = 1; i < argc; i++) {
@@ -33,6 +31,4 @@ int main(int argc, char *argv[]) {
     }
     jakarta_cmd_read_file(input_file);
     jakarta_cmd_out_file(output_file);
-
-    free_type_data();
 }

@@ -5,8 +5,6 @@
 
 #include "identifier.h"
 
-#define INITIAL_TYPES_LENGTH 64
-
 typedef enum TypeOptionsDef {
     NUM,
     UNUM,
@@ -25,12 +23,6 @@ typedef struct TypeAliasDef {
     char* refers_to;
 } TypeAlias;
 
-extern Type** types;
-extern unsigned int max_type_length;
-extern unsigned int current_type_length;
-
-void create_base_types(void);
-void add_type(Type* type);
 Type* create_type(const char* name, unsigned char bit_size, TypeOptions option);
 
 #endif
