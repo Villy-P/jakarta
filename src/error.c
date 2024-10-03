@@ -38,6 +38,6 @@ void jakarta_error_cannot_close_file(const char* file_name) {
 // Code 5
 void jakarta_error_invalid_token(const char* expected, const char* got) {
     printf("\033[31mThere was an error while running your code: ERR_CODE_5\n");
-    printf("Invalid Token Error: Expected token %s but got %s", expected, got);
+    printf("Invalid Token Error: Expected token %s but got %s\033[0m\n", expected, got);
     exit(DEFAULT_ERROR_CODE);
 }
