@@ -4,5 +4,6 @@
 #include "tokenizer.h"
 
 void parse(Tokenizer* tokenizer);
+void parse_typedef(Tokenizer* tokenizer);
 
 #endif
