@@ -77,7 +77,8 @@ void print_tokens(Tokenizer* tokenizer) {
 
 void consume(Tokenizer* tokenizer) {
     free_token(tokenizer->tokens[0]);
-    tokenizer->tokens += sizeof(Token*);
+    tokenizer->tokens += 1;
+    tokenizer->current_token_length -= 1;
 }
 
 bool peek(Tokenizer* tokenizer, Symbol symbol) {
