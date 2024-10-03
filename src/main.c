@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(argv[i], OUTPUT_FILE_ARGUMENT) == STRING_EQUAL) {
             if (i == argc - 1)
                 jakarta_error_no_file_location(OUTPUT_FILE_ARGUMENT);
-            debug_message("Found Input File", LOG);
+            debug_message("Found Output File", LOG);
             strncpy(output_file, argv[i + 1], FILE_NAME_SIZE);
         }
     }
