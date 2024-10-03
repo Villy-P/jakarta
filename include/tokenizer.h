@@ -14,6 +14,11 @@ typedef struct TokenizerDef {
     TypeAlias** type_aliases;
     unsigned int max_type_alias_length;
     unsigned int current_type_alias_length;
+
+    Type** types;
+    unsigned int max_type_length;
+    unsigned int current_type_length;
+
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);

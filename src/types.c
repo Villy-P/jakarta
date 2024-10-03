@@ -4,14 +4,8 @@
 #include "types.h"
 #include "debug.h"
 
-Type** types = NULL;
-unsigned int max_type_length = INITIAL_TYPES_LENGTH;
-unsigned int current_type_length = 0;
-
 void create_base_types(void) {
     debug_message("Begun Creating Base Types", TOP_LEVEL);
-    if (types == NULL)
-        types = malloc(sizeof(Type*) * INITIAL_TYPES_LENGTH);
     add_type(create_type("char",    8,   UNUM));
     add_type(create_type("bool",    1,   ONEBIT));
     add_type(create_type("byte",    8,   NUM));
