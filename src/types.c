@@ -3,7 +3,6 @@
 
 #include "types.h"
 #include "debug.h"
-#include "tokenizer.h"
 
 void create_base_types(Tokenizer* tokenizer) {
     debug_message("Begun Creating Base Types", TOP_LEVEL);
