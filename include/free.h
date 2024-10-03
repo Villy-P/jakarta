@@ -3,8 +3,10 @@
 
 #include "tokenizer.h"
 #include "token.h"
+#include "types.h"
 
 void free_tokenizer(Tokenizer* tokenizer);
 void free_token(Token* token);
+void free_type(Type* type);
 
 #endif
