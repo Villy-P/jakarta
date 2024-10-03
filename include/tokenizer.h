@@ -18,7 +18,6 @@ typedef struct TokenizerDef {
     Type** types;
     unsigned int max_type_length;
     unsigned int current_type_length;
-
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
