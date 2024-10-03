@@ -41,3 +41,10 @@ void jakarta_error_invalid_token(const char* expected, const char* got) {
     printf("Invalid Token Error: Expected token %s but got %s\033[0m\n", expected, got);
     exit(DEFAULT_ERROR_CODE);
 }
+
+// Code 6
+void jakarta_error_undefined_identifier(const char* identifier) {
+    printf("\033[31mThere was an error while running your code: ERR_CODE_6\n");
+    printf("Undefined Identifier: Could not find identifier %s\033[0m\n", identifier);
+    exit(DEFAULT_ERROR_CODE);
+}
