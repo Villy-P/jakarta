@@ -14,8 +14,6 @@
 int main(int argc, char *argv[]) {
     debug_message("Started Program", TOP_LEVEL);
 
-    create_base_types();
-
     char input_file[FILE_NAME_SIZE];
     char output_file[FILE_NAME_SIZE];
     for (int i = 1; i < argc; i++) {

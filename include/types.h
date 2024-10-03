@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #include "identifier.h"
+#include "tokenizer.h"
 
 #define INITIAL_TYPES_LENGTH 64
 
@@ -25,8 +26,7 @@ typedef struct TypeAliasDef {
     char* refers_to;
 } TypeAlias;
 
-void create_base_types(void);
-void add_type(Type* type);
+void create_base_types(Tokenizer* tokenizer);
 Type* create_type(const char* name, unsigned char bit_size, TypeOptions option);
 
 #endif
