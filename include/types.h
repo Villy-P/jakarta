@@ -20,9 +20,18 @@ typedef struct TypeDef {
     TypeOptions option;
 } Type;
 
+typedef struct TypeAliasDef {
+    char* name;
+    char* refers_to;
+} TypeAlias;
+
 extern Type** types;
 extern unsigned int max_type_length;
 extern unsigned int current_type_length;
+
+extern Type** type_aliases;
+extern unsigned int max_type_alias_length;
+extern unsigned int current_type_alias_length;
 
 void create_base_types(void);
 void add_type(Type* type);
