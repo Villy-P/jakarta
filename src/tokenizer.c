@@ -5,11 +5,17 @@
 #include "tokenizer.h"
 #include "free.h"
 
+#define INITIAL_TYPE_ALIAS_SIZE 20
+
 Tokenizer* create_tokenizer(unsigned int initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
     tokenizer->tokens = malloc(sizeof(Token*) * initial_size);
     tokenizer->max_token_length = initial_size;
     tokenizer->current_token_length = 0;
+
+    tokenizer->type_aliases = malloc(sizeof(TypeAlias*) * INITIAL_TYPE_ALIAS_SIZE);
+    tokenizer->max_type_alias_length = INITIAL_TYPE_ALIAS_SIZE;
+    tokenizer->current_type_alias_length = 0;
     return tokenizer;
 }
 
