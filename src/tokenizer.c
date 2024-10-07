@@ -87,3 +87,7 @@ bool peek(Tokenizer* tokenizer, Symbol symbol) {
     Token* token = tokenizer->tokens[0];
     return token->symbol == symbol;
 }
+
+char* peek_consume(Tokenizer* tokenizer, Symbol symbol, char* expected) {
+    
+}

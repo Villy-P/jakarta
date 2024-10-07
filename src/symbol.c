@@ -28,7 +28,7 @@ Symbol get_symbol_from_char(char ch) {
         case '|': return SYMBOL_VERTICAL_LINE;
         case ':': return SYMBOL_COLON;
         case ';': return SYMBOL_SEMICOLON;
-        case '"': return SYMBOL_QUESTION;
+        case '"': return SYMBOL_QUOTATION;
         case '<': return SYMBOL_OPEN_ANGLE;
         case '>': return SYMBOL_CLOSE_ANGLE;
         case ',': return SYMBOL_COMMA;

@@ -25,8 +25,10 @@ void add_token(Tokenizer* tokenizer, Token* token);
 void add_type(Tokenizer* tokenizer, Type* type);
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
 void print_tokens(Tokenizer* tokenizer);
+
 char* consume(Tokenizer* tokenizer);
 bool peek(Tokenizer* tokenizer, Symbol symbol);
+char* peek_consume(Tokenizer* tokenizer, Symbol symbol, char* expected);
 
 void create_base_types(Tokenizer* tokenizer);
 
