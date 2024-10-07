@@ -89,7 +89,7 @@ bool peek(Tokenizer* tokenizer, Symbol symbol) {
     return token->symbol == symbol;
 }
 
-char* peek_consume(Tokenizer* tokenizer, Symbol symbol, char* expected) {
+char* peek_consume(Tokenizer* tokenizer, Symbol symbol, const char* expected) {
     if (!peek(tokenizer, symbol))
         jakarta_error_invalid_token(expected, tokenizer->tokens[0]->content);
     return consume(tokenizer);
