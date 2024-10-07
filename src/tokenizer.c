@@ -5,6 +5,7 @@
 #include "tokenizer.h"
 #include "free.h"
 #include "types.h"
+#include "error.h"
 
 #define INITIAL_TYPE_SIZE 64
 #define INITIAL_TYPE_ALIAS_SIZE 20
@@ -89,5 +90,7 @@ bool peek(Tokenizer* tokenizer, Symbol symbol) {
 }
 
 char* peek_consume(Tokenizer* tokenizer, Symbol symbol, char* expected) {
-    
+    if (!peek(tokenizer, symbol))
+        jakarta_error_invalid_token(expected, tokenizer->tokens[0]->content);
+    return consume(tokenizer);
 }
