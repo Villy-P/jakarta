@@ -45,6 +45,78 @@ Symbol get_symbol_from_char(char ch) {
     return SYMBOL_NONE;
 }
 
+char* get_string_from_symbol(Symbol symbol) {
+    switch (symbol) {
+        case SYMBOL_BACKTICK:          return "`";
+        case SYMBOL_TILDE:             return "~";
+        case SYMBOL_EXCLAMATION:       return "!";
+        case SYMBOL_AT:                return "@";
+        case SYMBOL_HASHTAG:           return "#";
+        case SYMBOL_DOLLAR:            return "$";
+        case SYMBOL_PERCENT:           return "%";
+        case SYMBOL_CARROT:            return "^";
+        case SYMBOL_AMPERSAND:         return "&";
+        case SYMBOL_ASTERISK:          return "*";
+        case SYMBOL_OPEN_PARENTHESIS:  return "(";
+        case SYMBOL_CLOSE_PARENTHESIS: return ")";
+        case SYMBOL_DASH:              return "-";
+        case SYMBOL_UNDERSCORE:        return "_";
+        case SYMBOL_PLUS:              return "+";
+        case SYMBOL_EQUALS:            return "=";
+        case SYMBOL_OPEN_BRACKET:      return "[";
+        case SYMBOL_CLOSE_BRACKET:     return "]";
+        case SYMBOL_OPEN_BRACE:        return "{";
+        case SYMBOL_CLOSE_BRACE:       return "}";
+        case SYMBOL_VERTICAL_LINE:     return "|";
+        case SYMBOL_COLON:             return ":";
+        case SYMBOL_SEMICOLON:         return ";";
+        case SYMBOL_OPEN_ANGLE:        return "<";
+        case SYMBOL_CLOSE_ANGLE:       return ">";
+        case SYMBOL_COMMA:             return ",";
+        case SYMBOL_PERIOD:            return ".";
+        case SYMBOL_QUESTION:          return "?";
+        case SYMBOL_SLASH:             return "/";
+        case SYMBOL_SPACE:             return " ";
+        case SYMBOL_NEWLINE:           return "\n";
+        case SYMBOL_QUOTATION:         return "\"";
+        case SYMBOL_BACKSLASH:         return "\\";
+        case SYMBOL_APOSTRAPHE:        return "\'";
+
+        case KEYWORD_AS:        return "as";
+        case KEYWORD_ASSERT:    return "assert";
+        case KEYWORD_BREAK:     return "break";
+        case KEYWORD_CASE:      return "case";
+        case KEYWORD_CATCH:     return "catch";
+        case KEYWORD_CLASS:     return "class";
+        case KEYWORD_CONSTANT:  return "constant";
+        case KEYWORD_DO:        return "do";
+        case KEYWORD_ELSE:      return "else";
+        case KEYWORD_ENUM:      return "enum";
+        case KEYWORD_EXTENDS:   return "extends";
+        case KEYWORD_FINALLY:   return "finally";
+        case KEYWORD_FOR:       return "for";
+        case KEYWORD_FROM:      return "from";
+        case KEYWORD_FUNC:      return "func";
+        case KEYWORD_GOTO:      return "goto";
+        case KEYWORD_IF:        return "if";
+        case KEYWORD_INTERFACE: return "interface";
+        case KEYWORD_IMPORT:    return "import";
+        case KEYWORD_NEW:       return "new";
+        case KEYWORD_PRIV:      return "priv";
+        case KEYWORD_PROT:      return "prot";
+        case KEYWORD_PUB:       return "pub";
+        case KEYWORD_RET:       return "ret";
+        case KEYWORD_STATIC:    return "static";
+        case KEYWORD_SWITCH:    return "switch";
+        case KEYWORD_THIS:      return "this";
+        case KEYWORD_THROWS:    return "throws";
+        case KEYWORD_TRY:       return "try";
+        case KEYWORD_TYPEDEF:   return "typedef";
+        case KEYWORD_WHILE:     return "while";
+        default: break;
+    }
+}
+
 Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "as")        == 0) return KEYWORD_AS;
     if (strcmp(str, "assert")    == 0) return KEYWORD_ASSERT;
