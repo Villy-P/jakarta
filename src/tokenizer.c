@@ -5,6 +5,8 @@
 #include "tokenizer.h"
 #include "free.h"
 #include "types.h"
+#include "error.h"
+#include "debug.h"
 
 #define INITIAL_TYPE_SIZE 64
 #define INITIAL_TYPE_ALIAS_SIZE 20
@@ -61,6 +63,7 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
         tokenizer->type_aliases[tokenizer->current_type_alias_length] = type_alias;
         tokenizer->current_type_alias_length++;
     } 
+    debug_message("Added type alias", TOP_LEVEL);
 }
 
 void print_tokens(Tokenizer* tokenizer) {
@@ -86,4 +89,13 @@ char* consume(Tokenizer* tokenizer) {
 bool peek(Tokenizer* tokenizer, Symbol symbol) {
     Token* token = tokenizer->tokens[0];
     return token->symbol == symbol;
+}
+
+char* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
+    if (!peek(tokenizer, symbol)) {
+        char* expected = get_string_from_symbol(symbol);
+        char* got = tokenizer->tokens[0]->content;
+        jakarta_error_invalid_token(expected, got);
+    }
+    return consume(tokenizer);
 }
