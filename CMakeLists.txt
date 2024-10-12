@@ -25,21 +25,6 @@ target_compile_options(${PROJECT_NAME} PRIVATE
     "-gdwarf-2"
     "-fdiagnostics-color=always"
     "-g"
-    "-Wformat=2"
-    "-Wfloat-equal"
-    "-Wundef"
-    "-Wshadow"
-    "-Wpointer-arith"
-    "-Wcast-align"
-    "-Wstrict-prototypes"
-    "-Wstrict-overflow=5"
-    "-Wwrite-strings"
-    "-Waggregate-return"
-    "-Wcast-qual"
-    "-Wswitch-default"
-    "-Wswitch-enum"
-    "-Wconversion"
-    "-Wunreachable-code"
 )
 
 if(UNIX)
