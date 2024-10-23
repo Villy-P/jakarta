@@ -71,6 +71,19 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
     debug_message("Added type alias", TOP_LEVEL);
 }
 
+void add_variable(Tokenizer* tokenizer, Variable* variable) {
+    if (tokenizer->current_variable_length <= tokenizer->max_variable_length) {
+        tokenizer->variables[tokenizer->current_variable_length] = variable;
+        tokenizer->current_variable_length++;
+    } else {
+        tokenizer->max_variable_length *= 2;
+        tokenizer->variables = realloc(tokenizer->variables, tokenizer->max_variable_length * sizeof(Token*));
+        tokenizer->variables[tokenizer->current_variable_length] = variable;
+        tokenizer->current_variable_length++;
+    } 
+    debug_message("Added variable", TOP_LEVEL);
+}
+
 void print_tokens(Tokenizer* tokenizer) {
     for (unsigned int i = 0; i < tokenizer->current_token_length; i++) {
         Token* token = tokenizer->tokens[i];

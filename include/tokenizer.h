@@ -29,6 +29,7 @@ Tokenizer* create_tokenizer(unsigned int initial_size);
 void add_token(Tokenizer* tokenizer, Token* token);
 void add_type(Tokenizer* tokenizer, Type* type);
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
+void add_variable(Tokenizer* tokenizer, Variable* variable);
 void print_tokens(Tokenizer* tokenizer);
 
 char* consume(Tokenizer* tokenizer);
