@@ -9,7 +9,8 @@
 #include "debug.h"
 
 #define INITIAL_TYPE_SIZE 64
-#define INITIAL_TYPE_ALIAS_SIZE 20
+#define INITIAL_TYPE_ALIAS_SIZE 2
+#define INITIAL_VARIABLE_SIZE 128
 
 Tokenizer* create_tokenizer(unsigned int initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
@@ -24,6 +25,10 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     tokenizer->types = malloc(sizeof(Type*) * INITIAL_TYPE_SIZE);
     tokenizer->max_type_length = INITIAL_TYPE_SIZE;
     tokenizer->current_type_length = 0;
+
+    tokenizer->variables = malloc(sizeof(Type*) * INITIAL_VARIABLE_SIZE);
+    tokenizer->max_variable_length = INITIAL_VARIABLE_SIZE;
+    tokenizer->current_variable_length = 0;
 
     create_base_types(tokenizer);
     return tokenizer;

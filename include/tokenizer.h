@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #include "token.h"
+#include "variable.h"
 #include "types.h"
 
 typedef struct TokenizerDef {
@@ -18,6 +19,10 @@ typedef struct TokenizerDef {
     Type** types;
     unsigned int max_type_length;
     unsigned int current_type_length;
+
+    Variable** variables;
+    unsigned int max_variable_length;
+    unsigned int current_variable_length;
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
