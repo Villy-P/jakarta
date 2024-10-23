@@ -9,4 +9,6 @@ typedef struct VariableDef {
     unsigned short scope;
 } Variable;
 
+Variable* create_variable(Type* type, char* name, unsigned short scope);
+
 #endif
