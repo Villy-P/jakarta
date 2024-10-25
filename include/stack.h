@@ -3,4 +3,9 @@
 
 #define STACK_TYPE int
 
+typedef struct StackDef {
+    unsigned short size;
+    STACK_TYPE* content;
+} Stack;
+
 #endif
