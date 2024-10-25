@@ -5,7 +5,12 @@
 
 typedef struct StackDef {
     unsigned short size;
-    STACK_TYPE* content;
+    StackNode* head;
 } Stack;
+
+typedef struct StackNodeDef {
+    STACK_TYPE content;
+    StackNode* next;
+} StackNode;
 
 #endif
