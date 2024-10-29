@@ -14,9 +14,13 @@ set(CMAKE_C_STANDARD_REQUIRED True)
 
 file(GLOB SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/**/*.c")
 file(GLOB SOURCES_TEST
-    "${CMAKE_CURRENT_SOURCE_DIR}/test/*.c")
+    "${CMAKE_CURRENT_SOURCE_DIR}/test/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/**/*.c")
+list(FILTER SOURCES_TEST EXCLUDE REGEX ".*src/main.c$")
 
 include_directories(include/)
 
@@ -35,6 +39,8 @@ target_compile_options(${PROJECT_NAME_TEST} PRIVATE
 
 if(UNIX)
     target_link_libraries(${PROJECT_NAME})
+    target_link_libraries(${PROJECT_NAME_TEST})
 else()
     target_link_libraries(${PROJECT_NAME} "regex")
+    target_link_libraries(${PROJECT_NAME_TEST} "regex")
 endif()
