@@ -122,6 +122,7 @@ char* get_string_from_symbol(Symbol symbol) {
 }
 
 Symbol get_keyword_from_str(char* str) {
+    if (is_number_symbol(str))         return SYMBOL_NUMBER;
     if (strcmp(str, "as")        == 0) return KEYWORD_AS;
     if (strcmp(str, "assert")    == 0) return KEYWORD_ASSERT;
     if (strcmp(str, "break")     == 0) return KEYWORD_BREAK;
