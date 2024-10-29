@@ -3,10 +3,10 @@ project(Jakarta VERSION 1.0)
 
 if(UNIX)
     set(PROJECT_NAME "JAKARTA.exe")
-    set(PROJECT_NAME_TEST "TEST.exe")
+    set(PROJECT_NAME_TEST "JAKARTA_TEST.exe")
 else()
     set(PROJECT_NAME "JAKARTA")
-    set(PROJECT_NAME_TEST "TEST")
+    set(PROJECT_NAME_TEST "JAKARTA_TEST")
 endif()
 
 set(CMAKE_C_STANDARD 17)
