@@ -15,5 +15,6 @@ typedef struct StackNodeDef {
 
 Stack* create_stack();
 void add_to_stack(Stack* stack, STACK_TYPE value);
+STACK_TYPE pop_from_stack(Stack* stack);
 
 #endif
