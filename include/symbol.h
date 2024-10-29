@@ -3,6 +3,7 @@
 
 typedef enum SymbolDef {
     SYMBOL_STRING,
+    SYMBOL_NUMBER,
     SYMBOL_BACKTICK,
     SYMBOL_TILDE,
     SYMBOL_EXCLAMATION,

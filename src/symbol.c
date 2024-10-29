@@ -83,6 +83,7 @@ char* get_string_from_symbol(Symbol symbol) {
         case SYMBOL_APOSTRAPHE:        return "\'";
 
         case SYMBOL_STRING: return "IDENTIFIER";
+        case SYMBOL_NUMBER: return "NUMBER";
 
         case KEYWORD_AS:        return "as";
         case KEYWORD_ASSERT:    return "assert";
