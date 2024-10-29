@@ -13,4 +13,6 @@ typedef struct StackNodeDef {
     StackNode* next;
 } StackNode;
 
+Stack* create_stack();
+
 #endif
