@@ -1,4 +1,5 @@
 #include <string.h>
+#include <regex.h>
 
 #include "symbol.h"
 #include "error.h"
@@ -153,4 +154,16 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "typedef")   == 0) return KEYWORD_TYPEDEF;
     if (strcmp(str, "while")     == 0) return KEYWORD_WHILE;
     return SYMBOL_STRING;
+}
+
+bool is_number_symbol(char* str) {
+    regex_t regex;
+    int reti;
+
+    reti = regcomp(&regex, "^[0-9]+$", REG_EXTENDED);
+
+    reti = regexec(&regex, str, 0, NULL, 0);
+    regfree(&regex);
+
+    return !reti;
 }
