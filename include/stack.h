@@ -3,15 +3,15 @@
 
 #define STACK_TYPE int
 
+typedef struct StackNodeDef {
+    STACK_TYPE content;
+    struct StackNodeDef* next;
+} StackNode;
+
 typedef struct StackDef {
     unsigned short size;
     StackNode* head;
 } Stack;
-
-typedef struct StackNodeDef {
-    STACK_TYPE content;
-    StackNode* next;
-} StackNode;
 
 Stack* create_stack();
 void add_to_stack(Stack* stack, STACK_TYPE value);
