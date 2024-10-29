@@ -1,4 +1,5 @@
 #include <string.h>
+#include <regex.h>
 
 #include "symbol.h"
 #include "error.h"
@@ -83,6 +84,7 @@ char* get_string_from_symbol(Symbol symbol) {
         case SYMBOL_APOSTRAPHE:        return "\'";
 
         case SYMBOL_STRING: return "IDENTIFIER";
+        case SYMBOL_NUMBER: return "NUMBER";
 
         case KEYWORD_AS:        return "as";
         case KEYWORD_ASSERT:    return "assert";
@@ -120,6 +122,7 @@ char* get_string_from_symbol(Symbol symbol) {
 }
 
 Symbol get_keyword_from_str(char* str) {
+    if (is_number_symbol(str))         return SYMBOL_NUMBER;
     if (strcmp(str, "as")        == 0) return KEYWORD_AS;
     if (strcmp(str, "assert")    == 0) return KEYWORD_ASSERT;
     if (strcmp(str, "break")     == 0) return KEYWORD_BREAK;
@@ -152,4 +155,16 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "typedef")   == 0) return KEYWORD_TYPEDEF;
     if (strcmp(str, "while")     == 0) return KEYWORD_WHILE;
     return SYMBOL_STRING;
+}
+
+bool is_number_symbol(char* str) {
+    regex_t regex;
+    int reti;
+
+    reti = regcomp(&regex, "^[0-9]+$", REG_EXTENDED);
+
+    reti = regexec(&regex, str, 0, NULL, 0);
+    regfree(&regex);
+
+    return !reti;
 }
