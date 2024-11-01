@@ -8,6 +8,7 @@
 #include "free.h"
 #include "parser.h"
 #include "debug.h"
+#include "ast.h"
 
 #define STRING_BUFFER_LENGTH 256
 
@@ -19,10 +20,11 @@ void jakarta_cmd_read_file(const char* file_location) {
     char buffer[STRING_BUFFER_LENGTH];
     debug_message("Created Buffer", CREATION);
     Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
+    AST* ast = create_ast();
     debug_message("Created Tokenizer", CREATION);
     while (fgets(buffer, sizeof(buffer), file_ptr))
         read_line(buffer, tokenizer);
-    parse(tokenizer);
+    parse(tokenizer, ast->root);
     free_tokenizer(tokenizer);
     debug_message("Destroyed Tokenizer", REMOVAL);
     if (fclose(file_ptr) != 0)
