@@ -22,15 +22,11 @@ void addASTNode(ASTNode* parent, ASTNode* child) {
 }
 
 void printASTNode(ASTNode* node, int depth) {
-    if (node == NULL) return;
-
-    for (int i = 0; i < depth; ++i) {
+    if (node == NULL) 
+        return;
+    for (int i = 0; i < depth; ++i)
         printf("  ");
-    }
-
     printf("Node Identifier: %d\n", node->identifier);
-
-    for (int i = 0; i < node->nodes_length; ++i) {
+    for (int i = 0; i < node->nodes_length; ++i)
         printASTNode(node->nodes[i], depth + 1);
-    }
 }
