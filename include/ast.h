@@ -1,6 +1,8 @@
 #ifndef __JAKARTA_AST_H__
 #define __JAKARTA_AST_H__
 
+#include "token.h"
+
 typedef enum ASTIdentifierDef {
     AST_IDENTIFIER_TYPE_DEFINITION,
     AST_IDENTIFIER_TYPE_DEFINITION_ALIAS,
@@ -28,5 +30,13 @@ typedef enum ASTIdentifierDef {
     AST_IDENTIFIER_INCREMENT,
     AST_IDENTIFIER_DECREMENT
 } ASTIdentifier;
+
+typedef struct ASTNodeDef {
+    ASTIdentifier identifier;
+    Token* token;
+    struct ASTNodeDef** nodes;
+    unsigned short nodes_length;
+    unsigned short nodes_capacity;
+} ASTNode;
 
 #endif
