@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-ASTNode* createASTNode(ASTIdentifier identifier, Token* token) {
+ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
     node->identifier = identifier;
     node->token = token;
@@ -13,13 +13,13 @@ ASTNode* createASTNode(ASTIdentifier identifier, Token* token) {
     return node;
 }
 
-AST* createAST() {
+AST* create_ast() {
     AST* ast = (AST*)malloc(sizeof(AST));
-    ast->root = createASTNode(AST_IDENTIFIER_BASE_PROGRAM, NULL);
+    ast->root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, NULL);
     return ast;
 }
 
-void addASTNode(ASTNode* parent, ASTNode* child) {
+void add_ast_node(ASTNode* parent, ASTNode* child) {
     if (parent->nodes_length >= parent->nodes_capacity) {
         parent->nodes_capacity *= 2;
         parent->nodes = (ASTNode**)realloc(parent->nodes, parent->nodes_capacity * sizeof(ASTNode*));
@@ -27,12 +27,12 @@ void addASTNode(ASTNode* parent, ASTNode* child) {
     parent->nodes[parent->nodes_length++] = child;
 }
 
-void printASTNode(ASTNode* node, int depth) {
+void print_ast_node(ASTNode* node, int depth) {
     if (node == NULL) 
         return;
     for (int i = 0; i < depth; ++i)
         printf("  ");
     printf("Node Identifier: %d\n", node->identifier);
     for (int i = 0; i < node->nodes_length; ++i)
-        printASTNode(node->nodes[i], depth + 1);
+        print_ast_node(node->nodes[i], depth + 1);
 }
