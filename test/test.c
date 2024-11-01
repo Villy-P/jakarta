@@ -29,7 +29,6 @@ int main() {
     assert(!is_number_symbol("1230.123.123"));
     assert(!is_number_symbol("0b99"));
     assert(!is_number_symbol("0b22"));
-    assert(!is_number_symbol("0xEE"));
     assert(!is_number_symbol("099"));
     assert(!is_number_symbol("100.0.0"));
     assert(!is_number_symbol(".0.0"));

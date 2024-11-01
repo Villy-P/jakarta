@@ -161,7 +161,7 @@ bool is_number_symbol(char* str) {
     regex_t regex;
     int reti;
 
-    reti = regcomp(&regex, "^-?(0x[A-F0-9]+|0b[0-1]+|0[0-7]+|\d*(\.\d*)?|\d+e\d+)$", REG_EXTENDED);
+    reti = regcomp(&regex, "^-?(0x[A-F0-9]+|0b[0-1]+|0[0-7]+|\\d*(\\.\\d*)?|\\d+e\\d+)$", REG_EXTENDED);
 
     reti = regexec(&regex, str, 0, NULL, 0);
     regfree(&regex);
