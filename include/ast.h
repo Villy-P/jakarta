@@ -41,5 +41,6 @@ typedef struct ASTNodeDef {
 
 ASTNode* createASTNode(ASTIdentifier identifier, Token* token);
 void addASTNode(ASTNode* parent, ASTNode* child);
+void printASTNode(ASTNode* node, int depth);
 
 #endif
