@@ -14,6 +14,8 @@ void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_type_alias(tokenizer, alias);
     peek_consume(tokenizer, SYMBOL_SEMICOLON);
 
+    printf("%s -- %s\n", type_alias, type_name);
+
     ASTNode* typedef_node  = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION, NULL);
     ASTNode* typedef_alias = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION_ALIAS, type_alias);
     ASTNode* typedef_type  = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION_TYPE, type_name);
