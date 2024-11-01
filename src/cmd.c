@@ -25,6 +25,7 @@ void jakarta_cmd_read_file(const char* file_location) {
     while (fgets(buffer, sizeof(buffer), file_ptr))
         read_line(buffer, tokenizer);
     parse(tokenizer, ast->root);
+    print_ast_node(ast->root, 0);
     free_tokenizer(tokenizer);
     debug_message("Destroyed Tokenizer", REMOVAL);
     if (fclose(file_ptr) != 0)

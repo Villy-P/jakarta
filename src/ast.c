@@ -32,7 +32,10 @@ void print_ast_node(ASTNode* node, int depth) {
         return;
     for (int i = 0; i < depth; ++i)
         printf("  ");
-    printf("Node Identifier: %d\n", node->identifier);
+    printf("Node Identifier: %d", node->identifier);
+    if (node->token != NULL)
+        printf(" Token: %s", node->token->content);
+    printf("\n");
     for (int i = 0; i < node->nodes_length; ++i)
         print_ast_node(node->nodes[i], depth + 1);
 }
