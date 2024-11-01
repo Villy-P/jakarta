@@ -13,6 +13,12 @@ ASTNode* createASTNode(ASTIdentifier identifier, Token* token) {
     return node;
 }
 
+AST* createAST() {
+    AST* ast = (AST*)malloc(sizeof(AST));
+    ast->root = createASTNode(AST_IDENTIFIER_BASE_PROGRAM, NULL);
+    return ast;
+}
+
 void addASTNode(ASTNode* parent, ASTNode* child) {
     if (parent->nodes_length >= parent->nodes_capacity) {
         parent->nodes_capacity *= 2;

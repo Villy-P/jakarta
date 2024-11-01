@@ -4,6 +4,8 @@
 #include "token.h"
 
 typedef enum ASTIdentifierDef {
+    AST_IDENTIFIER_BASE_PROGRAM,
+
     AST_IDENTIFIER_TYPE_DEFINITION,
     AST_IDENTIFIER_TYPE_DEFINITION_ALIAS,
     AST_IDENTIFIER_TYPE_DEFINITION_TYPE,
@@ -39,7 +41,12 @@ typedef struct ASTNodeDef {
     unsigned short nodes_capacity;
 } ASTNode;
 
+typedef struct ASTDef {
+    ASTNode* root;
+} AST;
+
 ASTNode* createASTNode(ASTIdentifier identifier, Token* token);
+AST* createAST();
 void addASTNode(ASTNode* parent, ASTNode* child);
 void printASTNode(ASTNode* node, int depth);
 
