@@ -1,7 +1,7 @@
 #include "parser.h"
 #include "debug.h"
 
-void parse(Tokenizer* tokenizer) {
+void parse(Tokenizer* tokenizer, ASTNode* ast_node) {
     debug_message("Begun Parsing", TOP_LEVEL);
     while (tokenizer->current_token_length > 0) {
         if (peek(tokenizer, KEYWORD_TYPEDEF))

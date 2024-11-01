@@ -3,7 +3,7 @@
 #include "parser.h"
 #include "error.h"
 
-void parse_typedef(Tokenizer* tokenizer) {
+void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
     consume(tokenizer);
     char* type_alias = peek_consume(tokenizer, SYMBOL_STRING);
     char* type_name = peek_consume(tokenizer, SYMBOL_STRING);

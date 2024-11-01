@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.css": "tailwindcss",
+        "*.ipp": "c",
+        "*.tcc": "c",
+        "istream": "c"
+    }
+}
