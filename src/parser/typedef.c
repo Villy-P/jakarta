@@ -17,4 +17,9 @@ void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* typedef_node  = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION, NULL);
     ASTNode* typedef_alias = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION_ALIAS, type_alias);
     ASTNode* typedef_type  = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION_TYPE, type_name);
+
+    add_ast_node(typedef_node, typedef_alias);
+    add_ast_node(typedef_node, typedef_type);
+
+    add_ast_node(ast_node, typedef_node);
 }
