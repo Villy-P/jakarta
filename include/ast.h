@@ -41,6 +41,10 @@ typedef struct ASTNodeDef {
     unsigned short nodes_capacity;
 } ASTNode;
 
+typedef struct ASTDef {
+    ASTNode* root;
+} AST;
+
 ASTNode* createASTNode(ASTIdentifier identifier, Token* token);
 void addASTNode(ASTNode* parent, ASTNode* child);
 void printASTNode(ASTNode* node, int depth);
