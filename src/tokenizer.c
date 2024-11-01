@@ -35,15 +35,12 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
 }
 
 void add_token(Tokenizer* tokenizer, Token* token) {
-    if (tokenizer->current_token_length <= tokenizer->max_token_length) {
-        tokenizer->tokens[tokenizer->current_token_length] = token;
-        tokenizer->current_token_length++;
-    } else {
+    if (tokenizer->current_token_length >= tokenizer->max_token_length) {
         tokenizer->max_token_length *= 2;
         tokenizer->tokens = realloc(tokenizer->tokens, tokenizer->max_token_length * sizeof(Token*));
-        tokenizer->tokens[tokenizer->current_token_length] = token;
-        tokenizer->current_token_length++;
     }
+    tokenizer->tokens[tokenizer->current_token_length] = token;
+    tokenizer->current_token_length++;
 }
 
 void add_type(Tokenizer* tokenizer, Type* type) {
@@ -52,7 +49,7 @@ void add_type(Tokenizer* tokenizer, Type* type) {
         tokenizer->current_type_length++;
     } else {
         tokenizer->max_type_length *= 2;
-        tokenizer->types = realloc(tokenizer->types, tokenizer->max_type_length * sizeof(Identifier*));
+        tokenizer->types = realloc(tokenizer->types, tokenizer->max_type_length * sizeof(Type*));
         tokenizer->types[tokenizer->current_type_length] = type;
         tokenizer->current_type_length++;
     }
@@ -64,7 +61,7 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
         tokenizer->current_type_alias_length++;
     } else {
         tokenizer->max_type_alias_length *= 2;
-        tokenizer->type_aliases = realloc(tokenizer->type_aliases, tokenizer->max_type_alias_length * sizeof(Token*));
+        tokenizer->type_aliases = realloc(tokenizer->type_aliases, tokenizer->max_type_alias_length * sizeof(TypeAlias*));
         tokenizer->type_aliases[tokenizer->current_type_alias_length] = type_alias;
         tokenizer->current_type_alias_length++;
     } 
@@ -77,7 +74,7 @@ void add_variable(Tokenizer* tokenizer, Variable* variable) {
         tokenizer->current_variable_length++;
     } else {
         tokenizer->max_variable_length *= 2;
-        tokenizer->variables = realloc(tokenizer->variables, tokenizer->max_variable_length * sizeof(Token*));
+        tokenizer->variables = realloc(tokenizer->variables, tokenizer->max_variable_length * sizeof(Variable*));
         tokenizer->variables[tokenizer->current_variable_length] = variable;
         tokenizer->current_variable_length++;
     } 
