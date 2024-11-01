@@ -39,4 +39,7 @@ typedef struct ASTNodeDef {
     unsigned short nodes_capacity;
 } ASTNode;
 
+ASTNode* createASTNode(ASTIdentifier identifier, Token* token);
+void addASTNode(ASTNode* parent, ASTNode* child);
+
 #endif
