@@ -1,5 +1,7 @@
-#include "stack.h"
 #include <stddef.h>
+#include <stdlib.h>
+
+#include "stack.h"
 
 Stack* create_stack() {
     Stack* stack = malloc(sizeof(Stack));
