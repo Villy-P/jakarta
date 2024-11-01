@@ -84,9 +84,8 @@ void print_tokens(Tokenizer* tokenizer) {
     }
 }
 
-char* consume(Tokenizer* tokenizer) {
-    char* content = tokenizer->tokens[0]->content;
-    free_token(tokenizer->tokens[0]);
+Token* consume(Tokenizer* tokenizer) {
+    Token* content = tokenizer->tokens[0];
     tokenizer->tokens += 1;
     tokenizer->current_token_length -= 1;
     return content;
@@ -97,7 +96,7 @@ bool peek(Tokenizer* tokenizer, Symbol symbol) {
     return token->symbol == symbol;
 }
 
-char* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
+Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     if (!peek(tokenizer, symbol)) {
         char* expected = get_string_from_symbol(symbol);
         char* got = tokenizer->tokens[0]->content;

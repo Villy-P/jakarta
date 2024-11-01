@@ -119,6 +119,7 @@ char* get_string_from_symbol(Symbol symbol) {
         case KEYWORD_WHILE:     return "while";
         default: break;
     }
+    return "none";
 }
 
 Symbol get_keyword_from_str(char* str) {

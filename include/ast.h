@@ -45,9 +45,9 @@ typedef struct ASTDef {
     ASTNode* root;
 } AST;
 
-ASTNode* createASTNode(ASTIdentifier identifier, Token* token);
-AST* createAST();
-void addASTNode(ASTNode* parent, ASTNode* child);
-void printASTNode(ASTNode* node, int depth);
+ASTNode* create_ast_node(ASTIdentifier identifier, Token* token);
+AST* create_ast();
+void add_ast_node(ASTNode* parent, ASTNode* child);
+void print_ast_node(ASTNode* node, int depth);
 
 #endif

@@ -1,3 +1,6 @@
+#include <string.h>
+#include <stdlib.h>
+
 #include "variable.h"
 
 Variable* create_variable(Type* type, char* name, unsigned short scope) {

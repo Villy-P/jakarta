@@ -32,9 +32,9 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
 void add_variable(Tokenizer* tokenizer, Variable* variable);
 void print_tokens(Tokenizer* tokenizer);
 
-char* consume(Tokenizer* tokenizer);
+Token* consume(Tokenizer* tokenizer);
 bool peek(Tokenizer* tokenizer, Symbol symbol);
-char* peek_consume(Tokenizer* tokenizer, Symbol symbol);
+Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 
 void create_base_types(Tokenizer* tokenizer);
 
