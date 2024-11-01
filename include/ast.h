@@ -29,4 +29,8 @@ typedef enum ASTIdentifierDef {
     AST_IDENTIFIER_DECREMENT
 } ASTIdentifier;
 
+typedef struct ASTNode {
+
+} ASTNode;
+
 #endif
