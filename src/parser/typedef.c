@@ -2,6 +2,7 @@
 
 #include "parser.h"
 #include "error.h"
+#include "free.h"
 
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM)
@@ -26,6 +27,6 @@ void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     add_ast_node(ast_node, typedef_node);
 
-    free(typedef_keyword);
-    free(semicolon);
+    free_token(typedef_keyword);
+    free_token(semicolon);
 }
