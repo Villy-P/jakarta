@@ -6,7 +6,7 @@
 
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM)
-        jakarta_error_invalid_typedef_location();
+        jakarta_error_invalid_typedef_location(consume(tokenizer));
 
     Token* typedef_keyword = consume(tokenizer);
     Token* type_alias = peek_consume(tokenizer, SYMBOL_STRING);
