@@ -22,8 +22,10 @@ void jakarta_cmd_read_file(const char* file_location) {
     Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
     AST* ast = create_ast();
     debug_message("Created Tokenizer", CREATION);
+    unsigned int line_number = 1;
     while (fgets(buffer, sizeof(buffer), file_ptr))
-        read_line(buffer, tokenizer);
+        read_line(buffer, line_number++, tokenizer);
+    print_tokens(tokenizer);
     parse(tokenizer, ast->root);
     print_ast_node(ast->root, 0);
     free_tokenizer(tokenizer);
