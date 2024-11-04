@@ -9,4 +9,6 @@ void jakarta_error_cannot_close_file(const char* file_name);
 void jakarta_error_invalid_token(const char* expected, const char* got);
 void jakarta_error_undefined_identifier(const char* identifier);
 
+void jakarta_error_invalid_typedef_location();
+
 #endif
