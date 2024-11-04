@@ -43,9 +43,9 @@ void jakarta_error_invalid_token(const char* expected, const char* got) {
 }
 
 // Code 6
-void jakarta_error_undefined_identifier(const char* identifier) {
-    printf("\033[31mThere was an error while running your code: ERR_CODE_6\n");
-    printf("Undefined Identifier: Could not find identifier %s\033[0m\n", identifier);
+void jakarta_error_undefined_identifier(Token* identifier) {
+    printf("\033[31mThere was an error while running your code at position %d:%d: ERR_CODE_6\n", identifier->line, identifier->col);
+    printf("Undefined Identifier: Could not find identifier %s\033[0m\n", identifier->content);
     exit(DEFAULT_ERROR_CODE);
 }
 
