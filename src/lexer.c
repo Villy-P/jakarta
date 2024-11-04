@@ -12,7 +12,7 @@
 #define STRING_UNEQUAL 0
 #define REGEX_FLAGS 0
 
-void read_line(char* line, Tokenizer* tokenizer) {
+void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
     while (strcmp(line, "\0") != STRING_UNEQUAL) {
         char* str = get_string(&line);
         if (str != NULL) {
