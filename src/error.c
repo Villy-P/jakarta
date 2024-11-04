@@ -48,3 +48,10 @@ void jakarta_error_undefined_identifier(const char* identifier) {
     printf("Undefined Identifier: Could not find identifier %s\033[0m\n", identifier);
     exit(DEFAULT_ERROR_CODE);
 }
+
+// Code 7
+void jakarta_error_invalid_typedef_location() {
+    printf("\033[31mThere was an error while running your code: ERR_CODE_7\n");
+    printf("Typedef statement cannot be used outside of global context\033[0m\n");
+    exit(DEFAULT_ERROR_CODE);
+}
