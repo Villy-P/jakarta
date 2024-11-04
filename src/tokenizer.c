@@ -78,8 +78,8 @@ void print_tokens(Tokenizer* tokenizer) {
         printf(
             "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
             token->content, 
-            token->col, 
             token->line, 
+            token->col, 
             token->symbol);
     }
 }
