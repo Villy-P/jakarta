@@ -22,6 +22,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         Token* arg_name = peek_consume(tokenizer, SYMBOL_STRING);
         Token* comma = peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : NULL;
         Type* argtype = get_type(tokenizer, arg_type->content);
+        
         if (argtype == NULL)
             jakarta_error_undefined_identifier(arg_type);
 
@@ -31,9 +32,10 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         add_ast_node(arg_node, arg_type_node);
         add_ast_node(func_params_node, arg_node);
 
-        free_token(comma);
-        free_type(argtype);
+        if (comma != NULL)
+            free_token(comma);
     }
+
     Token* close_parenthesis = consume(tokenizer);
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     Type* type = get_type(tokenizer, func_type->content);
@@ -46,5 +48,4 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(open_parenthesis);
     free_token(close_parenthesis);
     free_token(open_brace);
-    free_type(type);
 }
