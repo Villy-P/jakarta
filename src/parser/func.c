@@ -2,6 +2,7 @@
 
 #include "parser.h"
 #include "error.h"
+#include "free.h"
 
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* func_keyword = consume(tokenizer);
@@ -21,4 +22,9 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     Type* type = get_type(tokenizer, func_type->content);
     if (type == NULL)
         jakarta_error_undefined_identifier(func_type);
+
+    free_token(func_keyword);
+    free_token(open_parenthesis);
+    free_token(close_parenthesis);
+    free_token(open_brace);
 }
