@@ -7,6 +7,17 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* func_keyword = consume(tokenizer);
     Token* func_type = peek_consume(tokenizer, SYMBOL_STRING);
     Token* func_name = peek_consume(tokenizer, SYMBOL_STRING);
+    Token* open_parenthesis = peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
+    while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
+        Token* arg_type = peek_consume(tokenizer, SYMBOL_STRING);
+        Token* arg_name = peek_consume(tokenizer, SYMBOL_STRING);
+        Token* comma = peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : NULL;
+        Type* argtype = get_type(tokenizer, arg_type->content);
+        if (argtype == NULL)
+            jakarta_error_undefined_identifier(arg_type);
+    }
+    Token* close_parenthesis = consume(tokenizer);
+    Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     Type* type = get_type(tokenizer, func_type->content);
     if (type == NULL)
         jakarta_error_undefined_identifier(func_type);
