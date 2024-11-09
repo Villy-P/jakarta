@@ -43,10 +43,8 @@ TypeAlias* create_type_alias(const char* name, Type* refers_to) {
 }
 
 Type* get_type(Tokenizer* tokenizer, char* type_name) {
-    for (unsigned int i = 0; i < tokenizer->current_type_length; i++) {
-        printf("Type: %s\n", tokenizer->types[i]->name);
+    for (unsigned int i = 0; i < tokenizer->current_type_length; i++)
         if (strcmp(type_name, tokenizer->types[i]->name) == 0)
             return tokenizer->types[i];
-    }
     return NULL;
 }
