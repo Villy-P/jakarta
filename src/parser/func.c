@@ -13,9 +13,11 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* func_node = create_ast_node(AST_IDENTIFIER_FUNCTION_DEFINITION, func_name);
     ASTNode* func_type_node = create_ast_node(AST_IDENTIFIER_FUNCTION_RETURN_TYPE, func_type);
     ASTNode* func_params_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETERS, NULL);
+    ASTNode* func_body_node = create_ast_node(AST_IDENTIFIER_FUNCTION_BODY, NULL);
 
     add_ast_node(func_node, func_type_node);
     add_ast_node(func_node, func_params_node);
+    add_ast_node(func_node, func_body_node);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
         Token* arg_type = peek_consume(tokenizer, SYMBOL_STRING);
