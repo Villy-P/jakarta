@@ -3,6 +3,7 @@
 #include "parser.h"
 #include "error.h"
 #include "free.h"
+#include "debug.h"
 
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* func_keyword = consume(tokenizer);
@@ -50,4 +51,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(open_parenthesis);
     free_token(close_parenthesis);
     free_token(open_brace);
+
+    debug_message("Added Function", TOP_LEVEL);
 }
