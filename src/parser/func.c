@@ -18,7 +18,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     add_ast_node(func_node, func_type_node);
     add_ast_node(func_node, func_params_node);
-    add_ast_node(func_node, func_body_node);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
         Token* arg_type = peek_consume(tokenizer, SYMBOL_STRING);
@@ -45,6 +44,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     if (type == NULL)
         jakarta_error_undefined_identifier(func_type);
 
+    add_ast_node(func_node, func_body_node);
     add_ast_node(ast_node, func_node);
 
     free_token(func_keyword);
