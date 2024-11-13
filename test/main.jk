@@ -7,6 +7,6 @@ func uint factorial(uint n) {
     ret n * factorial(n);
 }
 
-int main() {
+func int main() {
     return 0;
 }
