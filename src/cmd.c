@@ -26,7 +26,10 @@ void jakarta_cmd_read_file(const char* file_location) {
     while (fgets(buffer, sizeof(buffer), file_ptr))
         read_line(buffer, line_number++, tokenizer);
     print_tokens(tokenizer);
-    parse(tokenizer, ast->root);
+    debug_message("Begun Parsing", TOP_LEVEL);
+    while (tokenizer->current_token_length > 0)
+        parse(tokenizer, ast->root);
+    debug_message("Finished Parsing", TOP_LEVEL);
     print_ast_node(ast->root, 0);
     free_tokenizer(tokenizer);
     debug_message("Destroyed Tokenizer", REMOVAL);
