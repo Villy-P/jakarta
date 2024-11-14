@@ -7,5 +7,6 @@
 void parse(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node);
+void parse_if(Tokenizer* tokenizer, ASTNode* ast_node);
 
 #endif

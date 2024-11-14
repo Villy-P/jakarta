@@ -8,5 +8,5 @@ func uint factorial(uint n) {
 }
 
 func int main() {
-    return 0;
+    ret 0;
 }
