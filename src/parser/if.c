@@ -25,7 +25,7 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
         free_token(token);
     }
 
-    Token* close_parenthesis = consume(tokenizer);
+    // Token* close_parenthesis = peek_consume(tokenizer, SYMBOL_CLOSE_PARENTHESIS);
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
         parse(tokenizer, ast_node);
@@ -36,7 +36,7 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     free_token(if_statement);
     free_token(open_parenthesis);
-    free_token(close_parenthesis);
+    // free_token(close_parenthesis);
     free_token(open_brace);
     free_token(close_brace);
 }
