@@ -72,7 +72,25 @@ typedef enum SymbolDef {
     KEYWORD_THROWS,
     KEYWORD_TRY,
     KEYWORD_TYPEDEF,
-    KEYWORD_WHILE
+    KEYWORD_WHILE,
+
+    OPERATOR_EQUIVALENCE,               // ==
+    OPERATOR_NOT_EQUIVALENCE,           // !=
+    OPERATOR_GREATER_THAN_OR_EQUAL_TO,  // >=
+    OPERATOR_LESS_THAN_OR_EQUAL_TO,     // <=
+    OPERATOR_INCREMENT,                 // ++
+    OPERATOR_DECREMENT,                 // --
+    OPERATOR_ADDITION_ASSIGNMENT,       // +=
+    OPERATOR_SUBTRACTION_ASSIGNMENT,    // -=
+    OPERATOR_MULTIPLICATION_ASSIGNMENT, // *=
+    OPERATOR_DIVISION_ASSIGNMENT,       // /=
+    OPERATOR_MODULUS_ASSIGNMENT,        // %=
+    OPERATOR_BITWISE_AND_ASSIGNMENT,    // &=
+    OPERATOR_BITWISE_OR_ASSIGNMENT,     // |=
+    OPERATOR_BITWISE_XOR_ASSIGNMENT,    // ^=
+    OPERATOR_LEFT_SHIFT,                // <<
+    OPERATOR_RIGHT_SHIFT,               // >>
+    OPERATOR_RIGHT_SHIFT_UNSIGNED,      // >>>
 } Symbol;
 
 Symbol get_symbol_from_char(char ch);

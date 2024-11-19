@@ -155,6 +155,24 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "try")       == 0) return KEYWORD_TRY;
     if (strcmp(str, "typedef")   == 0) return KEYWORD_TYPEDEF;
     if (strcmp(str, "while")     == 0) return KEYWORD_WHILE;
+
+    if (strcmp(str, "==") == 0)  return OPERATOR_EQUIVALENCE;
+    if (strcmp(str, "!=") == 0)  return OPERATOR_NOT_EQUIVALENCE;
+    if (strcmp(str, ">=") == 0)  return OPERATOR_GREATER_THAN_OR_EQUAL_TO;
+    if (strcmp(str, "<=") == 0)  return OPERATOR_LESS_THAN_OR_EQUAL_TO;
+    if (strcmp(str, "++") == 0)  return OPERATOR_INCREMENT;
+    if (strcmp(str, "--") == 0)  return OPERATOR_DECREMENT;
+    if (strcmp(str, "+=") == 0)  return OPERATOR_ADDITION_ASSIGNMENT;
+    if (strcmp(str, "-=") == 0)  return OPERATOR_SUBTRACTION_ASSIGNMENT;
+    if (strcmp(str, "*=") == 0)  return OPERATOR_MULTIPLICATION_ASSIGNMENT;
+    if (strcmp(str, "/=") == 0)  return OPERATOR_DIVISION_ASSIGNMENT;
+    if (strcmp(str, "%=") == 0)  return OPERATOR_MODULUS_ASSIGNMENT;
+    if (strcmp(str, "&=") == 0)  return OPERATOR_BITWISE_AND_ASSIGNMENT;
+    if (strcmp(str, "|=") == 0)  return OPERATOR_BITWISE_OR_ASSIGNMENT;
+    if (strcmp(str, "^=") == 0)  return OPERATOR_BITWISE_XOR_ASSIGNMENT;
+    if (strcmp(str, "<<") == 0)  return OPERATOR_LEFT_SHIFT;
+    if (strcmp(str, ">>") == 0)  return OPERATOR_RIGHT_SHIFT;
+    if (strcmp(str, ">>>") == 0) return OPERATOR_RIGHT_SHIFT_UNSIGNED;
     return SYMBOL_STRING;
 }
 
