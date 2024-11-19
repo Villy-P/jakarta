@@ -72,7 +72,9 @@ typedef enum SymbolDef {
     KEYWORD_THROWS,
     KEYWORD_TRY,
     KEYWORD_TYPEDEF,
-    KEYWORD_WHILE
+    KEYWORD_WHILE,
+
+    OPERATOR_EQUIVALENCE, // ==
 } Symbol;
 
 Symbol get_symbol_from_char(char ch);
