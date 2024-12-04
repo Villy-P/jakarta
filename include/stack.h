@@ -1,7 +1,9 @@
 #ifndef __JAKARTA_STACK_H__
 #define __JAKARTA_STACK_H__
 
-#define STACK_TYPE int
+#include "ast.h"
+
+#define STACK_TYPE ASTNode*
 
 typedef struct StackNodeDef {
     STACK_TYPE content;

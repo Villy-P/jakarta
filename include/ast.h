@@ -52,4 +52,6 @@ AST* create_ast();
 void add_ast_node(ASTNode* parent, ASTNode* child);
 void print_ast_node(ASTNode* node, int depth);
 
+unsigned int precedence(char* operator);
+
 #endif
