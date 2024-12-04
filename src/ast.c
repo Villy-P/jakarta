@@ -39,3 +39,12 @@ void print_ast_node(ASTNode* node, int depth) {
     for (int i = 0; i < node->nodes_length; ++i)
         print_ast_node(node->nodes[i], depth + 1);
 }
+
+unsigned int precedence(char* operator) {
+    if (operator == NULL)
+        return 0;
+    if (strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0)
+        return 1;
+    if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0)
+        return 2;
+}
