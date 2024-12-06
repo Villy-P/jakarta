@@ -31,7 +31,8 @@ STACK_TYPE pop_from_stack(Stack* stack) {
 void printStack(Stack* stack) {
     StackNode* current = stack->head;
     while (current != NULL) {
-        printf("%s\n", current->content->token->content);
+        printf("%s ", current->content->token->content);
         current = current->next;
     }
+    printf("\n");
 }
