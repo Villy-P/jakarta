@@ -27,3 +27,11 @@ STACK_TYPE pop_from_stack(Stack* stack) {
     stack->size--;
     return value;
 }
+
+void printStack(Stack* stack) {
+    StackNode* current = stack->head;
+    while (current != NULL) {
+        printf("%s\n", current->content->token->content);
+        current = current->next;
+    }
+}
