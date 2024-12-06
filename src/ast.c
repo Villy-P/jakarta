@@ -5,11 +5,20 @@
 
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
+    if (node == NULL) {
+        fprintf(stderr, "Failed to allocate memory for ASTNode\n");
+        exit(EXIT_FAILURE);
+    }
     node->identifier = identifier;
     node->token = token;
     node->nodes_length = 0;
     node->nodes_capacity = 2;
     node->nodes = (ASTNode**)malloc(node->nodes_capacity * sizeof(ASTNode*));
+    if (node->nodes == NULL) {
+        fprintf(stderr, "Failed to allocate memory for ASTNode children\n");
+        free(node);
+        exit(EXIT_FAILURE);
+    }
     return node;
 }
 
