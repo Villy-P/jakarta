@@ -1,16 +1,17 @@
 #include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "postfix.h"
 
 unsigned int precedence(char* op) {
-    if (op == NULL)
-        return 0;
     if (strcmp(op, "+") == 0 || strcmp(op, "-") == 0)
         return 1;
     if (strcmp(op, "*") == 0 || strcmp(op, "/") == 0)
         return 2;
     if (strcmp(op, "==") == 0)
         return 3;
+    return 0;
 }
 
 Stack* infix_to_postfix(Tokenizer* tokenizer) {
@@ -28,8 +29,8 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         } else if (token->symbol == SYMBOL_CLOSE_PARENTHESIS) {
             open_parenthesis_count--;
             while (operands->size > 0) {
-                Token* op = pop_from_stack(operands);
-                if (op->symbol == SYMBOL_OPEN_PARENTHESIS)
+                ASTNode* op = pop_from_stack(operands);
+                if (op->token->symbol == SYMBOL_OPEN_PARENTHESIS)
                     break;
                 add_to_stack(output, op);
             }
@@ -43,13 +44,12 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             break;
         } else {
             while (operands->size > 0) {
-                Token* op = pop_from_stack(operands);
-                ASTNode* operator = create_ast_node(AST_IDENTIFIER_OPERATOR, op);
-                if (precedence(op->content) < precedence(token->content)) {
-                    add_to_stack(operands, operator);
+                ASTNode* op = pop_from_stack(operands);
+                if (precedence(op->token->content) < precedence(token->content)) {
+                    add_to_stack(operands, op);
                     break;
                 }
-                add_to_stack(output, operator);
+                add_to_stack(output, op);
             }
             add_to_stack(operands, node);
         }
