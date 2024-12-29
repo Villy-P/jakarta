@@ -173,6 +173,13 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "<<") == 0)  return OPERATOR_LEFT_SHIFT;
     if (strcmp(str, ">>") == 0)  return OPERATOR_RIGHT_SHIFT;
     if (strcmp(str, ">>>") == 0) return OPERATOR_RIGHT_SHIFT_UNSIGNED;
+    if (strcmp(str, "!") == 0)   return OPERATOR_NOT;
+    if (strcmp(str, "&") == 0)   return OPERATOR_BITWISE_AND;
+    if (strcmp(str, "|") == 0)   return OPERATOR_BITWISE_OR;
+    if (strcmp(str, "^") == 0)   return OPERATOR_BITWISE_XOR;
+    if (strcmp(str, "~") == 0)   return OPERATOR_BITWISE_NOT;
+    if (strcmp(str, "&&") == 0)  return OPERATOR_LOGICAL_AND;
+    if (strcmp(str, "||") == 0)  return OPERATOR_LOGICAL_OR;
     return SYMBOL_STRING;
 }
 

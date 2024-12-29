@@ -5,12 +5,30 @@
 #include "postfix.h"
 
 unsigned int precedence(char* op) {
-    if (strcmp(op, "+") == 0 || strcmp(op, "-") == 0)
+    if (strcmp(op, "=") == 0 || strcmp(op, "+=") == 0 || strcmp(op, "-=") == 0 || strcmp(op, "*=") == 0 || strcmp(op, "/=") == 0 || strcmp(op, "%=") == 0 || strcmp(op, "&=") == 0 || strcmp(op, "|=") == 0 || strcmp(op, "^=") == 0 || strcmp(op, "<<=") == 0 || strcmp(op, ">>=") == 0 || strcmp(op, ">>>=") == 0)
         return 1;
-    if (strcmp(op, "*") == 0 || strcmp(op, "/") == 0)
+    if (strcmp(op, "||") == 0)
         return 2;
-    if (strcmp(op, "==") == 0)
+    if (strcmp(op, "&&") == 0)
         return 3;
+    if (strcmp(op, "|") == 0)
+        return 4;
+    if (strcmp(op, "^") == 0)
+        return 5;
+    if (strcmp(op, "&") == 0)
+        return 6;
+    if (strcmp(op, "==") == 0 || strcmp(op, "!=") == 0)
+        return 7;
+    if (strcmp(op, "<") == 0 || strcmp(op, ">") == 0 || strcmp(op, "<=") == 0 || strcmp(op, ">=") == 0)
+        return 8;
+    if (strcmp(op, "<<") == 0 || strcmp(op, ">>") == 0 || strcmp(op, ">>>") == 0)
+        return 9;
+    if (strcmp(op, "+") == 0 || strcmp(op, "-") == 0)
+        return 10;
+    if (strcmp(op, "*") == 0 || strcmp(op, "/") == 0 || strcmp(op, "%") == 0)
+        return 11;
+    if (strcmp(op, "!") == 0 || strcmp(op, "++") == 0 || strcmp(op, "--") == 0 || strcmp(op, "~") == 0)
+        return 12;
     return 0;
 }
 

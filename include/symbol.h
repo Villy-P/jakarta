@@ -91,6 +91,13 @@ typedef enum SymbolDef {
     OPERATOR_LEFT_SHIFT,                // <<
     OPERATOR_RIGHT_SHIFT,               // >>
     OPERATOR_RIGHT_SHIFT_UNSIGNED,      // >>>
+    OPERATOR_NOT,                       // !
+    OPERATOR_BITWISE_AND,               // &
+    OPERATOR_BITWISE_OR,                // |
+    OPERATOR_BITWISE_XOR,               // ^
+    OPERATOR_BITWISE_NOT,               // ~
+    OPERATOR_LOGICAL_AND,               // &&
+    OPERATOR_LOGICAL_OR,                // ||
 } Symbol;
 
 Symbol get_symbol_from_char(char ch);
