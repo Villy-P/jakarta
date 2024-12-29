@@ -46,7 +46,7 @@ char* get_string(char** line) {
     regex_t reegex;
     regmatch_t groups[MAX_REGEX_GROUPS];
     int value = 0;
-    value = regcomp(&reegex, "^(\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?)", REG_EXTENDED);
+    value = regcomp(&reegex, "^(\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?|&&?|\\|\\|?|!)", REG_EXTENDED);
     value = regexec(&reegex, *line, MAX_REGEX_GROUPS, groups, REGEX_FLAGS);
 
     char* str = NULL;
