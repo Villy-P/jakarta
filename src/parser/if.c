@@ -2,6 +2,7 @@
 
 #include "parser.h"
 #include "free.h"
+#include "postfix.h"
 
 void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* if_statement = consume(tokenizer);
@@ -13,17 +14,10 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     add_ast_node(if_node, if_condition);
 
+    printf("Parsing if statement\n");
+
     // parse expression here
-    int parenthesis_count = 1;
-    while (parenthesis_count > 0) {
-        Token* token = consume(tokenizer);
-        if (token->symbol == SYMBOL_OPEN_PARENTHESIS) {
-            parenthesis_count++;
-        } else if (token->symbol == SYMBOL_CLOSE_PARENTHESIS) {
-            parenthesis_count--;
-        }
-        free_token(token);
-    }
+    infix_to_postfix(tokenizer);
 
     // Token* close_parenthesis = peek_consume(tokenizer, SYMBOL_CLOSE_PARENTHESIS);
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
