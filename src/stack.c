@@ -3,37 +3,44 @@
 
 #include "stack.h"
 
-Stack* create_stack() {
-    Stack* stack = malloc(sizeof(Stack));
-    stack->size = 0;
-    stack->head = NULL;
-    return stack;
+Stack* create_stack(int memberSize, int totalElements) {
+    Stack *s = malloc(sizeof(Stack));
+    s->top = -1;
+    s->memberSize = memberSize;
+    s->totalElements = totalElements;
+    s->data = malloc(totalElements * memberSize);
+    return s;
 }
 
-void add_to_stack(Stack* stack, STACK_TYPE value) {
-    StackNode* new_node = (StackNode*)malloc(sizeof(StackNode));
-    new_node->content = value;
-    new_node->next = (stack->head == NULL) ? NULL : stack->head;
-    stack->head = new_node;
-    stack->size++;
+int push_to_stack(Stack* s, void* data) {
+    if (s->top == s->totalElements - 1)
+        expand_stack(s);
+    s->top++;
+    void* target = (char*)s->data + (s->top * s->memberSize);
+    memcpy(target, data, s->memberSize);
+    return 0;
 }
 
-STACK_TYPE pop_from_stack(Stack* stack) {
-    if (stack->head == NULL)
-        return 0;
-    StackNode* temp_node = stack->head;
-    STACK_TYPE value = temp_node->content;
-    stack->head = stack->head->next;
-    free(temp_node);
-    stack->size--;
-    return value;
+int expand_stack(Stack* s) {
+    s->data = realloc(s->data, s->totalElements * 2 * s->memberSize);
+    s->totalElements *= 2;
+    return 0;
 }
 
-void print_stack(Stack* stack) {
-    StackNode* current = stack->head;
-    while (current != NULL) {
-        printf("%s ", current->content->token->content);
-        current = current->next;
-    }
-    printf("\n");
+int pop_from_stack(Stack* s, void* target) {
+    if (s->top == -1)
+        return 1;
+    void* source = (char*)s->data + (s->top * s->memberSize);
+    s->top--;
+    memcpy(target, source, s->memberSize);
+    return 0;
 }
+
+// void print_stack(Stack* stack) {
+//     StackNode* current = stack->head;
+//     while (current != NULL) {
+//         printf("%s ", current->content->token->content);
+//         current = current->next;
+//     }
+//     printf("\n");
+// }

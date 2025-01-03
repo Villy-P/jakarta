@@ -5,19 +5,17 @@
 
 #define STACK_TYPE ASTNode*
 
-typedef struct StackNodeDef {
-    STACK_TYPE content;
-    struct StackNodeDef* next;
-} StackNode;
-
 typedef struct StackDef {
-    unsigned short size;
-    StackNode* head;
+    void* data;
+    int top;
+    int totalElements;
+    int memberSize;
 } Stack;
 
-Stack* create_stack();
-void add_to_stack(Stack* stack, STACK_TYPE value);
-STACK_TYPE pop_from_stack(Stack* stack);
-void print_stack(Stack* stack);
+Stack* create_stack(int memberSize, int totalElements);
+int push_to_stack(Stack* s, void* data);
+int expand_stack(Stack* s);
+int pop_from_stack(Stack* s, void* target);
+// void print_stack(Stack* stack);
 
 #endif
