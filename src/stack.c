@@ -35,12 +35,3 @@ int pop_from_stack(Stack* s, void* target) {
     memcpy(target, source, s->memberSize);
     return 0;
 }
-
-// void print_stack(Stack* stack) {
-//     StackNode* current = stack->head;
-//     while (current != NULL) {
-//         printf("%s ", current->content->token->content);
-//         current = current->next;
-//     }
-//     printf("\n");
-// }
