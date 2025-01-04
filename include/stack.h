@@ -8,14 +8,14 @@
 typedef struct StackDef {
     void* data;
     int top;
-    int totalElements;
-    int memberSize;
+    int total_elements;
+    int member_size;
 } Stack;
 
-Stack* create_stack(int memberSize, int totalElements);
+Stack* create_stack(int member_size, int total_elements);
 int push_to_stack(Stack* s, void* data);
 int expand_stack(Stack* s);
 int pop_from_stack(Stack* s, void* target);
-// void print_stack(Stack* stack);
+void reverse_stack(Stack* s);
 
 #endif
