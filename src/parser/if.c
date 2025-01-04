@@ -17,7 +17,9 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
     printf("Parsing if statement\n");
 
     // parse expression here
-    infix_to_postfix(tokenizer);
+    Stack* postfix = infix_to_postfix(tokenizer);
+    ASTNode* expression = postfix_to_ast(postfix);
+    add_ast_node(if_condition, expression);
 
     // Token* close_parenthesis = peek_consume(tokenizer, SYMBOL_CLOSE_PARENTHESIS);
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);

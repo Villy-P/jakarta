@@ -77,13 +77,30 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             push_to_stack(operands, node);
         }
     }
-    printf("Output: ");
-    while (output->top > -1) {
-        ASTNode* node = malloc(sizeof(ASTNode));
-        pop_from_stack(output, node);
-        printf("%s ", node->token->content);
-    }
-    printf("\n");
+
+    reverse_stack(output);
 
     return output;
+}
+
+ASTNode* postfix_to_ast(Stack* postfix) {
+    Stack* output = create_stack(sizeof(ASTNode), 10);
+    ASTNode* value = malloc(sizeof(ASTNode));
+    while (postfix->top > -1) {
+        ASTNode* node = malloc(sizeof(ASTNode));
+        pop_from_stack(postfix, node);
+        if (node->token->symbol == SYMBOL_STRING || node->token->symbol == SYMBOL_NUMBER) {
+            push_to_stack(output, node);
+        } else {
+            ASTNode* right = malloc(sizeof(ASTNode));
+            ASTNode* left = malloc(sizeof(ASTNode));
+            pop_from_stack(output, right);
+            pop_from_stack(output, left);
+            add_ast_node(node, left);
+            add_ast_node(node, right);
+            push_to_stack(output, node);
+        }
+    }
+    pop_from_stack(output, value);
+    return value;
 }
