@@ -77,6 +77,9 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             push_to_stack(operands, node);
         }
     }
+    
+    reverse_stack(output);
+
     printf("Output: ");
     while (output->top > -1) {
         ASTNode* node = malloc(sizeof(ASTNode));
