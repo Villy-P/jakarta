@@ -1,7 +1,7 @@
 #ifndef __JAKARTA_STACK_H__
 #define __JAKARTA_STACK_H__
 
-#include "ast.h"
+#include "data_structures/ast.h"
 
 #define STACK_TYPE ASTNode*
 

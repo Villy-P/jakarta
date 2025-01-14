@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "stack.h"
+#include "data_structures/stack.h"
 
 Stack* create_stack(int member_size, int total_elements) {
     Stack *s = malloc(sizeof(Stack));

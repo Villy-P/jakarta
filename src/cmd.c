@@ -4,11 +4,11 @@
 #include "cmd.h"
 #include "error.h"
 #include "lexer.h"
-#include "tokenizer.h"
 #include "free.h"
 #include "parser.h"
 #include "debug.h"
-#include "ast.h"
+#include "data_structures/tokenizer.h"
+#include "data_structures/ast.h"
 
 #define STRING_BUFFER_LENGTH 256
 

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "tokenizer.h"
+#include "data_structures/tokenizer.h"
 #include "free.h"
 #include "types.h"
 #include "error.h"
