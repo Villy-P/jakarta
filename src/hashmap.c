@@ -42,3 +42,10 @@ void* get(HashMap* hashmap, char* key) {
     }
     return NULL;
 }
+
+HashMap* create_hashmap() {
+    HashMap* hashmap = (HashMap*)malloc(sizeof(HashMap));
+    for (int i = 0; i < HASHMAP_ARRAY_SIZE; ++i)
+        hashmap->array[i] = NULL;
+    return hashmap;
+}

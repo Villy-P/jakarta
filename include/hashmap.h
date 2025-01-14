@@ -16,5 +16,6 @@ typedef struct HashMapDef {
 int hash(char* key);
 int insert(HashMap* hashmap, char* key, void* value);
 void* get(HashMap* hashmap, char* key);
+HashMap* create_hashmap();
 
 #endif
