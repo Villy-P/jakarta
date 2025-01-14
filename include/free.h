@@ -1,7 +1,7 @@
 #ifndef __JAKARTA_FREE_H__
 #define __JAKARTA_FREE_H__
 
-#include "tokenizer.h"
+#include "data_structures/tokenizer.h"
 #include "token.h"
 #include "types.h"
 

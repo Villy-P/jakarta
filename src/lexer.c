@@ -6,7 +6,7 @@
 #include "lexer.h"
 #include "error.h"
 #include "token.h"
-#include "tokenizer.h"
+#include "data_structures/tokenizer.h"
 
 #define MAX_REGEX_GROUPS 1
 #define STRING_UNEQUAL 0

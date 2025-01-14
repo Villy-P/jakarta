@@ -1,4 +1,4 @@
-#include "ast.h"
+#include "data_structures/ast.h"
 
 #include <stdlib.h>
 #include <stdio.h>

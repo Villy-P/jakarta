@@ -13,6 +13,11 @@
         "*.inc": "c",
         "bitset": "c",
         "string_view": "c",
-        "initializer_list": "c"
+        "initializer_list": "c",
+        "ast.h": "c",
+        "debug.h": "c",
+        "stack.h": "c",
+        "tokenizer.h": "c",
+        "free.h": "c"
     }
 }
