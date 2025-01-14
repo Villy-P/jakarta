@@ -3,6 +3,16 @@
 
 #define HASHMAP_ARRAY_SIZE 100
 
+typedef struct HashNodeDef {
+    char* key;
+    void* value;
+    struct HashNodeDef* next;
+} HashNode;
+
+typedef struct HashMapDef {
+    HashNode* array[HASHMAP_ARRAY_SIZE];
+} HashMap;
+
 int hash(char* key);
 
 #endif
