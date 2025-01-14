@@ -31,3 +31,14 @@ int insert(HashMap* hashmap, char* key, void* value) {
     hashmap->array[index] = new_node;
     return 0;
 }
+
+void* get(HashMap* hashmap, char* key) {
+    int index = hash(key);
+    HashNode* node = hashmap->array[index];
+    while (node != NULL) {
+        if (strcmp(node->key, key) == 0)
+            return node->value;
+        node = node->next;
+    }
+    return NULL;
+}
