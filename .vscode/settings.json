@@ -18,6 +18,7 @@
         "debug.h": "c",
         "stack.h": "c",
         "tokenizer.h": "c",
-        "free.h": "c"
+        "free.h": "c",
+        "types.h": "c"
     }
 }

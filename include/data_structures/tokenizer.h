@@ -6,23 +6,18 @@
 #include "token.h"
 #include "variable.h"
 #include "types.h"
+#include "hashmap.h"
 
 typedef struct TokenizerDef {
     Token** tokens;
     unsigned int max_token_length;
     unsigned int current_token_length;
 
-    TypeAlias** type_aliases;
-    unsigned int max_type_alias_length;
-    unsigned int current_type_alias_length;
-
-    Type** types;
-    unsigned int max_type_length;
-    unsigned int current_type_length;
-
     Variable** variables;
     unsigned int max_variable_length;
     unsigned int current_variable_length;
+
+    HashMap* type_symbol_tree;
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
@@ -37,7 +32,5 @@ bool peek(Tokenizer* tokenizer, Symbol symbol);
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 
 void create_base_types(Tokenizer* tokenizer);
-
-Type* get_type(Tokenizer* tokenizer, char* type_name);
 
 #endif

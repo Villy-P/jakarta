@@ -18,17 +18,11 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     tokenizer->max_token_length = initial_size;
     tokenizer->current_token_length = 0;
 
-    tokenizer->type_aliases = malloc(sizeof(TypeAlias*) * INITIAL_TYPE_ALIAS_SIZE);
-    tokenizer->max_type_alias_length = INITIAL_TYPE_ALIAS_SIZE;
-    tokenizer->current_type_alias_length = 0;
-
-    tokenizer->types = malloc(sizeof(Type*) * INITIAL_TYPE_SIZE);
-    tokenizer->max_type_length = INITIAL_TYPE_SIZE;
-    tokenizer->current_type_length = 0;
-
     tokenizer->variables = malloc(sizeof(Type*) * INITIAL_VARIABLE_SIZE);
     tokenizer->max_variable_length = INITIAL_VARIABLE_SIZE;
     tokenizer->current_variable_length = 0;
+
+    tokenizer->type_symbol_tree = create_hashmap();
 
     create_base_types(tokenizer);
     return tokenizer;
@@ -44,21 +38,11 @@ void add_token(Tokenizer* tokenizer, Token* token) {
 }
 
 void add_type(Tokenizer* tokenizer, Type* type) {
-    if (tokenizer->current_type_length >= tokenizer->max_type_length) {
-        tokenizer->max_type_length *= 2;
-        tokenizer->types = realloc(tokenizer->types, tokenizer->max_type_length * sizeof(Type*));
-    }
-    tokenizer->types[tokenizer->current_type_length] = type;
-    tokenizer->current_type_length++;
+    insert(tokenizer->type_symbol_tree, type->name, type);
 }
 
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
-    if (tokenizer->current_type_alias_length >= tokenizer->max_type_alias_length) {
-        tokenizer->max_type_alias_length *= 2;
-        tokenizer->type_aliases = realloc(tokenizer->type_aliases, tokenizer->max_type_alias_length * sizeof(TypeAlias*));
-    }
-    tokenizer->type_aliases[tokenizer->current_type_alias_length] = type_alias;
-    tokenizer->current_type_alias_length++;
+    insert(tokenizer->type_symbol_tree, type_alias->name, type_alias->refers_to);
     debug_message("Added type alias", TOP_LEVEL);
 }
 
