@@ -6,6 +6,7 @@
 #include "token.h"
 #include "variable.h"
 #include "types.h"
+#include "hashmap.h"
 
 typedef struct TokenizerDef {
     Token** tokens;
@@ -23,6 +24,8 @@ typedef struct TokenizerDef {
     Variable** variables;
     unsigned int max_variable_length;
     unsigned int current_variable_length;
+
+    HashMap* type_symbol_tree;
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
