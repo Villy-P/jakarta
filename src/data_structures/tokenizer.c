@@ -46,22 +46,10 @@ void add_token(Tokenizer* tokenizer, Token* token) {
 }
 
 void add_type(Tokenizer* tokenizer, Type* type) {
-    if (tokenizer->current_type_length >= tokenizer->max_type_length) {
-        tokenizer->max_type_length *= 2;
-        tokenizer->types = realloc(tokenizer->types, tokenizer->max_type_length * sizeof(Type*));
-    }
-    tokenizer->types[tokenizer->current_type_length] = type;
-    tokenizer->current_type_length++;
     insert(tokenizer->type_symbol_tree, type->name, type);
 }
 
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
-    if (tokenizer->current_type_alias_length >= tokenizer->max_type_alias_length) {
-        tokenizer->max_type_alias_length *= 2;
-        tokenizer->type_aliases = realloc(tokenizer->type_aliases, tokenizer->max_type_alias_length * sizeof(TypeAlias*));
-    }
-    tokenizer->type_aliases[tokenizer->current_type_alias_length] = type_alias;
-    tokenizer->current_type_alias_length++;
     insert(tokenizer->type_symbol_tree, type_alias->name, type_alias->refers_to);
     debug_message("Added type alias", TOP_LEVEL);
 }

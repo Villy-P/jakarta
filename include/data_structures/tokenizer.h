@@ -41,6 +41,4 @@ Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 
 void create_base_types(Tokenizer* tokenizer);
 
-Type* get_type(Tokenizer* tokenizer, char* type_name);
-
 #endif
