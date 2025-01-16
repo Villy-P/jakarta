@@ -18,14 +18,6 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     tokenizer->max_token_length = initial_size;
     tokenizer->current_token_length = 0;
 
-    tokenizer->type_aliases = malloc(sizeof(TypeAlias*) * INITIAL_TYPE_ALIAS_SIZE);
-    tokenizer->max_type_alias_length = INITIAL_TYPE_ALIAS_SIZE;
-    tokenizer->current_type_alias_length = 0;
-
-    tokenizer->types = malloc(sizeof(Type*) * INITIAL_TYPE_SIZE);
-    tokenizer->max_type_length = INITIAL_TYPE_SIZE;
-    tokenizer->current_type_length = 0;
-
     tokenizer->variables = malloc(sizeof(Type*) * INITIAL_VARIABLE_SIZE);
     tokenizer->max_variable_length = INITIAL_VARIABLE_SIZE;
     tokenizer->current_variable_length = 0;

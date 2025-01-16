@@ -13,14 +13,6 @@ typedef struct TokenizerDef {
     unsigned int max_token_length;
     unsigned int current_token_length;
 
-    TypeAlias** type_aliases;
-    unsigned int max_type_alias_length;
-    unsigned int current_type_alias_length;
-
-    Type** types;
-    unsigned int max_type_length;
-    unsigned int current_type_length;
-
     Variable** variables;
     unsigned int max_variable_length;
     unsigned int current_variable_length;
