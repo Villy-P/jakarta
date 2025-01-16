@@ -11,7 +11,7 @@ void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* typedef_keyword = consume(tokenizer);
     Token* type_alias = peek_consume(tokenizer, SYMBOL_STRING);
     Token* type_name = peek_consume(tokenizer, SYMBOL_STRING);
-    Type* type = get_type(tokenizer, type_name->content);
+    Type* type = (Type*)get(tokenizer->type_symbol_tree, type_name->content);
     if (type == NULL)
         jakarta_error_undefined_identifier(type_name);
     TypeAlias* alias = create_type_alias(type_alias->content, type);
