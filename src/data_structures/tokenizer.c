@@ -52,6 +52,7 @@ void add_type(Tokenizer* tokenizer, Type* type) {
     }
     tokenizer->types[tokenizer->current_type_length] = type;
     tokenizer->current_type_length++;
+    insert(tokenizer->type_symbol_tree, type->name, type);
 }
 
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
@@ -61,6 +62,7 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
     }
     tokenizer->type_aliases[tokenizer->current_type_alias_length] = type_alias;
     tokenizer->current_type_alias_length++;
+    insert(tokenizer->type_symbol_tree, type_alias->name, type_alias->refers_to);
     debug_message("Added type alias", TOP_LEVEL);
 }
 
