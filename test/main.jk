@@ -1,4 +1,5 @@
 typedef Students ubyte;
+typedef Decimal double;
 
 func uint factorial(uint n) {
     if (n == 0) {

@@ -55,3 +55,10 @@ void jakarta_error_invalid_typedef_location(Token* token) {
     printf("Typedef statement cannot be used outside of global context\033[0m\n");
     exit(DEFAULT_ERROR_CODE);
 }
+
+// Code 8
+void jakarta_error_duplicate_identifier(char* name) {
+    printf("\033[31mThere was an error while running your code: ERR_CODE_8\n");
+    printf("Duplicate Identifier: Identifier %s already exists\033[0m\n", name);
+    exit(DEFAULT_ERROR_CODE);
+}
