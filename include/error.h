@@ -12,5 +12,6 @@ void jakarta_error_invalid_token(const char* expected, const char* got);
 void jakarta_error_undefined_identifier(Token* identifier);
 
 void jakarta_error_invalid_typedef_location(Token* token);
+void jakarta_error_duplicate_identifier(char* name);
 
 #endif

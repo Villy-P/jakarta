@@ -38,10 +38,14 @@ void add_token(Tokenizer* tokenizer, Token* token) {
 }
 
 void add_type(Tokenizer* tokenizer, Type* type) {
+    if (get(tokenizer->type_symbol_tree, type->name) != NULL)
+        jakarta_error_duplicate_identifier(type->name);
     insert(tokenizer->type_symbol_tree, type->name, type);
 }
 
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
+    if (get(tokenizer->type_symbol_tree, type_alias->name) != NULL)
+        jakarta_error_duplicate_identifier(type_alias->name);
     insert(tokenizer->type_symbol_tree, type_alias->name, type_alias->refers_to);
     debug_message("Added type alias", TOP_LEVEL);
 }
