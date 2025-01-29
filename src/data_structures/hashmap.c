@@ -1,6 +1,8 @@
-#include "data_structures/hashmap.h"
-
 #include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "data_structures/hashmap.h"
 
 int hash(char* key) {
     const int p = 31;
