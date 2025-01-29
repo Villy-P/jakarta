@@ -2,7 +2,7 @@
 
 #include "error.h"
 #include "cmd.h"
-#include "types.h"
+#include "types/types.h"
 #include "free.h"
 #include "debug.h"
 

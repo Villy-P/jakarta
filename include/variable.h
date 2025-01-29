@@ -1,7 +1,7 @@
 #ifndef __JAKARTA_VARIABLE_H__
 #define __JAKARTA_VARIABLE_H__
 
-#include "types.h"
+#include "types/types.h"
 
 typedef struct VariableDef {
     Type* type;

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "free.h"
-#include "types.h"
+#include "types/types.h"
 
 void free_tokenizer(Tokenizer* tokenizer) {
     for (unsigned short i = 0; i < tokenizer->current_token_length; i++)

@@ -4,7 +4,7 @@
 
 #include "data_structures/tokenizer.h"
 #include "free.h"
-#include "types.h"
+#include "types/types.h"
 #include "error.h"
 #include "debug.h"
 

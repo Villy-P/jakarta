@@ -3,7 +3,7 @@
 
 #include "data_structures/tokenizer.h"
 #include "token.h"
-#include "types.h"
+#include "types/types.h"
 
 void free_tokenizer(Tokenizer* tokenizer);
 void free_token(Token* token);

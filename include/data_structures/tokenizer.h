@@ -5,7 +5,7 @@
 
 #include "token.h"
 #include "variable.h"
-#include "types.h"
+#include "types/types.h"
 #include "hashmap.h"
 
 typedef struct TokenizerDef {
