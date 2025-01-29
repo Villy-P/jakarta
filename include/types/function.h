@@ -1,6 +1,8 @@
 #ifndef __JAKARTA_FUNCTION_H__
 #define __JAKARTA_FUNCTION_H__
 
+#include "data_structures/ast.h"
+
 typedef struct ParameterDef {
     char* name;
     char* type;

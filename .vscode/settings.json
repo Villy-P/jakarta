@@ -22,6 +22,7 @@
         "types/types.h": "c",
         "function.h": "c",
         "types.h": "c",
-        "token.h": "c"
+        "token.h": "c",
+        "parser.h": "c"
     }
 }

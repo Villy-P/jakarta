@@ -1,5 +1,7 @@
 #include <stdlib.h>
+#include <string.h>
 
+#include "data_structures/ast.h"
 #include "types/function.h"
 #include "types/types.h"
 #include "parser.h"
@@ -56,11 +58,15 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         func_name->content, 
         func_type->content);
     
-    function_definition->parameters = malloc(sizeof(Parameter*) * parameter_count);
-    memcpy(function_definition->parameters, parameters, sizeof(Parameter*) * parameter_count);
+    if (parameter_count > 0) {
+        function_definition->parameters = malloc(sizeof(Parameter*) * parameter_count);
+        memcpy_s(function_definition->parameters, sizeof(Parameter*) * parameter_count, parameters, sizeof(Parameter*) * parameter_count);
+    } else {
+        function_definition->parameters = NULL;
+    }
 
     function_definition->body = malloc(sizeof(ASTNode));
-    memcpy(function_definition->body, func_node, sizeof(ASTNode));
+    memcpy_s(function_definition->body, sizeof(ASTNode), func_node, sizeof(ASTNode));
 
     function_definition->parameter_count = parameter_count;
 
