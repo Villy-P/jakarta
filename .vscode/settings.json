@@ -20,6 +20,8 @@
         "tokenizer.h": "c",
         "free.h": "c",
         "types/types.h": "c",
-        "function.h": "c"
+        "function.h": "c",
+        "types.h": "c",
+        "token.h": "c"
     }
 }
