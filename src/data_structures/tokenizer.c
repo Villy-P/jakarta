@@ -4,7 +4,7 @@
 
 #include "data_structures/tokenizer.h"
 #include "free.h"
-#include "types.h"
+#include "types/types.h"
 #include "error.h"
 #include "debug.h"
 
@@ -22,6 +22,7 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     tokenizer->max_variable_length = INITIAL_VARIABLE_SIZE;
     tokenizer->current_variable_length = 0;
 
+    tokenizer->function_symbol_tree = create_hashmap();
     tokenizer->type_symbol_tree = create_hashmap();
 
     create_base_types(tokenizer);
@@ -48,6 +49,12 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
         jakarta_error_duplicate_identifier(type_alias->name);
     insert(tokenizer->type_symbol_tree, type_alias->name, type_alias->refers_to);
     debug_message("Added type alias", TOP_LEVEL);
+}
+
+void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
+    if (get(tokenizer->function_symbol_tree, function_definition->name) != NULL)
+        jakarta_error_duplicate_identifier(function_definition->name);
+    insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
 }
 
 void add_variable(Tokenizer* tokenizer, Variable* variable) {
