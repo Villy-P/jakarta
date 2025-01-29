@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "data_structures/stack.h"
 
@@ -17,7 +18,7 @@ int push_to_stack(Stack* s, void* data) {
         expand_stack(s);
     s->top++;
     void* target = (char*)s->data + (s->top * s->member_size);
-    memcpy(target, data, s->member_size);
+    memcpy_s(target, s->member_size, data, s->member_size);
     return 0;
 }
 
@@ -32,7 +33,7 @@ int pop_from_stack(Stack* s, void* target) {
         return 1;
     void* source = (char*)s->data + (s->top * s->member_size);
     s->top--;
-    memcpy(target, source, s->member_size);
+    memcpy_s(target, s->member_size, source, s->member_size);
     return 0;
 }
 
@@ -43,9 +44,9 @@ void reverse_stack(Stack* s) {
     while (start < end) {
         void* startPtr = (char*)s->data + (start * s->member_size);
         void* endPtr = (char*)s->data + (end * s->member_size);
-        memcpy(temp, startPtr, s->member_size);
-        memcpy(startPtr, endPtr, s->member_size);
-        memcpy(endPtr, temp, s->member_size);
+        memcpy_s(temp, s->member_size, startPtr, s->member_size);
+        memcpy_s(startPtr, s->member_size, endPtr, s->member_size);
+        memcpy_s(endPtr, s->member_size, temp, s->member_size);
         start++;
         end--;
     }
