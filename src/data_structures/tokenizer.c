@@ -51,6 +51,12 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
     debug_message("Added type alias", TOP_LEVEL);
 }
 
+void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
+    if (get(tokenizer->function_symbol_tree, function_definition->name) != NULL)
+        jakarta_error_duplicate_identifier(function_definition->name);
+    insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
+}
+
 void add_variable(Tokenizer* tokenizer, Variable* variable) {
     if (tokenizer->current_variable_length >= tokenizer->max_variable_length) {
         tokenizer->max_variable_length *= 2;

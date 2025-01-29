@@ -70,13 +70,12 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     function_definition->parameter_count = parameter_count;
 
+    add_function(tokenizer, function_definition);
+
     free_token(func_keyword);
     free_token(open_parenthesis);
     free_token(close_parenthesis);
     free_token(open_brace);
     free_token(close_bracket);
-    debug_message("Added Function", TOP_LEVEL);
-
-    free(parameters);
     debug_message("Added Function", TOP_LEVEL);
 }
