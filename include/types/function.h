@@ -12,6 +12,7 @@ typedef struct FunctionDefinitionDef {
     Parameter** parameters;
     unsigned short parameter_count;
     unsigned short current_parameter;
+    ASTNode* body;
 } FunctionDefinition;
 
 FunctionDefinition* create_function_definition(const char* name, const char* return_type);

@@ -17,7 +17,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* open_parenthesis = peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
 
     ASTNode* func_node = create_ast_node(AST_IDENTIFIER_FUNCTION_DEFINITION, func_name);
-    ASTNode* func_body_node = create_ast_node(AST_IDENTIFIER_FUNCTION_BODY, NULL);
 
     Parameter** parameters = NULL;
     int parameter_count = 0;
@@ -47,11 +46,10 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         jakarta_error_undefined_identifier(func_type);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
-        parse(tokenizer, func_body_node);
+        parse(tokenizer, func_node);
 
     Token* close_bracket = consume(tokenizer);
 
-    add_ast_node(func_node, func_body_node);
     add_ast_node(ast_node, func_node);
 
     FunctionDefinition* function_definition = create_function_definition(
@@ -60,6 +58,10 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     
     function_definition->parameters = malloc(sizeof(Parameter*) * parameter_count);
     memcpy(function_definition->parameters, parameters, sizeof(Parameter*) * parameter_count);
+
+    function_definition->body = malloc(sizeof(ASTNode));
+    memcpy(function_definition->body, func_node, sizeof(ASTNode));
+
     function_definition->parameter_count = parameter_count;
 
     free_token(func_keyword);
