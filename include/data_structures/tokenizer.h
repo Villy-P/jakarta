@@ -17,6 +17,7 @@ typedef struct TokenizerDef {
     unsigned int max_variable_length;
     unsigned int current_variable_length;
 
+    HashMap* function_symbol_tree;
     HashMap* type_symbol_tree;
 } Tokenizer;
 

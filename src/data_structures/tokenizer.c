@@ -22,6 +22,7 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     tokenizer->max_variable_length = INITIAL_VARIABLE_SIZE;
     tokenizer->current_variable_length = 0;
 
+    tokenizer->function_symbol_tree = create_hashmap();
     tokenizer->type_symbol_tree = create_hashmap();
 
     create_base_types(tokenizer);
