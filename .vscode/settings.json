@@ -19,6 +19,7 @@
         "stack.h": "c",
         "tokenizer.h": "c",
         "free.h": "c",
-        "types/types.h": "c"
+        "types/types.h": "c",
+        "function.h": "c"
     }
 }
