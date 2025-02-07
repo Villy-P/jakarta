@@ -20,8 +20,11 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     ASTNode* func_node = create_ast_node(AST_IDENTIFIER_FUNCTION_DEFINITION, func_name);
 
-    Parameter** parameters = NULL;
-    int parameter_count = 0;
+    FunctionDefinition* function_definition = create_function_definition(
+        func_name->content, 
+        func_type->content);
+
+    add_function(tokenizer, function_definition);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
         Token* arg_type = peek_consume(tokenizer, SYMBOL_STRING);
@@ -36,9 +39,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
             free_token(comma);
 
         Parameter* parameter = create_parameter(arg_name->content, arg_type->content);
-        parameters = realloc(parameters, sizeof(Parameter*) * (parameter_count + 1));
-        parameters[parameter_count] = parameter;
-        parameter_count++;
+        add_parameter(function_definition, parameter);
     }
 
     Token* close_parenthesis = consume(tokenizer);
@@ -54,23 +55,10 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     add_ast_node(ast_node, func_node);
 
-    FunctionDefinition* function_definition = create_function_definition(
-        func_name->content, 
-        func_type->content);
-    
-    if (parameter_count > 0) {
-        function_definition->parameters = malloc(sizeof(Parameter*) * parameter_count);
-        memcpy_s(function_definition->parameters, sizeof(Parameter*) * parameter_count, parameters, sizeof(Parameter*) * parameter_count);
-    } else {
-        function_definition->parameters = NULL;
-    }
-
     function_definition->body = malloc(sizeof(ASTNode));
     memcpy_s(function_definition->body, sizeof(ASTNode), func_node, sizeof(ASTNode));
 
-    function_definition->parameter_count = parameter_count;
-
-    add_function(tokenizer, function_definition);
+    insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
 
     free_token(func_keyword);
     free_token(open_parenthesis);
@@ -78,4 +66,19 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(open_brace);
     free_token(close_bracket);
     debug_message("Added Function", TOP_LEVEL);
+}
+
+void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
+    Token* open_parenthesis = consume(tokenizer);
+    for (int i = 0; i < function->current_parameter; i++) {
+        Token* arg = consume(tokenizer);
+        ASTNode* arg_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, arg);
+        add_ast_node(ast_node, arg_node);
+        if (i < function->parameter_count - 1)
+            consume(tokenizer); // comma
+    }
+    Token* close_parenthesis = consume(tokenizer);
+    free_token(open_parenthesis);
+    free_token(close_parenthesis);
+    debug_message("Parsed Function Call", TOP_LEVEL);
 }

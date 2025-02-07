@@ -19,5 +19,6 @@ typedef struct FunctionDefinitionDef {
 
 FunctionDefinition* create_function_definition(const char* name, const char* return_type);
 Parameter* create_parameter(const char* name, const char* type);
+void add_parameter(FunctionDefinition* function_definition, Parameter* parameter);
 
 #endif
