@@ -1,5 +1,8 @@
+#include <stdlib.h>
+
 #include "parser.h"
-#include "stack.h"
+#include "postfix.h"
+#include "data_structures/stack.h"
 
 void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* ret = consume(tokenizer);
@@ -7,8 +10,7 @@ void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node) {
     Stack* postfix = infix_to_postfix(tokenizer);
     ASTNode* expression = postfix_to_ast(postfix);
 
-    add_ast_node(ast_node, expression);
-
-    ASTNode* ret_node = create_ast_node(AST_IDENTIFIER_RETURN, ret);
+    ASTNode* ret_node = create_ast_node(AST_IDENTIFIER_RETURN, NULL);
+    add_ast_node(ret_node, expression);
     add_ast_node(ast_node, ret_node);
 }

@@ -9,7 +9,9 @@ Stack* create_stack(int member_size, int total_elements) {
     s->top = -1;
     s->member_size = member_size;
     s->total_elements = total_elements;
-    s->data = malloc(total_elements * member_size);
+    s->data = calloc(total_elements, member_size);
+    if (s->data == NULL)
+        printf("Failed to allocate memory for stack\n");
     return s;
 }
 
@@ -24,6 +26,8 @@ int push_to_stack(Stack* s, void* data) {
 
 int expand_stack(Stack* s) {
     s->data = realloc(s->data, s->total_elements * 2 * s->member_size);
+    if (s->data == NULL)
+        printf("Failed to expand stack\n");
     s->total_elements *= 2;
     return 0;
 }
@@ -38,6 +42,8 @@ int pop_from_stack(Stack* s, void* target) {
 }
 
 void reverse_stack(Stack* s) {
+    if (s->top <= 0)
+        return;
     void* temp = malloc(s->member_size);
     int start = 0;
     int end = s->top;
