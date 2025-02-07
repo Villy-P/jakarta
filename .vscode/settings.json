@@ -23,6 +23,7 @@
         "function.h": "c",
         "types.h": "c",
         "token.h": "c",
-        "parser.h": "c"
+        "parser.h": "c",
+        "postfix.h": "c"
     }
 }

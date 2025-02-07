@@ -4,6 +4,8 @@
 void parse(Tokenizer* tokenizer, ASTNode* ast_node) {
     if (peek(tokenizer, KEYWORD_TYPEDEF))
         parse_typedef(tokenizer, ast_node);
+    else if (peek(tokenizer, KEYWORD_RET))
+        parse_ret(tokenizer, ast_node);
     else if (peek(tokenizer, KEYWORD_FUNC))
         parse_func(tokenizer, ast_node);
     else if (peek(tokenizer, KEYWORD_IF))

@@ -86,6 +86,10 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 ASTNode* postfix_to_ast(Stack* postfix) {
     Stack* output = create_stack(sizeof(ASTNode), 10);
     ASTNode* value = malloc(sizeof(ASTNode));
+    if (postfix->top == 0) {
+        pop_from_stack(postfix, value);
+        return value;
+    }
     while (postfix->top > -1) {
         ASTNode* node = malloc(sizeof(ASTNode));
         pop_from_stack(postfix, node);
