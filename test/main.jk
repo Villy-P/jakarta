@@ -9,5 +9,10 @@ func uint factorial(uint n) {
 }
 
 func int main() {
+    uint f10 = factorial(10);
+    uint f5 = factorial(5);
+
+    printf(f10 + " " + f5);
+
     ret 0;
 }
