@@ -24,6 +24,8 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         func_name->content, 
         func_type->content);
 
+    add_function(tokenizer, function_definition);
+
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
         Token* arg_type = peek_consume(tokenizer, SYMBOL_STRING);
         Token* arg_name = peek_consume(tokenizer, SYMBOL_STRING);
@@ -56,7 +58,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     function_definition->body = malloc(sizeof(ASTNode));
     memcpy_s(function_definition->body, sizeof(ASTNode), func_node, sizeof(ASTNode));
 
-    add_function(tokenizer, function_definition);
+    insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
 
     free_token(func_keyword);
     free_token(open_parenthesis);
@@ -64,4 +66,19 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(open_brace);
     free_token(close_bracket);
     debug_message("Added Function", TOP_LEVEL);
+}
+
+void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
+    Token* open_parenthesis = consume(tokenizer);
+    for (int i = 0; i < function->current_parameter; i++) {
+        Token* arg = consume(tokenizer);
+        ASTNode* arg_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, arg);
+        add_ast_node(ast_node, arg_node);
+        if (i < function->parameter_count - 1)
+            consume(tokenizer); // comma
+    }
+    Token* close_parenthesis = consume(tokenizer);
+    free_token(open_parenthesis);
+    free_token(close_parenthesis);
+    debug_message("Parsed Function Call", TOP_LEVEL);
 }

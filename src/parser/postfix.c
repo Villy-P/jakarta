@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "postfix.h"
+#include "parser.h"
 
 unsigned int precedence(char* op) {
     if (strcmp(op, "=") == 0 || strcmp(op, "+=") == 0 || strcmp(op, "-=") == 0 || strcmp(op, "*=") == 0 || strcmp(op, "/=") == 0 || strcmp(op, "%=") == 0 || strcmp(op, "&=") == 0 || strcmp(op, "|=") == 0 || strcmp(op, "^=") == 0 || strcmp(op, "<<=") == 0 || strcmp(op, ">>=") == 0 || strcmp(op, ">>>=") == 0)
@@ -57,7 +58,14 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             if (open_parenthesis_count == 0)
                 break;
         } else if (token->symbol == SYMBOL_STRING || token->symbol == SYMBOL_NUMBER) {
-            push_to_stack(output, node);
+            FunctionDefinition* function = get(tokenizer->function_symbol_tree, token->content);
+            if (function != NULL && peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
+                ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
+                parse_func_call(tokenizer, function_node, function);
+                push_to_stack(output, function_node);
+            } else {
+                push_to_stack(output, node);
+            }
         } else if (token->symbol == SYMBOL_SEMICOLON) {
             while (operands->top > -1) {
                 ASTNode* op = malloc(sizeof(ASTNode));
