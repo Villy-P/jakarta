@@ -69,7 +69,8 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 }
 
 void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
-    Token* open_parenthesis = consume(tokenizer);
+    Token* function_name = consume(tokenizer);
+    printf("Parameter Count: %d\n", function->current_parameter);
     for (int i = 0; i < function->current_parameter; i++) {
         Token* arg = consume(tokenizer);
         ASTNode* arg_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, arg);
@@ -77,8 +78,7 @@ void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition
         if (i < function->parameter_count - 1)
             consume(tokenizer); // comma
     }
-    Token* close_parenthesis = consume(tokenizer);
-    free_token(open_parenthesis);
-    free_token(close_parenthesis);
+    printf("Next Token: %s\n", tokenizer->tokens[0]->content);
+    free_token(function_name);
     debug_message("Parsed Function Call", TOP_LEVEL);
 }
