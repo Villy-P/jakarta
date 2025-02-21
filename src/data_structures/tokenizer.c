@@ -46,16 +46,6 @@ void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition)
     insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
 }
 
-void add_variable(Tokenizer* tokenizer, Variable* variable) {
-    if (tokenizer->current_variable_length >= tokenizer->max_variable_length) {
-        tokenizer->max_variable_length *= 2;
-        tokenizer->variables = realloc(tokenizer->variables, tokenizer->max_variable_length * sizeof(Variable*));
-    }
-    tokenizer->variables[tokenizer->current_variable_length] = variable;
-    tokenizer->current_variable_length++;
-    debug_message("Added variable", TOP_LEVEL);
-}
-
 void print_tokens(Tokenizer* tokenizer) {
     for (unsigned int i = 0; i < tokenizer->tokens->length; i++) {
         Token* token = NULL;
