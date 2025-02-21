@@ -8,15 +8,9 @@
 #include "types/function.h"
 #include "types/types.h"
 #include "token.h"
-#include "variable.h"
 
 typedef struct TokenizerDef {
     Array* tokens;
-
-    Variable** variables;
-    unsigned int max_variable_length;
-    unsigned int current_variable_length;
-
     HashMap* function_symbol_tree;
     HashMap* type_symbol_tree;
 } Tokenizer;

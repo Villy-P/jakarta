@@ -10,16 +10,10 @@
 
 #define INITIAL_TYPE_SIZE 64
 #define INITIAL_TYPE_ALIAS_SIZE 2
-#define INITIAL_VARIABLE_SIZE 128
 
 Tokenizer* create_tokenizer(unsigned int initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
     tokenizer->tokens = create_array(initial_size);
-
-    tokenizer->variables = malloc(sizeof(Variable*) * INITIAL_VARIABLE_SIZE);
-    tokenizer->max_variable_length = INITIAL_VARIABLE_SIZE;
-    tokenizer->current_variable_length = 0;
-
     tokenizer->function_symbol_tree = create_hashmap();
     tokenizer->type_symbol_tree = create_hashmap();
 
@@ -41,6 +35,7 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
 }
 
 void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
+    printf("Created function symbol tree: %s\n", tokenizer->function_symbol_tree->array[0]);
     if (get(tokenizer->function_symbol_tree, function_definition->name) != NULL)
         jakarta_error_duplicate_identifier(function_definition->name);
     insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
