@@ -78,7 +78,6 @@ void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition
         if (i < function->parameter_count - 1)
             consume(tokenizer); // comma
     }
-    printf("Next Token: %s\n", tokenizer->tokens[0]->content);
     free_token(function_name);
     debug_message("Parsed Function Call", TOP_LEVEL);
 }

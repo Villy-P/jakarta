@@ -27,7 +27,7 @@ void jakarta_cmd_read_file(const char* file_location) {
         read_line(buffer, line_number++, tokenizer);
     print_tokens(tokenizer);
     debug_message("Begun Parsing", TOP_LEVEL);
-    while (tokenizer->current_token_length > 0)
+    while (tokenizer->tokens->length > 0)
         parse(tokenizer, ast->root);
     debug_message("Finished Parsing", TOP_LEVEL);
     print_ast_node(ast->root, 0);

@@ -3,16 +3,15 @@
 
 #include <stdbool.h>
 
+#include "data_structures/hashmap.h"
+#include "data_structures/array.h"
 #include "types/function.h"
 #include "types/types.h"
 #include "token.h"
 #include "variable.h"
-#include "hashmap.h"
 
 typedef struct TokenizerDef {
-    Token** tokens;
-    unsigned int max_token_length;
-    unsigned int current_token_length;
+    Array* tokens;
 
     Variable** variables;
     unsigned int max_variable_length;
@@ -23,7 +22,6 @@ typedef struct TokenizerDef {
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
-void add_token(Tokenizer* tokenizer, Token* token);
 void add_type(Tokenizer* tokenizer, Type* type);
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
 void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition);

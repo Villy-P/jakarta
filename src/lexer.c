@@ -20,7 +20,7 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
             Symbol symbol = get_keyword_from_str(str);
             Token* token = create_token(symbol, line_number, col, str);
             col += strlen(str);
-            add_token(tokenizer, token);
+            add_to_array(tokenizer->tokens, token);
         } else {
             char token = line[0];
             if (token == ' ' || token == '\n') {
@@ -33,7 +33,7 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
             token_ptr[1] = '\0';
             Symbol token_symbol = get_symbol_from_char(token);
             Token* token_obj = create_token(token_symbol, line_number, col, token_ptr);
-            add_token(tokenizer, token_obj);
+            add_to_array(tokenizer->tokens, token_obj);
             line++;
             col++;
             free(token_ptr);

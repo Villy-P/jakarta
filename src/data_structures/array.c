@@ -22,7 +22,7 @@ void get_from_array(Array* array, unsigned int index, void* target) {
         printf("Index out of bounds\n");
         return;
     }
-    memcpy_s(target, sizeof(void*), &array->data[index], sizeof(void*));
+    memcpy(target, &array->data[index], sizeof(void*));
 }
 
 void remove_from_array(Array* array, unsigned int index) {

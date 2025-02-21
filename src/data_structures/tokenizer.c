@@ -14,9 +14,7 @@
 
 Tokenizer* create_tokenizer(unsigned int initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
-    tokenizer->tokens = malloc(sizeof(Token*) * initial_size);
-    tokenizer->max_token_length = initial_size;
-    tokenizer->current_token_length = 0;
+    tokenizer->tokens = create_array(initial_size);
 
     tokenizer->variables = malloc(sizeof(Variable*) * INITIAL_VARIABLE_SIZE);
     tokenizer->max_variable_length = INITIAL_VARIABLE_SIZE;
@@ -27,15 +25,6 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
 
     create_base_types(tokenizer);
     return tokenizer;
-}
-
-void add_token(Tokenizer* tokenizer, Token* token) {
-    if (tokenizer->current_token_length >= tokenizer->max_token_length) {
-        tokenizer->max_token_length *= 2;
-        tokenizer->tokens = realloc(tokenizer->tokens, tokenizer->max_token_length * sizeof(Token*));
-    }
-    tokenizer->tokens[tokenizer->current_token_length] = token;
-    tokenizer->current_token_length++;
 }
 
 void add_type(Tokenizer* tokenizer, Type* type) {
@@ -68,8 +57,9 @@ void add_variable(Tokenizer* tokenizer, Variable* variable) {
 }
 
 void print_tokens(Tokenizer* tokenizer) {
-    for (unsigned int i = 0; i < tokenizer->current_token_length; i++) {
-        Token* token = tokenizer->tokens[i];
+    for (unsigned int i = 0; i < tokenizer->tokens->length; i++) {
+        Token* token = NULL;
+        get_from_array(tokenizer->tokens, i, &token);
         printf(
             "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
             token->content, 
@@ -80,21 +70,24 @@ void print_tokens(Tokenizer* tokenizer) {
 }
 
 Token* consume(Tokenizer* tokenizer) {
-    Token* content = tokenizer->tokens[0];
-    tokenizer->tokens += 1;
-    tokenizer->current_token_length -= 1;
+    Token* content = NULL;
+    get_from_array(tokenizer->tokens, 0, &content);
+    remove_from_array(tokenizer->tokens, 0);
     return content;
 }
 
 bool peek(Tokenizer* tokenizer, Symbol symbol) {
-    Token* token = tokenizer->tokens[0];
+    Token* token = NULL;
+    get_from_array(tokenizer->tokens, 0, &token);
     return token->symbol == symbol;
 }
 
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     if (!peek(tokenizer, symbol)) {
         char* expected = get_string_from_symbol(symbol);
-        char* got = tokenizer->tokens[0]->content;
+        Token* token = NULL;
+        get_from_array(tokenizer->tokens, 0, &token);
+        char* got = token->content;
         jakarta_error_invalid_token(expected, got);
     }
     return consume(tokenizer);
