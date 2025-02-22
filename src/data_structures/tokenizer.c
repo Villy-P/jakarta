@@ -43,8 +43,7 @@ void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition)
 
 void print_tokens(Tokenizer* tokenizer) {
     for (unsigned int i = 0; i < tokenizer->tokens->length; i++) {
-        Token* token = NULL;
-        get_from_array(tokenizer->tokens, i, &token);
+        Token* token = get_from_array(tokenizer->tokens, i);
         printf(
             "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
             token->content, 
@@ -55,23 +54,20 @@ void print_tokens(Tokenizer* tokenizer) {
 }
 
 Token* consume(Tokenizer* tokenizer) {
-    Token* content = NULL;
-    get_from_array(tokenizer->tokens, 0, &content);
+    Token* content = get_from_array(tokenizer->tokens, 0);
     remove_from_array(tokenizer->tokens, 0);
     return content;
 }
 
 bool peek(Tokenizer* tokenizer, Symbol symbol) {
-    Token* token = NULL;
-    get_from_array(tokenizer->tokens, 0, &token);
+    Token* token = get_from_array(tokenizer->tokens, 0);
     return token->symbol == symbol;
 }
 
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     if (!peek(tokenizer, symbol)) {
         char* expected = get_string_from_symbol(symbol);
-        Token* token = NULL;
-        get_from_array(tokenizer->tokens, 0, &token);
+        Token* token = get_from_array(tokenizer->tokens, 0);
         char* got = token->content;
         jakarta_error_invalid_token(expected, got);
     }

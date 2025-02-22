@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "data_structures/array.h"
 
 Array* create_array(unsigned int initial_size) {
@@ -17,12 +20,16 @@ void add_to_array(Array* array, void* data) {
     array->length++;
 }
 
-void get_from_array(Array* array, unsigned int index, void* target) {
-    if (index >= array->length) {
-        printf("Index out of bounds\n");
-        return;
+void* get_from_array(Array* array, unsigned int index) {
+    if (!array) {
+        fprintf(stderr, "Error: Null array pointer\n");
+        return NULL;
     }
-    memcpy(target, &array->data[index], sizeof(void*));
+    if (index >= array->length) {
+        fprintf(stderr, "Index out of bounds\n");
+        return NULL;
+    }
+    return array->data[index];
 }
 
 void remove_from_array(Array* array, unsigned int index) {
