@@ -2,6 +2,7 @@
 #define __JAKARTA_AST_H__
 
 #include "token.h"
+#include "array.h"
 
 typedef enum ASTIdentifierDef {
     AST_IDENTIFIER_BASE_PROGRAM,
@@ -44,9 +45,7 @@ typedef enum ASTIdentifierDef {
 typedef struct ASTNodeDef {
     ASTIdentifier identifier;
     Token* token;
-    struct ASTNodeDef** nodes;
-    unsigned short nodes_length;
-    unsigned short nodes_capacity;
+    Array* nodes;
 } ASTNode;
 
 typedef struct ASTDef {
@@ -55,7 +54,6 @@ typedef struct ASTDef {
 
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token);
 AST* create_ast();
-void add_ast_node(ASTNode* parent, ASTNode* child);
 void print_ast_node(ASTNode* node, int depth);
 
 unsigned int precedence(char* operator);

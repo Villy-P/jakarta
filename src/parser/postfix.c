@@ -109,8 +109,8 @@ ASTNode* postfix_to_ast(Stack* postfix) {
             ASTNode* left = malloc(sizeof(ASTNode));
             pop_from_stack(output, right);
             pop_from_stack(output, left);
-            add_ast_node(node, left);
-            add_ast_node(node, right);
+            add_to_array(node->nodes, left);
+            add_to_array(node->nodes, right);
             push_to_stack(output, node);
         }
     }

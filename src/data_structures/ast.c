@@ -11,14 +11,7 @@ ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     }
     node->identifier = identifier;
     node->token = token;
-    node->nodes_length = 0;
-    node->nodes_capacity = 2;
-    node->nodes = (ASTNode**)malloc(node->nodes_capacity * sizeof(ASTNode*));
-    if (node->nodes == NULL) {
-        fprintf(stderr, "Failed to allocate memory for ASTNode children\n");
-        free(node);
-        exit(EXIT_FAILURE);
-    }
+    node->nodes = create_array(2);
     return node;
 }
 
@@ -26,14 +19,6 @@ AST* create_ast() {
     AST* ast = (AST*)malloc(sizeof(AST));
     ast->root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, NULL);
     return ast;
-}
-
-void add_ast_node(ASTNode* parent, ASTNode* child) {
-    if (parent->nodes_length >= parent->nodes_capacity) {
-        parent->nodes_capacity *= 2;
-        parent->nodes = (ASTNode**)realloc(parent->nodes, parent->nodes_capacity * sizeof(ASTNode*));
-    }
-    parent->nodes[parent->nodes_length++] = child;
 }
 
 void print_ast_node(ASTNode* node, int depth) {
@@ -45,6 +30,6 @@ void print_ast_node(ASTNode* node, int depth) {
     if (node->token != NULL)
         printf(" Token: %s", node->token->content);
     printf("\n");
-    for (int i = 0; i < node->nodes_length; ++i)
-        print_ast_node(node->nodes[i], depth + 1);
+    for (int i = 0; i < node->nodes->length; ++i)
+        print_ast_node(get_from_array(node->nodes, i), depth + 1);
 }

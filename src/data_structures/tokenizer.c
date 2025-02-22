@@ -35,7 +35,6 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
 }
 
 void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
-    printf("Created function symbol tree: %s\n", tokenizer->function_symbol_tree->array[0]);
     if (get(tokenizer->function_symbol_tree, function_definition->name) != NULL)
         jakarta_error_duplicate_identifier(function_definition->name);
     insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);

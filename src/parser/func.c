@@ -53,7 +53,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     Token* close_bracket = consume(tokenizer);
 
-    add_ast_node(ast_node, func_node);
+    add_to_array(ast_node->nodes, func_node);
 
     function_definition->body = malloc(sizeof(ASTNode));
     memcpy_s(function_definition->body, sizeof(ASTNode), func_node, sizeof(ASTNode));
@@ -74,7 +74,7 @@ void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition
     for (int i = 0; i < function->current_parameter; i++) {
         Token* arg = consume(tokenizer);
         ASTNode* arg_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, arg);
-        add_ast_node(ast_node, arg_node);
+        add_to_array(ast_node->nodes, arg_node);
         if (i < function->parameter_count - 1)
             consume(tokenizer); // comma
     }
