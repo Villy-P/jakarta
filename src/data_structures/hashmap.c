@@ -13,7 +13,7 @@ int hash(char* key) {
         hash_value = (hash_value + (key[i] - 'a' + 1) * p_pow) % m;
         p_pow = (p_pow * p) % m;
     }
-    return hash_value % HASHMAP_ARRAY_SIZE;
+    return abs(hash_value % HASHMAP_ARRAY_SIZE);
 }
 
 int insert(HashMap* hashmap, char* key, void* value) {

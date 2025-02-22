@@ -4,8 +4,7 @@
 #include "types/types.h"
 
 void free_tokenizer(Tokenizer* tokenizer) {
-    for (unsigned short i = 0; i < tokenizer->current_token_length; i++)
-        free_token(tokenizer->tokens[i]);
+    free_array(tokenizer->tokens);
     free(tokenizer);
 }
 

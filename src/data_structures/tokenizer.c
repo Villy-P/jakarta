@@ -10,32 +10,15 @@
 
 #define INITIAL_TYPE_SIZE 64
 #define INITIAL_TYPE_ALIAS_SIZE 2
-#define INITIAL_VARIABLE_SIZE 128
 
 Tokenizer* create_tokenizer(unsigned int initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
-    tokenizer->tokens = malloc(sizeof(Token*) * initial_size);
-    tokenizer->max_token_length = initial_size;
-    tokenizer->current_token_length = 0;
-
-    tokenizer->variables = malloc(sizeof(Variable*) * INITIAL_VARIABLE_SIZE);
-    tokenizer->max_variable_length = INITIAL_VARIABLE_SIZE;
-    tokenizer->current_variable_length = 0;
-
+    tokenizer->tokens = create_array(initial_size);
     tokenizer->function_symbol_tree = create_hashmap();
     tokenizer->type_symbol_tree = create_hashmap();
 
     create_base_types(tokenizer);
     return tokenizer;
-}
-
-void add_token(Tokenizer* tokenizer, Token* token) {
-    if (tokenizer->current_token_length >= tokenizer->max_token_length) {
-        tokenizer->max_token_length *= 2;
-        tokenizer->tokens = realloc(tokenizer->tokens, tokenizer->max_token_length * sizeof(Token*));
-    }
-    tokenizer->tokens[tokenizer->current_token_length] = token;
-    tokenizer->current_token_length++;
 }
 
 void add_type(Tokenizer* tokenizer, Type* type) {
@@ -52,24 +35,16 @@ void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
 }
 
 void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
+    printf("Created function symbol tree: %s\n", tokenizer->function_symbol_tree->array[0]);
     if (get(tokenizer->function_symbol_tree, function_definition->name) != NULL)
         jakarta_error_duplicate_identifier(function_definition->name);
     insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
 }
 
-void add_variable(Tokenizer* tokenizer, Variable* variable) {
-    if (tokenizer->current_variable_length >= tokenizer->max_variable_length) {
-        tokenizer->max_variable_length *= 2;
-        tokenizer->variables = realloc(tokenizer->variables, tokenizer->max_variable_length * sizeof(Variable*));
-    }
-    tokenizer->variables[tokenizer->current_variable_length] = variable;
-    tokenizer->current_variable_length++;
-    debug_message("Added variable", TOP_LEVEL);
-}
-
 void print_tokens(Tokenizer* tokenizer) {
-    for (unsigned int i = 0; i < tokenizer->current_token_length; i++) {
-        Token* token = tokenizer->tokens[i];
+    for (unsigned int i = 0; i < tokenizer->tokens->length; i++) {
+        Token* token = NULL;
+        get_from_array(tokenizer->tokens, i, &token);
         printf(
             "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
             token->content, 
@@ -80,21 +55,24 @@ void print_tokens(Tokenizer* tokenizer) {
 }
 
 Token* consume(Tokenizer* tokenizer) {
-    Token* content = tokenizer->tokens[0];
-    tokenizer->tokens += 1;
-    tokenizer->current_token_length -= 1;
+    Token* content = NULL;
+    get_from_array(tokenizer->tokens, 0, &content);
+    remove_from_array(tokenizer->tokens, 0);
     return content;
 }
 
 bool peek(Tokenizer* tokenizer, Symbol symbol) {
-    Token* token = tokenizer->tokens[0];
+    Token* token = NULL;
+    get_from_array(tokenizer->tokens, 0, &token);
     return token->symbol == symbol;
 }
 
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     if (!peek(tokenizer, symbol)) {
         char* expected = get_string_from_symbol(symbol);
-        char* got = tokenizer->tokens[0]->content;
+        Token* token = NULL;
+        get_from_array(tokenizer->tokens, 0, &token);
+        char* got = token->content;
         jakarta_error_invalid_token(expected, got);
     }
     return consume(tokenizer);
