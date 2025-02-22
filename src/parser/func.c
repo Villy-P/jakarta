@@ -39,7 +39,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
             free_token(comma);
 
         Parameter* parameter = create_parameter(arg_name->content, arg_type->content);
-        add_parameter(function_definition, parameter);
+        add_to_array(function_definition->parameters, parameter);
     }
 
     Token* close_parenthesis = consume(tokenizer);
@@ -53,7 +53,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     Token* close_bracket = consume(tokenizer);
 
-    add_ast_node(ast_node, func_node);
+    add_to_array(ast_node->nodes, func_node);
 
     function_definition->body = malloc(sizeof(ASTNode));
     memcpy_s(function_definition->body, sizeof(ASTNode), func_node, sizeof(ASTNode));
@@ -70,12 +70,11 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
 void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
     Token* function_name = consume(tokenizer);
-    printf("Parameter Count: %d\n", function->current_parameter);
-    for (int i = 0; i < function->current_parameter; i++) {
+    for (unsigned int i = 0; i < function->parameters->length; i++) {
         Token* arg = consume(tokenizer);
         ASTNode* arg_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, arg);
-        add_ast_node(ast_node, arg_node);
-        if (i < function->parameter_count - 1)
+        add_to_array(ast_node->nodes, arg_node);
+        if (i < function->parameters->length - 1)
             consume(tokenizer); // comma
     }
     free_token(function_name);

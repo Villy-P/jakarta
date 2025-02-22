@@ -25,6 +25,7 @@
         "token.h": "c",
         "parser.h": "c",
         "postfix.h": "c",
-        "hashmap.h": "c"
+        "hashmap.h": "c",
+        "array.h": "c"
     }
 }

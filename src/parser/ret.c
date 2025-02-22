@@ -12,8 +12,8 @@ void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* expression = postfix_to_ast(postfix);
 
     ASTNode* ret_node = create_ast_node(AST_IDENTIFIER_RETURN, NULL);
-    add_ast_node(ret_node, expression);
-    add_ast_node(ast_node, ret_node);
+    add_to_array(ret_node->nodes, expression);
+    add_to_array(ast_node->nodes, ret_node);
 
     free_token(ret);
 }
