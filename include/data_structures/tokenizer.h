@@ -5,6 +5,8 @@
 
 #include "data_structures/hashmap.h"
 #include "data_structures/array.h"
+#include "data_structures/stack.h"
+#include "types/variable.h"
 #include "types/function.h"
 #include "types/types.h"
 #include "token.h"
@@ -13,6 +15,7 @@ typedef struct TokenizerDef {
     Array* tokens;
     HashMap* function_symbol_tree;
     HashMap* type_symbol_tree;
+    Stack* variable_symbol_stack;
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
@@ -26,5 +29,8 @@ bool peek(Tokenizer* tokenizer, Symbol symbol);
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 
 void create_base_types(Tokenizer* tokenizer);
+
+void add_scope(Tokenizer* tokenizer);
+void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable);
 
 #endif

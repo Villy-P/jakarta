@@ -5,6 +5,11 @@
 
 #include "data_structures/stack.h"
 
+#define STACK_OK 0
+#define STACK_ERR_ALLOC 1
+#define STACK_ERR_EMPTY 2
+#define STACK_ERR_NULL 3
+
 Stack* create_stack(int member_size, int total_elements) {
     Stack *s = malloc(sizeof(Stack));
     s->top = -1;
@@ -16,30 +21,49 @@ Stack* create_stack(int member_size, int total_elements) {
     return s;
 }
 
-int push_to_stack(Stack* s, void* data) {
-    if (s->top == s->total_elements - 1)
-        expand_stack(s);
-    s->top++;
-    void* target = (char*)s->data + (s->top * s->member_size);
-    memcpy_s(target, s->member_size, data, s->member_size);
-    return 0;
+int expand_stack(Stack* s) {
+    if (!s) return STACK_ERR_NULL;
+
+    int new_capacity = s->total_elements * 2;
+    void* new_data = realloc(s->data, new_capacity * s->member_size);
+    if (!new_data) {
+        printf("Failed to expand stack\n");
+        return STACK_ERR_ALLOC;
+    }
+
+    s->data = new_data;
+    s->total_elements = new_capacity;
+    return STACK_OK;
 }
 
-int expand_stack(Stack* s) {
-    s->data = realloc(s->data, s->total_elements * 2 * s->member_size);
-    if (s->data == NULL)
-        printf("Failed to expand stack\n");
-    s->total_elements *= 2;
-    return 0;
+int push_to_stack(Stack* s, void* data) {
+    if (!s || !data) return STACK_ERR_NULL;
+
+    if (s->top == s->total_elements - 1) {
+        int result = expand_stack(s);
+        if (result != STACK_OK) return result;
+    }
+
+    s->top++;
+    void* target = (char*)s->data + s->top * s->member_size;
+
+    errno_t err = memcpy_s(target, s->member_size, data, s->member_size);
+    if (err != 0) return err;
+
+    return STACK_OK;
 }
 
 int pop_from_stack(Stack* s, void* target) {
-    if (s->top == -1)
-        return 1;
-    void* source = (char*)s->data + (s->top * s->member_size);
+    if (!s || !target) return STACK_ERR_NULL;
+    if (s->top == -1) return STACK_ERR_EMPTY;
+
+    void* source = (char*)s->data + s->top * s->member_size;
     s->top--;
-    memcpy_s(target, s->member_size, source, s->member_size);
-    return 0;
+
+    errno_t err = memcpy_s(target, s->member_size, source, s->member_size);
+    if (err != 0) return err;
+
+    return STACK_OK;
 }
 
 void reverse_stack(Stack* s) {

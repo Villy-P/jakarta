@@ -16,6 +16,7 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     tokenizer->tokens = create_array(initial_size);
     tokenizer->function_symbol_tree = create_hashmap();
     tokenizer->type_symbol_tree = create_hashmap();
+    tokenizer->variable_symbol_stack = create_stack(sizeof(HashMap), 16);
 
     create_base_types(tokenizer);
     return tokenizer;
@@ -71,4 +72,21 @@ Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
         jakarta_error_invalid_token(expected, got);
     }
     return consume(tokenizer);
+}
+
+void add_scope(Tokenizer* tokenizer) {
+    HashMap* new_scope = create_hashmap();
+    push_to_stack(tokenizer->variable_symbol_stack, new_scope);
+}
+
+void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable) {
+    if (tokenizer->variable_symbol_stack->top == -1)
+        jakarta_error_invalid_token("No scope available for variable", variable->name);
+    HashMap* current_scope = malloc(sizeof(HashMap));
+    int d = pop_from_stack(tokenizer->variable_symbol_stack, current_scope);
+    printf("Current scope size: %d\n", d);
+    printf("Adding variable %s to scope\n", variable->name);
+    if (get(current_scope, variable->name) != NULL)
+        jakarta_error_duplicate_identifier(variable->name);
+    push_to_stack(tokenizer->variable_symbol_stack, current_scope);
 }

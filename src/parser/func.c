@@ -10,6 +10,8 @@
 #include "debug.h"
 
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
+    add_scope(tokenizer);
+
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM)
         jakarta_error_invalid_typedef_location(consume(tokenizer));
 
@@ -40,6 +42,9 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
         Parameter* parameter = create_parameter(arg_name->content, arg_type->content);
         add_to_array(function_definition->parameters, parameter);
+
+        Variable* variable = create_variable(arg_name->content, argtype);
+        add_variable_to_scope(tokenizer, variable);
     }
 
     Token* close_parenthesis = consume(tokenizer);
