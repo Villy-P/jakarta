@@ -78,3 +78,13 @@ void add_scope(Tokenizer* tokenizer) {
     HashMap* new_scope = create_hashmap();
     push_to_stack(tokenizer->variable_symbol_stack, new_scope);
 }
+
+void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable) {
+    if (tokenizer->variable_symbol_stack->top == -1)
+        jakarta_error_invalid_token("No scope available for variable", variable->name);
+    HashMap* current_scope = NULL;
+    pop_from_stack(tokenizer->variable_symbol_stack, &current_scope);
+    if (get(current_scope, variable->name) != NULL)
+        jakarta_error_duplicate_identifier(variable->name);
+    push_to_stack(tokenizer->variable_symbol_stack, current_scope);
+}

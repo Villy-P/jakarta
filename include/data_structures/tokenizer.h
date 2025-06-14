@@ -6,6 +6,7 @@
 #include "data_structures/hashmap.h"
 #include "data_structures/array.h"
 #include "data_structures/stack.h"
+#include "types/variable.h"
 #include "types/function.h"
 #include "types/types.h"
 #include "token.h"
@@ -30,5 +31,6 @@ Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 void create_base_types(Tokenizer* tokenizer);
 
 void add_scope(Tokenizer* tokenizer);
+void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable);
 
 #endif
