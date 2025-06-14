@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "types/variable.h"
 
 Variable* create_variable(const char* name, Type* type) {
