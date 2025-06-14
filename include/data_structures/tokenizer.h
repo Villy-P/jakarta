@@ -29,4 +29,6 @@ Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 
 void create_base_types(Tokenizer* tokenizer);
 
+void add_scope(Tokenizer* tokenizer);
+
 #endif

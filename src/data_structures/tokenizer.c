@@ -73,3 +73,8 @@ Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     }
     return consume(tokenizer);
 }
+
+void add_scope(Tokenizer* tokenizer) {
+    HashMap* new_scope = create_hashmap();
+    push_to_stack(tokenizer->variable_symbol_stack, new_scope);
+}
