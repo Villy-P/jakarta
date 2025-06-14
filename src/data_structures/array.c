@@ -22,11 +22,11 @@ void add_to_array(Array* array, void* data) {
 
 void* get_from_array(Array* array, unsigned int index) {
     if (!array) {
-        fprintf(stderr, "Error: Null array pointer\n");
+        fprintf_s(stderr, "Error: Null array pointer\n");
         return NULL;
     }
     if (index >= array->length) {
-        fprintf(stderr, "Index out of bounds\n");
+        fprintf_s(stderr, "Index out of bounds\n");
         return NULL;
     }
     return array->data[index];
