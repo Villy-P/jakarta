@@ -26,6 +26,7 @@ void print_tokens(Tokenizer* tokenizer);
 
 Token* consume(Tokenizer* tokenizer);
 bool peek(Tokenizer* tokenizer, Symbol symbol);
+bool peek_type(Tokenizer* tokenizer);
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 
 void create_base_types(Tokenizer* tokenizer);

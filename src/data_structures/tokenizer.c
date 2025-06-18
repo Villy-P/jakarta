@@ -64,6 +64,18 @@ bool peek(Tokenizer* tokenizer, Symbol symbol) {
     return token->symbol == symbol;
 }
 
+bool peek_type(Tokenizer* tokenizer) {
+    if (tokenizer->tokens->length == 0)
+        return false;
+    Token* token = get_from_array(tokenizer->tokens, 0);
+    if (token->symbol != SYMBOL_STRING)
+        return false;
+    Type* type = (Type*)get(tokenizer->type_symbol_tree, token->content);
+    if (type == NULL)
+        return false;
+    return true;
+}
+
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     if (!peek(tokenizer, symbol)) {
         char* expected = get_string_from_symbol(symbol);
@@ -83,8 +95,7 @@ void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable) {
     if (tokenizer->variable_symbol_stack->top == -1)
         jakarta_error_invalid_token("No scope available for variable", variable->name);
     HashMap* current_scope = malloc(sizeof(HashMap));
-    int d = pop_from_stack(tokenizer->variable_symbol_stack, current_scope);
-    printf("Current scope size: %d\n", d);
+    pop_from_stack(tokenizer->variable_symbol_stack, current_scope);
     printf("Adding variable %s to scope\n", variable->name);
     if (get(current_scope, variable->name) != NULL)
         jakarta_error_duplicate_identifier(variable->name);

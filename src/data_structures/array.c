@@ -4,20 +4,38 @@
 #include "data_structures/array.h"
 
 Array* create_array(unsigned int initial_size) {
-    Array* array = (Array*)malloc(sizeof(Array));
-    array->data = (void**)malloc(initial_size * sizeof(void*));
+    if (initial_size == 0) initial_size = 4;
+    Array* array = malloc(sizeof(Array));
+    if (!array) {
+        fprintf(stderr, "Failed to allocate Array struct\n");
+        exit(EXIT_FAILURE);
+    }
+    array->data = malloc(initial_size * sizeof(void*));
+    if (!array->data) {
+        fprintf(stderr, "Failed to allocate Array data\n");
+        free(array);
+        exit(EXIT_FAILURE);
+    }
+
     array->length = 0;
     array->capacity = initial_size;
     return array;
 }
 
 void add_to_array(Array* array, void* data) {
-    if (array->length == array->capacity) {
+    if (array->capacity == 0) {
+        array->capacity = 4;
+        array->data = malloc(array->capacity * sizeof(void*));
+    } else if (array->length == array->capacity) {
+        void** temp = realloc(array->data, array->capacity * 2 * sizeof(void*));
+        if (!temp) {
+            fprintf_s(stderr, "Failed to allocate memory for array expansion\n");
+            return;
+        }
+        array->data = temp;
         array->capacity *= 2;
-        array->data = (void**)realloc(array->data, array->capacity * sizeof(void*));
     }
-    array->data[array->length] = data;
-    array->length++;
+    array->data[array->length++] = data;
 }
 
 void* get_from_array(Array* array, unsigned int index) {
