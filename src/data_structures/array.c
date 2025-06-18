@@ -12,12 +12,19 @@ Array* create_array(unsigned int initial_size) {
 }
 
 void add_to_array(Array* array, void* data) {
-    if (array->length == array->capacity) {
+    if (array->capacity == 0) {
+        array->capacity = 4;
+        array->data = malloc(array->capacity * sizeof(void*));
+    } else if (array->length == array->capacity) {
+        void** temp = realloc(array->data, array->capacity * 2 * sizeof(void*));
+        if (!temp) {
+            fprintf_s(stderr, "Failed to allocate memory for array expansion\n");
+            return;
+        }
+        array->data = temp;
         array->capacity *= 2;
-        array->data = (void**)realloc(array->data, array->capacity * sizeof(void*));
     }
-    array->data[array->length] = data;
-    array->length++;
+    array->data[array->length++] = data;
 }
 
 void* get_from_array(Array* array, unsigned int index) {
