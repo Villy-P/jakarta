@@ -28,6 +28,15 @@ void add_type(Tokenizer* tokenizer, Type* type) {
     insert(tokenizer->type_symbol_tree, type->name, type);
 }
 
+void add_variable(Tokenizer* tokenizer, Variable* variable) {
+    HashMap* current_scope = malloc(sizeof(HashMap));
+    pop_from_stack(tokenizer->variable_symbol_stack, current_scope);
+    if (get(current_scope, variable->name) != NULL)
+        jakarta_error_duplicate_identifier(variable->name);
+    insert(current_scope, variable->name, variable);
+    push_to_stack(tokenizer->variable_symbol_stack, current_scope);
+}
+
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
     if (get(tokenizer->type_symbol_tree, type_alias->name) != NULL)
         jakarta_error_duplicate_identifier(type_alias->name);
