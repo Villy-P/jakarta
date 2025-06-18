@@ -4,8 +4,19 @@
 #include "data_structures/array.h"
 
 Array* create_array(unsigned int initial_size) {
-    Array* array = (Array*)malloc(sizeof(Array));
-    array->data = (void**)malloc(initial_size * sizeof(void*));
+    if (initial_size == 0) initial_size = 4;
+    Array* array = malloc(sizeof(Array));
+    if (!array) {
+        fprintf(stderr, "Failed to allocate Array struct\n");
+        exit(EXIT_FAILURE);
+    }
+    array->data = malloc(initial_size * sizeof(void*));
+    if (!array->data) {
+        fprintf(stderr, "Failed to allocate Array data\n");
+        free(array);
+        exit(EXIT_FAILURE);
+    }
+
     array->length = 0;
     array->capacity = initial_size;
     return array;

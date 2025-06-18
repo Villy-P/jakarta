@@ -1,7 +1,11 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#include "data_structures/ast.h"
+#include "data_structures/tokenizer.h"
+#include "data_structures/array.h"
 #include "data_structures/stack.h"
+#include "types/variable.h"
 #include "parser.h"
 #include "free.h"
 #include "postfix.h"
@@ -15,8 +19,8 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     Stack* postfix = infix_to_postfix(tokenizer);
     ASTNode* expression = postfix_to_ast(postfix);
 
-    ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
     ASTNode* variable_type_node = create_ast_node(AST_IDENTIFIER_VARIABLE_TYPE, type_token);
+    ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
     ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, NULL);
 
     Variable* variable = create_variable(name_token->content, type);
@@ -27,7 +31,7 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_to_array(variable_node->nodes, variable_content_node);
     add_to_array(ast_node->nodes, variable_node);
 
-    free_token(type_token);
+    free_token(equal_token);
 
     consume(tokenizer);
 }
