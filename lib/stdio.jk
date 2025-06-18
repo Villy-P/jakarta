@@ -1,0 +1,3 @@
+func void print(string s) {
+    return;
+}
