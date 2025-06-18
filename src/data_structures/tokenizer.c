@@ -64,15 +64,16 @@ bool peek(Tokenizer* tokenizer, Symbol symbol) {
     return token->symbol == symbol;
 }
 
-bool peek_array(Tokenizer* tokenizer, char** symbols) {
+bool peek_type(Tokenizer* tokenizer) {
     if (tokenizer->tokens->length == 0)
         return false;
-
     Token* token = get_from_array(tokenizer->tokens, 0);
-    for (unsigned int i = 0; symbols[i] != NULL; i++)
-        if (strcmp(token->content, symbols[i]) == 0)
-            return true;
-    return false;
+    if (token->symbol != SYMBOL_STRING)
+        return false;
+    Type* type = (Type*)get(tokenizer->type_symbol_tree, token->content);
+    if (type == NULL)
+        return false;
+    return true;
 }
 
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
