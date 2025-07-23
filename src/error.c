@@ -7,7 +7,11 @@
 
 void jakarta_error(int error_code, Token* token, const char* additional_info) {
     printf("\033[31m]");
-    printf("There was an error while running your code: ERR_CODE_%d\n", error_code);
+    if (token != NULL)
+        printf("Error at position %d:%d: ", token->line, token->col);
+    else
+        printf("Error: ");
+    printf("ERR_CODE_%d\n", error_code);
     switch (error_code) {
         // additional_info: the argument that was missing a file
         case INVALID_FILE_LOCATION:
