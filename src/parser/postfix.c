@@ -35,6 +35,12 @@ unsigned int precedence(char* op) {
     return 0;
 }
 
+bool is_right_associative(char* op) {
+    if (strcmp(op, "^") == 0 || strcmp(op, "&&") == 0 || strcmp(op, "||") == 0)
+        return true;
+    return false;
+}
+
 ASTNode* parse_expression(Tokenizer* tokenizer, bool stop_on_comma) {
     Stack* output = create_stack(sizeof(ASTNode*), 10);
     Stack* operands = create_stack(sizeof(ASTNode*), 10);
@@ -49,7 +55,7 @@ ASTNode* parse_expression(Tokenizer* tokenizer, bool stop_on_comma) {
             ASTNode* number_node = create_ast_node(AST_IDENTIFIER_VALUE, token);
             push_to_stack(output, number_node);
         } else if (token->symbol == SYMBOL_STRING) {
-            Token* next_token = peek(tokenizer, SYMBOL_OPEN_PARENTHESIS);
+            bool next_token = peek(tokenizer, SYMBOL_OPEN_PARENTHESIS);
             if (next_token != false) {
                 FunctionDefinition* function = get(tokenizer->function_symbol_tree, token->content);
                 if (function != NULL) {
@@ -61,14 +67,8 @@ ASTNode* parse_expression(Tokenizer* tokenizer, bool stop_on_comma) {
                     return NULL;
                 }
             } else {
-                Variable* variable = get(tokenizer->variable_symbol_stack, token->content);
-                if (variable != NULL) {
-                    ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, token);
-                    push_to_stack(output, variable_node);
-                } else {
-                    jakarta_error_undefined_identifier(token);
-                    return NULL;
-                }
+                ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, token);
+                push_to_stack(output, variable_node);
             }
         } else if (token->symbol == SYMBOL_OPEN_PARENTHESIS) {
             ASTNode* open_parenthesis_node = create_ast_node(AST_IDENTIFIER_OPERATOR, token);

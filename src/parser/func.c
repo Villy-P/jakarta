@@ -73,15 +73,15 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     debug_message("Added Function", TOP_LEVEL);
 }
 
-void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
-    Token* function_name = consume(tokenizer);
-    for (unsigned int i = 0; i < function->parameters->length; i++) {
-        Token* arg = consume(tokenizer);
-        ASTNode* arg_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, arg);
-        add_to_array(ast_node->nodes, arg_node);
-        if (i < function->parameters->length - 1)
-            consume(tokenizer); // comma
-    }
-    free_token(function_name);
-    debug_message("Parsed Function Call", TOP_LEVEL);
-}
+// void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
+//     Token* function_name = consume(tokenizer);
+//     for (unsigned int i = 0; i < function->parameters->length; i++) {
+//         Token* arg = consume(tokenizer);
+//         ASTNode* arg_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, arg);
+//         add_to_array(ast_node->nodes, arg_node);
+//         if (i < function->parameters->length - 1)
+//             consume(tokenizer); // comma
+//     }
+//     free_token(function_name);
+//     debug_message("Parsed Function Call", TOP_LEVEL);
+// }

@@ -8,7 +8,7 @@
 void parse(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node);
-void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function);
+// void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function);
 void parse_if(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node);

@@ -9,5 +9,6 @@ ASTNode* parse_func_call(Tokenizer* tokenizer, ASTNode* function_node, FunctionD
 Stack* infix_to_postfix(Tokenizer* tokenizer);
 ASTNode* postfix_to_ast(Stack* postfix);
 unsigned int precedence(char* op);
+bool is_right_associative(char* op);
 
 #endif
