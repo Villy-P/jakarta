@@ -5,6 +5,7 @@
 
 #include "postfix.h"
 #include "parser.h"
+#include "error.h"
 
 unsigned int precedence(char* op) {
     if (strcmp(op, "=") == 0 || strcmp(op, "+=") == 0 || strcmp(op, "-=") == 0 || strcmp(op, "*=") == 0 || strcmp(op, "/=") == 0 || strcmp(op, "%=") == 0 || strcmp(op, "&=") == 0 || strcmp(op, "|=") == 0 || strcmp(op, "^=") == 0 || strcmp(op, "<<=") == 0 || strcmp(op, ">>=") == 0 || strcmp(op, ">>>=") == 0)
@@ -35,8 +36,8 @@ unsigned int precedence(char* op) {
 }
 
 ASTNode* parse_expression(Tokenizer* tokenizer, bool stop_on_comma) {
-    Stack* output = create_stack(sizeof(ASTNode), 10);
-    Stack* operands = create_stack(sizeof(ASTNode), 10);
+    Stack* output = create_stack(sizeof(ASTNode*), 10);
+    Stack* operands = create_stack(sizeof(ASTNode*), 10);
 
     Token* token = consume(tokenizer);
 
@@ -59,11 +60,59 @@ ASTNode* parse_expression(Tokenizer* tokenizer, bool stop_on_comma) {
                     jakarta_error_undefined_identifier(token);
                     return NULL;
                 }
+            } else {
+                Variable* variable = get(tokenizer->variable_symbol_stack, token->content);
+                if (variable != NULL) {
+                    ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, token);
+                    push_to_stack(output, variable_node);
+                } else {
+                    jakarta_error_undefined_identifier(token);
+                    return NULL;
+                }
             }
+        } else if (token->symbol == SYMBOL_OPEN_PARENTHESIS) {
+            ASTNode* open_parenthesis_node = create_ast_node(AST_IDENTIFIER_OPERATOR, token);
+            push_to_stack(operands, open_parenthesis_node);
+        } else if (token->symbol == SYMBOL_CLOSE_PARENTHESIS) {
+            while (operands->top > -1) {
+                ASTNode* op = malloc(sizeof(ASTNode));
+                pop_from_stack(operands, op);
+                if (op->token->symbol == SYMBOL_OPEN_PARENTHESIS)
+                    break;
+                push_to_stack(output, op);
+            }
+        } else if (precedence(token->content) != 0) {
+            while (operands->top > -1) {
+                ASTNode* op = malloc(sizeof(ASTNode));
+                pop_from_stack(operands, op);
+                if (precedence(op->token->content) < precedence(token->content) ||
+                    (precedence(op->token->content) == precedence(token->content) && is_right_associative(token->content))) {
+                    push_to_stack(operands, op);
+                    break;
+                }
+                push_to_stack(output, op);
+            }
+            ASTNode* operator_node = create_ast_node(AST_IDENTIFIER_OPERATOR, token);
+            push_to_stack(operands, operator_node);
         }
     }
 
-    return output;
+    while (operands->top > -1) {
+        ASTNode* op = malloc(sizeof(ASTNode));
+        ASTNode* right = malloc(sizeof(ASTNode));
+        ASTNode* left = malloc(sizeof(ASTNode));
+        pop_from_stack(operands, op);
+        pop_from_stack(output, right);
+        pop_from_stack(output, left);
+        add_to_array(op->nodes, left);
+        add_to_array(op->nodes, right);
+        push_to_stack(output, op);
+    }
+
+    ASTNode* root = malloc(sizeof(ASTNode));
+    pop_from_stack(output, root);
+
+    return root;
 }
 
 ASTNode* parse_func_call(Tokenizer* tokenizer, ASTNode* function_node, FunctionDefinition* function) {
