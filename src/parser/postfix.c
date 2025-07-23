@@ -34,6 +34,56 @@ unsigned int precedence(char* op) {
     return 0;
 }
 
+ASTNode* parse_expression(Tokenizer* tokenizer, bool stop_on_comma) {
+    Stack* output = create_stack(sizeof(ASTNode), 10);
+    Stack* operands = create_stack(sizeof(ASTNode), 10);
+
+    Token* token = consume(tokenizer);
+
+    while (token != NULL && !peek(tokenizer, SYMBOL_SEMICOLON)) {
+        if (stop_on_comma && (token->symbol == SYMBOL_COMMA || token->symbol == SYMBOL_CLOSE_PARENTHESIS))
+            break;
+        
+        if (token->symbol == SYMBOL_NUMBER) {
+            ASTNode* number_node = create_ast_node(AST_IDENTIFIER_VALUE, token);
+            push_to_stack(output, number_node);
+        } else if (token->symbol == SYMBOL_STRING) {
+            Token* next_token = peek(tokenizer, SYMBOL_OPEN_PARENTHESIS);
+            if (next_token != false) {
+                FunctionDefinition* function = get(tokenizer->function_symbol_tree, token->content);
+                if (function != NULL) {
+                    ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
+                    parse_func_call(tokenizer, function_node, function);
+                    push_to_stack(output, function_node);
+                } else {
+                    jakarta_error_undefined_identifier(token);
+                    return NULL;
+                }
+            }
+        }
+    }
+
+    return output;
+}
+
+ASTNode* parse_func_call(Tokenizer* tokenizer, ASTNode* function_node, FunctionDefinition* function) {
+    peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
+    Array* parameters = create_array(sizeof(ASTNode*));
+    while (peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS) == false) {
+        ASTNode* arg_node = parse_expression(tokenizer, true);
+        add_to_array(parameters, arg_node);
+        if (peek(tokenizer, SYMBOL_COMMA))
+            consume(tokenizer); 
+    }
+
+    ASTNode* function_call_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, function_node->token);
+    function_call_node->nodes = parameters;
+
+    peek_consume(tokenizer, SYMBOL_CLOSE_PARENTHESIS);
+    // TODO: Check if parameters match function definition
+    return function_call_node;
+}
+
 Stack* infix_to_postfix(Tokenizer* tokenizer) {
     Stack* output = create_stack(sizeof(ASTNode), 10);
     Stack* operands = create_stack(sizeof(ASTNode), 10);
