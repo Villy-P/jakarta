@@ -19,6 +19,9 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
             printf("Compiler Error: File %s does not exist.\n", additional_info);
             printf("Enter a correct file name after -f.\n");
             break;
+        case UNKNOWN_SYMBOL:
+            printf("Compiler Error: Unknown symbol encountered: %s.\n", get_string_from_symbol(token->symbol));
+            break;
         default:
             if (token != NULL)
                 printf("Error at position %d:%d: %s\n", token->line, token->col, token->content);
@@ -27,13 +30,6 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
     }
     printf("\033[0m\n");
     exit(error_code);
-}
-
-// Code 3
-void jakarta_error_unknown_symbol(const char symbol) {
-    printf("\033[31mThere was an error while running your code: ERR_CODE_3\n");
-    printf("Compiler Error: Symbol %c not recognized.\033[0m\n", symbol);
-    exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 4
