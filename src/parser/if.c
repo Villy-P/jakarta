@@ -23,15 +23,15 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
     Stack* postfix = infix_to_postfix(tokenizer);
     ASTNode* expression = postfix_to_ast(postfix);
     add_to_array(if_condition->nodes, expression);
-
+    
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
         parse(tokenizer, if_body);
     Token* close_brace = consume(tokenizer);
-
+    
     add_to_array(if_node->nodes, if_body);
     add_to_array(ast_node->nodes, if_node);
-
+    
     free_token(if_statement);
     free_token(open_parenthesis);
     free_token(open_brace);

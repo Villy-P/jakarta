@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "data_structures/ast.h"
 #include "types/function.h"
@@ -25,8 +26,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     FunctionDefinition* function_definition = create_function_definition(
         func_name->content, 
         func_type->content);
-
-    add_function(tokenizer, function_definition);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
         Token* arg_type = peek_consume(tokenizer, SYMBOL_STRING);
@@ -55,6 +54,8 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
         parse(tokenizer, func_node);
+
+    printf("Parsing return statement\n");
 
     Token* close_bracket = consume(tokenizer);
 

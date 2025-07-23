@@ -192,6 +192,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 }
 
 ASTNode* postfix_to_ast(Stack* postfix) {
+    printf("Converting postfix to AST\n");
     Stack* output = create_stack(sizeof(ASTNode), 10);
     ASTNode* value = malloc(sizeof(ASTNode));
     if (postfix->top == 0) {

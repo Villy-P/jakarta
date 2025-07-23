@@ -1,4 +1,3 @@
-import "stdio.jk"
 
 typedef Students ubyte;
 typedef Decimal double;
@@ -8,13 +7,4 @@ func uint factorial(uint n) {
         ret 0;
     }
     ret n * factorial(n);
-}
-
-func int main() {
-    uint f10 = factorial(10);
-    uint f5 = factorial(5);
-
-    printf(f10 + " " + f5);
-
-    ret 0;
 }
