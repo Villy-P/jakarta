@@ -4,10 +4,16 @@
 #include "token.h"
 
 #define INVALID_FILE_LOCATION 0
+#define INVALID_FILE_NAME 1
+#define UNKNOWN_SYMBOL 2
+#define CANNOT_CLOSE_FILE 3
+#define INVALID_TOKEN 4
+#define UNDEFINED_IDENTIFIER 5
+#define INVALID_TYPEDEF_LOCATION 6
+#define DUPLICATE_IDENTIFIER 7
 
 void jakarta_error(int error_code, Token* token, const char* additional_info);
 
-void jakarta_error_file_does_not_exist(const char* file_name);
 void jakarta_error_unknown_symbol(const char symbol);
 void jakarta_error_cannot_close_file(const char* file_name);
 

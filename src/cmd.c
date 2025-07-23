@@ -16,7 +16,7 @@ void jakarta_cmd_read_file(const char* file_location) {
     debug_message("Begun Reading Input File", TOP_LEVEL);
     FILE* file_ptr = fopen(file_location, "r");
     if (file_ptr == NULL)
-        jakarta_error_file_does_not_exist(file_location);
+        jakarta_error(INVALID_FILE_NAME, NULL, file_location);
     char buffer[STRING_BUFFER_LENGTH];
     debug_message("Created Buffer", CREATION);
     Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);

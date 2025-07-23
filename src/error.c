@@ -14,6 +14,11 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
             printf("Compiler Error: No file argument found for %s.\n", additional_info);
             printf("Enter a file name or location after %s in your compiler args.", additional_info);
             break;
+        // additional_info: the file name that was not found
+        case INVALID_FILE_NAME:
+            printf("Compiler Error: File %s does not exist.\n", additional_info);
+            printf("Enter a correct file name after -f.\n");
+            break;
         default:
             if (token != NULL)
                 printf("Error at position %d:%d: %s\n", token->line, token->col, token->content);
@@ -22,14 +27,6 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
     }
     printf("\033[0m\n");
     exit(error_code);
-}
-
-// Code 2
-void jakarta_error_file_does_not_exist(const char* file_name) {
-    printf("\033[31mThere was an error while running your code: ERR_CODE_2\n");
-    printf("Compiler Error: File %s does not exist.\n", file_name);
-    printf("Enter a correct file name after -f.\033[0m\n");
-    exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 3
