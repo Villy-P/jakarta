@@ -14,8 +14,6 @@
 
 void jakarta_error(int error_code, Token* token, const char* additional_info);
 
-void jakarta_error_cannot_close_file(const char* file_name);
-
 void jakarta_error_invalid_token(const char* expected, const char* got);
 void jakarta_error_undefined_identifier(Token* identifier);
 

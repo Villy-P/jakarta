@@ -34,7 +34,7 @@ void jakarta_cmd_read_file(const char* file_location) {
     free_tokenizer(tokenizer);
     debug_message("Destroyed Tokenizer", REMOVAL);
     if (fclose(file_ptr) != 0)
-        jakarta_error_cannot_close_file(file_location);
+        jakarta_error(CANNOT_CLOSE_FILE, NULL, file_location);
 }
 
 void jakarta_cmd_out_file(const char* file_location) {
@@ -42,5 +42,5 @@ void jakarta_cmd_out_file(const char* file_location) {
     FILE* file_ptr = fopen(file_location, "w");
     
     if (fclose(file_ptr) != 0)
-        jakarta_error_cannot_close_file(file_location);
+        jakarta_error(CANNOT_CLOSE_FILE, NULL, file_location);
 }

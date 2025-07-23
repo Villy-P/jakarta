@@ -22,6 +22,10 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
         case UNKNOWN_SYMBOL:
             printf("Compiler Error: Unknown symbol encountered: %s.\n", get_string_from_symbol(token->symbol));
             break;
+        // additional_info: the file name that could not be closed
+        case CANNOT_CLOSE_FILE:
+            printf("Compiler Error: Could not close file %s.\n", additional_info);
+            break;
         default:
             if (token != NULL)
                 printf("Error at position %d:%d: %s\n", token->line, token->col, token->content);
@@ -30,13 +34,6 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
     }
     printf("\033[0m\n");
     exit(error_code);
-}
-
-// Code 4
-void jakarta_error_cannot_close_file(const char* file_name) {
-    printf("\033[31mThere was an error while running your code: ERR_CODE_4\n");
-    printf("I/O Error: Could not close file %s.\033[0m\n", file_name);
-    exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 5
