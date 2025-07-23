@@ -19,12 +19,12 @@ int main(int argc, char *argv[]) {
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], INPUT_FILE_ARGUMENT) == STRING_EQUAL) {
             if (i == argc - 1)
-                jakarta_error_no_file_location(INPUT_FILE_ARGUMENT);
+                jakarta_error(INVALID_FILE_LOCATION, NULL, INPUT_FILE_ARGUMENT);
             debug_message("Found Input File", LOG);
             strncpy(input_file, argv[i + 1], FILE_NAME_SIZE);
         } else if (strcmp(argv[i], OUTPUT_FILE_ARGUMENT) == STRING_EQUAL) {
             if (i == argc - 1)
-                jakarta_error_no_file_location(OUTPUT_FILE_ARGUMENT);
+                jakarta_error(INVALID_FILE_LOCATION, NULL, OUTPUT_FILE_ARGUMENT);
             debug_message("Found Output File", LOG);
             strncpy(output_file, argv[i + 1], FILE_NAME_SIZE);
         }

@@ -5,12 +5,23 @@
 
 #define DEFAULT_ERROR_CODE 1
 
-// Code 1
-void jakarta_error_no_file_location(const char* prefix) {
-    printf("\033[31mThere was an error while running your code: ERR_CODE_1\n");
-    printf("Compiler Error: No file argument found for %s.\n", prefix);
-    printf("Enter a file name or location after %s in your compiler args.\033[0m\n", prefix);
-    exit(DEFAULT_ERROR_CODE);
+void jakarta_error(int error_code, Token* token, const char* additional_info) {
+    printf("\033[31m]");
+    printf("There was an error while running your code: ERR_CODE_%d\n", error_code);
+    switch (error_code) {
+        // additional_info: the argument that was missing a file
+        case INVALID_FILE_LOCATION:
+            printf("Compiler Error: No file argument found for %s.\n", additional_info);
+            printf("Enter a file name or location after %s in your compiler args.", additional_info);
+            break;
+        default:
+            if (token != NULL)
+                printf("Error at position %d:%d: %s\n", token->line, token->col, token->content);
+            else
+                printf("An error occurred.\n");
+    }
+    printf("\033[0m\n");
+    exit(error_code);
 }
 
 // Code 2

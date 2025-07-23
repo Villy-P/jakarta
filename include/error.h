@@ -3,7 +3,10 @@
 
 #include "token.h"
 
-void jakarta_error_no_file_location(const char* prefix);
+#define INVALID_FILE_LOCATION 0
+
+void jakarta_error(int error_code, Token* token, const char* additional_info);
+
 void jakarta_error_file_does_not_exist(const char* file_name);
 void jakarta_error_unknown_symbol(const char symbol);
 void jakarta_error_cannot_close_file(const char* file_name);
