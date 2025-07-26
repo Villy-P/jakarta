@@ -68,7 +68,7 @@ bool peek_type(Tokenizer* tokenizer) {
     if (tokenizer->tokens->length == 0)
         return false;
     Token* token = get_from_array(tokenizer->tokens, 0);
-    if (token->symbol != SYMBOL_STRING)
+    if (token->symbol != SYMBOL_IDENTIFIER)
         return false;
     Type* type = (Type*)get(tokenizer->type_symbol_tree, token->content);
     if (type == NULL)

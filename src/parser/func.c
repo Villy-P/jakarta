@@ -16,8 +16,8 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         jakarta_error_invalid_typedef_location(consume(tokenizer));
 
     Token* func_keyword = consume(tokenizer);
-    Token* func_type = peek_consume(tokenizer, SYMBOL_STRING);
-    Token* func_name = peek_consume(tokenizer, SYMBOL_STRING);
+    Token* func_type = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
+    Token* func_name = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
     Token* open_parenthesis = peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
 
     ASTNode* func_node = create_ast_node(AST_IDENTIFIER_FUNCTION_DEFINITION, func_name);
@@ -29,8 +29,8 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_function(tokenizer, function_definition);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
-        Token* arg_type = peek_consume(tokenizer, SYMBOL_STRING);
-        Token* arg_name = peek_consume(tokenizer, SYMBOL_STRING);
+        Token* arg_type = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
+        Token* arg_name = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
         Token* comma = peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : NULL;
         Type* argtype = get(tokenizer->type_symbol_tree, arg_type->content);
         

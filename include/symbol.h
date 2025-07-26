@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 typedef enum SymbolDef {
-    SYMBOL_STRING,
+    SYMBOL_IDENTIFIER,
     SYMBOL_NUMBER,
     SYMBOL_BACKTICK,
     SYMBOL_TILDE,

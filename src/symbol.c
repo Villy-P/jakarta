@@ -83,7 +83,7 @@ char* get_string_from_symbol(Symbol symbol) {
         case SYMBOL_BACKSLASH:         return "\\";
         case SYMBOL_APOSTRAPHE:        return "\'";
 
-        case SYMBOL_STRING: return "IDENTIFIER";
+        case SYMBOL_IDENTIFIER: return "IDENTIFIER";
         case SYMBOL_NUMBER: return "NUMBER";
 
         case KEYWORD_AS:        return "as";
@@ -180,7 +180,7 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "~") == 0)   return OPERATOR_BITWISE_NOT;
     if (strcmp(str, "&&") == 0)  return OPERATOR_LOGICAL_AND;
     if (strcmp(str, "||") == 0)  return OPERATOR_LOGICAL_OR;
-    return SYMBOL_STRING;
+    return SYMBOL_IDENTIFIER;
 }
 
 bool is_number_symbol(char* str) {
