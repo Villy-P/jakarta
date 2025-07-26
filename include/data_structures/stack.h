@@ -17,5 +17,6 @@ int push_to_stack(Stack* s, void* data);
 int expand_stack(Stack* s);
 int pop_from_stack(Stack* s, void* target);
 void reverse_stack(Stack* s);
+int get_stack_index(Stack* s, int index, void* target);
 
 #endif

@@ -24,11 +24,14 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
             printf("Enter a correct file name after -f.\n");
             break;
         case UNKNOWN_SYMBOL:
-            printf("Compiler Error: Unknown symbol encountered: %s.\n", get_string_from_symbol(token->symbol));
+            printf("Compiler Error: Unknown symbol encountered: %s, symbol code %s.\n", token->content, get_string_from_symbol(token->symbol));
             break;
         // additional_info: the file name that could not be closed
         case CANNOT_CLOSE_FILE:
             printf("Compiler Error: Could not close file %s.\n", additional_info);
+            break;
+        case UNDEFINED_IDENTIFIER:
+            printf("Compiler Error: Identifier %s does not exist in current scope.\n", token->content);
             break;
         default:
             if (token != NULL)

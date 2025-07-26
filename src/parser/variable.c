@@ -9,6 +9,7 @@
 #include "parser.h"
 #include "free.h"
 #include "postfix.h"
+#include "error.h"
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
@@ -34,4 +35,14 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(equal_token);
 
     consume(tokenizer);
+}
+
+Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
+    Stack* stack = tokenizer->variable_symbol_stack;
+    for (int i = stack->top; i >= 0; i--) {
+        HashMap* map = create_hashmap();
+        get_stack_index(stack, i, map);
+        Variable* variable = get(map, token->content);
+        if (!variable) jakarta_error(UNDEFINED_IDENTIFIER, token, "");
+    }
 }

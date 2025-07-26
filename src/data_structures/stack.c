@@ -66,6 +66,18 @@ int pop_from_stack(Stack* s, void* target) {
     return STACK_OK;
 }
 
+int get_stack_index(Stack* s, int index, void* target) {
+    if (!s || !target) return STACK_ERR_NULL;
+    if (s->top == -1) return STACK_ERR_EMPTY;
+
+    void* source = (char*)s->data + index * s->member_size;
+
+    errno_t err = memcpy_s(target, s->member_size, source, s->member_size);
+    if (err != 0) return err;
+
+    return STACK_OK;
+}
+
 void reverse_stack(Stack* s) {
     if (s->top <= 0)
         return;

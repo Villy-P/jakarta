@@ -23,6 +23,7 @@ void add_type(Tokenizer* tokenizer, Type* type);
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
 void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition);
 void print_tokens(Tokenizer* tokenizer);
+Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token);
 
 Token* consume(Tokenizer* tokenizer);
 bool peek(Tokenizer* tokenizer, Symbol symbol);
