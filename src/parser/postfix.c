@@ -64,6 +64,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
                 parse_func_call(tokenizer, function_node, function);
                 push_to_stack(output, function_node);
             } else {
+                Variable* variable = get_variable_from_scope(tokenizer, token);
                 push_to_stack(output, node);
             }
         } else if (token->symbol == SYMBOL_SEMICOLON) {
