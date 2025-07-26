@@ -25,7 +25,7 @@ void jakarta_cmd_read_file(const char* file_location) {
     unsigned int line_number = 1;
     while (fgets(buffer, sizeof(buffer), file_ptr))
         read_line(buffer, line_number++, tokenizer);
-    print_tokens(tokenizer);
+    // print_tokens(tokenizer);
     debug_message("Begun Parsing", TOP_LEVEL);
     while (tokenizer->tokens->length > 0)
         parse(tokenizer, ast->root);

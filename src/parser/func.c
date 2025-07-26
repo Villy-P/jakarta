@@ -57,6 +57,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         parse(tokenizer, func_node);
 
     Token* close_bracket = consume(tokenizer);
+    pop_from_stack(tokenizer->variable_symbol_stack, NULL);
 
     add_to_array(ast_node->nodes, func_node);
 

@@ -28,6 +28,7 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
         parse(tokenizer, if_body);
     Token* close_brace = consume(tokenizer);
+    pop_from_stack(tokenizer->variable_symbol_stack, NULL);
 
     add_to_array(if_node->nodes, if_body);
     add_to_array(ast_node->nodes, if_node);
