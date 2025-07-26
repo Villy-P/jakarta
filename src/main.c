@@ -10,13 +10,15 @@
 #define FILE_NAME_SIZE 256
 #define INPUT_FILE_ARGUMENT "-f"
 #define OUTPUT_FILE_ARGUMENT "-o"
+#define ARGUMENT_START_INDEX 1
 
 int main(int argc, char *argv[]) {
     debug_message("Started Program", TOP_LEVEL);
 
     char input_file[FILE_NAME_SIZE];
     char output_file[FILE_NAME_SIZE];
-    for (int i = 1; i < argc; i++) {
+
+    for (int i = ARGUMENT_START_INDEX; i < argc; i++) {
         if (strcmp(argv[i], INPUT_FILE_ARGUMENT) == STRING_EQUAL) {
             if (i == argc - 1)
                 jakarta_error(INVALID_FILE_LOCATION, NULL, INPUT_FILE_ARGUMENT);
