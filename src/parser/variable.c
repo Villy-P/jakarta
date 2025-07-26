@@ -43,7 +43,7 @@ Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
         HashMap* map = create_hashmap();
         get_stack_index(stack, i, map);
         Variable* variable = get(map, token->content);
-        if (!variable) jakarta_error(UNDEFINED_IDENTIFIER, token, "");
+        if (!variable) continue;
         return variable;
     }
     jakarta_error(UNDEFINED_IDENTIFIER, token, "");
