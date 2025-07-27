@@ -2,20 +2,19 @@
 #include <stdio.h>
 
 #include "data_structures/array.h"
+#include "error.h"
+
+#define ARRAY_CAPACITY_INCREASE_MULTIPLIER 2
+#define ARRAY_INIITIAL_SIZE_DEFAULT 4
 
 Array* create_array(unsigned int initial_size) {
-    if (initial_size == 0) initial_size = 4;
+    if (initial_size == 0) initial_size = ARRAY_INIITIAL_SIZE_DEFAULT;
     Array* array = malloc(sizeof(Array));
-    if (!array) {
-        fprintf(stderr, "Failed to allocate Array struct\n");
-        exit(EXIT_FAILURE);
-    }
+    if (!array)
+        jakarta_error(ERR_CUSTOM, NULL, "Failed to allocate Array structure");
     array->data = malloc(initial_size * sizeof(void*));
-    if (!array->data) {
-        fprintf(stderr, "Failed to allocate Array data\n");
-        free(array);
-        exit(EXIT_FAILURE);
-    }
+    if (!array->data)
+        jakarta_error(ERR_CUSTOM, NULL, "Failed to allocate Array data\n");
 
     array->length = 0;
     array->capacity = initial_size;
@@ -24,37 +23,31 @@ Array* create_array(unsigned int initial_size) {
 
 void add_to_array(Array* array, void* data) {
     if (array->capacity == 0) {
-        array->capacity = 4;
+        array->capacity = ARRAY_INIITIAL_SIZE_DEFAULT;
         array->data = malloc(array->capacity * sizeof(void*));
+        if (!array->data)
+            jakarta_error(ERR_CUSTOM, NULL, "Failed to increase Array Capacity");
     } else if (array->length == array->capacity) {
         void** temp = realloc(array->data, array->capacity * 2 * sizeof(void*));
-        if (!temp) {
-            fprintf_s(stderr, "Failed to allocate memory for array expansion\n");
-            return;
-        }
+        if (!temp)
+            jakarta_error(ERR_CUSTOM, NULL, "Failed to increase Array Capacity");
         array->data = temp;
-        array->capacity *= 2;
+        array->capacity *= ARRAY_CAPACITY_INCREASE_MULTIPLIER;
     }
     array->data[array->length++] = data;
 }
 
 void* get_from_array(Array* array, unsigned int index) {
-    if (!array) {
-        fprintf_s(stderr, "Error: Null array pointer\n");
-        return NULL;
-    }
-    if (index >= array->length) {
-        fprintf_s(stderr, "Index out of bounds\n");
-        return NULL;
-    }
+    if (!array)
+        jakarta_error(ERR_CUSTOM, NULL, "Null Array Exception");
+    if (index >= array->length)
+        jakarta_error(ERR_CUSTOM, NULL, "Index out of bounds");
     return array->data[index];
 }
 
 void remove_from_array(Array* array, unsigned int index) {
-    if (index >= array->length) {
-        printf("Index out of bounds\n");
-        return;
-    }
+    if (index >= array->length)
+        jakarta_error(ERR_CUSTOM, NULL, "Index out of bounds");
     for (unsigned int i = index; i < array->length - 1; ++i)
         array->data[i] = array->data[i + 1];
     array->length--;
