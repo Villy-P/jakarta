@@ -1,22 +1,25 @@
 #include "data_structures/ast.h"
+#include "error.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
+#define INITIAL_ASTNODE_CHILDREN_CAPACITY 2
+
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
-    if (node == NULL) {
-        fprintf(stderr, "Failed to allocate memory for ASTNode\n");
-        exit(EXIT_FAILURE);
-    }
+    if (node == NULL)
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "ASTNode");
     node->identifier = identifier;
     node->token = token;
-    node->nodes = create_array(2);
+    node->nodes = create_array(INITIAL_ASTNODE_CHILDREN_CAPACITY);
     return node;
 }
 
 AST* create_ast() {
     AST* ast = (AST*)malloc(sizeof(AST));
+    if (ast == NULL)
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "AST");
     ast->root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, NULL);
     return ast;
 }

@@ -11,10 +11,10 @@ Array* create_array(unsigned int initial_size) {
     if (initial_size == 0) initial_size = ARRAY_INIITIAL_SIZE_DEFAULT;
     Array* array = malloc(sizeof(Array));
     if (!array)
-        jakarta_error(ERR_CUSTOM, NULL, "Failed to allocate Array structure");
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "Array");
     array->data = malloc(initial_size * sizeof(void*));
     if (!array->data)
-        jakarta_error(ERR_CUSTOM, NULL, "Failed to allocate Array data\n");
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "Array data\n");
 
     array->length = 0;
     array->capacity = initial_size;
