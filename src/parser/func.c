@@ -56,8 +56,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
         parse(tokenizer, func_node);
 
-    printf("WP!");
-
     Token* close_bracket = consume(tokenizer);
     pop_from_stack(tokenizer->variable_symbol_stack, NULL);
 

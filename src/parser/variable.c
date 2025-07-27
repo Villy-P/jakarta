@@ -34,6 +34,4 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_to_array(ast_node->nodes, variable_node);
     
     free_token(equal_token);
-    
-    printf("Done processing  variable\n");
 }
