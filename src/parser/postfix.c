@@ -57,7 +57,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             }
             if (open_parenthesis_count == 0)
                 break;
-        } else if (token->symbol == SYMBOL_IDENTIFIER || token->symbol == SYMBOL_NUMBER) {
+        } else if (token->symbol == SYMBOL_IDENTIFIER) {
             FunctionDefinition* function = get(tokenizer->function_symbol_tree, token->content);
             if (function != NULL && peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
                 ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
@@ -67,6 +67,8 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
                 Variable* variable = get_variable_from_scope(tokenizer, token);
                 push_to_stack(output, node);
             }
+        } else if (token->symbol == SYMBOL_NUMBER) {
+            push_to_stack(output, node);
         } else if (token->symbol == SYMBOL_SEMICOLON) {
             while (operands->top > -1) {
                 ASTNode* op = malloc(sizeof(ASTNode));

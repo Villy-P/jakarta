@@ -87,7 +87,7 @@ Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
 }
 
 void add_scope(Tokenizer* tokenizer) {
-    HashMap* new_scope = malloc(sizeof(HashMap));
+    HashMap* new_scope = create_hashmap();
     push_to_stack(tokenizer->variable_symbol_stack, new_scope);
     printf("New stack index: %d\n", tokenizer->variable_symbol_stack->top);
 }
@@ -100,6 +100,8 @@ void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable) {
     printf("Adding variable %s to scope\n", variable->name);
     if (get(current_scope, variable->name) != NULL)
         jakarta_error_duplicate_identifier(variable->name);
+    printf("Done adding variable %s to scope\n", variable->name);
+    insert(current_scope, variable->name, variable);
     push_to_stack(tokenizer->variable_symbol_stack, current_scope);
 }
 
@@ -109,7 +111,6 @@ Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
         HashMap* map = malloc(sizeof(HashMap));
         get_stack_index(stack, i, map);
         Variable* variable = get(map, token->content);
-        printf("%d, %d\n", stack->top, i);
         if (!variable) continue;
         return variable;
     }

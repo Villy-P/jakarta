@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "data_structures/hashmap.h"
 
@@ -17,29 +18,51 @@ int hash(char* key) {
 }
 
 int insert(HashMap* hashmap, char* key, void* value) {
+    printf("Inserting key %s\n", key);
     int index = hash(key);
     HashNode* node = hashmap->array[index];
-    while (node != NULL) {
+    if (node == NULL) {
+        HashNode* new_node = malloc(sizeof(HashNode));
+        new_node->key = key;
+        new_node->value = value;
+        new_node->next = NULL;
+        hashmap->array[index] = new_node;
+        return 0;
+    }
+    if (strcmp(node->key, key) == 0) {
+        node->value = value;
+        return 0;
+    }
+    while (node->next != NULL) {
         if (strcmp(node->key, key) == 0) {
             node->value = value;
             return 0;
         }
         node = node->next;
     }
-    HashNode* new_node = (HashNode*)malloc(sizeof(HashNode));
+    HashNode* new_node = malloc(sizeof(HashNode));
     new_node->key = key;
     new_node->value = value;
-    new_node->next = hashmap->array[index];
-    hashmap->array[index] = new_node;
+    new_node->next = NULL;
+    node->next = new_node;
+    printf("inserted node\n");
     return 0;
 }
 
 void* get(HashMap* hashmap, char* key) {
+    printf("HELLO THERE: %d\n", hashmap->array[1] == NULL ? 10 : 1);
+    if (hashmap == NULL || hashmap->array == NULL) {
+        printf("Hashmap does not exist\n");
+        return NULL;
+    }
     int index = hash(key);
     HashNode* node = hashmap->array[index];
     while (node != NULL) {
-        if (strcmp(node->key, key) == 0)
+        printf("GOT HERE\n");
+        printf("Node Key: %s\n", node->key);
+        if (strcmp(node->key, key) == 0) {
             return node->value;
+        }
         node = node->next;
     }
     return NULL;
@@ -47,7 +70,8 @@ void* get(HashMap* hashmap, char* key) {
 
 HashMap* create_hashmap() {
     HashMap* hashmap = (HashMap*)malloc(sizeof(HashMap));
-    for (int i = 0; i < HASHMAP_ARRAY_SIZE; ++i)
+    for (int i = 0; i < HASHMAP_ARRAY_SIZE; ++i) {
         hashmap->array[i] = NULL;
+    }
     return hashmap;
 }

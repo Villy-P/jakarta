@@ -12,6 +12,7 @@
 #include "error.h"
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
+    printf("Begin parsing Variable\n");
     Token* type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
     Token* name_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
     Token* equal_token = peek_consume(tokenizer, SYMBOL_EQUALS);
@@ -31,8 +32,8 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_to_array(variable_node->nodes, variable_type_node);
     add_to_array(variable_node->nodes, variable_content_node);
     add_to_array(ast_node->nodes, variable_node);
-
+    
     free_token(equal_token);
-
-    consume(tokenizer);
+    
+    printf("Done processing  variable\n");
 }
