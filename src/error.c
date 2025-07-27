@@ -15,23 +15,27 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
     switch (error_code) {
         // additional_info: the argument that was missing a file
         case ERR_INVALID_FILE_LOCATION:
-            printf("Compiler Error: No file argument found for %s.\n", additional_info);
+            printf("No file argument found for %s.\n", additional_info);
             printf("Enter a file name or location after %s in your compiler args.", additional_info);
             break;
         // additional_info: the file name that was not found
         case ERR_INVALID_FILE_NAME:
-            printf("Compiler Error: File %s does not exist.\n", additional_info);
+            printf("File %s does not exist.\n", additional_info);
             printf("Enter a correct file name after -f.\n");
             break;
         case ERR_UNKNOWN_SYMBOL:
-            printf("Compiler Error: Unknown symbol encountered: %s, symbol code %s.\n", token->content, get_string_from_symbol(token->symbol));
+            printf("Unknown symbol encountered: %s, symbol code %s.\n", token->content, get_string_from_symbol(token->symbol));
             break;
         // additional_info: the file name that could not be closed
         case ERR_CANNOT_CLOSE_FILE:
-            printf("Compiler Error: Could not close file %s.\n", additional_info);
+            printf("Could not close file %s.\n", additional_info);
             break;
         case ERR_UNDEFINED_IDENTIFIER:
-            printf("Compiler Error: Identifier %s does not exist in current scope.\n", token->content);
+            printf("Identifier %s does not exist in current scope.\n", token->content);
+            break;
+        // additional_info: the custom error message
+        case ERR_CUSTOM:
+            printf("%s\n", additional_info);
             break;
         default:
             if (token != NULL)
