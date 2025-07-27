@@ -36,16 +36,3 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     consume(tokenizer);
 }
-
-Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
-    Stack* stack = tokenizer->variable_symbol_stack;
-    for (int i = stack->top; i >= 0; i--) {
-        HashMap* map = create_hashmap();
-        get_stack_index(stack, i, map);
-        Variable* variable = get(map, token->content);
-        if (!variable) continue;
-        return variable;
-    }
-    jakarta_error(UNDEFINED_IDENTIFIER, token, "");
-    return NULL;
-}
