@@ -42,7 +42,7 @@ Symbol get_symbol_from_char(char ch) {
         case '\'': return SYMBOL_APOSTRAPHE;
         default: break;
     };
-    jakarta_error(UNKNOWN_SYMBOL, NULL, "");
+    jakarta_error(ERR_UNKNOWN_SYMBOL, NULL, "");
     return SYMBOL_NONE;
 }
 

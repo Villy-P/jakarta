@@ -114,6 +114,6 @@ Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
         if (!variable) continue;
         return variable;
     }
-    jakarta_error(UNDEFINED_IDENTIFIER, token, "");
+    jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
     return NULL;
 }

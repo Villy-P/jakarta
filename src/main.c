@@ -21,12 +21,12 @@ int main(int argc, char *argv[]) {
     for (int i = ARGUMENT_START_INDEX; i < argc; i++) {
         if (strcmp(argv[i], INPUT_FILE_ARGUMENT) == STRING_EQUAL) {
             if (i == argc - 1)
-                jakarta_error(INVALID_FILE_LOCATION, NULL, INPUT_FILE_ARGUMENT);
+                jakarta_error(ERR_INVALID_FILE_LOCATION, NULL, INPUT_FILE_ARGUMENT);
             debug_message("Found Input File", LOG);
             strncpy(input_file, argv[i + 1], FILE_NAME_SIZE);
         } else if (strcmp(argv[i], OUTPUT_FILE_ARGUMENT) == STRING_EQUAL) {
             if (i == argc - 1)
-                jakarta_error(INVALID_FILE_LOCATION, NULL, OUTPUT_FILE_ARGUMENT);
+                jakarta_error(ERR_INVALID_FILE_LOCATION, NULL, OUTPUT_FILE_ARGUMENT);
             debug_message("Found Output File", LOG);
             strncpy(output_file, argv[i + 1], FILE_NAME_SIZE);
         }
