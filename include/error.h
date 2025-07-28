@@ -3,6 +3,14 @@
 
 #include "token.h"
 
+#ifdef __WIN32
+#include <windows.h>
+#include <dbghelp.h>
+#include <stdio.h>
+
+#pragma comment(lib, "dbghelp.lib")
+#endif
+
 #define ERR_INVALID_FILE_LOCATION 0
 #define ERR_INVALID_FILE_NAME 1
 #define ERR_UNKNOWN_SYMBOL 2
@@ -21,5 +29,7 @@ void jakarta_error_undefined_identifier(Token* identifier);
 
 void jakarta_error_invalid_typedef_location(Token* token);
 void jakarta_error_duplicate_identifier(char* name);
+
+void print_stack_trace();
 
 #endif

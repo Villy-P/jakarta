@@ -9,7 +9,7 @@ typedef enum TypeOptionsDef {
     NUM,
     UNUM,
     ONEBIT,
-    DECIMAL
+    NUM_DECIMAL
 } TypeOptions;
 
 typedef struct TypeDef {

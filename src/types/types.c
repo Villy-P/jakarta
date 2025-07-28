@@ -19,9 +19,9 @@ void create_base_types(Tokenizer* tokenizer) {
     add_type(tokenizer, create_type("uint",    32,  UNUM));
     add_type(tokenizer, create_type("ulong",   64,  UNUM));
     add_type(tokenizer, create_type("ullong" , 128, UNUM));
-    add_type(tokenizer, create_type("float",   32,  DECIMAL));
-    add_type(tokenizer, create_type("double",  64,  DECIMAL));
-    add_type(tokenizer, create_type("ldouble", 128, DECIMAL));
+    add_type(tokenizer, create_type("float",   32,  NUM_DECIMAL));
+    add_type(tokenizer, create_type("double",  64,  NUM_DECIMAL));
+    add_type(tokenizer, create_type("ldouble", 128, NUM_DECIMAL));
     debug_message("Created Base Types", CREATION);
 }
 

@@ -58,14 +58,16 @@ int push_to_stack(Stack* s, void* data) {
 }
 
 int pop_from_stack(Stack* s, void* target) {
-    if (!s || !target)
-        jakarta_error(ERR_CUSTOM, NULL, "Stack or target is NULL");
+    if (!s)
+        jakarta_error(ERR_CUSTOM, NULL, "Stack is NULL");
     if (s->top == -1)
         jakarta_error(ERR_CUSTOM, NULL, "Stack is empty");
 
     void* source = (char*)s->data + s->top * s->member_size;
     s->top--;
 
+    if (target == NULL)
+        return STACK_OK;
     errno_t err = memcpy_s(target, s->member_size, source, s->member_size);
     if (err != 0)
         jakarta_error(ERR_CUSTOM, NULL, strerror(err));
