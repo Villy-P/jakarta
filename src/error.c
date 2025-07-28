@@ -33,6 +33,10 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
         case ERR_UNDEFINED_IDENTIFIER:
             printf("Identifier %s does not exist in current scope.\n", token->content);
             break;
+        // additional_info: the token that was duplciate
+        case ERR_DUPLICATE_IDENTIFIER:
+            printf("Identifier %s already exists in current scope.\n", additional_info);
+            break;
         // additional_info: the custom error message
         case ERR_CUSTOM:
             printf("%s\n", additional_info);
@@ -70,13 +74,6 @@ void jakarta_error_undefined_identifier(Token* identifier) {
 void jakarta_error_invalid_typedef_location(Token* token) {
     printf("\033[31mThere was an error while running your code at position %d:%d: ERR_CODE_7\n", token->line, token->col);
     printf("Typedef statement cannot be used outside of global context\033[0m\n");
-    exit(DEFAULT_ERROR_CODE);
-}
-
-// Code 8
-void jakarta_error_duplicate_identifier(char* name) {
-    printf("\033[31mThere was an error while running your code: ERR_CODE_8\n");
-    printf("Duplicate Identifier: Identifier %s already exists\033[0m\n", name);
     exit(DEFAULT_ERROR_CODE);
 }
 

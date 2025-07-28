@@ -10,13 +10,14 @@
 
 #define INITIAL_TYPE_SIZE 64
 #define INITIAL_TYPE_ALIAS_SIZE 2
+#define INITIAL_VARIABLE_STACK_SIZE 16
 
 Tokenizer* create_tokenizer(unsigned int initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
     tokenizer->tokens = create_array(initial_size);
     tokenizer->function_symbol_tree = create_hashmap();
     tokenizer->type_symbol_tree = create_hashmap();
-    tokenizer->variable_symbol_stack = create_stack(sizeof(HashMap), 16);
+    tokenizer->variable_symbol_stack = create_stack(sizeof(HashMap), INITIAL_VARIABLE_STACK_SIZE);
 
     create_base_types(tokenizer);
     return tokenizer;
@@ -24,20 +25,20 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
 
 void add_type(Tokenizer* tokenizer, Type* type) {
     if (get(tokenizer->type_symbol_tree, type->name) != NULL)
-        jakarta_error_duplicate_identifier(type->name);
+        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, type->name);
     insert(tokenizer->type_symbol_tree, type->name, type);
 }
 
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
     if (get(tokenizer->type_symbol_tree, type_alias->name) != NULL)
-        jakarta_error_duplicate_identifier(type_alias->name);
+        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, type_alias->name);
     insert(tokenizer->type_symbol_tree, type_alias->name, type_alias->refers_to);
     debug_message("Added type alias", TOP_LEVEL);
 }
 
 void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
     if (get(tokenizer->function_symbol_tree, function_definition->name) != NULL)
-        jakarta_error_duplicate_identifier(function_definition->name);
+        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, function_definition->name);
     insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
 }
 
@@ -97,7 +98,7 @@ void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable) {
     HashMap* current_scope = malloc(sizeof(HashMap));
     pop_from_stack(tokenizer->variable_symbol_stack, current_scope);
     if (get(current_scope, variable->name) != NULL)
-        jakarta_error_duplicate_identifier(variable->name);
+        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, variable->name);
     insert(current_scope, variable->name, variable);
     push_to_stack(tokenizer->variable_symbol_stack, current_scope);
 }
