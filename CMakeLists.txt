@@ -48,15 +48,18 @@ if(UNIX)
     target_link_libraries(${PROJECT_NAME})
     target_link_libraries(${PROJECT_NAME_TEST})
 else()
-    target_link_libraries(${PROJECT_NAME} "regex" "dbghelp")
-    target_link_libraries(${PROJECT_NAME_TEST} "regex" "dbghelp")
+    target_link_libraries(${PROJECT_NAME} regex Dbghelp)
+    target_link_libraries(${PROJECT_NAME_TEST} regex Dbghelp)
 endif()
 
 message("Linking against DbgHelp")
 list(APPEND APP_LIBS DbgHelp)
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND $<TARGET_FILE_DIR:${PROJECT_NAME}>/cv2pdb64.exe $<TARGET_FILE:${PROJECT_NAME}>
-    COMMENT "Generating PDB using cv2pdb64.exe"
-    VERBATIM
-)
+if (WIN32)
+    message("Found cv2pdb64.exe, will generate PDB files")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND $<TARGET_FILE_DIR:${PROJECT_NAME}>/cv2pdb64.exe $<TARGET_FILE:${PROJECT_NAME}>
+        COMMENT "Generating PDB using cv2pdb64.exe"
+        VERBATIM
+    )
+endif()
