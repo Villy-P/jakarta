@@ -81,6 +81,7 @@ void jakarta_error_duplicate_identifier(char* name) {
 }
 
 void print_stack_trace() {
+    #ifdef _WIN32
     HANDLE       process = GetCurrentProcess();
     HANDLE       thread  = GetCurrentThread();
     CONTEXT      context;
@@ -91,24 +92,24 @@ void print_stack_trace() {
 
     ZeroMemory(&stack, sizeof(STACKFRAME64));
 
-#ifdef _M_IX86
-    machine_type           = IMAGE_FILE_MACHINE_I386;
-    stack.AddrPC.Offset    = context.Eip;
-    stack.AddrFrame.Offset = context.Ebp;
-    stack.AddrStack.Offset = context.Esp;
-#elif _M_X64
-    machine_type           = IMAGE_FILE_MACHINE_AMD64;
-    stack.AddrPC.Offset    = context.Rip;
-    stack.AddrFrame.Offset = context.Rsp;
-    stack.AddrStack.Offset = context.Rsp;
-#elif _M_ARM64
-    machine_type           = IMAGE_FILE_MACHINE_ARM64;
-    stack.AddrPC.Offset    = context.Pc;
-    stack.AddrFrame.Offset = context.Fp;
-    stack.AddrStack.Offset = context.Sp;
-#else
-#error "Unsupported platform"
-#endif
+    #ifdef _M_IX86
+        machine_type           = IMAGE_FILE_MACHINE_I386;
+        stack.AddrPC.Offset    = context.Eip;
+        stack.AddrFrame.Offset = context.Ebp;
+        stack.AddrStack.Offset = context.Esp;
+    #elif _M_X64
+        machine_type           = IMAGE_FILE_MACHINE_AMD64;
+        stack.AddrPC.Offset    = context.Rip;
+        stack.AddrFrame.Offset = context.Rsp;
+        stack.AddrStack.Offset = context.Rsp;
+    #elif _M_ARM64
+        machine_type           = IMAGE_FILE_MACHINE_ARM64;
+        stack.AddrPC.Offset    = context.Pc;
+        stack.AddrFrame.Offset = context.Fp;
+        stack.AddrStack.Offset = context.Sp;
+    #else
+        #error "Unsupported platform"
+    #endif
 
     stack.AddrPC.Mode    = AddrModeFlat;
     stack.AddrFrame.Mode = AddrModeFlat;
@@ -170,4 +171,5 @@ void print_stack_trace() {
     }
 
     SymCleanup(process);
+    #endif
 }
