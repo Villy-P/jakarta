@@ -15,6 +15,8 @@
 void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
     unsigned int col = 1;
     while (strcmp(line, "\0") != STRING_UNEQUAL) {
+        if (line[0] == '/' && line[1] == '/')
+            break;
         char* str = get_string(&line);
         if (str != NULL) {
             Symbol symbol = get_keyword_from_str(str);

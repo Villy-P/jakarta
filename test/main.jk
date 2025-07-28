@@ -1,3 +1,5 @@
+// import "stdio"
+
 typedef Students ubyte;
 typedef Decimal double;
 
@@ -12,7 +14,7 @@ func int main() {
     uint f10 = factorial(10);
     uint f5 = factorial(5);
 
-    print(f10 + " " + f5);
+    // print(f10 + " " + f5);
 
     ret 0;
 }
