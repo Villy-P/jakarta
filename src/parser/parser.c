@@ -1,5 +1,6 @@
 #include "parser.h"
 #include "debug.h"
+#include "postfix.h"
 
 void parse(Tokenizer* tokenizer, ASTNode* ast_node) {
     if (peek(tokenizer, KEYWORD_TYPEDEF))
@@ -12,6 +13,8 @@ void parse(Tokenizer* tokenizer, ASTNode* ast_node) {
         parse_if(tokenizer, ast_node);
     else if (peek_type(tokenizer)) 
         parse_variable(tokenizer, ast_node);
+    else if (peek(tokenizer, SYMBOL_IDENTIFIER))
+        parse_expression(tokenizer, ast_node);
     else
         consume(tokenizer);
 }

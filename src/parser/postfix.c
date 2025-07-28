@@ -5,6 +5,7 @@
 
 #include "postfix.h"
 #include "parser.h"
+#include "error.h"
 
 unsigned int precedence(char* op) {
     if (strcmp(op, "=") == 0 || strcmp(op, "+=") == 0 || strcmp(op, "-=") == 0 || strcmp(op, "*=") == 0 || strcmp(op, "/=") == 0 || strcmp(op, "%=") == 0 || strcmp(op, "&=") == 0 || strcmp(op, "|=") == 0 || strcmp(op, "^=") == 0 || strcmp(op, "<<=") == 0 || strcmp(op, ">>=") == 0 || strcmp(op, ">>>=") == 0)
@@ -59,10 +60,14 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
                 break;
         } else if (token->symbol == SYMBOL_IDENTIFIER) {
             FunctionDefinition* function = get(tokenizer->function_symbol_tree, token->content);
-            if (function != NULL && peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
+            if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
+                if (function == NULL)
+                    jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
                 ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
                 parse_func_call(tokenizer, function_node, function);
                 push_to_stack(output, function_node);
+            } else if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
+                jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
             } else {
                 Variable* variable = get_variable_from_scope(tokenizer, token);
                 push_to_stack(output, node);
@@ -119,4 +124,11 @@ ASTNode* postfix_to_ast(Stack* postfix) {
     }
     pop_from_stack(output, value);
     return value;
+}
+
+void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node) {
+    Stack* postfix = infix_to_postfix(tokenizer);
+    ASTNode* expression = postfix_to_ast(postfix);
+
+    add_to_array(ast_node->nodes, expression);
 }
