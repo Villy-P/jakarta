@@ -4,12 +4,18 @@
 #include <stdio.h>
 
 #include "data_structures/hashmap.h"
+#include "error.h"
+
+#define HASH_BASE_PRIME 31
+#define HASH_LARGE_PRIME 1e9 + 9;
+#define HASH_INITIAL_VALUE 0
+#define HASH_INITIAL_POWER 1
 
 int hash(char* key) {
-    const int p = 31;
-    const int m = 1e9 + 9;
-    int hash_value = 0;
-    int p_pow = 1;
+    const int p = HASH_BASE_PRIME;
+    const int m = HASH_LARGE_PRIME;
+    int hash_value = HASH_INITIAL_VALUE;
+    int p_pow = HASH_INITIAL_POWER;
     for (int i = 0; key[i]; ++i) {
         hash_value = (hash_value + (key[i] - 'a' + 1) * p_pow) % m;
         p_pow = (p_pow * p) % m;
@@ -20,38 +26,29 @@ int hash(char* key) {
 int insert(HashMap* hashmap, char* key, void* value) {
     int index = hash(key);
     HashNode* node = hashmap->array[index];
+
     if (node == NULL) {
-        HashNode* new_node = malloc(sizeof(HashNode));
-        new_node->key = key;
-        new_node->value = value;
-        new_node->next = NULL;
-        hashmap->array[index] = new_node;
+        hashmap->array[index] = create_hashnode(key, value);
         return 0;
     }
-    if (strcmp(node->key, key) == 0) {
-        node->value = value;
-        return 0;
-    }
-    while (node->next != NULL) {
+
+    HashNode* prev = NULL;
+    while (node != NULL) {
         if (strcmp(node->key, key) == 0) {
             node->value = value;
             return 0;
         }
+        prev = node;
         node = node->next;
     }
-    HashNode* new_node = malloc(sizeof(HashNode));
-    new_node->key = key;
-    new_node->value = value;
-    new_node->next = NULL;
-    node->next = new_node;
+
+    prev->next = create_hashnode(key, value);
     return 0;
 }
 
 void* get(HashMap* hashmap, char* key) {
-    if (hashmap == NULL || hashmap->array == NULL) {
-        printf("Hashmap does not exist\n");
-        return NULL;
-    }
+    if (hashmap == NULL || hashmap->array == NULL)
+        jakarta_error(ERR_CUSTOM, NULL, "HashMap is not initialized");
     int index = hash(key);
     HashNode* node = hashmap->array[index];
     while (node != NULL) {
@@ -63,8 +60,18 @@ void* get(HashMap* hashmap, char* key) {
 }
 
 HashMap* create_hashmap() {
-    HashMap* hashmap = (HashMap*)malloc(sizeof(HashMap));
-    for (int i = 0; i < HASHMAP_ARRAY_SIZE; ++i)
-        hashmap->array[i] = NULL;
+    HashMap* hashmap = (HashMap*)calloc(1, sizeof(HashMap));
+    if (!hashmap)
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "HashMap");
     return hashmap;
+}
+
+HashNode* create_hashnode(char* key, void* value) {
+    HashNode* hashnode = (HashNode*)malloc(sizeof(HashNode));
+    if (!hashnode)
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "HashNode");
+    hashnode->key = key;
+    hashnode->value = value;
+    hashnode->next = NULL;
+    return hashnode;
 }
