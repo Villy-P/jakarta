@@ -7,8 +7,6 @@
 #include <windows.h>
 #include <dbghelp.h>
 #include <stdio.h>
-
-#pragma comment(lib, "dbghelp.lib")
 #endif
 
 #define ERR_INVALID_FILE_LOCATION 0

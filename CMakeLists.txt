@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(Jakarta VERSION 1.0)
 
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
-endif()
-
 set(PROJECT_NAME "JAKARTA")
 set(PROJECT_NAME_TEST "JAKARTA_TEST")
 
