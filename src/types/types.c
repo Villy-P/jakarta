@@ -5,23 +5,33 @@
 #include "debug.h"
 #include "data_structures/tokenizer.h"
 
+#define BIT_SIZE 1
+#define BYTE_SIZE 8
+#define SHORT_SIZE 16
+#define INT_SIZE 32
+#define LONG_SIZE 64
+#define LLONG_SIZE 128
+
 void create_base_types(Tokenizer* tokenizer) {
     debug_message("Begun Creating Base Types", TOP_LEVEL);
-    add_type(tokenizer, create_type("char",    8,   UNUM));
-    add_type(tokenizer, create_type("bool",    1,   ONEBIT));
-    add_type(tokenizer, create_type("byte",    8,   NUM));
-    add_type(tokenizer, create_type("short",   16,  NUM));
-    add_type(tokenizer, create_type("int",     32,  NUM));
-    add_type(tokenizer, create_type("long",    64,  NUM));
-    add_type(tokenizer, create_type("llong",   128, NUM));
-    add_type(tokenizer, create_type("ubyte",   8,   UNUM));
-    add_type(tokenizer, create_type("ushort",  16,  UNUM));
-    add_type(tokenizer, create_type("uint",    32,  UNUM));
-    add_type(tokenizer, create_type("ulong",   64,  UNUM));
-    add_type(tokenizer, create_type("ullong" , 128, UNUM));
-    add_type(tokenizer, create_type("float",   32,  NUM_DECIMAL));
-    add_type(tokenizer, create_type("double",  64,  NUM_DECIMAL));
-    add_type(tokenizer, create_type("ldouble", 128, NUM_DECIMAL));
+    add_type(tokenizer, create_type("char",    BYTE_SIZE,   UNUM));
+    add_type(tokenizer, create_type("bool",    BIT_SIZE,    ONEBIT));
+    add_type(tokenizer, create_type("byte",    BYTE_SIZE,   NUM));
+    add_type(tokenizer, create_type("short",   SHORT_SIZE,  NUM));
+    add_type(tokenizer, create_type("int",     INT_SIZE,    NUM));
+    add_type(tokenizer, create_type("long",    LONG_SIZE,   NUM));
+    add_type(tokenizer, create_type("llong",   LLONG_MAX,   NUM));
+    add_type(tokenizer, create_type("ubyte",   BYTE_SIZE,   UNUM));
+    add_type(tokenizer, create_type("ushort",  SHORT_SIZE,  UNUM));
+    add_type(tokenizer, create_type("uint",    INT_SIZE,    UNUM));
+    add_type(tokenizer, create_type("ulong",   LONG_SIZE,   UNUM));
+    add_type(tokenizer, create_type("ullong" , LLONG_SIZE,  UNUM));
+    add_type(tokenizer, create_type("float",   INT_SIZE,    NUM_DECIMAL));
+    add_type(tokenizer, create_type("double",  LONG_SIZE,   NUM_DECIMAL));
+    add_type(tokenizer, create_type("ldouble", LLONG_SIZE,  NUM_DECIMAL));
+
+    add_type(tokenizer, create_type("string", 0, STRING));
+    add_type(tokenizer, create_type("void", 0, STRING));
     debug_message("Created Base Types", CREATION);
 }
 
