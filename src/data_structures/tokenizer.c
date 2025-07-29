@@ -20,6 +20,7 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     tokenizer->variable_symbol_stack = create_stack(sizeof(HashMap), INITIAL_VARIABLE_STACK_SIZE);
 
     create_base_types(tokenizer);
+    add_built_in_functions(tokenizer);
     return tokenizer;
 }
 
@@ -114,4 +115,11 @@ Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
     }
     jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
     return NULL;
+}
+
+void add_built_in_functions(Tokenizer* tokenizer) {
+    FunctionDefinition* write_function = create_function_definition("write", "void");
+    Parameter* write_param = create_parameter("value", "char");
+    add_to_array(write_function->parameters, write_param);
+    insert(tokenizer->function_symbol_tree, write_function->name, write_function);
 }
