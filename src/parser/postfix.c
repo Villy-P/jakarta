@@ -36,6 +36,7 @@ unsigned int precedence(char* op) {
 }
 
 Stack* infix_to_postfix(Tokenizer* tokenizer) {
+    printf("New Infix\n");
     Stack* output = create_stack(sizeof(ASTNode), 10);
     Stack* operands = create_stack(sizeof(ASTNode), 10);
 
@@ -44,6 +45,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
     while (true) {
         Token* token = consume(tokenizer);
         ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);
+        printf("Processing token: %s\n", token->content);
         if (token->symbol == SYMBOL_OPEN_PARENTHESIS) {
             push_to_stack(operands, node);
             open_parenthesis_count++;
@@ -111,6 +113,11 @@ ASTNode* postfix_to_ast(Stack* postfix) {
         ASTNode* node = malloc(sizeof(ASTNode));
         pop_from_stack(postfix, node);
         if (node->token->symbol == SYMBOL_IDENTIFIER || node->token->symbol == SYMBOL_NUMBER) {
+            push_to_stack(output, node);
+        } else if (strcmp(node->token->content, "++") == 0 || strcmp(node->token->content, "--") == 0) {
+            ASTNode* operand = malloc(sizeof(ASTNode));
+            pop_from_stack(output, operand);
+            add_to_array(node->nodes, operand);
             push_to_stack(output, node);
         } else {
             ASTNode* right = malloc(sizeof(ASTNode));

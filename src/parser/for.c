@@ -17,16 +17,9 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* for_iteration = create_ast_node(AST_IDENTIFIER_FOR_ITERATION, NULL);
     ASTNode* for_body = create_ast_node(AST_IDENTIFIER_FOR_BODY, NULL);
 
-    add_to_array(for_node->nodes, for_initialization);
-    add_to_array(for_node->nodes, for_condition);
-    add_to_array(for_node->nodes, for_iteration);
-    add_to_array(for_node->nodes, for_body);
+    parse_variable(tokenizer, for_node);
 
     printf("Parsing for loop\n");
-
-    Stack* initialization_postfix = infix_to_postfix(tokenizer);
-    ASTNode* initialization_expression = postfix_to_ast(initialization_postfix);
-    add_to_array(for_initialization->nodes, initialization_expression);
 
     Stack* condition_postfix = infix_to_postfix(tokenizer);
     ASTNode* condition_expression = postfix_to_ast(condition_postfix);
@@ -40,4 +33,10 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
         parse(tokenizer, for_body);
     Token* close_brace = consume(tokenizer);
+
+    add_to_array(for_node->nodes, for_condition);
+    add_to_array(for_node->nodes, for_iteration);
+    add_to_array(for_node->nodes, for_body);
+
+    add_to_array(ast_node->nodes, for_node);
 }

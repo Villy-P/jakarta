@@ -4,7 +4,9 @@ typedef Students ubyte;
 typedef Decimal double;
 
 func void print(string input) {
-    write(input);
+    for (int i = 0; i < input; i++) {
+        write(input);
+    }
 }
 
 func uint factorial(uint n) {
