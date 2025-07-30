@@ -6,6 +6,8 @@
 #include "postfix.h"
 #include "parser.h"
 #include "error.h"
+#include "types/class.h"
+#include "types/function.h"
 
 unsigned int precedence(char* op) {
     if (strcmp(op, "=") == 0 || strcmp(op, "+=") == 0 || strcmp(op, "-=") == 0 || strcmp(op, "*=") == 0 || strcmp(op, "/=") == 0 || strcmp(op, "%=") == 0 || strcmp(op, "&=") == 0 || strcmp(op, "|=") == 0 || strcmp(op, "^=") == 0 || strcmp(op, "<<=") == 0 || strcmp(op, ">>=") == 0 || strcmp(op, ">>>=") == 0)
@@ -36,7 +38,6 @@ unsigned int precedence(char* op) {
 }
 
 Stack* infix_to_postfix(Tokenizer* tokenizer) {
-    printf("New Infix\n");
     Stack* output = create_stack(sizeof(ASTNode), 10);
     Stack* operands = create_stack(sizeof(ASTNode), 10);
 
@@ -61,16 +62,17 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
                 break;
         } else if (token->symbol == SYMBOL_IDENTIFIER) {
             FunctionDefinition* function = get(tokenizer->function_symbol_tree, token->content);
+            printf("Variable Content: %s\n", token->content);
             if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
                 if (function == NULL)
                     jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
                 ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
                 parse_func_call(tokenizer, function_node, function);
                 push_to_stack(output, function_node);
-            } else if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
-                jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
             } else {
                 Variable* variable = get_variable_from_scope(tokenizer, token);
+                if (peek(tokenizer, SYMBOL_PERIOD))
+                    parse_variable_members(tokenizer, node, variable->type->name);
                 push_to_stack(output, node);
             }
         } else if (token->symbol == SYMBOL_NUMBER) {
@@ -137,4 +139,27 @@ void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* expression = postfix_to_ast(postfix);
 
     add_to_array(ast_node->nodes, expression);
+}
+
+void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type) {
+    consume(tokenizer);
+    Token* token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
+    // ClassDefinition* class = get(tokenizer->class_symbol_tree, type->name);
+    printf("Parsing Variable Members\n");
+    // FunctionDefinition* function = get(class->member_functions, token->content);
+    if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
+        // if (function == NULL)
+        //     jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
+        ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
+        // parse_func_call(tokenizer, function_node, function);
+        add_to_array(ast_node->nodes, function_node);
+    } else if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
+        jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
+    } else {
+        // Variable* variable = get(class->member_variables, token->content);
+        ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);
+        add_to_array(ast_node->nodes, node);
+    }
+    if (peek(tokenizer, SYMBOL_PERIOD))
+        parse_variable_members(tokenizer, ast_node, type);
 }

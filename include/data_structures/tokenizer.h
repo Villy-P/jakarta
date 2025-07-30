@@ -15,6 +15,7 @@ typedef struct TokenizerDef {
     Array* tokens;
     HashMap* function_symbol_tree;
     HashMap* type_symbol_tree;
+    HashMap* class_symbol_tree;
     Stack* variable_symbol_stack;
 } Tokenizer;
 
