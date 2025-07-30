@@ -45,7 +45,6 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
     while (true) {
         Token* token = consume(tokenizer);
         ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);
-        printf("Processing token: %s\n", token->content);
         if (token->symbol == SYMBOL_OPEN_PARENTHESIS) {
             push_to_stack(operands, node);
             open_parenthesis_count++;

@@ -29,7 +29,15 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
 }
 
 ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
+    bool is_array = false;
+
     Token* type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
+
+    if (peek(tokenizer, OPERATOR_ARRAY_DECLARATION)) {
+        consume(tokenizer);
+        is_array = true;
+    }
+
     Token* name_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
 
     Type* type = get(tokenizer->type_symbol_tree, type_token->content);
@@ -37,7 +45,7 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
     ASTNode* variable_type_node = create_ast_node(AST_IDENTIFIER_VARIABLE_TYPE, type_token);
     ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
 
-    Variable* variable = create_variable(name_token->content, type, false);
+    Variable* variable = create_variable(name_token->content, type, is_array);
     add_variable_to_scope(tokenizer, variable);
 
     add_to_array(variable_node->nodes, variable_type_node);

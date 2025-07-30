@@ -6,9 +6,9 @@
 typedef struct VariableDef {
     char* name;
     Type* type;
-    bool isArray;
+    bool is_array;
 } Variable;
 
-Variable* create_variable(const char* name, Type* type, bool isArray);
+Variable* create_variable(const char* name, Type* type, bool is_array);
 
 #endif
