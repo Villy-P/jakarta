@@ -23,8 +23,9 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
             printf("File %s does not exist.\n", additional_info);
             printf("Enter a correct file name after -f.\n");
             break;
+        // additional_info: the symbol
         case ERR_UNKNOWN_SYMBOL:
-            printf("Unknown symbol encountered: %s, symbol code %s.\n", token->content, get_string_from_symbol(token->symbol));
+            printf("Unknown symbol encountered: %s.\n", additional_info);
             break;
         // additional_info: the file name that could not be closed
         case ERR_CANNOT_CLOSE_FILE:

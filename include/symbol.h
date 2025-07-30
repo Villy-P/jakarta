@@ -98,6 +98,7 @@ typedef enum SymbolDef {
     OPERATOR_BITWISE_NOT,               // ~
     OPERATOR_LOGICAL_AND,               // &&
     OPERATOR_LOGICAL_OR,                // ||
+    OPERATOR_ARRAY_DECLARATION,         // []
 } Symbol;
 
 Symbol get_symbol_from_char(char ch);

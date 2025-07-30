@@ -42,7 +42,7 @@ Symbol get_symbol_from_char(char ch) {
         case '\'': return SYMBOL_APOSTRAPHE;
         default: break;
     };
-    jakarta_error(ERR_UNKNOWN_SYMBOL, NULL, "");
+    jakarta_error(ERR_UNKNOWN_SYMBOL, NULL, ch);
     return SYMBOL_NONE;
 }
 
@@ -180,6 +180,7 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "~") == 0)   return OPERATOR_BITWISE_NOT;
     if (strcmp(str, "&&") == 0)  return OPERATOR_LOGICAL_AND;
     if (strcmp(str, "||") == 0)  return OPERATOR_LOGICAL_OR;
+    if (strcmp(str, "[]") == 0)  return OPERATOR_ARRAY_DECLARATION;
     return SYMBOL_IDENTIFIER;
 }
 
