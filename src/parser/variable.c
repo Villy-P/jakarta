@@ -13,30 +13,22 @@
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     printf("Begin parsing Variable\n");
-    Token* type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
-    Token* name_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
+    ASTNode* variable_node = parse_variable_declaration(tokenizer, NULL);
     Token* equal_token = peek_consume(tokenizer, SYMBOL_EQUALS);
-    Type* type = get(tokenizer->type_symbol_tree, type_token->content);
 
     Stack* postfix = infix_to_postfix(tokenizer);
     ASTNode* expression = postfix_to_ast(postfix);
 
-    ASTNode* variable_type_node = create_ast_node(AST_IDENTIFIER_VARIABLE_TYPE, type_token);
-    ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
     ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, NULL);
 
-    Variable* variable = create_variable(name_token->content, type, false);
-    add_variable_to_scope(tokenizer, variable);
-
     add_to_array(variable_content_node->nodes, expression);
-    add_to_array(variable_node->nodes, variable_type_node);
     add_to_array(variable_node->nodes, variable_content_node);
     add_to_array(ast_node->nodes, variable_node);
     
     free_token(equal_token);
 }
 
-ASTNode* parse_variable_declaration(Tokenizer* tokenizer) {
+ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
     Token* type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
     Token* name_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
 
@@ -45,9 +37,15 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer) {
     ASTNode* variable_type_node = create_ast_node(AST_IDENTIFIER_VARIABLE_TYPE, type_token);
     ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
 
-    Variable* variable = createVariable(name_token->content, type, false);
+    Variable* variable = create_variable(name_token->content, type, false);
+    add_variable_to_scope(tokenizer, variable);
 
     add_to_array(variable_node->nodes, variable_type_node);
+
+    if (function_definition != NULL) {
+        Parameter* parameter = create_parameter(name_token->content, type_token->content);
+        add_to_array(function_definition->parameters, parameter);   
+    }
 
     return variable_node;
 }
