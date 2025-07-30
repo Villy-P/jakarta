@@ -42,10 +42,8 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
 
     add_to_array(variable_node->nodes, variable_type_node);
 
-    if (function_definition != NULL) {
-        Parameter* parameter = create_parameter(name_token->content, type_token->content);
-        add_to_array(function_definition->parameters, parameter);   
-    }
+    if (function_definition != NULL)
+        add_to_array(function_definition->parameters, variable);
 
     return variable_node;
 }

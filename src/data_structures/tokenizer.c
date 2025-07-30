@@ -119,7 +119,8 @@ Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
 
 void add_built_in_functions(Tokenizer* tokenizer) {
     FunctionDefinition* write_function = create_function_definition("write", "void");
-    Parameter* write_param = create_parameter("value", "char");
+    Type* char_type = get(tokenizer->type_symbol_tree, "char");
+    Variable* write_param = create_variable("value", char_type, false);
     add_to_array(write_function->parameters, write_param);
     insert(tokenizer->function_symbol_tree, write_function->name, write_function);
 }

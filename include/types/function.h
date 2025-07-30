@@ -4,11 +4,6 @@
 #include "data_structures/ast.h"
 #include "data_structures/array.h"
 
-typedef struct ParameterDef {
-    char* name;
-    char* type;
-} Parameter;
-
 typedef struct FunctionDefinitionDef {
     char* name;
     char* return_type;
@@ -17,6 +12,5 @@ typedef struct FunctionDefinitionDef {
 } FunctionDefinition;
 
 FunctionDefinition* create_function_definition(const char* name, const char* return_type);
-Parameter* create_parameter(const char* name, const char* type);
 
 #endif
