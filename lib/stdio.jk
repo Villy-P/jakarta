@@ -8,7 +8,7 @@ class String {
     char[] data;
     uint length;
 
-    char index(uint n) {
+    func char index(uint n) {
         // ERRORS
         ret this.data[n];
     }
