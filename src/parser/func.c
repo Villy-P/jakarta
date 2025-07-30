@@ -43,7 +43,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         Parameter* parameter = create_parameter(arg_name->content, arg_type->content);
         add_to_array(function_definition->parameters, parameter);
 
-        Variable* variable = create_variable(arg_name->content, argtype);
+        Variable* variable = create_variable(arg_name->content, argtype, false);
         add_variable_to_scope(tokenizer, variable);
     }
 
