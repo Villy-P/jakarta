@@ -52,6 +52,25 @@ void add_class(Tokenizer* tokenizer, ClassDefinition* class_definition) {
     insert(tokenizer->class_symbol_tree, class_definition->name, class_definition);
 }
 
+void add_class_variable(Tokenizer* tokenizer, Variable* variable) {
+    if (tokenizer->current_class == NULL)
+        jakarta_error(ERR_CUSTOM, NULL, "No class context");
+    ClassDefinition* class_def = get(tokenizer->class_symbol_tree, tokenizer->current_class);
+    if (class_def == NULL)
+        jakarta_error(ERR_CUSTOM, NULL, "Class not found");
+    add_variable_to_scope(tokenizer, variable);
+    insert(class_def->member_variables, variable->name, variable);
+}
+
+void add_class_method(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
+    if (tokenizer->current_class == NULL)
+        jakarta_error(ERR_CUSTOM, NULL, "No class context");
+    ClassDefinition* class_def = get(tokenizer->class_symbol_tree, tokenizer->current_class);
+    if (class_def == NULL)
+        jakarta_error(ERR_CUSTOM, NULL, "Class not found");
+    insert(class_def->member_functions, function_definition->name, function_definition);
+}
+
 void print_tokens(Tokenizer* tokenizer) {
     for (unsigned int i = 0; i < tokenizer->tokens->length; i++) {
         Token* token = get_from_array(tokenizer->tokens, i);
