@@ -29,7 +29,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_function(tokenizer, function_definition);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
-        ASTNode* parameter = parse_variable_declaration(tokenizer, function_definition);
+        ASTNode* parameter = parse_variable_declaration(tokenizer, function_definition, ast_node);
         Token* comma = peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : NULL;
 
         if (comma != NULL)
@@ -41,6 +41,9 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     Type* type = get(tokenizer->type_symbol_tree, func_type->content);
     if (type == NULL)
         jakarta_error_undefined_identifier(func_type);
+
+    if (ast_node->identifier == AST_IDENTIFIER_CLASS_BODY)
+        add_class_method(tokenizer, function_definition);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
         parse(tokenizer, func_node);

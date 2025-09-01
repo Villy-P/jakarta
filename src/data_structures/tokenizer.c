@@ -58,7 +58,6 @@ void add_class_variable(Tokenizer* tokenizer, Variable* variable) {
     ClassDefinition* class_def = get(tokenizer->class_symbol_tree, tokenizer->current_class);
     if (class_def == NULL)
         jakarta_error(ERR_CUSTOM, NULL, "Class not found");
-    add_variable_to_scope(tokenizer, variable);
     insert(class_def->member_variables, variable->name, variable);
 }
 

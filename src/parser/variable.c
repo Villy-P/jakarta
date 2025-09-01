@@ -13,7 +13,7 @@
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     printf("Begin parsing Variable\n");
-    ASTNode* variable_node = parse_variable_declaration(tokenizer, NULL);
+    ASTNode* variable_node = parse_variable_declaration(tokenizer, NULL, ast_node);
     if (peek(tokenizer, SYMBOL_SEMICOLON)) {
         consume(tokenizer);
         ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, NULL);
@@ -35,7 +35,7 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(equal_token);
 }
 
-ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
+ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition, ASTNode* class) {
     bool is_array = false;
 
     Token* type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
@@ -54,6 +54,9 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
 
     Variable* variable = create_variable(name_token->content, type, is_array);
     add_variable_to_scope(tokenizer, variable);
+
+    if (class->identifier == AST_IDENTIFIER_CLASS_BODY)
+        add_class_variable(tokenizer, variable);
 
     add_to_array(variable_node->nodes, variable_type_node);
 
