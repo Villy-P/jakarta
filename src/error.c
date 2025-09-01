@@ -27,6 +27,10 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
         case ERR_UNKNOWN_SYMBOL:
             printf("Unknown symbol encountered: %s.\n", additional_info);
             break;
+        // additional_info: the token that was expected
+        case ERR_INVALID_TOKEN:
+            printf("Invalid token encountered: %s, expected %s.\n", token->symbol, additional_info);
+            break;
         // additional_info: the file name that could not be closed
         case ERR_CANNOT_CLOSE_FILE:
             printf("Could not close file %s.\n", additional_info);

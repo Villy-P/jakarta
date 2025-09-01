@@ -14,6 +14,13 @@
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     printf("Begin parsing Variable\n");
     ASTNode* variable_node = parse_variable_declaration(tokenizer, NULL);
+    if (peek(tokenizer, SYMBOL_SEMICOLON)) {
+        consume(tokenizer);
+        ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, NULL);
+        add_to_array(variable_node->nodes, variable_content_node);
+        add_to_array(ast_node->nodes, variable_node);
+        return;
+    }
     Token* equal_token = peek_consume(tokenizer, SYMBOL_EQUALS);
 
     Stack* postfix = infix_to_postfix(tokenizer);

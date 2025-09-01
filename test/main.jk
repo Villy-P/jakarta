@@ -17,7 +17,6 @@ func uint factorial(uint n) {
 }
 
 func int main() {
-    char[] e = [];
     uint f10 = factorial(10);
     uint f5 = factorial(5);
 
@@ -29,9 +28,4 @@ func int main() {
 class String {
     char[] data;
     uint length;
-
-    //func char index(uint n) {
-        // ERRORS
-        //ret this.data[n];
-    //}
 }
