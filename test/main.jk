@@ -25,3 +25,13 @@ func int main() {
 
     ret 0;
 }
+
+class String {
+    char[] data;
+    uint length;
+
+    //func char index(uint n) {
+        // ERRORS
+        //ret this.data[n];
+    //}
+}
