@@ -52,10 +52,15 @@ message("Linking against DbgHelp")
 list(APPEND APP_LIBS DbgHelp)
 
 if (WIN32)
-    message("Found cv2pdb64.exe, will generate PDB files")
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND $<TARGET_FILE_DIR:${PROJECT_NAME}>/cv2pdb64.exe $<TARGET_FILE:${PROJECT_NAME}>
-        COMMENT "Generating PDB using cv2pdb64.exe"
-        VERBATIM
-    )
+    find_program(CV2PDB_EXECUTABLE cv2pdb64.exe PATHS ${CMAKE_SOURCE_DIR})
+    if (CV2PDB_EXECUTABLE)
+        message("Found cv2pdb64.exe at ${CV2PDB_EXECUTABLE}, will generate PDB files")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CV2PDB_EXECUTABLE} $<TARGET_FILE:${PROJECT_NAME}>
+            COMMENT "Generating PDB using cv2pdb64.exe"
+            VERBATIM
+        )
+    else()
+        message("cv2pdb64.exe not found, skipping PDB generation")
+    endif()
 endif()

@@ -72,7 +72,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             } else {
                 Variable* variable = get_variable_from_scope(tokenizer, token);
                 if (peek(tokenizer, SYMBOL_PERIOD))
-                    parse_variable_members(tokenizer, node, variable->type->name);
+                    parse_variable_members(tokenizer, node, variable->type);
                 push_to_stack(output, node);
             }
         } else if (token->symbol == SYMBOL_NUMBER) {
