@@ -30,7 +30,6 @@ void create_base_types(Tokenizer* tokenizer) {
     add_type(tokenizer, create_type("double",  LONG_SIZE,   NUM_DECIMAL));
     add_type(tokenizer, create_type("ldouble", LLONG_SIZE,  NUM_DECIMAL));
 
-    add_type(tokenizer, create_type("string", 0, STRING));
     add_type(tokenizer, create_type("void", 0, STRING));
     debug_message("Created Base Types", CREATION);
 }

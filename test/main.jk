@@ -1,7 +1,14 @@
 // import "stdio"
 
-typedef Students ubyte;
-typedef Decimal double;
+class string {
+    char[] data;
+    uint length;
+
+    func char index(uint n) {
+        // ERRORS
+        ret data[n];
+    }
+}
 
 func void print(string input) {
     for (int i = 0; i < input.length; i++) {
@@ -23,14 +30,4 @@ func int main() {
     // print(f10 + " " + f5);
 
     ret 0;
-}
-
-class String {
-    char[] data;
-    uint length;
-
-    func char index(uint n) {
-        // ERRORS
-        ret data[n];
-    }
 }
