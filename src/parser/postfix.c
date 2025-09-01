@@ -77,13 +77,26 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             }
         } else if (token->symbol == SYMBOL_NUMBER) {
             push_to_stack(output, node);
-        } else if (token->symbol == SYMBOL_SEMICOLON) {
+        } else if (token->symbol == SYMBOL_SEMICOLON || token->symbol == SYMBOL_CLOSE_BRACKET) {
             while (operands->top > -1) {
                 ASTNode* op = malloc(sizeof(ASTNode));
                 pop_from_stack(operands, op);
                 push_to_stack(output, op);
             }
             break;
+        } else if (token->symbol == SYMBOL_OPEN_BRACKET) {
+            ASTNode* array_node = create_ast_node(AST_IDENTIFIER_ARRAY_ACCESS, NULL);
+            Stack* index_postfix = infix_to_postfix(tokenizer);
+            ASTNode* index_expression = postfix_to_ast(index_postfix);
+            add_to_array(array_node->nodes, index_expression);
+
+            ASTNode* index_node = create_ast_node(AST_IDENTIFIER_INDEX, NULL);
+            ASTNode* left_node = malloc(sizeof(ASTNode));
+            pop_from_stack(output, left_node);
+            add_to_array(index_node->nodes, left_node);
+            add_to_array(index_node->nodes, array_node);
+
+            push_to_stack(output, index_node);
         } else {
             while (operands->top > -1) {
                 ASTNode* op = malloc(sizeof(ASTNode));

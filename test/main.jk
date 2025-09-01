@@ -28,4 +28,9 @@ func int main() {
 class String {
     char[] data;
     uint length;
+
+    func char index(uint n) {
+        // ERRORS
+        ret data[n];
+    }
 }

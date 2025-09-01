@@ -12,7 +12,7 @@
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_scope(tokenizer);
 
-    if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM)
+    if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM && ast_node->identifier != AST_IDENTIFIER_CLASS_BODY)
         jakarta_error_invalid_typedef_location(consume(tokenizer));
 
     Token* func_keyword = consume(tokenizer);
