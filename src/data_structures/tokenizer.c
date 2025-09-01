@@ -46,6 +46,12 @@ void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition)
     insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
 }
 
+void add_class(Tokenizer* tokenizer, ClassDefinition* class_definition) {
+    if (get(tokenizer->class_symbol_tree, class_definition->name) != NULL)
+        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, class_definition->name);
+    insert(tokenizer->class_symbol_tree, class_definition->name, class_definition);
+}
+
 void print_tokens(Tokenizer* tokenizer) {
     for (unsigned int i = 0; i < tokenizer->tokens->length; i++) {
         Token* token = get_from_array(tokenizer->tokens, i);

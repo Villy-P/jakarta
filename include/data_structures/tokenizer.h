@@ -9,6 +9,7 @@
 #include "types/variable.h"
 #include "types/function.h"
 #include "types/types.h"
+#include "types/class.h"
 #include "token.h"
 
 typedef struct TokenizerDef {
@@ -23,6 +24,7 @@ Tokenizer* create_tokenizer(unsigned int initial_size);
 void add_type(Tokenizer* tokenizer, Type* type);
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
 void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition);
+void add_class(Tokenizer* tokenizer, ClassDefinition* class_definition);
 void print_tokens(Tokenizer* tokenizer);
 Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token);
 
