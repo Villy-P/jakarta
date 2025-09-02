@@ -3,49 +3,36 @@ project(Jakarta VERSION 1.0)
 
 set(EXEC_NAME "JAKARTA")
 set(EXEC_NAME_TEST "JAKARTA_TEST")
-
 set(CMAKE_C_STANDARD 17)
-set(CMAKE_C_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-file(GLOB SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c" 
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/**/*.c")
-file(GLOB SOURCES_TEST
-    "${CMAKE_CURRENT_SOURCE_DIR}/test/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/**/*.c")
-list(FILTER SOURCES_TEST EXCLUDE REGEX ".*src/main.c$")
+file(GLOB_RECURSE JAKARTA_SOURCES CONFIGURE_DEPENDS "src/*.c" "src/**/*.c")
+file(GLOB_RECURSE JAKARTA_TEST_SOURCES CONFIGURE_DEPENDS "src/*.c" "src/**/*.c" "test/*.c")
+
+list(FILTER JAKARTA_TEST_SOURCES EXCLUDE REGEX ".*src/main.c$")
 
 include_directories(include/)
 
-add_executable(${EXEC_NAME} ${SOURCES})
-add_executable(${EXEC_NAME_TEST} ${SOURCES_TEST})
-
-set_target_properties(${EXEC_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
-set_target_properties(${EXEC_NAME_TEST} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
-
-target_compile_options(${EXEC_NAME} PRIVATE
-    $<$<CONFIG:Debug>:
-        $<$<C_COMPILER_ID:MSVC>:/Zi /Od>
-        $<$<NOT:$<C_COMPILER_ID:MSVC>>:-g -Wall -Wextra -fdiagnostics-color=always>
-    >
+add_library(common_flags INTERFACE)
+target_compile_options(common_flags INTERFACE
+    -Wall -Wextra
+    $<$<CONFIG:Debug>:-fdiagnostics-color=always>
 )
-target_compile_options(${EXEC_NAME_TEST} PRIVATE
-    $<$<CONFIG:Debug>:
-        $<$<C_COMPILER_ID:MSVC>:/Zi /Od>
-        $<$<NOT:$<C_COMPILER_ID:MSVC>>:-g -Wall -Wextra -fdiagnostics-color=always>
-    >
-)
+
+add_executable(${EXEC_NAME} ${JAKARTA_SOURCES})
+target_include_directories(${EXEC_NAME} PRIVATE include/)
+
+add_executable(${EXEC_NAME_TEST} ${JAKARTA_TEST_SOURCES})
+target_include_directories(${EXEC_NAME_TEST} PRIVATE include/)
 
 if(UNIX)
-    target_link_libraries(${EXEC_NAME})
-    target_link_libraries(${EXEC_NAME_TEST})
+    target_link_libraries(${EXEC_NAME} common_flags)
+    target_link_libraries(${EXEC_NAME_TEST} common_flags)
 else()
-    target_link_libraries(${EXEC_NAME} regex Dbghelp)
-    target_link_libraries(${EXEC_NAME_TEST} regex Dbghelp)
+    target_link_libraries(${EXEC_NAME} regex Dbghelp common_flags)
+    target_link_libraries(${EXEC_NAME_TEST} regex Dbghelp common_flags)
 endif()
 
 message("Linking against DbgHelp")
@@ -64,3 +51,10 @@ if (WIN32)
         message("cv2pdb64.exe not found, skipping PDB generation")
     endif()
 endif()
+
+add_custom_command(TARGET ${EXEC_NAME_TEST} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/test
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test
+    COMMENT "Copying test directory to bin/"
+)
