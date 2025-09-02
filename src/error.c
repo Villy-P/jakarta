@@ -50,6 +50,10 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
         case ERR_MALLOC_FAIL:
             printf("Failed to allocate memory for %s\n", additional_info);
             break;
+        // additional_info: the string that was not closed
+        case ERR_UNTERMINATED_STRING:
+            printf("Unterminated string literal: %s\n", additional_info);
+            break;
         default:
             if (token != NULL)
                 printf("Error at position %d:%d: %s\n", token->line, token->col, token->content);

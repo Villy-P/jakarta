@@ -8,6 +8,7 @@
 #include "error.h"
 #include "free.h"
 #include "debug.h"
+#include "postfix.h"
 
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_scope(tokenizer);
@@ -67,14 +68,12 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 }
 
 void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
-    Token* function_name = consume(tokenizer);
     for (unsigned int i = 0; i < function->parameters->length; i++) {
-        Token* arg = consume(tokenizer);
-        ASTNode* arg_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, arg);
+        Stack* arg = infix_to_postfix(tokenizer);
+        ASTNode* arg_node = postfix_to_ast(arg);
         add_to_array(ast_node->nodes, arg_node);
-        if (i < function->parameters->length - 1)
+        if (i < function->parameters->length - 1 && peek(tokenizer, SYMBOL_COMMA))
             consume(tokenizer); // comma
     }
-    free_token(function_name);
     debug_message("Parsed Function Call", TOP_LEVEL);
 }

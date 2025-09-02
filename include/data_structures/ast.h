@@ -49,7 +49,10 @@ typedef enum ASTIdentifierDef {
     AST_IDENTIFIER_FOR_BODY,
 
     AST_IDENTIFIER_ARRAY_ACCESS,
-    AST_IDENTIFIER_INDEX
+    AST_IDENTIFIER_INDEX,
+
+    AST_LITERAL,
+    AST_OPERATOR
 } ASTIdentifier;
 
 typedef struct ASTNodeDef {

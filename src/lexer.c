@@ -17,6 +17,14 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
     while (strcmp(line, "\0") != STRING_UNEQUAL) {
         if (line[0] == '/' && line[1] == '/')
             break;
+        if (line[0] == '"') {
+            char* str_lit = get_string_literal(&line);
+            Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col, str_lit);
+            col += strlen(str_lit) + 2;
+            add_to_array(tokenizer->tokens, token);
+            free(str_lit);
+            continue;
+        }
         char* str = get_string(&line);
         if (str != NULL) {
             Symbol symbol = get_keyword_from_str(str);
@@ -44,10 +52,33 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
     }
 }
 
+char* get_string_literal(char** line) {
+    (*line)++;
+    char* start = *line;
+    size_t length = 0;
+
+    while ((*line)[0] != '"' && (*line)[0] != '\0') {
+        if ((*line)[0] == '\\')
+            (*line)++;
+        (*line)++;
+        length++;
+    }
+
+    if ((*line)[0] == '"') {
+        char* str = calloc(length + 1, sizeof(char));
+        memcpy(str, start, length);
+        (*line)++;
+        return str;
+    } else {
+        jakarta_error(ERR_UNTERMINATED_STRING, NULL, start);
+    }
+}
+
 char* get_string(char** line) {
     regex_t reegex;
     regmatch_t groups[MAX_REGEX_GROUPS];
     int value = 0;
+
     value = regcomp(&reegex, "^(\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?|&&?|\\|\\|?|>=|<=|!|!=|\\[\\])", REG_EXTENDED);
     value = regexec(&reegex, *line, MAX_REGEX_GROUPS, groups, REGEX_FLAGS);
 
