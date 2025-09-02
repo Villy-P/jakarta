@@ -184,12 +184,11 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "[]") == 0)  return OPERATOR_ARRAY_DECLARATION;
     return SYMBOL_IDENTIFIER;
 }
-
 bool is_number_symbol(char* str) {
     regex_t regex;
     int reti;
 
-    reti = regcomp(&regex, "^-?(0x[A-F0-9]+|0b[0-1]+|0[0-7]+|\\d*(\\.\\d*)?|\\d+e\\d+)$", REG_EXTENDED);
+    reti = regcomp(&regex, "^-?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)$", REG_EXTENDED);
 
     reti = regexec(&regex, str, 0, NULL, 0);
     regfree(&regex);
