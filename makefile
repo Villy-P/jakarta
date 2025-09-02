@@ -14,8 +14,12 @@ run:
 
 run-linux:
 	ninja -C build
-	./JAKARTA.exe $(args)
+	./JAKARTA $(args)
 
 run-test:
 	ninja -C build
 	.\JAKARTA_TEST.exe $(args)
+
+run-test-linux:
+	ninja -C build
+	./JAKARTA_TEST $(args)

@@ -19,6 +19,7 @@
 #define ERR_DUPLICATE_IDENTIFIER 7
 #define ERR_CUSTOM 8
 #define ERR_MALLOC_FAIL 9
+#define ERR_UNTERMINATED_STRING 10
 
 void jakarta_error(int error_code, Token* token, const char* additional_info);
 

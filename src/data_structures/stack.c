@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <errno.h>
 
 #include "data_structures/stack.h"
 #include "error.h"
@@ -50,9 +51,7 @@ int push_to_stack(Stack* s, void* data) {
     s->top++;
     void* target = (char*)s->data + s->top * s->member_size;
 
-    errno_t err = memcpy_s(target, s->member_size, data, s->member_size);
-    if (err != 0) 
-        jakarta_error(ERR_CUSTOM, NULL, strerror(err));
+    memcpy(target, data, s->member_size);
 
     return STACK_OK;
 }
@@ -68,10 +67,7 @@ int pop_from_stack(Stack* s, void* target) {
 
     if (target == NULL)
         return STACK_OK;
-    errno_t err = memcpy_s(target, s->member_size, source, s->member_size);
-    if (err != 0)
-        jakarta_error(ERR_CUSTOM, NULL, strerror(err));
-
+    memcpy(target, source, s->member_size);
     return STACK_OK;
 }
 
@@ -83,8 +79,7 @@ int get_stack_index(Stack* s, int index, void* target) {
 
     void* source = (char*)s->data + index * s->member_size;
 
-    errno_t err = memcpy_s(target, s->member_size, source, s->member_size);
-    if (err != 0) return err;
+    memcpy(target, source, s->member_size);
 
     return STACK_OK;
 }
@@ -100,9 +95,9 @@ void reverse_stack(Stack* s) {
     while (start < end) {
         void* startPtr = (char*)s->data + (start * s->member_size);
         void* endPtr = (char*)s->data + (end * s->member_size);
-        memcpy_s(temp, s->member_size, startPtr, s->member_size);
-        memcpy_s(startPtr, s->member_size, endPtr, s->member_size);
-        memcpy_s(endPtr, s->member_size, temp, s->member_size);
+        memcpy(temp, startPtr, s->member_size);
+        memcpy(startPtr, endPtr, s->member_size);
+        memcpy(endPtr, temp, s->member_size);
         start++;
         end--;
     }

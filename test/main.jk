@@ -11,8 +11,8 @@ class string {
 }
 
 func void print(string input) {
-    for (int i = 0; i < input.length; i++) {
-        write(input);
+    for (int i = 0; i < input; i++) {
+        write(input[i]);
     }
 }
 
@@ -27,7 +27,7 @@ func int main() {
     uint f10 = factorial(10);
     uint f5 = factorial(5);
 
-    // print(f10 + " " + f5);
+    print(f10 + " " + f5);
 
     ret 0;
 }
