@@ -1,5 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <errno.h>
 
 #include "data_structures/ast.h"
 #include "types/function.h"
@@ -55,7 +58,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_to_array(ast_node->nodes, func_node);
 
     function_definition->body = malloc(sizeof(ASTNode));
-    memcpy_s(function_definition->body, sizeof(ASTNode), func_node, sizeof(ASTNode));
+    memcpy(function_definition->body, func_node, sizeof(ASTNode));
 
     insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
 

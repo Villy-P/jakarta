@@ -20,7 +20,7 @@ void create_base_types(Tokenizer* tokenizer) {
     add_type(tokenizer, create_type("short",   SHORT_SIZE,  NUM));
     add_type(tokenizer, create_type("int",     INT_SIZE,    NUM));
     add_type(tokenizer, create_type("long",    LONG_SIZE,   NUM));
-    add_type(tokenizer, create_type("llong",   LLONG_MAX,   NUM));
+    add_type(tokenizer, create_type("llong",   LLONG_SIZE,  NUM));
     add_type(tokenizer, create_type("ubyte",   BYTE_SIZE,   UNUM));
     add_type(tokenizer, create_type("ushort",  SHORT_SIZE,  UNUM));
     add_type(tokenizer, create_type("uint",    INT_SIZE,    UNUM));

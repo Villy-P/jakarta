@@ -29,7 +29,7 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
             break;
         // additional_info: the token that was expected
         case ERR_INVALID_TOKEN:
-            printf("Invalid token encountered: %s, expected %s.\n", token->symbol, additional_info);
+            printf("Invalid token encountered: %d, expected %s.\n", token->symbol, additional_info);
             break;
         // additional_info: the file name that could not be closed
         case ERR_CANNOT_CLOSE_FILE:
