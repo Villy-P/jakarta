@@ -15,22 +15,9 @@
 int main(int argc, char *argv[]) {
     debug_message("Started Program", TOP_LEVEL);
 
-    char input_file[FILE_NAME_SIZE];
-    char output_file[FILE_NAME_SIZE];
+    CmdArgs args = {0};
+    parse_args(argc, argv, &args);
 
-    for (int i = ARGUMENT_START_INDEX; i < argc; i++) {
-        if (strcmp(argv[i], INPUT_FILE_ARGUMENT) == STRING_EQUAL) {
-            if (i == argc - 1)
-                jakarta_error(ERR_INVALID_FILE_LOCATION, NULL, INPUT_FILE_ARGUMENT);
-            debug_message("Found Input File", LOG);
-            strncpy(input_file, argv[i + 1], FILE_NAME_SIZE);
-        } else if (strcmp(argv[i], OUTPUT_FILE_ARGUMENT) == STRING_EQUAL) {
-            if (i == argc - 1)
-                jakarta_error(ERR_INVALID_FILE_LOCATION, NULL, OUTPUT_FILE_ARGUMENT);
-            debug_message("Found Output File", LOG);
-            strncpy(output_file, argv[i + 1], FILE_NAME_SIZE);
-        }
-    }
-    jakarta_cmd_read_file(input_file);
-    jakarta_cmd_out_file(output_file);
+    jakarta_cmd_read_file(args.input_file);
+    jakarta_cmd_out_file(args.output_file);
 }
