@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_AST_H__
-#define __JAKARTA_AST_H__
+#pragma once
 
 #include "token.h"
 #include "array.h"
@@ -70,5 +69,3 @@ AST* create_ast();
 void print_ast_node(ASTNode* node, int depth);
 
 unsigned int precedence(char* operator);
-
-#endif

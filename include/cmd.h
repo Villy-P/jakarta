@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_CMD_H__
-#define __JAKARTA_CMD_H__
+#pragma once
 
 #include <stdio.h>
 
@@ -18,5 +17,3 @@ void jakarta_cmd_read_file(const char* file_location);
 void jakarta_cmd_out_file(const char* file_location);
 
 void parse_args(int argc, char* argv[], CmdArgs* args);
-
-#endif

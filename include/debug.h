@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_DEBUG_H__
-#define __JAKARTA_DEBUG_H__
+#pragma once
 
 #define PRODUCTION 1
 
@@ -9,5 +8,3 @@
 #define LOG 36
 
 void debug_message(const char* message, unsigned char type);
-
-#endif

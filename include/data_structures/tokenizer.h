@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_TOKENIZER_H__
-#define __JAKARTA_TOKENIZER_H__
+#pragma once
 
 #include <stdbool.h>
 
@@ -43,5 +42,3 @@ void add_scope(Tokenizer* tokenizer);
 void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable);
 
 void add_built_in_functions(Tokenizer* tokenizer);
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_STACK_H__
-#define __JAKARTA_STACK_H__
+#pragma once
 
 #include "data_structures/ast.h"
 
@@ -18,5 +17,3 @@ int expand_stack(Stack* s);
 int pop_from_stack(Stack* s, void* target);
 void reverse_stack(Stack* s);
 int get_stack_index(Stack* s, int index, void* target);
-
-#endif

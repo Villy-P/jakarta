@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_HASHMAP_H__
-#define __JAKARTA_HASHMAP_H__
+#pragma once
 
 #define HASHMAP_ARRAY_SIZE 100
 
@@ -18,5 +17,3 @@ int insert(HashMap* hashmap, char* key, void* value);
 void* get(HashMap* hashmap, char* key);
 HashMap* create_hashmap();
 HashNode* create_hashnode(char* key, void* value);
-
-#endif

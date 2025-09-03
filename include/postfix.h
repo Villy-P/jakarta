@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_POSTFIX_H__
-#define __JAKARTA_POSTFIX_H__
+#pragma once
 
 #include "data_structures/tokenizer.h"
 #include "data_structures/stack.h"
@@ -11,5 +10,3 @@ void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type);
 bool is_operator(Symbol sym);
 bool is_right_associative(const char* op);
-
-#endif

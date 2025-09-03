@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_TOKEN_H__
-#define __JAKARTA_TOKEN_H__
+#pragma once
 
 #include "symbol.h"
 
@@ -13,5 +12,3 @@ typedef struct TokenDef {
 } Token;
 
 Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content);
-
-#endif

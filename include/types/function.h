@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_FUNCTION_H__
-#define __JAKARTA_FUNCTION_H__
+#pragma once
 
 #include "data_structures/ast.h"
 #include "data_structures/array.h"
@@ -12,5 +11,3 @@ typedef struct FunctionDefinitionDef {
 } FunctionDefinition;
 
 FunctionDefinition* create_function_definition(const char* name, const char* return_type);
-
-#endif

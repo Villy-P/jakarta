@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_VARIABLE_H__
-#define __JAKARTA_VARIABLE_H__
+#pragma once
 
 #include "types/types.h"
 
@@ -10,5 +9,3 @@ typedef struct VariableDef {
 } Variable;
 
 Variable* create_variable(const char* name, Type* type, bool is_array);
-
-#endif

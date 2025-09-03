@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_IDENTIFIER_H__
-#define __JAKARTA_IDENTIFIER_H__
+#pragma once
 
 typedef enum IdentifierTypeDef {
     TYPE,
@@ -14,5 +13,3 @@ typedef struct IdentifierDef {
 } Identifier;
 
 Identifier* create_identifier(IdentifierType type, char* name, char* allias, unsigned char size);
-
-#endif

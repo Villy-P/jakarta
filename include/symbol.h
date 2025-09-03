@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_SYMBOL_H__
-#define __JAKARTA_SYMBOL_H__
+#pragma once
 
 #include <stdbool.h>
 
@@ -106,5 +105,3 @@ Symbol get_symbol_from_char(char ch);
 Symbol get_keyword_from_str(char* str);
 char* get_string_from_symbol(Symbol symbol);
 bool is_number_symbol(char* str);
-
-#endif

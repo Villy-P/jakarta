@@ -1,3 +1,5 @@
+#pragma once
+
 #include "token.h"
 
 #ifdef __WIN32
@@ -18,12 +20,11 @@
 #define ERR_MALLOC_FAIL 9
 #define ERR_UNTERMINATED_STRING 10
 
+// error.c
 void jakarta_error(int error_code, Token* token, const char* additional_info);
-
 void jakarta_error_invalid_token(const char* expected, const char* got);
-
 void jakarta_error_invalid_typedef_location(Token* token);
-
 void jakarta_error_undefined_identifier(Token* identifier);
 
+// stack_trace.c
 void print_stack_trace();

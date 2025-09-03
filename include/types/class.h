@@ -1,5 +1,4 @@
-#ifndef __JAKARTA_CLASS_H__
-#define __JAKARTA_CLASS_H__
+#pragma once
 
 #include "data_structures/ast.h"
 #include "data_structures/array.h"
@@ -13,5 +12,3 @@ typedef struct ClassDefinitionDef {
 } ClassDefinition;
 
 ClassDefinition* create_class_definition(const char* name);
-
-#endif
