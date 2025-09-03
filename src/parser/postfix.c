@@ -183,7 +183,6 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         if (is_operator(token->symbol)) {
             node = create_ast_node(AST_OPERATOR, token);
 
-            printf("AAAAAAAAH: %s\n", node->token->content);
             while (operators->top > -1) {
                 ASTNode* op = malloc(sizeof(ASTNode));
                 pop_from_stack(operators, op);
