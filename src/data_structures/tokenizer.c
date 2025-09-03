@@ -5,7 +5,7 @@
 #include "data_structures/tokenizer.h"
 #include "free.h"
 #include "types/types.h"
-#include "error.h"
+#include "core.h"
 #include "debug.h"
 
 #define INITIAL_TYPE_SIZE 64

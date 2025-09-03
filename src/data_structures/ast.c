@@ -1,5 +1,5 @@
 #include "data_structures/ast.h"
-#include "error.h"
+#include "core.h"
 
 #include <stdlib.h>
 #include <stdio.h>

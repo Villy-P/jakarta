@@ -5,7 +5,7 @@
 
 #include "postfix.h"
 #include "parser.h"
-#include "error.h"
+#include "core.h"
 #include "types/class.h"
 #include "types/function.h"
 

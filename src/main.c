@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "error.h"
+#include "core.h"
 #include "cmd.h"
 #include "types/types.h"
 #include "free.h"

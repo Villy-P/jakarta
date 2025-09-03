@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #include "lexer.h"
-#include "error.h"
+#include "core.h"
 #include "token.h"
 #include "data_structures/tokenizer.h"
 

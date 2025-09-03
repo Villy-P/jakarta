@@ -1,6 +1,3 @@
-#ifndef __JAKARTA_ERROR_H__
-#define __JAKARTA_ERROR_H__
-
 #include "token.h"
 
 #ifdef __WIN32
@@ -30,5 +27,3 @@ void jakarta_error_invalid_typedef_location(Token* token);
 void jakarta_error_undefined_identifier(Token* identifier);
 
 void print_stack_trace();
-
-#endif

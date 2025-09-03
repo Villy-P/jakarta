@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include "types/class.h"
-#include "error.h"
+#include "core.h"
 
 ClassDefinition* create_class_definition(const char* name) {
     ClassDefinition* class = malloc(sizeof(ClassDefinition));

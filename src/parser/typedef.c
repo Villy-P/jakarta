@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "parser.h"
-#include "error.h"
+#include "core.h"
 #include "free.h"
 
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {

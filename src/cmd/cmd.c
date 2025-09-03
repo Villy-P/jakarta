@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "cmd.h"
-#include "error.h"
+#include "core.h"
 #include "lexer.h"
 #include "free.h"
 #include "parser.h"

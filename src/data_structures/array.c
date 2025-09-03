@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "data_structures/array.h"
-#include "error.h"
+#include "core.h"
 
 #define ARRAY_CAPACITY_INCREASE_MULTIPLIER 2
 #define ARRAY_INIITIAL_SIZE_DEFAULT 4

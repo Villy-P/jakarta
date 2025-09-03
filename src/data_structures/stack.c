@@ -5,7 +5,7 @@
 #include <errno.h>
 
 #include "data_structures/stack.h"
-#include "error.h"
+#include "core.h"
 
 #define STACK_OK 0
 #define STACK_ERR_ALLOC 1

@@ -9,7 +9,7 @@
 #include "parser.h"
 #include "free.h"
 #include "postfix.h"
-#include "error.h"
+#include "core.h"
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     printf("Begin parsing Variable\n");

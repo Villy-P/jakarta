@@ -1,5 +1,5 @@
 #include "cmd.h"
-#include "error.h"
+#include "core.h"
 
 void parse_args(int argc, char* argv[], CmdArgs* args) {
     for (int i = ARGUMENT_START_INDEX; i < argc; i++) {

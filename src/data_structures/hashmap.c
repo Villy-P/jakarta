@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 #include "data_structures/hashmap.h"
-#include "error.h"
+#include "core.h"
 
 #define HASH_BASE_PRIME 31
 #define HASH_LARGE_PRIME 1e9 + 9;

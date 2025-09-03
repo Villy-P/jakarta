@@ -2,7 +2,7 @@
 #include <regex.h>
 
 #include "symbol.h"
-#include "error.h"
+#include "core.h"
 
 Symbol get_symbol_from_char(char ch) {
     switch (ch) {

@@ -4,7 +4,7 @@
 #include "parser.h"
 #include "free.h"
 #include "postfix.h"
-#include "error.h"
+#include "core.h"
 
 void parse_class(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_scope(tokenizer);
