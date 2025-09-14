@@ -25,3 +25,8 @@ char* get_string_literal(char** line);
 
 // parser.c
 void parse(Tokenizer* tokenizer, ASTNode* ast_node);
+
+// Nodes
+
+// AST
+void parse_class(Tokenizer* tokenizer, ASTNode* ast_node);
