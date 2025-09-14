@@ -16,14 +16,18 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     if (tokenizer == NULL)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Tokenizer");
     tokenizer->tokens = create_array(initial_size);
-    tokenizer->function_symbol_tree = create_hashmap();
-    tokenizer->type_symbol_tree = create_hashmap();
-    tokenizer->class_symbol_tree = create_hashmap();
-    tokenizer->variable_symbol_stack = create_stack(sizeof(HashMap), INITIAL_VARIABLE_STACK_SIZE);
+    initialize_symbol_trees(tokenizer);
 
     create_base_types(tokenizer);
     add_built_in_functions(tokenizer);
     return tokenizer;
+}
+
+void initialize_symbol_trees(Tokenizer* tokenizer) {
+    tokenizer->function_symbol_tree = create_hashmap();
+    tokenizer->type_symbol_tree = create_hashmap();
+    tokenizer->class_symbol_tree = create_hashmap();
+    tokenizer->variable_symbol_stack = create_stack(sizeof(HashMap), INITIAL_VARIABLE_STACK_SIZE);
 }
 
 void add_type(Tokenizer* tokenizer, Type* type) {

@@ -19,6 +19,7 @@ typedef struct TokenizerDef {
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
+void initialize_symbol_trees(Tokenizer* tokenizer);
 void add_type(Tokenizer* tokenizer, Type* type);
 void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
 void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition);
