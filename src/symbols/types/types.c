@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "types/types.h"
+#include "types.h"
 #include "debug.h"
 #include "data_structures/tokenizer.h"
 

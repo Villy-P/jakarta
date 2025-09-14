@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "types/variable.h"
+#include "types.h"
 
 Variable* create_variable(const char* name, Type* type, bool is_array) {
     Variable* variable = malloc(sizeof(Variable));

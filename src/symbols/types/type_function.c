@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-#include "types/function.h"
+#include "types.h"
 
 FunctionDefinition* create_function_definition(const char* name, const char* return_type) {
     FunctionDefinition* function_definition = malloc(sizeof(FunctionDefinition));

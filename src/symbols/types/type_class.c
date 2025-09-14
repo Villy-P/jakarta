@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "types/class.h"
+#include "types.h"
 #include "core.h"
 
 ClassDefinition* create_class_definition(const char* name) {

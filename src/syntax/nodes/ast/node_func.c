@@ -5,8 +5,8 @@
 #include <errno.h>
 
 #include "data_structures/ast.h"
-#include "types/function.h"
-#include "types/types.h"
+#include "types.h"
+#include "types.h"
 #include "syntax.h"
 #include "core.h"
 #include "debug.h"

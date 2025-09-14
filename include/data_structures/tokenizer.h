@@ -5,10 +5,7 @@
 #include "data_structures/hashmap.h"
 #include "data_structures/array.h"
 #include "data_structures/stack.h"
-#include "types/variable.h"
-#include "types/function.h"
-#include "types/types.h"
-#include "types/class.h"
+#include "types.h"
 #include "syntax.h"
 
 typedef struct TokenizerDef {

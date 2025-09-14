@@ -5,8 +5,7 @@
 
 #include "syntax.h"
 #include "core.h"
-#include "types/class.h"
-#include "types/function.h"
+#include "types.h"
 
 unsigned int precedence(char* op) {
     if (strcmp(op, "=") == 0 || strcmp(op, "+=") == 0 || strcmp(op, "-=") == 0 || strcmp(op, "*=") == 0 || strcmp(op, "/=") == 0 || strcmp(op, "%=") == 0 || strcmp(op, "&=") == 0 || strcmp(op, "|=") == 0 || strcmp(op, "^=") == 0 || strcmp(op, "<<=") == 0 || strcmp(op, ">>=") == 0 || strcmp(op, ">>>=") == 0)
