@@ -9,7 +9,7 @@
 #include "types/function.h"
 #include "types/types.h"
 #include "types/class.h"
-#include "token.h"
+#include "syntax.h"
 
 typedef struct TokenizerDef {
     Array* tokens;

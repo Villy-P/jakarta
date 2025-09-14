@@ -29,10 +29,10 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* iteration_expression = postfix_to_ast(iteration_postfix);
     add_to_array(for_iteration->nodes, iteration_expression);
 
-    Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
+    peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
         parse(tokenizer, for_body);
-    Token* close_brace = consume(tokenizer);
+    consume(tokenizer);
 
     add_to_array(for_node->nodes, for_condition);
     add_to_array(for_node->nodes, for_iteration);

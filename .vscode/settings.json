@@ -22,7 +22,7 @@
         "types/types.h": "c",
         "function.h": "c",
         "types.h": "c",
-        "token.h": "c",
+        "syntax.h": "c",
         "parser.h": "c",
         "postfix.h": "c",
         "hashmap.h": "c",
@@ -30,7 +30,8 @@
         "stdio.h": "c",
         "string.h": "c",
         "stddef.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "symbol.h": "c"
     },
     "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
         "clang-diagnostic-error",

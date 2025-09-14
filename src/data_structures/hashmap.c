@@ -47,7 +47,7 @@ int insert(HashMap* hashmap, char* key, void* value) {
 }
 
 void* get(HashMap* hashmap, char* key) {
-    if (hashmap == NULL || hashmap->array == NULL)
+    if (hashmap == NULL)
         jakarta_error(ERR_CUSTOM, NULL, "HashMap is not initialized");
     int index = hash(key);
     HashNode* node = hashmap->array[index];

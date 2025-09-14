@@ -33,6 +33,6 @@ void print_ast_node(ASTNode* node, int depth) {
     if (node->token != NULL)
         printf(" Token: %s", node->token->content);
     printf("\n");
-    for (int i = 0; i < node->nodes->length; ++i)
+    for (unsigned int i = 0; i < node->nodes->length; ++i)
         print_ast_node(get_from_array(node->nodes, i), depth + 1);
 }

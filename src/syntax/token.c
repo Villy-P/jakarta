@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "token.h"
+#include "syntax.h"
 
 Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content) {
     Token* item = malloc(sizeof(Token));

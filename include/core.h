@@ -1,6 +1,6 @@
 #pragma once
 
-#include "token.h"
+#include "syntax.h"
 #include "data_structures/tokenizer.h"
 
 #ifdef __WIN32

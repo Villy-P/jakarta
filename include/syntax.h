@@ -1,6 +1,21 @@
 #pragma once
 
-#include "data_structures/tokenizer.h"
+#include "symbol.h"
+
+#define INITIAL_TOKENS_LENGTH 64
+
+// forward declerations
+typedef struct TokenizerDef Tokenizer;
+
+// token.c
+typedef struct TokenDef {
+    Symbol symbol;
+    unsigned int line;
+    unsigned int col;
+    char* content;
+} Token;
+
+Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content);
 
 // lexer.c
 void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer);

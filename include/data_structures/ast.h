@@ -1,6 +1,6 @@
 #pragma once
 
-#include "token.h"
+#include "syntax.h"
 #include "array.h"
 
 typedef enum ASTIdentifierDef {

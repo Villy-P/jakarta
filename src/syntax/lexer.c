@@ -5,7 +5,6 @@
 
 #include "syntax.h"
 #include "core.h"
-#include "token.h"
 #include "data_structures/tokenizer.h"
 
 #define MAX_REGEX_GROUPS 1
