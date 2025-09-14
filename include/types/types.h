@@ -2,8 +2,6 @@
 
 #include <stdbool.h>
 
-#include "identifier.h"
-
 typedef enum TypeOptionsDef {
     NUM,
     UNUM,
