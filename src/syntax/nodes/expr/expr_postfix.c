@@ -155,7 +155,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         if (token->symbol == SYMBOL_CLOSE_PARENTHESIS) {
             open_parenthesis_count--;
-            while (operators->top > -1) {
+            while (operators->top > STACK_EMPTY) {
                 ASTNode* op = malloc(sizeof(ASTNode));
                 pop_from_stack(operators, op);
                 if (op->token->symbol == SYMBOL_OPEN_PARENTHESIS)
@@ -169,7 +169,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         // --- Statement endings ---
         if (token->symbol == SYMBOL_SEMICOLON || token->symbol == SYMBOL_CLOSE_BRACKET) {
-            while (operators->top > -1) {
+            while (operators->top > STACK_EMPTY) {
                 ASTNode* op = malloc(sizeof(ASTNode));
                 pop_from_stack(operators, op);
                 push_to_stack(output, op);
@@ -181,7 +181,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         if (is_operator(token->symbol)) {
             node = create_ast_node(AST_OPERATOR, token);
 
-            while (operators->top > -1) {
+            while (operators->top > STACK_EMPTY) {
                 ASTNode* op = malloc(sizeof(ASTNode));
                 pop_from_stack(operators, op);
 
@@ -219,7 +219,7 @@ ASTNode* postfix_to_ast(Stack* postfix) {
         pop_from_stack(postfix, value);
         return value;
     }
-    while (postfix->top > -1) {
+    while (postfix->top > STACK_EMPTY) {
         ASTNode* node = malloc(sizeof(ASTNode));
         pop_from_stack(postfix, node);
         if (node->token->symbol == SYMBOL_IDENTIFIER || node->token->symbol == SYMBOL_NUMBER) {

@@ -2,7 +2,11 @@
 
 #include "data_structures/ast.h"
 
-#define STACK_TYPE ASTNode*
+#define STACK_EMPTY -1
+#define STACK_OK 0
+#define STACK_ERR_ALLOC 1
+#define STACK_ERR_EMPTY 2
+#define STACK_ERR_NULL 3
 
 typedef struct StackDef {
     void* data;

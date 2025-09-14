@@ -7,16 +7,11 @@
 #include "data_structures/stack.h"
 #include "core.h"
 
-#define STACK_OK 0
-#define STACK_ERR_ALLOC 1
-#define STACK_ERR_EMPTY 2
-#define STACK_ERR_NULL 3
-
 Stack* create_stack(int member_size, int total_elements) {
     Stack *s = malloc(sizeof(Stack));
     if (s == NULL)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Stack");
-    s->top = -1;
+    s->top = STACK_EMPTY;
     s->member_size = member_size;
     s->total_elements = total_elements;
     s->data = calloc(total_elements, member_size);
@@ -59,7 +54,7 @@ int push_to_stack(Stack* s, void* data) {
 int pop_from_stack(Stack* s, void* target) {
     if (!s)
         jakarta_error(ERR_CUSTOM, NULL, "Stack is NULL");
-    if (s->top == -1)
+    if (s->top == STACK_EMPTY)
         jakarta_error(ERR_CUSTOM, NULL, "Stack is empty");
 
     void* source = (char*)s->data + s->top * s->member_size;
@@ -74,7 +69,7 @@ int pop_from_stack(Stack* s, void* target) {
 int get_stack_index(Stack* s, int index, void* target) {
     if (!s || !target)
         jakarta_error(ERR_CUSTOM, NULL, "Stack or target is NULL");
-    if (s->top == -1)
+    if (s->top == STACK_EMPTY)
         jakarta_error(ERR_CUSTOM, NULL, "Stack is empty");
 
     void* source = (char*)s->data + index * s->member_size;
