@@ -8,6 +8,8 @@
 #define OUTPUT_FILE_ARGUMENT "-o"
 #define ARGUMENT_START_INDEX 1
 
+#define STRING_BUFFER_LENGTH 256
+
 typedef struct {
     char input_file[FILE_NAME_SIZE];
     char output_file[FILE_NAME_SIZE];

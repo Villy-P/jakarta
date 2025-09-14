@@ -8,8 +8,6 @@
 #include "data_structures/tokenizer.h"
 #include "data_structures/ast.h"
 
-#define STRING_BUFFER_LENGTH 256
-
 static Tokenizer* tokenize_file(FILE* file);
 static AST* parse_tokens(Tokenizer* tokenizer);
 static FILE* open_file_read(const char* path);
