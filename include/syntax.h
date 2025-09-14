@@ -7,6 +7,7 @@
 // forward declerations
 typedef struct TokenizerDef Tokenizer;
 typedef struct ASTNodeDef ASTNode;
+typedef struct FunctionDefinitionDef FunctionDefinition;
 
 // token.c
 typedef struct TokenDef {
@@ -30,3 +31,5 @@ void parse(Tokenizer* tokenizer, ASTNode* ast_node);
 
 // AST
 void parse_class(Tokenizer* tokenizer, ASTNode* ast_node);
+void parse_func(Tokenizer* tokenizer, ASTNode* ast_node);
+void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function);

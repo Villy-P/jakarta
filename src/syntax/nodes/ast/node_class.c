@@ -1,9 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "parser.h"
+#include "syntax.h"
 #include "core.h"
 #include "postfix.h"
+#include "parser.h"
 
 void parse_class(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_scope(tokenizer);

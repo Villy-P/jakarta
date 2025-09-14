@@ -7,10 +7,11 @@
 #include "data_structures/ast.h"
 #include "types/function.h"
 #include "types/types.h"
-#include "parser.h"
+#include "syntax.h"
 #include "core.h"
 #include "debug.h"
 #include "postfix.h"
+#include "parser.h"
 
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_scope(tokenizer);
