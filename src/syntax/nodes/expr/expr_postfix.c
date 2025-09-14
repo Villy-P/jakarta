@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "postfix.h"
 #include "syntax.h"
 #include "core.h"
 #include "types/class.h"

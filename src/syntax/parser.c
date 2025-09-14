@@ -1,6 +1,6 @@
 #include "syntax.h"
 #include "debug.h"
-#include "postfix.h"
+#include "data_structures/tokenizer.h"
 
 void parse(Tokenizer* tokenizer, ASTNode* ast_node) {
     if (peek(tokenizer, KEYWORD_TYPEDEF))

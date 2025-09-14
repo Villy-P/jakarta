@@ -10,7 +10,6 @@
 #include "syntax.h"
 #include "core.h"
 #include "debug.h"
-#include "postfix.h"
 
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_scope(tokenizer);

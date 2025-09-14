@@ -2,7 +2,6 @@
 
 #include "core.h"
 #include "syntax.h"
-#include "postfix.h"
 #include "data_structures/stack.h"
 
 void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node) {

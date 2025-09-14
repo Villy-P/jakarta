@@ -7,7 +7,6 @@
 #include "data_structures/stack.h"
 #include "types/variable.h"
 #include "syntax.h"
-#include "postfix.h"
 #include "core.h"
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {

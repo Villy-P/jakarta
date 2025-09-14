@@ -3,7 +3,6 @@
 
 #include "syntax.h"
 #include "core.h"
-#include "postfix.h"
 
 void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_scope(tokenizer);

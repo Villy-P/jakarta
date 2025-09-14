@@ -8,6 +8,8 @@
 typedef struct TokenizerDef Tokenizer;
 typedef struct ASTNodeDef ASTNode;
 typedef struct FunctionDefinitionDef FunctionDefinition;
+typedef struct TypeDef Type;
+typedef struct StackDef Stack;
 
 // token.c
 typedef struct TokenDef {
@@ -41,3 +43,12 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
 void parse_for(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_if(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node);
+
+// Expressions
+Stack* infix_to_postfix(Tokenizer* tokenizer);
+ASTNode* postfix_to_ast(Stack* postfix);
+unsigned int precedence(char* op);
+void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node);
+void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type);
+bool is_operator(Symbol sym);
+bool is_right_associative(const char* op);
