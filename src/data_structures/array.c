@@ -21,7 +21,7 @@ Array* create_array(unsigned int initial_size) {
     return array;
 }
 
-void add_to_array(Array* array, void* data) {
+void ensure_capacity(Array* array) {
     if (array->capacity == 0) {
         array->capacity = ARRAY_INIITIAL_SIZE_DEFAULT;
         array->data = malloc(array->capacity * sizeof(void*));
@@ -34,6 +34,10 @@ void add_to_array(Array* array, void* data) {
         array->data = temp;
         array->capacity *= ARRAY_CAPACITY_INCREASE_MULTIPLIER;
     }
+}
+
+void add_to_array(Array* array, void* data) {
+    ensure_capacity(array);
     array->data[array->length++] = data;
 }
 
