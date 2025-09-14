@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "syntax.h"
 #include "debug.h"
 #include "postfix.h"
 

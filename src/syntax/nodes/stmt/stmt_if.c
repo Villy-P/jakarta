@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "parser.h"
+#include "syntax.h"
 #include "core.h"
 #include "postfix.h"
 

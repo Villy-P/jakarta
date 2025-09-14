@@ -6,7 +6,7 @@
 #include "data_structures/array.h"
 #include "data_structures/stack.h"
 #include "types/variable.h"
-#include "parser.h"
+#include "syntax.h"
 #include "postfix.h"
 #include "core.h"
 

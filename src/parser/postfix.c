@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "postfix.h"
-#include "parser.h"
+#include "syntax.h"
 #include "core.h"
 #include "types/class.h"
 #include "types/function.h"

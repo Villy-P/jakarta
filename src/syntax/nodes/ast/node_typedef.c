@@ -1,6 +1,5 @@
 #include <stdlib.h>
 
-#include "parser.h"
 #include "core.h"
 #include "syntax.h"
 

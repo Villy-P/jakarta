@@ -11,7 +11,6 @@
 #include "core.h"
 #include "debug.h"
 #include "postfix.h"
-#include "parser.h"
 
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_scope(tokenizer);

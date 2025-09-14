@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "core.h"
-#include "parser.h"
+#include "syntax.h"
 #include "postfix.h"
 #include "data_structures/stack.h"
 
