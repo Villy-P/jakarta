@@ -2,6 +2,7 @@
 
 #include "parser.h"
 #include "core.h"
+#include "syntax.h"
 
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM)
