@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "data_structures/tokenizer.h"
-#include "free.h"
 #include "types/types.h"
 #include "core.h"
 #include "debug.h"

@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "parser.h"
-#include "free.h"
+#include "core.h"
 #include "postfix.h"
 
 void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {

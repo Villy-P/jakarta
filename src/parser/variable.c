@@ -7,7 +7,6 @@
 #include "data_structures/stack.h"
 #include "types/variable.h"
 #include "parser.h"
-#include "free.h"
 #include "postfix.h"
 #include "core.h"
 

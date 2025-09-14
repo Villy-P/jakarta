@@ -1,7 +1,8 @@
 #include <stdlib.h>
 
-#include "free.h"
+#include "core.h"
 #include "types/types.h"
+#include "data_structures/tokenizer.h"
 
 void free_tokenizer(Tokenizer* tokenizer) {
     free_array(tokenizer->tokens);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "token.h"
+#include "data_structures/tokenizer.h"
 
 #ifdef __WIN32
 #include <windows.h>
@@ -28,3 +29,8 @@ void jakarta_error_undefined_identifier(Token* identifier);
 
 // stack_trace.c
 void print_stack_trace();
+
+// free.c
+void free_tokenizer(Tokenizer* tokenizer);
+void free_token(Token* token);
+void free_type(Type* type);

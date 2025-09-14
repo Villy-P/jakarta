@@ -3,7 +3,6 @@
 #include "core.h"
 #include "cmd.h"
 #include "types/types.h"
-#include "free.h"
 #include "debug.h"
 
 #define STRING_EQUAL 0

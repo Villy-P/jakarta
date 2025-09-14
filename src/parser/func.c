@@ -9,7 +9,6 @@
 #include "types/types.h"
 #include "parser.h"
 #include "core.h"
-#include "free.h"
 #include "debug.h"
 #include "postfix.h"
 
