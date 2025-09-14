@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #define INITIAL_ASTNODE_CHILDREN_CAPACITY 2
+#define AST_INDENT_SPACES 2
 
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
@@ -28,7 +29,7 @@ void print_ast_node(ASTNode* node, int depth) {
     if (node == NULL) 
         return;
     for (int i = 0; i < depth; ++i)
-        printf("  ");
+        printf("%*s", AST_INDENT_SPACES, "");
     printf("Node Identifier: %d", node->identifier);
     if (node->token != NULL)
         printf(" Token: %s", node->token->content);
