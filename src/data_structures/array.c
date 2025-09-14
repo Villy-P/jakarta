@@ -5,10 +5,10 @@
 #include "core.h"
 
 #define ARRAY_CAPACITY_INCREASE_MULTIPLIER 2
-#define ARRAY_INIITIAL_SIZE_DEFAULT 4
+#define ARRAY_INITIAL_SIZE_DEFAULT 4
 
 Array* create_array(unsigned int initial_size) {
-    if (initial_size == 0) initial_size = ARRAY_INIITIAL_SIZE_DEFAULT;
+    if (initial_size == 0) initial_size = ARRAY_INITIAL_SIZE_DEFAULT;
     Array* array = malloc(sizeof(Array));
     if (!array)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Array");
@@ -23,7 +23,7 @@ Array* create_array(unsigned int initial_size) {
 
 void ensure_capacity(Array* array) {
     if (array->capacity == 0) {
-        array->capacity = ARRAY_INIITIAL_SIZE_DEFAULT;
+        array->capacity = ARRAY_INITIAL_SIZE_DEFAULT;
         array->data = malloc(array->capacity * sizeof(void*));
         if (!array->data)
             jakarta_error(ERR_CUSTOM, NULL, "Failed to increase Array Capacity");
