@@ -5,11 +5,6 @@
 #include "types.h"
 #include "debug.h"
 
-#define STRING_EQUAL 0
-#define FILE_NAME_SIZE 256
-#define INPUT_FILE_ARGUMENT "-f"
-#define OUTPUT_FILE_ARGUMENT "-o"
-#define ARGUMENT_START_INDEX 1
 
 int main(int argc, char *argv[]) {
     debug_message("Started Program", TOP_LEVEL);
