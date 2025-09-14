@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "lexer.h"
+#include "syntax.h"
 #include "core.h"
 #include "token.h"
 #include "data_structures/tokenizer.h"
@@ -72,6 +72,7 @@ char* get_string_literal(char** line) {
         return str;
     } else {
         jakarta_error(ERR_UNTERMINATED_STRING, NULL, start);
+        return NULL;
     }
 }
 

@@ -3,7 +3,7 @@
 
 #include "cmd.h"
 #include "core.h"
-#include "lexer.h"
+#include "syntax.h"
 #include "parser.h"
 #include "debug.h"
 #include "data_structures/tokenizer.h"
