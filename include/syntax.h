@@ -6,6 +6,7 @@
 
 // forward declerations
 typedef struct TokenizerDef Tokenizer;
+typedef struct ASTNodeDef ASTNode;
 
 // token.c
 typedef struct TokenDef {
@@ -21,3 +22,6 @@ Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* co
 void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer);
 char* get_string(char** line);
 char* get_string_literal(char** line);
+
+// parser.c
+void parse(Tokenizer* tokenizer, ASTNode* ast_node);
