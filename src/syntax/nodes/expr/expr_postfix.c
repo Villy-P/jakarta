@@ -128,7 +128,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
                     consume(tokenizer);
                     Token* member_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
                     ASTNode* member_node = create_ast_node(AST_IDENTIFIER_VALUE, member_token);
-                    ASTNode* dot_node = create_ast_node(AST_OPERATOR, member_token);
+                    ASTNode* dot_node = create_ast_node(AST_DOT_OPERATOR, member_token);
                     add_to_array(dot_node->nodes, node);
                     add_to_array(dot_node->nodes, member_node);
                     node = dot_node;

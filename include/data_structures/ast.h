@@ -51,7 +51,8 @@ typedef enum ASTIdentifierDef {
     AST_IDENTIFIER_INDEX,
 
     AST_LITERAL,
-    AST_OPERATOR
+    AST_OPERATOR,
+    AST_DOT_OPERATOR
 } ASTIdentifier;
 
 typedef struct ASTNodeDef {
