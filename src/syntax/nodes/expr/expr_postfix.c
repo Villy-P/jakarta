@@ -6,6 +6,7 @@
 #include "syntax.h"
 #include "core.h"
 #include "types.h"
+#include "debug.h"
 
 unsigned int precedence(char* op) {
     if (strcmp(op, "=") == 0 || strcmp(op, "+=") == 0 || strcmp(op, "-=") == 0 || strcmp(op, "*=") == 0 || strcmp(op, "/=") == 0 || strcmp(op, "%=") == 0 || strcmp(op, "&=") == 0 || strcmp(op, "|=") == 0 || strcmp(op, "^=") == 0 || strcmp(op, "<<=") == 0 || strcmp(op, ">>=") == 0 || strcmp(op, ">>>=") == 0)
@@ -94,7 +95,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         Token* token = consume(tokenizer);
         if (!token) break;
 
-        printf("Token: %s\n", token->content);
+        fprintf(logs.tokens, "Token: %s\n", token->content);
 
         ASTNode* node = NULL;
 
