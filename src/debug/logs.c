@@ -22,12 +22,23 @@ void setup_logs() {
         debug_message("Error: Could not create log file", LOG);
     else
         debug_message("Log file created successfully", LOG);
+
+    logs.ast = fopen("logs/ast.log", "w");
+    if (logs.ast == NULL)        
+        debug_message("Error: Could not create log file", LOG);
+    else
+        debug_message("Log file created successfully", LOG);
 }
 
 void cleanup_logs() {
     debug_message("Cleaning up logs", TOP_LEVEL);
     if (logs.tokens != NULL) {
         fclose(logs.tokens);
+        debug_message("Log file closed successfully", LOG);
+    }
+
+    if (logs.ast != NULL) {
+        fclose(logs.ast);
         debug_message("Log file closed successfully", LOG);
     }
 }

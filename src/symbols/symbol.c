@@ -113,7 +113,6 @@ char* get_string_from_symbol(Symbol symbol) {
         case KEYWORD_RET:       return "ret";
         case KEYWORD_STATIC:    return "static";
         case KEYWORD_SWITCH:    return "switch";
-        case KEYWORD_THIS:      return "this";
         case KEYWORD_THROWS:    return "throws";
         case KEYWORD_TRY:       return "try";
         case KEYWORD_TYPEDEF:   return "typedef";
@@ -151,7 +150,6 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "ret")       == 0) return KEYWORD_RET;
     if (strcmp(str, "static")    == 0) return KEYWORD_STATIC;
     if (strcmp(str, "switch")    == 0) return KEYWORD_SWITCH;
-    if (strcmp(str, "this")      == 0) return KEYWORD_THIS;
     if (strcmp(str, "throws")    == 0) return KEYWORD_THROWS;
     if (strcmp(str, "try")       == 0) return KEYWORD_TRY;
     if (strcmp(str, "typedef")   == 0) return KEYWORD_TYPEDEF;

@@ -11,6 +11,7 @@
 
 typedef struct {
     FILE* tokens;
+    FILE* ast;
 } LogFiles;
 
 extern LogFiles logs;

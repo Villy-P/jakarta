@@ -1,11 +1,12 @@
 #include "data_structures/ast.h"
 #include "core.h"
+#include "debug.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #define INITIAL_ASTNODE_CHILDREN_CAPACITY 2
-#define AST_INDENT_SPACES 2
+#define AST_INDENT_SPACES 4
 
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
@@ -29,11 +30,11 @@ void print_ast_node(ASTNode* node, int depth) {
     if (node == NULL) 
         return;
     for (int i = 0; i < depth; ++i)
-        printf("%*s", AST_INDENT_SPACES, "");
-    printf("Node Identifier: %d", node->identifier);
+        fprintf(logs.ast, "%*s", AST_INDENT_SPACES, "");
+    fprintf(logs.ast, "Node Identifier: %d", node->identifier);
     if (node->token != NULL)
-        printf(" Token: %s", node->token->content);
-    printf("\n");
+        fprintf(logs.ast, " Token: %s", node->token->content);
+    fprintf(logs.ast, "\n");
     for (unsigned int i = 0; i < node->nodes->length; ++i)
         print_ast_node(get_from_array(node->nodes, i), depth + 1);
 }
