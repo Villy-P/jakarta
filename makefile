@@ -4,7 +4,7 @@
 
 # Sets up basic build variables
 BUILD_DIR := build
-BIN_DIR := $(BUILD_DIR)/bin
+BIN_DIR := $(BUILD_DIR)\bin
 JOBS ?= 4
 EXECUTABLE := JAKARTA
 EXECUTABLE_TEST := JAKARTA_TEST
@@ -41,6 +41,8 @@ build-prod:
 # Runs the program: Use this when you make changed
 run: build
 	@echo Running main executable...
+	xcopy "src$(SEP)lib" "$(BIN_DIR)$(SEP)lib" /E /I /Y
+	xcopy "test" "$(BIN_DIR)$(SEP)test" /E /I /Y
 	cd $(BIN_DIR) && "${EXEC_PREFIX}$(EXECUTABLE)$(EXE)" $(args)
 
 # Same run, but using the test exe

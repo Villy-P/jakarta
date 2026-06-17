@@ -51,17 +51,3 @@ if (WIN32)
         message("cv2pdb64.exe not found, skipping PDB generation")
     endif()
 endif()
-
-add_custom_command(TARGET ${EXEC_NAME_TEST} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/test
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test
-    COMMENT "Copying test directory to bin/"
-)
-
-add_custom_command(TARGET ${EXEC_NAME_TEST} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/lib
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/lib
-    COMMENT "Copying lib directory to bin/"
-)
