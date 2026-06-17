@@ -95,6 +95,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         Token* token = consume(tokenizer);
         if (!token) break;
 
+        printf("Processing token: %s\n", token->content);
         fprintf(logs.tokens, "Token (%d, %d): %s\n", token->line, token->col, token->content);
 
         ASTNode* node = NULL;
@@ -123,6 +124,15 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
                 push_to_stack(output, func_node);
             } else {
                 node = create_ast_node(AST_IDENTIFIER_VALUE, token);
+                while (peek(tokenizer, SYMBOL_PERIOD)) {
+                    consume(tokenizer);
+                    Token* member_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
+                    ASTNode* member_node = create_ast_node(AST_IDENTIFIER_VALUE, member_token);
+                    ASTNode* dot_node = create_ast_node(AST_OPERATOR, member_token);
+                    add_to_array(dot_node->nodes, node);
+                    add_to_array(dot_node->nodes, member_node);
+                    node = dot_node;
+                }
                 push_to_stack(output, node);
             }
             continue;
