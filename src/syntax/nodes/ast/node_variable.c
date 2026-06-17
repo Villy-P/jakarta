@@ -10,7 +10,6 @@
 #include "core.h"
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
-    printf("Begin parsing Variable\n");
     ASTNode* variable_node = parse_variable_declaration(tokenizer, NULL, ast_node);
     if (peek(tokenizer, SYMBOL_SEMICOLON)) {
         consume(tokenizer);

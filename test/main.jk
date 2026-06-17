@@ -1,20 +1,4 @@
-// import "stdio"
-
-class string {
-    char[] data;
-    uint length;
-
-    func char index(uint n) {
-        // ERRORS
-        ret data[n];
-    }
-}
-
-func void print(string input) {
-    for (int i = 0; i < input; i++) {
-        write(input[i]);
-    }
-}
+import "stdio"
 
 func uint factorial(uint n) {
     if (n == 0) {
