@@ -19,7 +19,7 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
         if (line[0] == '"') {
             char* str_lit = get_string_literal(&line);
             printf("STRING: %s\n", str_lit);
-            Token* token = create_token(SYMBOL_IDENTIFIER, line_number, col, str_lit);
+            Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col, str_lit);
             col += strlen(str_lit) + 2;
             add_to_array(tokenizer->tokens, token);
             free(str_lit);

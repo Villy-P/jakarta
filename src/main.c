@@ -8,7 +8,6 @@
 
 int main(int argc, char *argv[]) {
     debug_message("Started Program", TOP_LEVEL);
-
     setup_logs();
 
     CmdArgs args = {0};

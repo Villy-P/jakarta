@@ -1,4 +1,4 @@
-import "stdio"
+import "stdio";
 
 func uint factorial(uint n) {
     if (n == 0) {

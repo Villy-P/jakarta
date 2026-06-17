@@ -37,6 +37,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function);
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node);
+void parse_import(Tokenizer* tokenizer, ASTNode* ast_node);
 ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition, ASTNode* class);
 
 // Statements

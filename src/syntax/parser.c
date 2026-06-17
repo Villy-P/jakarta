@@ -19,6 +19,8 @@ void parse(Tokenizer* tokenizer, ASTNode* ast_node) {
         parse_expression(tokenizer, ast_node);
     else if (peek(tokenizer, KEYWORD_CLASS))
         parse_class(tokenizer, ast_node);
+    else if (peek(tokenizer, KEYWORD_IMPORT))
+        parse_import(tokenizer, ast_node);
     else
         consume(tokenizer);
 }
