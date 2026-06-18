@@ -14,34 +14,40 @@ static ASTNode* parse_tokens(Tokenizer* tokenizer, CompilerState* state);
 static FILE* open_file_read(const char* path);
 static FILE* open_file_write(const char* path);
 static void close_file(FILE* f, const char* path);
+static void process(const char* file_location, CompilerState* state);
 
 void jakarta_cmd_read_file(const char* file_location) {
-    FILE* file_ptr = open_file_read(file_location);
-
-    Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
-    tokenize_file(file_ptr, tokenizer);
-
-    debug_message("Begun Parsing", TOP_LEVEL);
     CompilerState* state = create_compiler_state();
-    ASTNode* ast_root = parse_tokens(tokenizer, state);
-    ForestEntry* entry = create_forest_entry(file_location, ast_root);
-    add_to_array(state->forest, entry);
+    
+    add_to_array(state->files_to_parse, file_location);
 
-    print_ast_node(ast_root, "", true);
+    while (state->files_to_parse->length > 0) {
+        log_msg(logs.main, "[IMPORT] Files left to parse: %d\n", state->files_to_parse->length);
+        char* base_file_path = (char*)get_from_array(state->files_to_parse, 0);
 
-    for (unsigned int i = 0; i < state->files_to_parse->length; ++i) {
-        char* base_file_path = (char*)get_from_array(state->files_to_parse, i);
+        log_msg(logs.main, "[IMPORT] Parsing imported file: %s\n", base_file_path);
+        process(base_file_path, state);
 
-        char* base_file_path_with_extension = malloc(strlen(base_file_path) + strlen("lib/.jk") + 1);
-        strcpy(base_file_path_with_extension, "lib/");
-        strcat(base_file_path_with_extension, base_file_path);
-        strcat(base_file_path_with_extension, ".jk");
-
-        log_msg(logs.main, "[IMPORT] Parsing imported file: %s\n", base_file_path_with_extension);
-        jakarta_cmd_read_file(base_file_path_with_extension);
+        remove_from_array(state->files_to_parse, 0);
+        log_msg(logs.main, "[IMPORT] Finished processing file: %s\n", base_file_path);
     }
 
     gather_declarations(state);
+}
+
+static void process(const char* file_location, CompilerState* state) {
+    FILE* file_ptr = open_file_read(file_location);
+    Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
+    tokenize_file(file_ptr, tokenizer);
+
+    debug_message("Finished tokenizing file, beginning to parse tokens into AST", TOP_LEVEL);
+    ASTNode* ast_root = parse_tokens(tokenizer, state);
+    log_msg(logs.main, "[AST] Finished parsing tokens into AST for file: %s\n", file_location);
+    ForestEntry* entry = create_forest_entry(file_location, ast_root);
+    add_to_array(state->forest, entry);
+    log_msg(logs.main, "[AST] Added AST to forest for file: %s\n", file_location);
+
+    print_ast_node(ast_root, "", true);
 
     close_file(file_ptr, file_location);
 }
