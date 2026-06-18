@@ -1,12 +1,14 @@
 import "stdio";
 
+int DEFAULT_ERROR_CODE = 0;
+
 func int main() {
     uint f10 = factorial(10);
     uint f5 = factorial(5);
 
     print(f10 + " " + f5);
 
-    ret 0;
+    ret DEFAULT_ERROR_CODE;
 }
 
 func uint factorial(uint n) {
