@@ -21,6 +21,6 @@ typedef struct {
 void jakarta_cmd_read_file(const char* file_location);
 void jakarta_cmd_out_file(const char* file_location);
 
-void tokenize_file(FILE* file, Tokenizer* tokenizer);
+void tokenize_file(FILE* file, const char* file_location, Tokenizer* tokenizer);
 
 void parse_args(int argc, char* argv[], CmdArgs* args);
