@@ -18,9 +18,10 @@ typedef struct TokenDef {
     unsigned int line;
     unsigned int col;
     char* content;
+    char* file_name;
 } Token;
 
-Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content);
+Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content, char* file_name);
 
 // lexer.c
 void read_line(char* line, char* file_name, unsigned int line_number, Tokenizer* tokenizer);

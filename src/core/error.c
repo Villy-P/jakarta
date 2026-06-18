@@ -9,7 +9,7 @@
 void jakarta_error(int error_code, Token* token, const char* additional_info) {
     printf("\033[31m");
     if (token != NULL)
-        printf("Error at position %d:%d: ", token->line, token->col);
+        printf("%s.%d:%d: Error: ", token->file_name, token->line, token->col);
     else
         printf("Error: ");
     printf("ERR_CODE_%d\n", error_code);
@@ -48,7 +48,7 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
             break;
         default:
             if (token != NULL)
-                printf("Error at position %d:%d: %s\n", token->line, token->col, token->content);
+                printf("%s.%d:%d: %s\n", token->file_name, token->line, token->col, token->content);
             else
                 printf("An error occurred.\n");
     }
@@ -73,14 +73,14 @@ void jakarta_error_invalid_token(const char* expected, const char* got) {
 
 // Code 6
 void jakarta_error_undefined_identifier(Token* identifier) {
-    printf("\033[31mThere was an error while running your code at position %d:%d: ERR_CODE_6\n", identifier->line, identifier->col);
+    printf("\033[31mThere was an error while running your code at position %s.%d:%d: ERR_CODE_6\033[0m\n", identifier->file_name, identifier->line, identifier->col);
     printf("Undefined Identifier: Could not find identifier %s\033[0m\n", identifier->content);
     exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 7
 void jakarta_error_invalid_typedef_location(Token* token) {
-    printf("\033[31mThere was an error while running your code at position %d:%d: ERR_CODE_7\n", token->line, token->col);
+    printf("\033[31mThere was an error while running your code at position %s.%d:%d: ERR_CODE_7\033[0m\n", token->file_name, token->line, token->col);
     printf("Typedef statement cannot be used outside of global context\033[0m\n");
     exit(DEFAULT_ERROR_CODE);
 }
@@ -95,7 +95,7 @@ void handle_error(int error_code, Token* token, CompilerState* state, ...) {
         // an internal error with the compiler itself. print stack trace and exit with the error code
         printf("\033[31m");
         if (token != NULL)
-            printf("Internal Compiler Error at position %d:%d: ", token->line, token->col);
+            printf("%s.%d:%d: Internal Compiler Error: ", token->file_name, token->line, token->col);
         else
             printf("Internal Compiler Error: ");
         printf("ERR_CODE_%d\n", error_code);
