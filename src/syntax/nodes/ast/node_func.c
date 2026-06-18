@@ -29,7 +29,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
         func_type->content);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
-        ASTNode* parameter = parse_variable_declaration(tokenizer, function_definition, ast_node, state);
+        ASTNode* parameter = parse_variable_declaration(tokenizer, function_definition, state);
         Token* comma = peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : NULL;
 
         if (comma != NULL)

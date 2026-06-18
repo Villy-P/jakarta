@@ -39,7 +39,7 @@ void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 void parse_import(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
-ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition, ASTNode* class, CompilerState* state);
+ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition, CompilerState* state);
 
 // Statements
 void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
