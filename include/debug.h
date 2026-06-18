@@ -10,7 +10,6 @@
 #include <stdio.h>
 
 typedef struct {
-    FILE* tokens;
     FILE* ast;
     FILE* main;
 } LogFiles;

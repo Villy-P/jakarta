@@ -20,14 +20,6 @@ void setup_logs() {
         }
     }
 
-    logs.tokens = fopen("logs/tokens.log", "w");
-    if (logs.tokens == NULL)
-        debug_message("Error: Could not create log file", LOG);
-    else {
-        setvbuf(logs.tokens, NULL, _IONBF, 0);
-        debug_message("Log file created successfully", LOG);
-    }
-
     logs.ast = fopen("logs/ast.log", "w");
     if (logs.ast == NULL)        
         debug_message("Error: Could not create log file", LOG);
@@ -47,10 +39,6 @@ void setup_logs() {
 
 void cleanup_logs() {
     debug_message("Cleaning up logs", TOP_LEVEL);
-    if (logs.tokens != NULL) {
-        fclose(logs.tokens);
-        debug_message("Log file closed successfully", LOG);
-    }
 
     if (logs.ast != NULL) {
         fclose(logs.ast);
