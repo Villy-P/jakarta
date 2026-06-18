@@ -3,13 +3,14 @@
 #include <ctrace/ctrace.h>
 
 #include "core.h"
+#include "debug.h"
 
 #define DEFAULT_ERROR_CODE 1
 
 void jakarta_error(int error_code, Token* token, const char* additional_info) {
     printf("\033[31m");
     if (token != NULL)
-        printf("%s.%d:%d: Error: ", token->file_name, token->line, token->col);
+        printf("%s:%d:%d: Error: ", token->file_name, token->line, token->col);
     else
         printf("Error: ");
     printf("ERR_CODE_%d\n", error_code);
@@ -48,7 +49,7 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
             break;
         default:
             if (token != NULL)
-                printf("%s.%d:%d: %s\n", token->file_name, token->line, token->col, token->content);
+                printf("%s:%d:%d: %s\n", token->file_name, token->line, token->col, token->content);
             else
                 printf("An error occurred.\n");
     }
@@ -73,14 +74,14 @@ void jakarta_error_invalid_token(const char* expected, const char* got) {
 
 // Code 6
 void jakarta_error_undefined_identifier(Token* identifier) {
-    printf("\033[31mThere was an error while running your code at position %s.%d:%d: ERR_CODE_6\033[0m\n", identifier->file_name, identifier->line, identifier->col);
+    printf("\033[31mThere was an error while running your code at position %s:%d:%d: ERR_CODE_6\033[0m\n", identifier->file_name, identifier->line, identifier->col);
     printf("Undefined Identifier: Could not find identifier %s\033[0m\n", identifier->content);
     exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 7
 void jakarta_error_invalid_typedef_location(Token* token) {
-    printf("\033[31mThere was an error while running your code at position %s.%d:%d: ERR_CODE_7\033[0m\n", token->file_name, token->line, token->col);
+    printf("\033[31mThere was an error while running your code at position %s:%d:%d: ERR_CODE_7\033[0m\n", token->file_name, token->line, token->col);
     printf("Typedef statement cannot be used outside of global context\033[0m\n");
     exit(DEFAULT_ERROR_CODE);
 }
@@ -90,26 +91,28 @@ void jakarta_error_invalid_typedef_location(Token* token) {
 
 void handle_error(int error_code, Token* token, CompilerState* state, ...) {
     va_list args;
-    va_start(args, (error_code >> 16) & 0xF);
+    va_start(args, state);
+    log_msg(logs.main, "Handling error with code %d\n", error_code);
+    printf("\033[31m");
+    if (token != NULL)
+        printf("%s:%d:%d: ", token->file_name, token->line, token->col);
     if (error_code & ERROR_FLAG_INTERNAL) {
         // an internal error with the compiler itself. print stack trace and exit with the error code
-        printf("\033[31m");
-        if (token != NULL)
-            printf("%s.%d:%d: Internal Compiler Error: ", token->file_name, token->line, token->col);
-        else
-            printf("Internal Compiler Error: ");
+        printf("Internal Compiler Error: ");
         printf("ERR_CODE_%d\n", error_code);
         switch (error_code) {
-            case ERROR_INVALID_FILE_LOCATION:
+            case ERROR_INVALID_FILE_LOCATION: {
                 const char* text = va_arg(args, const char*);
                 printf("No file argument found for %s.\n", text);
                 printf("Enter a file name or location after %s in your compiler args.\n", text);
                 break;
-            case ERROR_INVALID_FILE_NAME:
+            }
+            case ERROR_INVALID_FILE_NAME: {
                 const char* file_name = va_arg(args, const char*);
                 printf("File %s does not exist.\n", file_name);
                 printf("Enter a correct file name after -f.\n");
                 break;
+            }
         }
         ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
         ctrace_print_stacktrace(&trace, stdout, 1);
@@ -118,4 +121,19 @@ void handle_error(int error_code, Token* token, CompilerState* state, ...) {
         printf("\033[0m\n");
         abort();
     }
+
+    printf("Error: ");
+    printf("ERR_CODE_%d\n", error_code);
+    switch (error_code) {
+        case ERROR_DUPLICATE_IDENTIFIER: {
+            ASTNode* duplicate_identifier = va_arg(args, ASTNode*);
+            printf("Identifier %s already exists in current scope.\n", token->content);
+            if (duplicate_identifier != NULL)
+                printf("First declared at %s:%d:%d\n", duplicate_identifier->token->file_name, duplicate_identifier->token->line, duplicate_identifier->token->col);
+            break;
+        }
+    }
+
+    va_end(args);
+    printf("\033[0m\n");
 }

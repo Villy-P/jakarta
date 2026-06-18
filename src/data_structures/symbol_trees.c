@@ -18,8 +18,9 @@ void symbol_table_init(void) {
 }
 
 void add_symbol_tree_token(Token* token, SymbolType type, void* data) {
-    if (get(global_symbol_tree, token->content) != NULL)
-        jakarta_error(ERR_DUPLICATE_IDENTIFIER, token, token->content);
+    void* existing_node = get(global_symbol_tree, token->content);
+    if (existing_node != NULL)
+        handle_error(ERROR_DUPLICATE_IDENTIFIER, token, NULL, (ASTNode*)existing_node);
     insert(global_symbol_tree, token->content, data);
     log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", token->content);
 }
