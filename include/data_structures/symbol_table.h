@@ -5,15 +5,26 @@
 #include "data_structures/ast.h"
 #include "types.h"
 
+typedef enum {
+    SYMBOL_TYPE,
+    SYMBOL_FUNCTION,
+    SYMBOL_CLASS,
+    SYMBOL_VARIABLE,
+
+    SYMBOL_BUILTIN_FUNCTION,
+    SYMBOL_BUILTIN_TYPE,
+} SymbolType;
+
+typedef struct SymbolTableEntryDef {
+    char* name;
+    SymbolType type;
+    void* data;
+} SymbolTableEntry;
+
 void symbol_table_init(void);
 
-void add_type(Type* type);
-void add_type_alias(TypeAlias* type_alias);
-void add_function(FunctionDefinition* function_definition);
-void add_class(ClassDefinition* class_definition);
+void add_symbol_tree_entry(const char* name, SymbolType type, void* data);
 
-void get_type(const char* name, Type* target);
-void get_function(const char* name, FunctionDefinition* target);
-void get_class(const char* name, ClassDefinition* target);
+void get_symbol_tree_entry(const char* name, SymbolTableEntry* target);
 
 #endif

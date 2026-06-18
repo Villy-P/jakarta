@@ -1,5 +1,5 @@
 #pragma once
 
-#include "compiler_state.h"
+#include "data_structures/compiler_state.h"
 
 void gather_declarations(CompilerState* state);
