@@ -21,34 +21,22 @@ void setup_logs() {
     }
 
     logs.ast = fopen("logs/ast.log", "w");
-    if (logs.ast == NULL)        
-        debug_message("Error: Could not create log file", LOG);
-    else {
+    if (logs.ast != NULL)
         setvbuf(logs.ast, NULL, _IONBF, 0);
-        debug_message("Log file created successfully", LOG);
-    }
 
     logs.main = fopen("logs/main.log", "w");
     if (logs.main == NULL)
-        debug_message("Error: Could not create log file", LOG);
-    else {
         setvbuf(logs.main, NULL, _IONBF, 0);
-        debug_message("Log file created successfully", LOG);
-    }
 }
 
 void cleanup_logs() {
     debug_message("Cleaning up logs", TOP_LEVEL);
 
-    if (logs.ast != NULL) {
+    if (logs.ast != NULL)
         fclose(logs.ast);
-        debug_message("Log file closed successfully", LOG);
-    }
 
-    if (logs.main != NULL) {
+    if (logs.main != NULL)
         fclose(logs.main);
-        debug_message("Log file closed successfully", LOG);
-    }
 }
 
 void log_msg(FILE* file, const char* format, ...) {
