@@ -4,9 +4,7 @@
 #include "syntax.h"
 #include "core.h"
 
-void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
-    add_scope(tokenizer);
-    
+void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {    
     Token* if_statement = consume(tokenizer);
     Token* open_parenthesis = peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
 

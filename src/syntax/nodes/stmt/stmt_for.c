@@ -5,8 +5,6 @@
 #include "core.h"
 
 void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {
-    add_scope(tokenizer);
-
     Token* for_keyword = consume(tokenizer);
     Token* open_parenthesis = peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
 

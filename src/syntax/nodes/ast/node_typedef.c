@@ -12,10 +12,7 @@ void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* type_alias = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
     Token* type_name = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
     Type* type = malloc(sizeof(Type));
-    get_type(type_name->content, type);
-
     TypeAlias* alias = create_type_alias(type_alias->content, type);
-    add_type_alias(alias);
     Token* semicolon = peek_consume(tokenizer, SYMBOL_SEMICOLON);
 
     free_token(typedef_keyword);

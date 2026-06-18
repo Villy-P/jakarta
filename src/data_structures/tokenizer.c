@@ -17,15 +17,10 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     if (tokenizer == NULL)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Tokenizer");
     tokenizer->tokens = create_array(initial_size);
-    initialize_symbol_trees(tokenizer);
 
     create_base_types();
     add_built_in_functions();
     return tokenizer;
-}
-
-void initialize_symbol_trees(Tokenizer* tokenizer) {
-    tokenizer->variable_symbol_stack = create_stack(sizeof(HashMap), INITIAL_VARIABLE_STACK_SIZE);
 }
 
 void add_class_variable(Tokenizer* tokenizer, Variable* variable) {
@@ -95,35 +90,6 @@ Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
         jakarta_error_invalid_token(expected, got);
     }
     return consume(tokenizer);
-}
-
-void add_scope(Tokenizer* tokenizer) {
-    HashMap* new_scope = create_hashmap();
-    push_to_stack(tokenizer->variable_symbol_stack, new_scope);
-}
-
-void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable) {
-    if (tokenizer->variable_symbol_stack->top == STACK_EMPTY)
-        jakarta_error_invalid_token("No scope available for variable", variable->name);
-    HashMap* current_scope = malloc(sizeof(HashMap));
-    pop_from_stack(tokenizer->variable_symbol_stack, current_scope);
-    if (get(current_scope, variable->name) != NULL)
-        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, variable->name);
-    insert(current_scope, variable->name, variable);
-    push_to_stack(tokenizer->variable_symbol_stack, current_scope);
-}
-
-Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
-    Stack* stack = tokenizer->variable_symbol_stack;
-    for (int i = stack->top; i >= 0; i--) {
-        HashMap* map = malloc(sizeof(HashMap));
-        get_stack_index(stack, i, map);
-        Variable* variable = get(map, token->content);
-        if (!variable) continue;
-        return variable;
-    }
-    jakarta_error(ERR_UNDEFINED_IDENTIFIER, NULL, token->content);
-    return NULL;
 }
 
 void add_built_in_functions() {

@@ -49,10 +49,6 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
     ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
 
     Variable* variable = create_variable(name_token->content, type_token->content, is_array);
-    add_variable_to_scope(tokenizer, variable);
-
-    if (class->identifier == AST_IDENTIFIER_CLASS_BODY)
-        add_class_variable(tokenizer, variable);
 
     add_to_array(variable_node->nodes, variable_type_node);
 
