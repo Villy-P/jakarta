@@ -72,14 +72,6 @@ ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     return node;
 }
 
-AST* create_ast() {
-    AST* ast = (AST*)malloc(sizeof(AST));
-    if (ast == NULL)
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "AST");
-    ast->root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, NULL);
-    return ast;
-}
-
 void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
     if (node == NULL) 
         return;

@@ -9,7 +9,7 @@
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
 
-static AST* parse_tokens(Tokenizer* tokenizer, CompilerState* state);
+static ASTNode* parse_tokens(Tokenizer* tokenizer, CompilerState* state);
 static FILE* open_file_read(const char* path);
 static FILE* open_file_write(const char* path);
 static void close_file(FILE* f, const char* path);
@@ -22,10 +22,11 @@ void jakarta_cmd_read_file(const char* file_location) {
 
     debug_message("Begun Parsing", TOP_LEVEL);
     CompilerState* state = create_compiler_state();
-    AST* ast = parse_tokens(tokenizer, state);
-    insert(state->forest, file_location, ast);
+    ASTNode* ast_root = parse_tokens(tokenizer, state);
+    ForestEntry* entry = create_forest_entry(file_location, ast_root);
+    add_to_array(state->forest, entry);
 
-    print_ast_node(ast->root, "", true);
+    print_ast_node(ast_root, "", true);
 
     for (unsigned int i = 0; i < state->files_to_parse->length; ++i) {
         char* base_file_path = (char*)get_from_array(state->files_to_parse, i);
@@ -76,10 +77,10 @@ void tokenize_file(FILE* file, Tokenizer* tokenizer) {
         read_line(buffer, line_number++, tokenizer);
 }
 
-static AST* parse_tokens(Tokenizer* tokenizer, CompilerState* state) {
+static ASTNode* parse_tokens(Tokenizer* tokenizer, CompilerState* state) {
     log_msg(logs.main, "[AST] Parsing tokens into AST: %d tokens\n", tokenizer->tokens->length);
-    AST* ast = create_ast();
+    ASTNode* ast_root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, NULL);
     while (tokenizer->tokens->length > 0)
-        parse(tokenizer, ast->root, state);
-    return ast;
+        parse(tokenizer, ast_root, state);
+    return ast_root;
 }

@@ -65,12 +65,7 @@ typedef struct ASTNodeDef {
     Array* nodes;
 } ASTNode;
 
-typedef struct ASTDef {
-    ASTNode* root;
-} AST;
-
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token);
-AST* create_ast();
 void print_ast_node(ASTNode* node, const char* prefix, bool is_last);
 
 unsigned int precedence(char* operator);

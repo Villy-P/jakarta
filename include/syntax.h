@@ -1,7 +1,6 @@
 #pragma once
 
 #include "symbol.h"
-#include "data_structures/compiler_state.h"
 
 #define INITIAL_TOKENS_LENGTH 64
 
@@ -11,6 +10,7 @@ typedef struct ASTNodeDef ASTNode;
 typedef struct FunctionDefinitionDef FunctionDefinition;
 typedef struct TypeDef Type;
 typedef struct StackDef Stack;
+typedef struct CompilerStateDef CompilerState;
 
 // token.c
 typedef struct TokenDef {

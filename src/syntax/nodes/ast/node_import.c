@@ -4,6 +4,7 @@
 #include "syntax.h"
 #include "debug.h"
 #include "data_structures/symbol_table.h"
+#include "data_structures/compiler_state.h"
 
 void parse_import(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM)
