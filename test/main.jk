@@ -2,16 +2,18 @@ import "stdio";
 
 int DEFAULT_ERROR_CODE = 0;
 
+typedef factorial_type uint;
+
 func int main() {
-    uint f10 = factorial(10);
-    uint f5 = factorial(5);
+    factorial_type f10 = factorial(10);
+    factorial_type f5 = factorial(5);
 
     print(f10 + " " + f5);
 
     ret DEFAULT_ERROR_CODE;
 }
 
-func uint factorial(uint n) {
+func factorial_type factorial(factorial_type n) {
     if (n == 0) {
         ret 0;
     }

@@ -5,6 +5,7 @@
 #include "core.h"
 #include "syntax.h"
 #include "debug.h"
+#include "semantic_analyzer.h"
 #include "data_structures/tokenizer.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
@@ -39,6 +40,8 @@ void jakarta_cmd_read_file(const char* file_location) {
         log_msg(logs.main, "[IMPORT] Parsing imported file: %s\n", base_file_path_with_extension);
         jakarta_cmd_read_file(base_file_path_with_extension);
     }
+
+    gather_declarations(state);
 
     close_file(file_ptr, file_location);
 }

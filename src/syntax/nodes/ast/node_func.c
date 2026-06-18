@@ -24,18 +24,27 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
 
     ASTNode* func_node = create_ast_node(AST_IDENTIFIER_FUNCTION_DEFINITION, func_name);
 
+    ASTNode* parameters_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETERS, NULL);
+    ASTNode* body_node = create_ast_node(AST_IDENTIFIER_FUNCTION_BODY, NULL);
+    ASTNode* return_type_node = create_ast_node(AST_IDENTIFIER_FUNCTION_RETURN_TYPE, func_type);
+
     FunctionDefinition* function_definition = create_function_definition(
         func_name->content, 
         func_type->content);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
-        ASTNode* parameter = parse_variable_declaration(tokenizer, function_definition, state);
+        Token* parameter_type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
+        Token* parameter_name_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
         Token* comma = peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : NULL;
+
+        ASTNode* parameter_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, parameter_name_token);
+        ASTNode* parameter_type_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER_TYPE, parameter_type_token);
+
+        add_to_array(parameter_node->nodes, parameter_type_node);
+        add_to_array(parameters_node->nodes, parameter_node);
 
         if (comma != NULL)
             free_token(comma);
-        
-        free(parameter);
     }
 
     Token* close_parenthesis = consume(tokenizer);
@@ -43,14 +52,17 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     Type* type = malloc(sizeof(Type));
 
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
-        parse(tokenizer, func_node, state);
+        parse(tokenizer, body_node, state);
 
     Token* close_bracket = consume(tokenizer);
 
+    add_to_array(func_node->nodes, return_type_node);
+    add_to_array(func_node->nodes, parameters_node);
+    add_to_array(func_node->nodes, body_node);
     add_to_array(ast_node->nodes, func_node);
 
     function_definition->body = malloc(sizeof(ASTNode));
-    memcpy(function_definition->body, func_node, sizeof(ASTNode));
+    memcpy(function_definition->body, body_node, sizeof(ASTNode));
 
     free_token(func_keyword);
     free_token(open_parenthesis);

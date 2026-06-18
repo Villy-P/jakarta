@@ -13,12 +13,11 @@ void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state
     Token* type_name = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
     Token* semicolon = peek_consume(tokenizer, SYMBOL_SEMICOLON);
 
-    ASTNode* typedef_node = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION, type_name);
-    ASTNode* alias_node = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION_ALIAS, type_alias);
+    ASTNode* typedef_node = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION, type_alias);
     ASTNode* type_node = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION_TYPE, type_name);
 
-    add_to_array(typedef_node->nodes, alias_node);
     add_to_array(typedef_node->nodes, type_node);
+    add_to_array(ast_node->nodes, typedef_node);
 
     free_token(typedef_keyword);
     free_token(semicolon);
