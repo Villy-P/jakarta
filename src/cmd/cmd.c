@@ -56,6 +56,7 @@ static void close_file(FILE* f, const char* path) {
 
 void tokenize_file(FILE* file, Tokenizer* tokenizer) {
     // Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
+    log_msg(logs.main, "[TOKENIZER] Tokenizing new file\n");
     char buffer[STRING_BUFFER_LENGTH];
     unsigned int line_number = 1;
     while (fgets(buffer, sizeof(buffer), file))

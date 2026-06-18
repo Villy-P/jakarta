@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <time.h>
 #include <stdarg.h>
+#include <sys/time.h>
 
 #include "debug.h"
 
@@ -66,15 +67,25 @@ void log_msg(FILE* file, const char* format, ...) {
     va_list args;
     va_start(args, format);
 
-    time_t raw_time;
-    struct tm *time_info;
-    char timestamp[20];
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    
+    struct tm time_info;
+    #ifdef _WIN32
+        time_t raw_time = (time_t)tv.tv_sec;
+        localtime_s(&time_info, &raw_time);
+    #else
+        localtime_r(&tv.tv_sec, &time_info);
+    #endif
 
-    time(&raw_time);
-    time_info = localtime(&raw_time);
+    char timestamp[30];
+    char time_str[20];
+    strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", &time_info);
+    
+    sprintf(timestamp, "%s.%03d", time_str, (int)(tv.tv_usec / 1000));
 
-    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", time_info);
     fprintf(file, "[%s] ", timestamp);
     vfprintf(file, format, args);
+    
     va_end(args);
 }
