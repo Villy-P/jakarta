@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <time.h>
+#include <stdarg.h>
 
 #include "debug.h"
 
@@ -58,4 +60,21 @@ void cleanup_logs() {
         fclose(logs.main);
         debug_message("Log file closed successfully", LOG);
     }
+}
+
+void log(FILE* file, const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    time_t raw_time;
+    struct tm *time_info;
+    char timestamp[20];
+
+    time(&raw_time);
+    time_info = localtime(&raw_time);
+
+    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", time_info);
+    fprintf(file, "[%s] ", timestamp);
+    vfprintf(file, format, args);
+    va_end(args);
 }

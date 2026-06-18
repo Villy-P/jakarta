@@ -20,3 +20,4 @@ extern LogFiles logs;
 void debug_message(const char* message, unsigned char type);
 void setup_logs();
 void cleanup_logs();
+void log(FILE* file, const char* format, ...);
