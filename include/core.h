@@ -12,6 +12,7 @@
 
 typedef enum {
     ERROR_INVALID_FILE_LOCATION,
+    ERROR_INVALID_FILE_NAME,
 } ErrorCode;
 
 #define ERR_INVALID_FILE_LOCATION 0
