@@ -5,6 +5,8 @@
 void parse(Tokenizer* tokenizer, ASTNode* ast_node) {
     if (peek(tokenizer, KEYWORD_TYPEDEF))
         parse_typedef(tokenizer, ast_node);
+    else if (peek(tokenizer, KEYWORD_IMPORT))
+        parse_import(tokenizer, ast_node);
     else if (peek(tokenizer, KEYWORD_FOR))
         parse_for(tokenizer, ast_node);
     else if (peek(tokenizer, KEYWORD_RET))
