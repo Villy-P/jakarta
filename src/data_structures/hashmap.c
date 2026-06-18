@@ -66,7 +66,7 @@ HashNode* create_hashnode(char* key, void* value) {
     HashNode* hashnode = (HashNode*)malloc(sizeof(HashNode));
     if (!hashnode)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "HashNode");
-    hashnode->key = key;
+    hashnode->key = strdup(key);
     hashnode->value = value;
     hashnode->next = NULL;
     return hashnode;
