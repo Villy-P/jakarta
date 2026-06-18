@@ -121,10 +121,10 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             } else {
                 node = create_ast_node(AST_IDENTIFIER_VALUE, token);
                 while (peek(tokenizer, SYMBOL_PERIOD)) {
-                    consume(tokenizer);
+                    Token* dot_token = consume(tokenizer);
                     Token* member_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
                     ASTNode* member_node = create_ast_node(AST_IDENTIFIER_VALUE, member_token);
-                    ASTNode* dot_node = create_ast_node(AST_DOT_OPERATOR, member_token);
+                    ASTNode* dot_node = create_ast_node(AST_DOT_OPERATOR, dot_token);
                     add_to_array(dot_node->nodes, node);
                     add_to_array(dot_node->nodes, member_node);
                     node = dot_node;
@@ -235,7 +235,7 @@ ASTNode* postfix_to_ast(Stack* postfix) {
     while (postfix->top > STACK_EMPTY) {
         ASTNode* node = malloc(sizeof(ASTNode));
         pop_from_stack(postfix, node);
-        if (node->token->symbol == SYMBOL_IDENTIFIER || node->token->symbol == SYMBOL_NUMBER || node->token->symbol == SYMBOL_STRING_LITERAL) {
+        if (node->token->symbol == SYMBOL_IDENTIFIER || node->token->symbol == SYMBOL_NUMBER || node->token->symbol == SYMBOL_STRING_LITERAL || node->token->symbol == SYMBOL_PERIOD) {
             push_to_stack(output, node);
         } else if (strcmp(node->token->content, "++") == 0 || strcmp(node->token->content, "--") == 0) {
             ASTNode* operand = malloc(sizeof(ASTNode));
