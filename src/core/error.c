@@ -14,11 +14,6 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
         printf("Error: ");
     printf("ERR_CODE_%d\n", error_code);
     switch (error_code) {
-        // additional_info: the argument that was missing a file
-        case ERR_INVALID_FILE_LOCATION:
-            printf("No file argument found for %s.\n", additional_info);
-            printf("Enter a file name or location after %s in your compiler args.", additional_info);
-            break;
         // additional_info: the file name that was not found
         case ERR_INVALID_FILE_NAME:
             printf("File %s does not exist.\n", additional_info);
@@ -93,4 +88,34 @@ void jakarta_error_invalid_typedef_location(Token* token) {
     printf("\033[31mThere was an error while running your code at position %d:%d: ERR_CODE_7\n", token->line, token->col);
     printf("Typedef statement cannot be used outside of global context\033[0m\n");
     exit(DEFAULT_ERROR_CODE);
+}
+
+
+
+
+void handle_error(ErrorCode error_code, Token* token, CompilerState* state, const char* text) {
+    if (error_code >= 100) {
+
+    } else {
+        // a fatal error with the compiler itself. print stack trace and exit with the error code
+        printf("\033[31m");
+        if (token != NULL)
+            printf("Internal Compiler Error at position %d:%d: ", token->line, token->col);
+        else
+            printf("Internal Compiler Error: ");
+        printf("ERR_CODE_%d\n", error_code);
+        switch (error_code) {
+            // additional_info: the argument that was missing a file
+            case ERROR_INVALID_FILE_LOCATION:
+                printf("No file argument found for %s.\n", text);
+                printf("Enter a file name or location after %s in your compiler args.", text);
+                break;
+        }
+        ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
+        ctrace_print_stacktrace(&trace, stdout, 1);
+        
+        ctrace_free_stacktrace(&trace);
+        printf("\033[0m\n");
+        abort();
+    }
 }
