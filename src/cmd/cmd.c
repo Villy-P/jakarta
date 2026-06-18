@@ -63,7 +63,7 @@ void tokenize_file(FILE* file, Tokenizer* tokenizer) {
 }
 
 static AST* parse_tokens(Tokenizer* tokenizer) {
-    printf("Parsing tokens into AST: %d tokens\n", tokenizer->tokens->length);
+    log_msg(logs.main, "[AST] Parsing tokens into AST: %d tokens\n", tokenizer->tokens->length);
     AST* ast = create_ast();
     while (tokenizer->tokens->length > 0)
         parse(tokenizer, ast->root);

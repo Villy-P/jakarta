@@ -14,7 +14,7 @@
 #define LLONG_SIZE 128
 
 void create_base_types() {
-    debug_message("Begun Creating Base Types", TOP_LEVEL);
+    log_msg(logs.main, "[TYPES] Creating base types\n");
     add_type(create_type("char",    BYTE_SIZE,   UNUM));
     add_type(create_type("bool",    BIT_SIZE,    ONEBIT));
     add_type(create_type("byte",    BYTE_SIZE,   NUM));
@@ -32,7 +32,7 @@ void create_base_types() {
     add_type(create_type("ldouble", LLONG_SIZE,  NUM_DECIMAL));
 
     add_type(create_type("void", 0, STRING));
-    debug_message("Created Base Types", CREATION);
+    log_msg(logs.main, "[TYPES] Success Creating Base Types\n");
 }
 
 Type* create_type(const char* name, unsigned char bit_size, TypeOptions option) {

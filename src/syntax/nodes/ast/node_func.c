@@ -66,7 +66,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(close_parenthesis);
     free_token(open_brace);
     free_token(close_bracket);
-    debug_message("Added Function", TOP_LEVEL);
 }
 
 void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
@@ -77,5 +76,5 @@ void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition
         if (i < function->parameters->length - 1 && peek(tokenizer, SYMBOL_COMMA))
             consume(tokenizer); // comma
     }
-    debug_message("Parsed Function Call", TOP_LEVEL);
+    log_msg(logs.main, "[AST] Parsed Function Call\n");
 }

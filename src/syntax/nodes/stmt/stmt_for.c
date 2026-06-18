@@ -18,8 +18,6 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     parse_variable(tokenizer, for_node);
 
-    printf("Parsing for loop\n");
-
     Stack* condition_postfix = infix_to_postfix(tokenizer);
     ASTNode* condition_expression = postfix_to_ast(condition_postfix);
     add_to_array(for_condition->nodes, condition_expression);
