@@ -14,11 +14,6 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
         printf("Error: ");
     printf("ERR_CODE_%d\n", error_code);
     switch (error_code) {
-        // additional_info: the file name that was not found
-        case ERR_INVALID_FILE_NAME:
-            printf("File %s does not exist.\n", additional_info);
-            printf("Enter a correct file name after -f.\n");
-            break;
         // additional_info: the symbol
         case ERR_UNKNOWN_SYMBOL:
             printf("Unknown symbol encountered: %s.\n", additional_info);
@@ -93,11 +88,11 @@ void jakarta_error_invalid_typedef_location(Token* token) {
 
 
 
-void handle_error(ErrorCode error_code, Token* token, CompilerState* state, const char* text) {
-    if (error_code >= 100) {
-
-    } else {
-        // a fatal error with the compiler itself. print stack trace and exit with the error code
+void handle_error(int error_code, Token* token, CompilerState* state, ...) {
+    va_list args;
+    va_start(args, (error_code >> 16) & 0xF);
+    if (error_code & ERROR_FLAG_INTERNAL) {
+        // an internal error with the compiler itself. print stack trace and exit with the error code
         printf("\033[31m");
         if (token != NULL)
             printf("Internal Compiler Error at position %d:%d: ", token->line, token->col);
@@ -105,10 +100,15 @@ void handle_error(ErrorCode error_code, Token* token, CompilerState* state, cons
             printf("Internal Compiler Error: ");
         printf("ERR_CODE_%d\n", error_code);
         switch (error_code) {
-            // additional_info: the argument that was missing a file
             case ERROR_INVALID_FILE_LOCATION:
+                const char* text = va_arg(args, const char*);
                 printf("No file argument found for %s.\n", text);
-                printf("Enter a file name or location after %s in your compiler args.", text);
+                printf("Enter a file name or location after %s in your compiler args.\n", text);
+                break;
+            case ERROR_INVALID_FILE_NAME:
+                const char* file_name = va_arg(args, const char*);
+                printf("File %s does not exist.\n", file_name);
+                printf("Enter a correct file name after -f.\n");
                 break;
         }
         ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
