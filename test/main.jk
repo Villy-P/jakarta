@@ -1,17 +1,17 @@
 import "stdio";
 
+func int main() {
+    uint f10 = factorial(10);
+    uint f5 = factorial(5);
+
+    print(f11 + " " + f5);
+
+    ret 0;
+}
+
 func uint factorial(uint n) {
     if (n == 0) {
         ret 0;
     }
     ret n * factorial(n);
-}
-
-func int main() {
-    uint f10 = factorial(10);
-    uint f5 = factorial(5);
-
-    print(f10 + " " + f5);
-
-    ret 0;
 }

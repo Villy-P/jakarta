@@ -41,8 +41,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* close_parenthesis = consume(tokenizer);
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     Type* type = get(tokenizer->type_symbol_tree, func_type->content);
-    if (type == NULL)
-        jakarta_error_undefined_identifier(func_type);
 
     if (ast_node->identifier == AST_IDENTIFIER_CLASS_BODY)
         add_class_method(tokenizer, function_definition);

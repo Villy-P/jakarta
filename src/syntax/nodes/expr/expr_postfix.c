@@ -108,12 +108,9 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         // --- Identifiers (variables or functions) ---
         if (token->symbol == SYMBOL_IDENTIFIER) {
             fprintf(logs.main, "[POSTFIX] Processing identifier: %s\n", token->content);
-            FunctionDefinition* function = get(tokenizer->function_symbol_tree, token->content);
 
             if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
                 consume(tokenizer);
-                if (!function)
-                    jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
 
                 ASTNode* func_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
                 Stack* args_postfix = infix_to_postfix(tokenizer); // stops at ')'
