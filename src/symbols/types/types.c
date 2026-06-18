@@ -13,7 +13,7 @@
 #define LONG_SIZE 64
 #define LLONG_SIZE 128
 
-void create_base_types(Tokenizer* tokenizer) {
+void create_base_types() {
     debug_message("Begun Creating Base Types", TOP_LEVEL);
     add_type(create_type("char",    BYTE_SIZE,   UNUM));
     add_type(create_type("bool",    BIT_SIZE,    ONEBIT));

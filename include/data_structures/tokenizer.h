@@ -28,9 +28,9 @@ bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, unsigned int offset);
 bool peek_type(Tokenizer* tokenizer);
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 
-void create_base_types(Tokenizer* tokenizer);
+void create_base_types();
 
 void add_scope(Tokenizer* tokenizer);
 void add_variable_to_scope(Tokenizer* tokenizer, Variable* variable);
 
-void add_built_in_functions(Tokenizer* tokenizer);
+void add_built_in_functions();

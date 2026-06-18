@@ -62,7 +62,7 @@ void cleanup_logs() {
     }
 }
 
-void log(FILE* file, const char* format, ...) {
+void log_msg(FILE* file, const char* format, ...) {
     va_list args;
     va_start(args, format);
 

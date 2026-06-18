@@ -99,7 +99,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         // --- Literals ---
         if (token->symbol == SYMBOL_NUMBER || token->symbol == SYMBOL_STRING_LITERAL) {
-            fprintf(logs.main, "[POSTFIX] Processing number/string: %s\n", token->content);
+            log_msg(logs.main, "[POSTFIX] Processing number/string: %s\n", token->content);
             node = create_ast_node(AST_LITERAL, token);
             push_to_stack(output, node);
             continue; // skip operator logic
@@ -107,7 +107,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         // --- Identifiers (variables or functions) ---
         if (token->symbol == SYMBOL_IDENTIFIER) {
-            fprintf(logs.main, "[POSTFIX] Processing identifier: %s\n", token->content);
+            log_msg(logs.main, "[POSTFIX] Processing identifier: %s\n", token->content);
 
             if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
                 consume(tokenizer);
@@ -136,7 +136,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         // --- Array access ---
         if (token->symbol == SYMBOL_OPEN_BRACKET) {
-            fprintf(logs.main, "[POSTFIX] Processing array access ([]): %s\n", token->content);
+            log_msg(logs.main, "[POSTFIX] Processing array access ([]): %s\n", token->content);
             ASTNode* array_node = create_ast_node(AST_IDENTIFIER_ARRAY_ACCESS, NULL);
             Stack* index_postfix = infix_to_postfix(tokenizer); // stops at ']'
             ASTNode* index_node = postfix_to_ast(index_postfix);
@@ -155,7 +155,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         // --- Parentheses ---
         if (token->symbol == SYMBOL_OPEN_PARENTHESIS) {
-            fprintf(logs.main, "[POSTFIX] Processing open parenthesis: %s\n", token->content);
+            log_msg(logs.main, "[POSTFIX] Processing open parenthesis: %s\n", token->content);
             node = create_ast_node(AST_OPERATOR, token);
             push_to_stack(operators, node);
             open_parenthesis_count++;
@@ -163,12 +163,11 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         }
 
         if (token->symbol == SYMBOL_CLOSE_PARENTHESIS) {
-            fprintf(logs.main, "[POSTFIX] Processing close parenthesis: %s\n", token->content);
+            log_msg(logs.main, "[POSTFIX] Processing close parenthesis: %s\n", token->content);
             open_parenthesis_count--;
             while (operators->top > STACK_EMPTY) {
                 ASTNode* op = malloc(sizeof(ASTNode));
                 pop_from_stack(operators, op);
-                fprintf(logs.main, "[POSTFIX] Popped operator: %s\n", op->token->content);
                 if (op->token->symbol == SYMBOL_OPEN_PARENTHESIS)
                     break;
                 push_to_stack(output, op);
@@ -180,7 +179,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         // --- Statement endings ---
         if (token->symbol == SYMBOL_SEMICOLON || token->symbol == SYMBOL_CLOSE_BRACKET) {
-            fprintf(logs.main, "[POSTFIX] Processing semicolon/close bracket: %s\n", token->content);
+            log_msg(logs.main, "[POSTFIX] Processing semicolon/close bracket: %s\n", token->content);
             while (operators->top > STACK_EMPTY) {
                 ASTNode* op = malloc(sizeof(ASTNode));
                 pop_from_stack(operators, op);
@@ -191,7 +190,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         // --- Operators ---
         if (is_operator(token->symbol)) {
-            fprintf(logs.main, "[POSTFIX] Processing operator: %s\n", token->content);
+            log_msg(logs.main, "[POSTFIX] Processing operator: %s\n", token->content);
             node = create_ast_node(AST_OPERATOR, token);
 
             while (operators->top > STACK_EMPTY) {
@@ -226,7 +225,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 }
 
 ASTNode* postfix_to_ast(Stack* postfix) {
-    fprintf(logs.main, "[POSTFIX_TO_AST] Converting postfix to AST\n");
+    log_msg(logs.main, "[POSTFIX_TO_AST] Converting postfix to AST\n");
     Stack* output = create_stack(sizeof(ASTNode), 10);
     ASTNode* value = malloc(sizeof(ASTNode));
     if (postfix->top == 0) {

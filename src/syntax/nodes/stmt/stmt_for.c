@@ -38,4 +38,8 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_to_array(for_node->nodes, for_body);
 
     add_to_array(ast_node->nodes, for_node);
+
+    free(for_keyword);
+    free(open_parenthesis);
+    free(for_initialization);
 }

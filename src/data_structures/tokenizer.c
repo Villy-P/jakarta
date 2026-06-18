@@ -19,8 +19,8 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     tokenizer->tokens = create_array(initial_size);
     initialize_symbol_trees(tokenizer);
 
-    create_base_types(tokenizer);
-    add_built_in_functions(tokenizer);
+    create_base_types();
+    add_built_in_functions();
     return tokenizer;
 }
 
@@ -126,7 +126,7 @@ Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
     return NULL;
 }
 
-void add_built_in_functions(Tokenizer* tokenizer) {
+void add_built_in_functions() {
     FunctionDefinition* write_function = create_function_definition("write", "void");
     Variable* write_param = create_variable("value", "char", false);
     add_to_array(write_function->parameters, write_param);

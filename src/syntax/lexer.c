@@ -27,7 +27,6 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
                 sprintf(lib_path, "lib/%s.jk", str_lit);
                 FILE* import_file = fopen(lib_path, "r");
                 if (!import_file) {
-                    free(lib_path);
                     free(str_lit);
                     jakarta_error(ERR_INVALID_FILE_NAME, NULL, lib_path);
                 }
@@ -45,7 +44,7 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
             Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col, str_lit);
             col += strlen(str_lit) + 2;
             add_to_array(tokenizer->tokens, token);
-            fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
+            log_msg(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
 
             free(str_lit);
             continue;
@@ -60,7 +59,7 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
                 is_import_line = true;
             else {
                 add_to_array(tokenizer->tokens, token);
-                fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
+                log_msg(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
             }
         } else {
             char token = line[0];
@@ -75,7 +74,7 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
             Symbol token_symbol = get_symbol_from_char(token);
             Token* token_obj = create_token(token_symbol, line_number, col, token_ptr);
             add_to_array(tokenizer->tokens, token_obj);
-            fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token_obj->symbol, token_obj->line, token_obj->col, token_obj->content);
+            log_msg(logs.tokens, "Token %d (%d, %d): %s\n", token_obj->symbol, token_obj->line, token_obj->col, token_obj->content);
             line++;
             col++;
             free(token_ptr);

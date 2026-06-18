@@ -38,6 +38,8 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
         if (comma != NULL)
             free_token(comma);
+        
+        free(parameter);
     }
 
     Token* close_parenthesis = consume(tokenizer);
