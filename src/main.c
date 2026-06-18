@@ -1,14 +1,15 @@
 #include <string.h>
 
+#include "data_structures/symbol_table.h"
 #include "core.h"
 #include "cmd.h"
 #include "types.h"
 #include "debug.h"
 
-
 int main(int argc, char *argv[]) {
-    debug_message("Started Program", TOP_LEVEL);
     setup_logs();
+    symbol_table_init();
+    fprintf(logs.main, "[PROGRAM] Program started with %d arguments\n", argc);
 
     CmdArgs args = {0};
     parse_args(argc, argv, &args);
@@ -18,5 +19,5 @@ int main(int argc, char *argv[]) {
     jakarta_cmd_out_file(args.output_file);
 
     cleanup_logs();
-    debug_message("Finished Program", TOP_LEVEL);
+    fprintf(logs.main, "[PROGRAM] Program finished\n");
 }

@@ -10,9 +10,6 @@
 
 typedef struct TokenizerDef {
     Array* tokens;
-    HashMap* function_symbol_tree;
-    HashMap* type_symbol_tree;
-    HashMap* class_symbol_tree;
     Stack* variable_symbol_stack;
 
     char* current_class;
@@ -20,10 +17,6 @@ typedef struct TokenizerDef {
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
 void initialize_symbol_trees(Tokenizer* tokenizer);
-void add_type(Tokenizer* tokenizer, Type* type);
-void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias);
-void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition);
-void add_class(Tokenizer* tokenizer, ClassDefinition* class_definition);
 void add_class_variable(Tokenizer* tokenizer, Variable* variable);
 void add_class_method(Tokenizer* tokenizer, FunctionDefinition* function_definition);
 void print_tokens(Tokenizer* tokenizer);
@@ -31,6 +24,7 @@ Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token);
 
 Token* consume(Tokenizer* tokenizer);
 bool peek(Tokenizer* tokenizer, Symbol symbol);
+bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, unsigned int offset);
 bool peek_type(Tokenizer* tokenizer);
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 

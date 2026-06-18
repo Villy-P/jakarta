@@ -20,20 +20,26 @@ void setup_logs() {
     logs.tokens = fopen("logs/tokens.log", "w");
     if (logs.tokens == NULL)
         debug_message("Error: Could not create log file", LOG);
-    else
+    else {
+        setvbuf(logs.tokens, NULL, _IONBF, 0);
         debug_message("Log file created successfully", LOG);
+    }
 
     logs.ast = fopen("logs/ast.log", "w");
     if (logs.ast == NULL)        
         debug_message("Error: Could not create log file", LOG);
-    else
+    else {
+        setvbuf(logs.ast, NULL, _IONBF, 0);
         debug_message("Log file created successfully", LOG);
+    }
 
     logs.main = fopen("logs/main.log", "w");
     if (logs.main == NULL)
         debug_message("Error: Could not create log file", LOG);
-    else
+    else {
+        setvbuf(logs.main, NULL, _IONBF, 0);
         debug_message("Log file created successfully", LOG);
+    }
 }
 
 void cleanup_logs() {

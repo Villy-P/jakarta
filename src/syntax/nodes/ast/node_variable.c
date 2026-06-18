@@ -5,6 +5,7 @@
 #include "data_structures/tokenizer.h"
 #include "data_structures/array.h"
 #include "data_structures/stack.h"
+#include "data_structures/symbol_table.h"
 #include "types.h"
 #include "syntax.h"
 #include "core.h"
@@ -44,12 +45,10 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
 
     Token* name_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
 
-    Type* type = get(tokenizer->type_symbol_tree, type_token->content);
-
     ASTNode* variable_type_node = create_ast_node(AST_IDENTIFIER_VARIABLE_TYPE, type_token);
     ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
 
-    Variable* variable = create_variable(name_token->content, type, is_array);
+    Variable* variable = create_variable(name_token->content, type_token->content, is_array);
     add_variable_to_scope(tokenizer, variable);
 
     if (class->identifier == AST_IDENTIFIER_CLASS_BODY)

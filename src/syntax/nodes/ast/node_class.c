@@ -3,6 +3,7 @@
 
 #include "syntax.h"
 #include "core.h"
+#include "data_structures/symbol_table.h"
 
 void parse_class(Tokenizer* tokenizer, ASTNode* ast_node) {
     add_scope(tokenizer);
@@ -10,7 +11,7 @@ void parse_class(Tokenizer* tokenizer, ASTNode* ast_node) {
     consume(tokenizer);
 
     Token* name = consume(tokenizer);
-    add_type(tokenizer, create_type(name->content, 0, CLASS));
+    add_type(create_type(name->content, 0, CLASS));
 
     consume(tokenizer);
 
@@ -18,7 +19,7 @@ void parse_class(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* class_body = create_ast_node(AST_IDENTIFIER_CLASS_BODY, NULL);
 
     ClassDefinition* class_definition = create_class_definition(name->content);
-    add_class(tokenizer, class_definition);
+    add_class(class_definition);
     tokenizer->current_class = class_definition->name;
 
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE)) {

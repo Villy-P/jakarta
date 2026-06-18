@@ -5,6 +5,8 @@
 #include <errno.h>
 
 #include "data_structures/ast.h"
+#include "data_structures/tokenizer.h"
+#include "data_structures/symbol_table.h"
 #include "types.h"
 #include "types.h"
 #include "syntax.h"
@@ -28,7 +30,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         func_name->content, 
         func_type->content);
 
-    add_function(tokenizer, function_definition);
+    add_function(function_definition);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
         ASTNode* parameter = parse_variable_declaration(tokenizer, function_definition, ast_node);
@@ -40,7 +42,8 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     Token* close_parenthesis = consume(tokenizer);
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
-    Type* type = get(tokenizer->type_symbol_tree, func_type->content);
+    Type* type = malloc(sizeof(Type));
+    get_type(func_type->content, type);
 
     if (ast_node->identifier == AST_IDENTIFIER_CLASS_BODY)
         add_class_method(tokenizer, function_definition);
@@ -55,8 +58,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     function_definition->body = malloc(sizeof(ASTNode));
     memcpy(function_definition->body, func_node, sizeof(ASTNode));
-
-    insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
 
     free_token(func_keyword);
     free_token(open_parenthesis);

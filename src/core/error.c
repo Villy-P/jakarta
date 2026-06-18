@@ -36,8 +36,9 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
         case ERR_CANNOT_CLOSE_FILE:
             printf("Could not close file %s.\n", additional_info);
             break;
+        // additional_info: the token that was not defined
         case ERR_UNDEFINED_IDENTIFIER:
-            printf("Identifier %s does not exist in current scope.\n", token->content);
+            printf("Identifier %s does not exist in current scope.\n", additional_info);
             break;
         // additional_info: the token that was duplciate
         case ERR_DUPLICATE_IDENTIFIER:
@@ -73,6 +74,10 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
 void jakarta_error_invalid_token(const char* expected, const char* got) {
     printf("\033[31mThere was an error while running your code: ERR_CODE_5\n");
     printf("Invalid Token Error: Expected token %s but got %s\033[0m\n", expected, got);
+    ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
+    ctrace_print_stacktrace(&trace, stdout, 1);
+    
+    ctrace_free_stacktrace(&trace);
     exit(DEFAULT_ERROR_CODE);
 }
 

@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "data_structures/tokenizer.h"
+#include "data_structures/symbol_table.h"
 #include "types.h"
 #include "core.h"
 #include "debug.h"
@@ -24,42 +25,14 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
 }
 
 void initialize_symbol_trees(Tokenizer* tokenizer) {
-    tokenizer->function_symbol_tree = create_hashmap();
-    tokenizer->type_symbol_tree = create_hashmap();
-    tokenizer->class_symbol_tree = create_hashmap();
     tokenizer->variable_symbol_stack = create_stack(sizeof(HashMap), INITIAL_VARIABLE_STACK_SIZE);
-}
-
-void add_type(Tokenizer* tokenizer, Type* type) {
-    if (get(tokenizer->type_symbol_tree, type->name) != NULL)
-        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, type->name);
-    insert(tokenizer->type_symbol_tree, type->name, type);
-}
-
-void add_type_alias(Tokenizer* tokenizer, TypeAlias* type_alias) {
-    if (get(tokenizer->type_symbol_tree, type_alias->name) != NULL)
-        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, type_alias->name);
-    insert(tokenizer->type_symbol_tree, type_alias->name, type_alias->refers_to);
-    debug_message("Added type alias", TOP_LEVEL);
-}
-
-void add_function(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
-    printf("Adding function: %s with return type: %s\n", function_definition->name, function_definition->return_type);
-    if (get(tokenizer->function_symbol_tree, function_definition->name) != NULL)
-        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, function_definition->name);
-    insert(tokenizer->function_symbol_tree, function_definition->name, function_definition);
-}
-
-void add_class(Tokenizer* tokenizer, ClassDefinition* class_definition) {
-    if (get(tokenizer->class_symbol_tree, class_definition->name) != NULL)
-        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, class_definition->name);
-    insert(tokenizer->class_symbol_tree, class_definition->name, class_definition);
 }
 
 void add_class_variable(Tokenizer* tokenizer, Variable* variable) {
     if (tokenizer->current_class == NULL)
         jakarta_error(ERR_CUSTOM, NULL, "No class context");
-    ClassDefinition* class_def = get(tokenizer->class_symbol_tree, tokenizer->current_class);
+    ClassDefinition* class_def = malloc(sizeof(ClassDefinition));
+    get_class(tokenizer->current_class, class_def);
     if (class_def == NULL)
         jakarta_error(ERR_CUSTOM, NULL, "Class not found");
     insert(class_def->member_variables, variable->name, variable);
@@ -68,7 +41,8 @@ void add_class_variable(Tokenizer* tokenizer, Variable* variable) {
 void add_class_method(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
     if (tokenizer->current_class == NULL)
         jakarta_error(ERR_CUSTOM, NULL, "No class context");
-    ClassDefinition* class_def = get(tokenizer->class_symbol_tree, tokenizer->current_class);
+    ClassDefinition* class_def = malloc(sizeof(ClassDefinition));
+    get_class(tokenizer->current_class, class_def);
     if (class_def == NULL)
         jakarta_error(ERR_CUSTOM, NULL, "Class not found");
     insert(class_def->member_functions, function_definition->name, function_definition);
@@ -97,14 +71,18 @@ bool peek(Tokenizer* tokenizer, Symbol symbol) {
     return token->symbol == symbol;
 }
 
+bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, unsigned int offset) {
+    if (offset >= tokenizer->tokens->length)
+        return false;
+    Token* token = get_from_array(tokenizer->tokens, offset);
+    return token->symbol == symbol;
+}
+
 bool peek_type(Tokenizer* tokenizer) {
     if (tokenizer->tokens->length == 0)
         return false;
     Token* token = get_from_array(tokenizer->tokens, 0);
     if (token->symbol != SYMBOL_IDENTIFIER)
-        return false;
-    Type* type = (Type*)get(tokenizer->type_symbol_tree, token->content);
-    if (type == NULL)
         return false;
     return true;
 }
@@ -144,14 +122,13 @@ Variable* get_variable_from_scope(Tokenizer* tokenizer, Token* token) {
         if (!variable) continue;
         return variable;
     }
-    jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
+    jakarta_error(ERR_UNDEFINED_IDENTIFIER, NULL, token->content);
     return NULL;
 }
 
 void add_built_in_functions(Tokenizer* tokenizer) {
     FunctionDefinition* write_function = create_function_definition("write", "void");
-    Type* char_type = get(tokenizer->type_symbol_tree, "char");
-    Variable* write_param = create_variable("value", char_type, false);
+    Variable* write_param = create_variable("value", "char", false);
     add_to_array(write_function->parameters, write_param);
-    insert(tokenizer->function_symbol_tree, write_function->name, write_function);
+    add_function(write_function);
 }

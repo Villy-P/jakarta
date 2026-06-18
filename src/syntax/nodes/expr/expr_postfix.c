@@ -166,13 +166,11 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             fprintf(logs.main, "[POSTFIX] Processing close parenthesis: %s\n", token->content);
             open_parenthesis_count--;
             while (operators->top > STACK_EMPTY) {
-                fprintf(logs.main, "[POSTFIX] Popping operator for close parenthesis: %d\n", operators->top);
                 ASTNode* op = malloc(sizeof(ASTNode));
                 pop_from_stack(operators, op);
                 fprintf(logs.main, "[POSTFIX] Popped operator: %s\n", op->token->content);
                 if (op->token->symbol == SYMBOL_OPEN_PARENTHESIS)
                     break;
-                fprintf(logs.main, "[POSTFIX] Pushing operator to output: %s\n", op->token->content);
                 push_to_stack(output, op);
             }
             if (open_parenthesis_count == 0)
@@ -260,6 +258,19 @@ ASTNode* postfix_to_ast(Stack* postfix) {
 }
 
 void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node) {
+    // first, check if its a variable declaration. these can be in four forms:
+    // 1. TYPE IDENTIFIER;
+    // 2. TYPE IDENTIFIER = EXPRESSION;
+    // 3. TYPE[] IDENTIFIER; (array declaration)
+    // 4. TYPE[] IDENTIFIER = EXPRESSION; (array declaration with initialization)
+    if ((peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 1) && peek_ahead(tokenizer, SYMBOL_SEMICOLON, 2)) ||
+        (peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 1) && peek_ahead(tokenizer, SYMBOL_EQUALS, 2)) ||
+        (peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, OPERATOR_ARRAY_DECLARATION, 1) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 2)) ||
+        (peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, OPERATOR_ARRAY_DECLARATION, 1) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 2) && peek_ahead(tokenizer, SYMBOL_EQUALS, 3))) {
+        parse_variable(tokenizer, ast_node);
+        return;
+    }
+
     Stack* postfix = infix_to_postfix(tokenizer);
     ASTNode* expression = postfix_to_ast(postfix);
 
@@ -279,7 +290,7 @@ void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type)
         // parse_func_call(tokenizer, function_node, function);
         add_to_array(ast_node->nodes, function_node);
     } else if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
-        jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
+        jakarta_error(ERR_UNDEFINED_IDENTIFIER, NULL, token->content);
     } else {
         // Variable* variable = get(class->member_variables, token->content);
         ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);

@@ -51,8 +51,8 @@ FunctionDefinition* create_function_definition(const char* name, const char* ret
 // type_variable.c
 typedef struct VariableDef {
     char* name;
-    Type* type;
+    char* type;
     bool is_array;
 } Variable;
 
-Variable* create_variable(const char* name, Type* type, bool is_array);
+Variable* create_variable(const char* name, const char* type, bool is_array);
