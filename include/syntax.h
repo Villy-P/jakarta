@@ -1,6 +1,7 @@
 #pragma once
 
 #include "symbol.h"
+#include "data_structures/compiler_state.h"
 
 #define INITIAL_TOKENS_LENGTH 64
 
@@ -27,29 +28,29 @@ char* get_string(char** line);
 char* get_string_literal(char** line);
 
 // parser.c
-void parse(Tokenizer* tokenizer, ASTNode* ast_node);
+void parse(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 
 // Nodes
 
 // AST
-void parse_class(Tokenizer* tokenizer, ASTNode* ast_node);
-void parse_func(Tokenizer* tokenizer, ASTNode* ast_node);
-void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function);
-void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node);
-void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node);
-void parse_import(Tokenizer* tokenizer, ASTNode* ast_node);
-ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition, ASTNode* class);
+void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
+void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
+void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function, CompilerState* state);
+void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
+void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
+void parse_import(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
+ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition, ASTNode* class, CompilerState* state);
 
 // Statements
-void parse_for(Tokenizer* tokenizer, ASTNode* ast_node);
-void parse_if(Tokenizer* tokenizer, ASTNode* ast_node);
-void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node);
+void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
+void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
+void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 
 // Expressions
 Stack* infix_to_postfix(Tokenizer* tokenizer);
 ASTNode* postfix_to_ast(Stack* postfix);
 unsigned int precedence(char* op);
-void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node);
+void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type);
 bool is_operator(Symbol sym);
 bool is_right_associative(const char* op);

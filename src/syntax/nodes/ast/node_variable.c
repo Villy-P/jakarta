@@ -10,8 +10,8 @@
 #include "syntax.h"
 #include "core.h"
 
-void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
-    ASTNode* variable_node = parse_variable_declaration(tokenizer, NULL, ast_node);
+void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
+    ASTNode* variable_node = parse_variable_declaration(tokenizer, NULL, ast_node, state);
     if (peek(tokenizer, SYMBOL_SEMICOLON)) {
         consume(tokenizer);
         ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, NULL);
@@ -33,7 +33,7 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(equal_token);
 }
 
-ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition, ASTNode* class) {
+ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition, ASTNode* class, CompilerState* state) {
     bool is_array = false;
 
     Token* type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);

@@ -256,7 +256,7 @@ ASTNode* postfix_to_ast(Stack* postfix) {
     return value;
 }
 
-void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node) {
+void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     // first, check if its a variable declaration. these can be in four forms:
     // 1. TYPE IDENTIFIER;
     // 2. TYPE IDENTIFIER = EXPRESSION;
@@ -266,7 +266,7 @@ void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node) {
         (peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 1) && peek_ahead(tokenizer, SYMBOL_EQUALS, 2)) ||
         (peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, OPERATOR_ARRAY_DECLARATION, 1) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 2)) ||
         (peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, OPERATOR_ARRAY_DECLARATION, 1) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 2) && peek_ahead(tokenizer, SYMBOL_EQUALS, 3))) {
-        parse_variable(tokenizer, ast_node);
+        parse_variable(tokenizer, ast_node, state);
         return;
     }
 

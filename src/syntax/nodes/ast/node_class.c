@@ -5,7 +5,7 @@
 #include "core.h"
 #include "data_structures/symbol_table.h"
 
-void parse_class(Tokenizer* tokenizer, ASTNode* ast_node) {
+void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     consume(tokenizer);
 
     Token* name = consume(tokenizer);
@@ -19,9 +19,9 @@ void parse_class(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE)) {
         if (peek_type(tokenizer)) 
-            parse_variable(tokenizer, class_body);
+            parse_variable(tokenizer, class_body, state);
         else if (peek(tokenizer, KEYWORD_FUNC))
-            parse_func(tokenizer, class_body);
+            parse_func(tokenizer, class_body, state);
         else
             jakarta_error(ERR_INVALID_TOKEN, consume(tokenizer), "variable or function");
     }

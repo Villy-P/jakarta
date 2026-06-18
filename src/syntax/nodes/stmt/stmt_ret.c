@@ -4,7 +4,7 @@
 #include "syntax.h"
 #include "data_structures/stack.h"
 
-void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node) {
+void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     Token* ret = consume(tokenizer);
 
     Stack* postfix = infix_to_postfix(tokenizer);

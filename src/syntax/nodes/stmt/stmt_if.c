@@ -4,7 +4,7 @@
 #include "syntax.h"
 #include "core.h"
 
-void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {    
+void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {    
     Token* if_statement = consume(tokenizer);
     Token* open_parenthesis = peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
 
@@ -19,7 +19,7 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
-        parse(tokenizer, if_body);
+        parse(tokenizer, if_body, state);
     Token* close_brace = consume(tokenizer);
 
     add_to_array(if_node->nodes, if_body);

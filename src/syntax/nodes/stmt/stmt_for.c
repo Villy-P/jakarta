@@ -4,7 +4,7 @@
 #include "syntax.h"
 #include "core.h"
 
-void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {
+void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     Token* for_keyword = consume(tokenizer);
     Token* open_parenthesis = peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
 
@@ -14,7 +14,7 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* for_iteration = create_ast_node(AST_IDENTIFIER_FOR_ITERATION, NULL);
     ASTNode* for_body = create_ast_node(AST_IDENTIFIER_FOR_BODY, NULL);
 
-    parse_variable(tokenizer, for_node);
+    parse_variable(tokenizer, for_node, state);
 
     Stack* condition_postfix = infix_to_postfix(tokenizer);
     ASTNode* condition_expression = postfix_to_ast(condition_postfix);
@@ -26,7 +26,7 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
-        parse(tokenizer, for_body);
+        parse(tokenizer, for_body, state);
     consume(tokenizer);
 
     add_to_array(for_node->nodes, for_condition);

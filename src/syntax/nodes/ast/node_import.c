@@ -2,9 +2,10 @@
 
 #include "core.h"
 #include "syntax.h"
+#include "debug.h"
 #include "data_structures/symbol_table.h"
 
-void parse_import(Tokenizer* tokenizer, ASTNode* ast_node) {
+void parse_import(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM)
         jakarta_error(ERR_CUSTOM, NULL, "Import statements must be at the top level");
 
@@ -13,6 +14,10 @@ void parse_import(Tokenizer* tokenizer, ASTNode* ast_node) {
 
     ASTNode* import_node = create_ast_node(AST_IDENTIFIER_IMPORT_STATEMENT, module_token);
     add_to_array(ast_node->nodes, import_node);
+
+    add_to_array(state->files_to_parse, module_token->content);
+
+    log_msg(logs.main, "[IMPORT] Added import statement: %s\n", module_token->content);
 
     free_token(import_keyword);
 }

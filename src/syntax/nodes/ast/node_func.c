@@ -13,7 +13,7 @@
 #include "core.h"
 #include "debug.h"
 
-void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
+void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM && ast_node->identifier != AST_IDENTIFIER_CLASS_BODY)
         jakarta_error_invalid_typedef_location(consume(tokenizer));
 
@@ -29,7 +29,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
         func_type->content);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
-        ASTNode* parameter = parse_variable_declaration(tokenizer, function_definition, ast_node);
+        ASTNode* parameter = parse_variable_declaration(tokenizer, function_definition, ast_node, state);
         Token* comma = peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : NULL;
 
         if (comma != NULL)
@@ -43,7 +43,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     Type* type = malloc(sizeof(Type));
 
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
-        parse(tokenizer, func_node);
+        parse(tokenizer, func_node, state);
 
     Token* close_bracket = consume(tokenizer);
 
@@ -59,7 +59,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(close_bracket);
 }
 
-void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
+void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function, CompilerState* state) {
     for (unsigned int i = 0; i < function->parameters->length; i++) {
         Stack* arg = infix_to_postfix(tokenizer);
         ASTNode* arg_node = postfix_to_ast(arg);
