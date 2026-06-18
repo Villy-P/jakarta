@@ -12,15 +12,11 @@
 #define HASH_INITIAL_POWER 1
 
 int hash(char* key) {
-    const int p = HASH_BASE_PRIME;
-    const int m = HASH_LARGE_PRIME;
-    int hash_value = HASH_INITIAL_VALUE;
-    int p_pow = HASH_INITIAL_POWER;
-    for (int i = 0; key[i]; ++i) {
-        hash_value = (hash_value + (key[i] - 'a' + 1) * p_pow) % m;
-        p_pow = (p_pow * p) % m;
-    }
-    return abs(hash_value % HASHMAP_ARRAY_SIZE);
+    unsigned long hash_value = 5381;
+    int c;
+    while ((c = *key++))
+        hash_value = ((hash_value << 5) + hash_value) + c;
+    return (int)(hash_value % HASHMAP_ARRAY_SIZE);
 }
 
 int insert(HashMap* hashmap, char* key, void* value) {
