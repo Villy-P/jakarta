@@ -15,13 +15,13 @@ void gather_declarations(CompilerState* state) {
         for (unsigned int j = 0; j < ast_root->nodes->length; ++j) {
             ASTNode* node = (ASTNode*)get_from_array(ast_root->nodes, j);
             if (node->identifier == AST_IDENTIFIER_FUNCTION_DEFINITION)
-                add_symbol_tree_entry(node->token->content, SYMBOL_FUNCTION, node);
+                add_symbol_tree_token(node->token, SYMBOL_FUNCTION, node);
             else if (node->identifier == AST_IDENTIFIER_CLASS_CREATOR)
-                add_symbol_tree_entry(node->token->content, SYMBOL_CLASS, node);
+                add_symbol_tree_token(node->token, SYMBOL_CLASS, node);
             else if (node->identifier == AST_IDENTIFIER_TYPE_DEFINITION)
-                add_symbol_tree_entry(node->token->content, SYMBOL_TYPE, node);
+                add_symbol_tree_token(node->token, SYMBOL_TYPE, node);
             else if (node->identifier == AST_IDENTIFIER_VARIABLE_DEFINITION)
-                add_symbol_tree_entry(node->token->content, SYMBOL_VARIABLE, node);
+                add_symbol_tree_token(node->token, SYMBOL_VARIABLE, node);
         }
     }
 }

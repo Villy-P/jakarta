@@ -17,6 +17,13 @@ void symbol_table_init(void) {
     global_symbol_tree = create_hashmap();
 }
 
+void add_symbol_tree_token(Token* token, SymbolType type, void* data) {
+    if (get(global_symbol_tree, token->content) != NULL)
+        jakarta_error(ERR_DUPLICATE_IDENTIFIER, token, token->content);
+    insert(global_symbol_tree, token->content, data);
+    log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", token->content);
+}
+
 void add_symbol_tree_entry(const char* name, SymbolType type, void* data) {
     if (get(global_symbol_tree, name) != NULL)
         jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, name);
