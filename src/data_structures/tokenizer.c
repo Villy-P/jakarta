@@ -17,9 +17,6 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     if (tokenizer == NULL)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Tokenizer");
     tokenizer->tokens = create_array(initial_size);
-
-    create_base_types();
-    add_built_in_functions();
     return tokenizer;
 }
 
