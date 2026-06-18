@@ -92,7 +92,7 @@ void jakarta_error_invalid_typedef_location(Token* token) {
 void handle_error(int error_code, Token* token, CompilerState* state, ...) {
     va_list args;
     va_start(args, state);
-    log_msg(logs.main, "Handling error with code %d\n", error_code);
+    log_msg(logs.main, "[ERROR] Handling error with code %d\n", error_code);
     printf("\033[31m");
     if (token != NULL)
         printf("%s:%d:%d: ", token->file_name, token->line, token->col);
