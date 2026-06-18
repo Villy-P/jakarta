@@ -1,6 +1,6 @@
 #include "core.h"
 
-void print_stack_trace() {
+void print_stack_trace_old() {
     #ifdef _WIN32
     HANDLE       process = GetCurrentProcess();
     HANDLE       thread  = GetCurrentThread();

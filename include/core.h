@@ -28,7 +28,7 @@ void jakarta_error_invalid_typedef_location(Token* token);
 void jakarta_error_undefined_identifier(Token* identifier);
 
 // stack_trace.c
-void print_stack_trace();
+void print_stack_trace_old();
 
 // free.c
 void free_tokenizer(Tokenizer* tokenizer);

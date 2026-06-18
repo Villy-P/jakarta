@@ -28,6 +28,12 @@ void setup_logs() {
         debug_message("Error: Could not create log file", LOG);
     else
         debug_message("Log file created successfully", LOG);
+
+    logs.main = fopen("logs/main.log", "w");
+    if (logs.main == NULL)
+        debug_message("Error: Could not create log file", LOG);
+    else
+        debug_message("Log file created successfully", LOG);
 }
 
 void cleanup_logs() {
@@ -39,6 +45,11 @@ void cleanup_logs() {
 
     if (logs.ast != NULL) {
         fclose(logs.ast);
+        debug_message("Log file closed successfully", LOG);
+    }
+
+    if (logs.main != NULL) {
+        fclose(logs.main);
         debug_message("Log file closed successfully", LOG);
     }
 }

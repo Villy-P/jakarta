@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctrace/ctrace.h>
 
 #include "core.h"
 
@@ -60,7 +61,10 @@ void jakarta_error(int error_code, Token* token, const char* additional_info) {
             else
                 printf("An error occurred.\n");
     }
-    print_stack_trace();
+    ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
+    ctrace_print_stacktrace(&trace, stdout, 1);
+    
+    ctrace_free_stacktrace(&trace);
     printf("\033[0m\n");
     exit(error_code);
 }
