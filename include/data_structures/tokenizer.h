@@ -10,13 +10,9 @@
 
 typedef struct TokenizerDef {
     Array* tokens;
-
-    char* current_class;
 } Tokenizer;
 
 Tokenizer* create_tokenizer(unsigned int initial_size);
-void add_class_variable(Tokenizer* tokenizer, Variable* variable);
-void add_class_method(Tokenizer* tokenizer, FunctionDefinition* function_definition);
 void print_tokens(Tokenizer* tokenizer);
 
 Token* consume(Tokenizer* tokenizer);

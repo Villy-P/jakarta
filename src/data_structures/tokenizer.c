@@ -20,25 +20,25 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
     return tokenizer;
 }
 
-void add_class_variable(Tokenizer* tokenizer, Variable* variable) {
-    if (tokenizer->current_class == NULL)
-        jakarta_error(ERR_CUSTOM, NULL, "No class context");
-    ClassDefinition* class_def = malloc(sizeof(ClassDefinition));
-    get_class(tokenizer->current_class, class_def);
-    if (class_def == NULL)
-        jakarta_error(ERR_CUSTOM, NULL, "Class not found");
-    insert(class_def->member_variables, variable->name, variable);
-}
+// void add_class_variable(Tokenizer* tokenizer, Variable* variable) {
+//     if (tokenizer->current_class == NULL)
+//         jakarta_error(ERR_CUSTOM, NULL, "No class context");
+//     ClassDefinition* class_def = malloc(sizeof(ClassDefinition));
+//     get_class(tokenizer->current_class, class_def);
+//     if (class_def == NULL)
+//         jakarta_error(ERR_CUSTOM, NULL, "Class not found");
+//     insert(class_def->member_variables, variable->name, variable);
+// }
 
-void add_class_method(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
-    if (tokenizer->current_class == NULL)
-        jakarta_error(ERR_CUSTOM, NULL, "No class context");
-    ClassDefinition* class_def = malloc(sizeof(ClassDefinition));
-    get_class(tokenizer->current_class, class_def);
-    if (class_def == NULL)
-        jakarta_error(ERR_CUSTOM, NULL, "Class not found");
-    insert(class_def->member_functions, function_definition->name, function_definition);
-}
+// void add_class_method(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
+//     if (tokenizer->current_class == NULL)
+//         jakarta_error(ERR_CUSTOM, NULL, "No class context");
+//     ClassDefinition* class_def = malloc(sizeof(ClassDefinition));
+//     get_class(tokenizer->current_class, class_def);
+//     if (class_def == NULL)
+//         jakarta_error(ERR_CUSTOM, NULL, "Class not found");
+//     insert(class_def->member_functions, function_definition->name, function_definition);
+// }
 
 void print_tokens(Tokenizer* tokenizer) {
     for (unsigned int i = 0; i < tokenizer->tokens->length; i++) {

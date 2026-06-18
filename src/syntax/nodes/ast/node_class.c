@@ -14,9 +14,6 @@ void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) 
     ASTNode* class_node = create_ast_node(AST_IDENTIFIER_CLASS_CREATOR, name);
     ASTNode* class_body = create_ast_node(AST_IDENTIFIER_CLASS_BODY, NULL);
 
-    ClassDefinition* class_definition = create_class_definition(name->content);
-    tokenizer->current_class = class_definition->name;
-
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE)) {
         if (peek_type(tokenizer)) 
             parse_variable(tokenizer, class_body, state);
