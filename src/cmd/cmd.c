@@ -8,26 +8,23 @@
 #include "data_structures/tokenizer.h"
 #include "data_structures/ast.h"
 
-static Tokenizer* tokenize_file(FILE* file);
+static void tokenize_file(FILE* file, Tokenizer* tokenizer);
 static AST* parse_tokens(Tokenizer* tokenizer);
 static FILE* open_file_read(const char* path);
 static FILE* open_file_write(const char* path);
 static void close_file(FILE* f, const char* path);
 
-void jakarta_cmd_read_file(const char* file_location) {
+void jakarta_cmd_read_file(const char* file_location, Tokenizer* tokenizer) {
     debug_message("Begun Reading Input File", TOP_LEVEL);
     FILE* file_ptr = open_file_read(file_location);
 
     debug_message("Created Tokenizer", CREATION);
-    Tokenizer* tokenizer = tokenize_file(file_ptr);
+    tokenize_file(file_ptr, tokenizer);
 
     debug_message("Begun Parsing", TOP_LEVEL);
     AST* ast = parse_tokens(tokenizer);
 
     print_ast_node(ast->root, 0);
-
-    free_tokenizer(tokenizer);
-    debug_message("Destroyed Tokenizer", REMOVAL);
 
     close_file(file_ptr, file_location);
 }
@@ -58,16 +55,16 @@ static void close_file(FILE* f, const char* path) {
         jakarta_error(ERR_CANNOT_CLOSE_FILE, NULL, path);
 }
 
-static Tokenizer* tokenize_file(FILE* file) {
-    Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
+static void tokenize_file(FILE* file, Tokenizer* tokenizer) {
+    // Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
     char buffer[STRING_BUFFER_LENGTH];
     unsigned int line_number = 1;
     while (fgets(buffer, sizeof(buffer), file))
         read_line(buffer, line_number++, tokenizer);
-    return tokenizer;
 }
 
 static AST* parse_tokens(Tokenizer* tokenizer) {
+    printf("Parsing tokens into AST: %d tokens\n", tokenizer->tokens->length);
     AST* ast = create_ast();
     while (tokenizer->tokens->length > 0)
         parse(tokenizer, ast->root);

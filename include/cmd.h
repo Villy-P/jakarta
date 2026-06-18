@@ -2,6 +2,9 @@
 
 #include <stdio.h>
 
+#include "core.h"
+#include "data_structures/tokenizer.h"
+
 #define STRING_EQUAL 0
 #define FILE_NAME_SIZE 256
 #define INPUT_FILE_ARGUMENT "-f"
@@ -15,7 +18,7 @@ typedef struct {
     char output_file[FILE_NAME_SIZE];
 } CmdArgs;
 
-void jakarta_cmd_read_file(const char* file_location);
+void jakarta_cmd_read_file(const char* file_location, Tokenizer* tokenizer);
 void jakarta_cmd_out_file(const char* file_location);
 
 void parse_args(int argc, char* argv[], CmdArgs* args);

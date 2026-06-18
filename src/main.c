@@ -13,7 +13,8 @@ int main(int argc, char *argv[]) {
     CmdArgs args = {0};
     parse_args(argc, argv, &args);
 
-    jakarta_cmd_read_file(args.input_file);
+    Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
+    jakarta_cmd_read_file(args.input_file, tokenizer);
     jakarta_cmd_out_file(args.output_file);
 
     cleanup_logs();

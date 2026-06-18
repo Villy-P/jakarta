@@ -6,6 +6,7 @@
 #include "syntax.h"
 #include "core.h"
 #include "data_structures/tokenizer.h"
+#include "debug.h"
 
 #define MAX_REGEX_GROUPS 1
 #define STRING_UNEQUAL 0
@@ -22,6 +23,7 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
             Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col, str_lit);
             col += strlen(str_lit) + 2;
             add_to_array(tokenizer->tokens, token);
+            fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
             free(str_lit);
             continue;
         }
@@ -31,6 +33,7 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
             Token* token = create_token(symbol, line_number, col, str);
             col += strlen(str);
             add_to_array(tokenizer->tokens, token);
+            fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
         } else {
             char token = line[0];
             if (token == ' ' || token == '\n') {
@@ -44,6 +47,7 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
             Symbol token_symbol = get_symbol_from_char(token);
             Token* token_obj = create_token(token_symbol, line_number, col, token_ptr);
             add_to_array(tokenizer->tokens, token_obj);
+            fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token_obj->symbol, token_obj->line, token_obj->col, token_obj->content);
             line++;
             col++;
             free(token_ptr);

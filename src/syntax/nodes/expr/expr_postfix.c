@@ -95,8 +95,6 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         Token* token = consume(tokenizer);
         if (!token) break;
 
-        fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
-
         ASTNode* node = NULL;
 
         // --- Literals ---

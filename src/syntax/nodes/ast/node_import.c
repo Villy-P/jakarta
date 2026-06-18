@@ -11,7 +11,7 @@ void parse_import(Tokenizer* tokenizer, ASTNode* ast_node) {
     // check first in the lib directory, then in the current directory
     char* lib_path = malloc(strlen("lib/.jk") + strlen(string_literal->content) + 1);
     sprintf(lib_path, "lib/%s.jk", string_literal->content);
-    jakarta_cmd_read_file(lib_path);
+    jakarta_cmd_read_file(lib_path, tokenizer);
     free(lib_path);
 
     peek_consume(tokenizer, SYMBOL_SEMICOLON);
