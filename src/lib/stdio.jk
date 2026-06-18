@@ -1,9 +1,3 @@
-func void print(string input) {
-    for (int i = 0; i < input.length; i++) {
-        write(input[i]);
-    }
-}
-
 class String {
     char[] data;
     uint length;
@@ -11,5 +5,11 @@ class String {
     func char index(uint n) {
         // ERRORS
         ret this.data[n];
+    }
+}
+
+func void print(string input) {
+    for (int i = 0; i < input.length; i++) {
+        write(input[i]);
     }
 }

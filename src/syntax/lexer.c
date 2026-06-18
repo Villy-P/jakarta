@@ -5,6 +5,7 @@
 
 #include "syntax.h"
 #include "core.h"
+#include "cmd.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 
@@ -14,16 +15,38 @@
 
 void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
     unsigned int col = 1;
+    bool is_import_line = false;
     while (strcmp(line, "\0") != STRING_UNEQUAL) {
         if (line[0] == '/' && line[1] == '/')
             break;
         if (line[0] == '"') {
             char* str_lit = get_string_literal(&line);
-            printf("STRING: %s\n", str_lit);
+
+            if (is_import_line) {
+                char* lib_path = malloc(strlen("lib/.jk") + strlen(str_lit) + 1);
+                sprintf(lib_path, "lib/%s.jk", str_lit);
+                FILE* import_file = fopen(lib_path, "r");
+                if (!import_file) {
+                    free(lib_path);
+                    free(str_lit);
+                    jakarta_error(ERR_INVALID_FILE_NAME, NULL, lib_path);
+                }
+                
+                tokenize_file(import_file, tokenizer);
+
+                free(lib_path);
+                free(str_lit);
+
+                is_import_line = false;
+
+                continue;
+            }
+
             Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col, str_lit);
             col += strlen(str_lit) + 2;
             add_to_array(tokenizer->tokens, token);
             fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
+
             free(str_lit);
             continue;
         }
@@ -32,8 +55,13 @@ void read_line(char* line, unsigned int line_number, Tokenizer* tokenizer) {
             Symbol symbol = get_keyword_from_str(str);
             Token* token = create_token(symbol, line_number, col, str);
             col += strlen(str);
-            add_to_array(tokenizer->tokens, token);
-            fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
+
+            if (symbol == KEYWORD_IMPORT)
+                is_import_line = true;
+            else {
+                add_to_array(tokenizer->tokens, token);
+                fprintf(logs.tokens, "Token %d (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
+            }
         } else {
             char token = line[0];
             if (token == ' ' || token == '\n') {

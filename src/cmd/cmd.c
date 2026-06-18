@@ -8,7 +8,6 @@
 #include "data_structures/tokenizer.h"
 #include "data_structures/ast.h"
 
-static void tokenize_file(FILE* file, Tokenizer* tokenizer);
 static AST* parse_tokens(Tokenizer* tokenizer);
 static FILE* open_file_read(const char* path);
 static FILE* open_file_write(const char* path);
@@ -55,7 +54,7 @@ static void close_file(FILE* f, const char* path) {
         jakarta_error(ERR_CANNOT_CLOSE_FILE, NULL, path);
 }
 
-static void tokenize_file(FILE* file, Tokenizer* tokenizer) {
+void tokenize_file(FILE* file, Tokenizer* tokenizer) {
     // Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
     char buffer[STRING_BUFFER_LENGTH];
     unsigned int line_number = 1;
