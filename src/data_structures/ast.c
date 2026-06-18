@@ -83,9 +83,8 @@ void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
     const char* marker = is_last ? "└── " : "├── ";
     fprintf(logs.ast, "%s%s%s", prefix, marker, node_name);
 
-    if (node->token != NULL && node->token->content != NULL) {
+    if (node->token != NULL && node->token->content != NULL)
         fprintf(logs.ast, ": %s", node->token->content);
-    }
     fprintf(logs.ast, "\n");
 
     char new_prefix[512];
