@@ -40,7 +40,6 @@ static void process(const char* file_location, CompilerState* state) {
     Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
     tokenize_file(file_ptr, tokenizer);
 
-    debug_message("Finished tokenizing file, beginning to parse tokens into AST", TOP_LEVEL);
     ASTNode* ast_root = parse_tokens(tokenizer, state);
     log_msg(logs.main, "[AST] Finished parsing tokens into AST for file: %s\n", file_location);
     ForestEntry* entry = create_forest_entry(file_location, ast_root);
