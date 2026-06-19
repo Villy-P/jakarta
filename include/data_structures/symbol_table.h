@@ -16,7 +16,8 @@ typedef enum {
 
 typedef struct SymbolTableEntryDef {
     char* name;
-    SymbolType type;
+    char* type;
+    SymbolType data_type;
     ASTNode* data;
 } SymbolTableEntry;
 
@@ -28,7 +29,7 @@ typedef struct SymbolTableDef {
 } SymbolTable;
 
 SymbolTable* create_symbol_table();
-SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType type, ASTNode* data);
+SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_type, ASTNode* data);
 
 void add_symbol_tree_token(Token* token, SymbolTableEntry* entry, SymbolTable* symbol_table, CompilerState* state);
 void add_symbol_tree_entry(SymbolTableEntry* entry, SymbolTable* symbol_table);

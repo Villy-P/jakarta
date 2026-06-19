@@ -123,3 +123,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
         resolve_node(child, function_scope, state);
     }
 }
+
+void resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function call: %s\n", node->token->content);
+}

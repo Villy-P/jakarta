@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "data_structures/stack.h"
+#include "semantic_analyzer.h"
 #include "syntax.h"
 #include "core.h"
 #include "types.h"
@@ -298,4 +299,13 @@ void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type)
     }
     if (peek(tokenizer, SYMBOL_PERIOD))
         parse_variable_members(tokenizer, ast_node, type);
+}
+
+void resolve_expression(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
+    switch (node->identifier) {
+        case AST_IDENTIFIER_FUNCTION_CALL:
+            return resolve_function_call(node, symbol_table, state);
+        default:
+            break;
+    }
 }
