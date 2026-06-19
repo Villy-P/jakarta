@@ -6,11 +6,6 @@
 #include "data_structures/hashmap.h"
 #include "core.h"
 
-#define HASH_BASE_PRIME 31
-#define HASH_LARGE_PRIME 1000000009
-#define HASH_INITIAL_VALUE 0
-#define HASH_INITIAL_POWER 1
-
 int hash(char* key) {
     unsigned long hash_value = 5381;
     int c;
