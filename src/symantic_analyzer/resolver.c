@@ -31,9 +31,8 @@ void resolve_node(ASTNode* node, SymbolTable* symbol_table, CompilerState* state
             if (return_type_entry == NULL) {
                 handle_error(ERROR_UNDEFINED_RETURN_TYPE, return_type_node->token, state, return_type_node->token->content);
                 break;
-            } else {
-                log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type for function %s: %s\n", node->token->content, return_type_entry->name);
             }
+            log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type: %s\n", return_type_entry->name);
             break;
         }
         default:
