@@ -11,6 +11,9 @@ int main(int argc, char *argv[]) {
     symbol_table_init();
     log_msg(logs.main, "[PROGRAM] Program started with %d arguments\n", argc);
 
+    SetUnhandledExceptionFilter(handle_seg_fault);
+    log_msg(logs.main, "[PROGRAM] Set up segmentation fault handler\n");
+
     CmdArgs args = {0};
     parse_args(argc, argv, &args);
 

@@ -38,9 +38,7 @@ void jakarta_error_invalid_typedef_location(Token* token);
 void jakarta_error_undefined_identifier(Token* identifier);
 
 void handle_error(int error_code, Token* token, CompilerState* state, ...);
-
-// stack_trace.c
-void print_stack_trace_old();
+long WINAPI handle_seg_fault(EXCEPTION_POINTERS* exception_pointers);
 
 // free.c
 void free_tokenizer(Tokenizer* tokenizer);

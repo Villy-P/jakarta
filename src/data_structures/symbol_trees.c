@@ -17,10 +17,10 @@ void symbol_table_init(void) {
     global_symbol_tree = create_hashmap();
 }
 
-void add_symbol_tree_token(Token* token, SymbolType type, void* data) {
+void add_symbol_tree_token(Token* token, SymbolType type, void* data, CompilerState* state) {
     void* existing_node = get(global_symbol_tree, token->content);
     if (existing_node != NULL)
-        return handle_error(ERROR_DUPLICATE_IDENTIFIER, token, NULL, (ASTNode*)existing_node);
+        return handle_error(ERROR_DUPLICATE_IDENTIFIER, token, state, (ASTNode*)existing_node);
     insert(global_symbol_tree, token->content, data);
     log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", token->content);
 }

@@ -8,6 +8,7 @@ CompilerState* create_compiler_state() {
     state->forest = create_array(10);
     state->files_to_parse = create_array(10);
     state->error_list = create_array(20);
+    state->error_count = 0;
     return state;
 }
 

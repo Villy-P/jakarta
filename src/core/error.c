@@ -142,3 +142,15 @@ void handle_error(int error_code, Token* token, CompilerState* state, ...) {
     va_end(args);
     printf("\033[0m\n");
 }
+
+long WINAPI handle_seg_fault(EXCEPTION_POINTERS* exception_pointers) {
+    if (exception_pointers->ExceptionRecord->ExceptionCode == EXCEPTION_ACCESS_VIOLATION) {
+        printf("\033[31mSegmentation Fault (Access Violation) detected at address %p\033[0m\n", exception_pointers->ExceptionRecord->ExceptionAddress);
+        ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
+        ctrace_print_stacktrace(&trace, stdout, 1);
+        
+        ctrace_free_stacktrace(&trace);
+        exit(DEFAULT_ERROR_CODE);
+    }
+    return EXCEPTION_EXECUTE_HANDLER;
+}
