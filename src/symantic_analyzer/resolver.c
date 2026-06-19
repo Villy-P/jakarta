@@ -19,6 +19,8 @@ void resolve_node(ASTNode* node, SymbolTable* symbol_table, CompilerState* state
     switch (node->identifier) {
         case AST_IDENTIFIER_FUNCTION_DEFINITION:
             return resolve_function_definition(node, symbol_table, state);
+        case AST_IDENTIFIER_VARIABLE_DEFINITION:
+            return resolve_variable_definition(node, symbol_table, state);
         default:
             break;
     }

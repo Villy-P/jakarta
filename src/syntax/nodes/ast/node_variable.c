@@ -6,6 +6,8 @@
 #include "data_structures/array.h"
 #include "data_structures/stack.h"
 #include "data_structures/symbol_table.h"
+#include "debug.h"
+#include "semantic_analyzer.h"
 #include "types.h"
 #include "syntax.h"
 #include "core.h"
@@ -56,4 +58,26 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
         add_to_array(function_definition->parameters, variable);
 
     return variable_node;
+}
+
+
+
+
+
+
+void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving variable definition: %s\n", node->token->content);
+
+    ASTNode* variable_type_node = (ASTNode*)get_from_array(node->nodes, 0);
+    SymbolTableEntry* type_entry = lookup_type(variable_type_node->token->content, symbol_table, state);
+    if (type_entry == NULL)
+        return handle_error(
+            ERROR_UNDEFINED_TYPE, 
+            variable_type_node->token, 
+            state, 
+            variable_type_node->token->content);
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved variable type: %s\n", type_entry->name);
+
+    ASTNode* variable_content_node = (ASTNode*)get_from_array(node->nodes, 1);
+    // TODO: check to see if it matches the type
 }
