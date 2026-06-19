@@ -138,6 +138,11 @@ void handle_error(int error_code, Token* token, CompilerState* state, ...) {
             printf("Undefined return type: %s\n", return_type);
             break;
         }
+        case ERROR_UNDEFINED_FUNCTION_PARAMETER_TYPE: {
+            const char* parameter_type = va_arg(args, const char*);
+            printf("Undefined function parameter type: %s\n", parameter_type);
+            break;
+        }
     }
 
     state->error_count++;

@@ -1,4 +1,4 @@
-class String {
+class string {
     char[] data;
     uint length;
 
