@@ -1,5 +1,4 @@
 #include "syntax.h"
-#include "debug.h"
 #include "data_structures/tokenizer.h"
 #include "data_structures/compiler_state.h"
 

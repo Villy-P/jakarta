@@ -5,7 +5,6 @@
 
 #include "syntax.h"
 #include "core.h"
-#include "cmd.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 

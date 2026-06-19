@@ -1,9 +1,5 @@
-#include <string.h>
-
-#include "data_structures/symbol_table.h"
 #include "core.h"
 #include "cmd.h"
-#include "types.h"
 #include "debug.h"
 
 int main(int argc, char *argv[]) {
