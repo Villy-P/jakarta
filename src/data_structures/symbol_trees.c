@@ -9,6 +9,8 @@ SymbolTable* create_symbol_table() {
     if (!symbol_table)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "SymbolTable");
     symbol_table->table = create_hashmap();
+    symbol_table->parent = NULL;
+    symbol_table->children = create_array(10);
     return symbol_table;
 }
 
