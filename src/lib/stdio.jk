@@ -2,7 +2,7 @@ class string {
     char[] data;
     uint length;
 
-    func char index(uint n) {
+    func char __index(uint n) {
         // ERRORS
         ret this.data[n];
     }
