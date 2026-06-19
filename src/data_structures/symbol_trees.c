@@ -14,19 +14,32 @@ SymbolTable* create_symbol_table() {
     return symbol_table;
 }
 
-void add_symbol_tree_token(Token* token, SymbolType type, void* data, SymbolTable* symbol_table, CompilerState* state) {
+SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType type, ASTNode* data) {
+    SymbolTableEntry* entry = malloc(sizeof(SymbolTableEntry));
+    if (!entry)
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "SymbolTableEntry");
+    entry->name = malloc(strlen(name) + 1);
+    if (!entry->name)
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "SymbolTableEntry name");
+    strcpy(entry->name, name);
+    entry->type = type;
+    entry->data = data;
+    return entry;
+}
+
+void add_symbol_tree_token(Token* token, SymbolTableEntry* entry, SymbolTable* symbol_table, CompilerState* state) {
     void* existing_node = get(symbol_table->table, token->content);
     if (existing_node != NULL)
         return handle_error(ERROR_DUPLICATE_IDENTIFIER, token, state, (ASTNode*)existing_node);
-    insert(symbol_table->table, token->content, data);
+    insert(symbol_table->table, entry->name, entry);
     log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", token->content);
 }
 
-void add_symbol_tree_entry(const char* name, SymbolType type, void* data, SymbolTable* symbol_table) {
-    if (get(symbol_table->table, name) != NULL)
-        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, name);
-    insert(symbol_table->table, name, data);
-    log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", name);
+void add_symbol_tree_entry(SymbolTableEntry* entry, SymbolTable* symbol_table) {
+    if (get(symbol_table->table, entry->name) != NULL)
+        jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, entry->name);
+    insert(symbol_table->table, entry->name, entry);
+    log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", entry->name);
 }
 
 void get_symbol_tree_entry(const char* name, SymbolTableEntry* target, SymbolTable* symbol_table) {

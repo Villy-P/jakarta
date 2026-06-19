@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include "data_structures/tokenizer.h"
+#include "data_structures/array.h"
+#include "data_structures/ast.h"
 #include "data_structures/symbol_table.h"
 #include "types.h"
 #include "core.h"
@@ -69,9 +71,32 @@ Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     return consume(tokenizer);
 }
 
+static ASTNode* create_dummy_function_node(char* name) {
+    Token* dummy_token = create_token(SYMBOL_IDENTIFIER, 0, 0, name, "internal");
+    ASTNode* func_node = create_ast_node(AST_IDENTIFIER_DUMMY_FUNCTION, dummy_token);
+        
+    return func_node;
+}
+
+static ASTNode* create_dummy_parameter_node(char* name, char* type_name) {
+    Token* name_token = create_token(SYMBOL_IDENTIFIER, 0, 0, name, "internal");
+    ASTNode* param_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
+
+    Token* type_token = create_token(SYMBOL_IDENTIFIER, 0, 0, type_name, "internal");
+    add_to_array(param_node->nodes, create_ast_node(AST_IDENTIFIER_VARIABLE_TYPE, type_token));
+
+    return param_node;
+}
+
+static ASTNode* create_dummy_return_node(char* name) {
+    Token* dummy_token = create_token(SYMBOL_IDENTIFIER, 0, 0, name, "internal");
+    return create_ast_node(AST_IDENTIFIER_FUNCTION_RETURN_TYPE, dummy_token);
+}
+
 void add_built_in_functions(CompilerState* state) {
-    FunctionDefinition* write_function = create_function_definition("write", "void");
-    Variable* write_param = create_variable("value", "char", false);
-    add_to_array(write_function->parameters, write_param);
-    add_symbol_tree_entry("write", SYMBOL_BUILTIN_FUNCTION, write_function, state->symbol_tree);
+    ASTNode* write_func = create_dummy_function_node("write");
+    add_to_array(write_func->nodes, create_dummy_return_node("void"));
+    add_to_array(write_func->nodes, create_dummy_parameter_node("value", "char"));
+
+    add_symbol_tree_entry(create_symbol_table_entry("write", SYMBOL_BUILTIN_FUNCTION, write_func), state->symbol_tree);
 }

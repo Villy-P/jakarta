@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "types.h"
+#include "data_structures/ast.h"
 #include "debug.h"
 #include "data_structures/tokenizer.h"
 #include "data_structures/symbol_table.h"
@@ -13,25 +14,30 @@
 #define LONG_SIZE 64
 #define LLONG_SIZE 128
 
+static ASTNode* create_dummy_type_node(char* name) {
+    Token* dummy_token = create_token(SYMBOL_IDENTIFIER, 0, 0, name, "internal");
+    return create_ast_node(AST_IDENTIFIER_DUMMY_TYPE, dummy_token);
+}
+
 void create_base_types(CompilerState* state) {
     log_msg(logs.main, "[TYPES] Creating base types\n");
-    add_symbol_tree_entry("char", SYMBOL_BUILTIN_TYPE, create_type("char",    BYTE_SIZE,   UNUM), state->symbol_tree);
-    add_symbol_tree_entry("bool", SYMBOL_BUILTIN_TYPE, create_type("bool",    BIT_SIZE,    ONEBIT), state->symbol_tree);
-    add_symbol_tree_entry("byte", SYMBOL_BUILTIN_TYPE, create_type("byte",    BYTE_SIZE,   NUM), state->symbol_tree);
-    add_symbol_tree_entry("short", SYMBOL_BUILTIN_TYPE, create_type("short",   SHORT_SIZE,  NUM), state->symbol_tree);
-    add_symbol_tree_entry("int", SYMBOL_BUILTIN_TYPE, create_type("int",     INT_SIZE,    NUM), state->symbol_tree);
-    add_symbol_tree_entry("long", SYMBOL_BUILTIN_TYPE, create_type("long",    LONG_SIZE,   NUM), state->symbol_tree);
-    add_symbol_tree_entry("llong", SYMBOL_BUILTIN_TYPE, create_type("llong",   LLONG_SIZE,  NUM), state->symbol_tree);
-    add_symbol_tree_entry("ubyte", SYMBOL_BUILTIN_TYPE, create_type("ubyte",   BYTE_SIZE,   UNUM), state->symbol_tree);
-    add_symbol_tree_entry("ushort", SYMBOL_BUILTIN_TYPE, create_type("ushort",  SHORT_SIZE,  UNUM), state->symbol_tree);
-    add_symbol_tree_entry("uint", SYMBOL_BUILTIN_TYPE, create_type("uint",    INT_SIZE,    UNUM), state->symbol_tree);
-    add_symbol_tree_entry("ulong", SYMBOL_BUILTIN_TYPE, create_type("ulong",   LONG_SIZE,   UNUM), state->symbol_tree);
-    add_symbol_tree_entry("ullong" , SYMBOL_BUILTIN_TYPE, create_type("ullong" , LLONG_SIZE,  UNUM), state->symbol_tree);
-    add_symbol_tree_entry("float", SYMBOL_BUILTIN_TYPE, create_type("float",   INT_SIZE,    NUM_DECIMAL), state->symbol_tree);
-    add_symbol_tree_entry("double", SYMBOL_BUILTIN_TYPE, create_type("double",  LONG_SIZE,   NUM_DECIMAL), state->symbol_tree);
-    add_symbol_tree_entry("ldouble", SYMBOL_BUILTIN_TYPE, create_type("ldouble", LLONG_SIZE,  NUM_DECIMAL), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("char", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("char")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("bool", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("bool")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("byte", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("byte")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("short", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("short")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("int", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("int")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("long", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("long")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("llong", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("llong")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ubyte", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ubyte")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ushort", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ushort")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("uint", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("uint")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ulong", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ulong")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ullong" , SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ullong" )), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("float", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("float")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("double", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("double")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ldouble", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ldouble")), state->symbol_tree);
 
-    add_symbol_tree_entry("void", SYMBOL_BUILTIN_TYPE, create_type("void", 0, STRING), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("void", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("void")), state->symbol_tree);
     log_msg(logs.main, "[TYPES] Success Creating Base Types\n");
 }
 
