@@ -3,7 +3,6 @@
 #include "data_structures/symbol_table.h"
 #include "semantic_analyzer.h"
 #include "debug.h"
-#include <stdlib.h>
 
 void resolve_types(CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from AST\n");
