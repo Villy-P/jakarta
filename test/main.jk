@@ -6,16 +6,15 @@ typedef factorial_type uint;
 
 func int main() {
     factorial_type f10 = factorial(10);
-    factorial_type f5 = factorial(5);
 
-    print(f10 + " " + f5);
+    print(f10);
 
-    ret DEFAULT_ERROR_CODE;
+    ret 0;
 }
 
 func factorial_type factorial(factorial_type n) {
     if (n == 0) {
-        ret 0;
+        ret 1;
     }
     ret n * factorial(n - 1);
 }
