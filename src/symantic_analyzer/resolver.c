@@ -40,3 +40,13 @@ SymbolTableEntry* lookup_type(const char* target, SymbolTable* symbol_table, Com
     }
     return NULL;
 }
+
+SymbolTableEntry* lookup_function(const char* target, SymbolTable* symbol_table, CompilerState* state) {
+    while (symbol_table != NULL) {
+        SymbolTableEntry* entry = get_symbol_tree_entry(target, symbol_table);
+        if (entry && (entry->data_type == SYMBOL_FUNCTION || entry->data_type == SYMBOL_BUILTIN_FUNCTION))
+            return entry;
+        symbol_table = symbol_table->parent;
+    }
+    return NULL;
+}

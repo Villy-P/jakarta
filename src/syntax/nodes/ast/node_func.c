@@ -126,4 +126,8 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
 
 void resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function call: %s\n", node->token->content);
+
+    SymbolTableEntry* function_entry = lookup_function(node->token->content, symbol_table, state);
+    if (function_entry == NULL)
+        return handle_error(ERROR_UNDEFINED_IDENTIFIER, node->token, state, node->token->content);
 }

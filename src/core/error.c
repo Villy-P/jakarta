@@ -138,6 +138,11 @@ void handle_error(int error_code, Token* token, CompilerState* state, ...) {
             printf("Undefined type: %s\n", return_type);
             break;
         }
+        case ERROR_UNDEFINED_IDENTIFIER: {
+            const char* identifier = va_arg(args, const char*);
+            printf("Undefined identifier: %s\n", identifier);
+            break;
+        }
     }
 
     state->error_count++;

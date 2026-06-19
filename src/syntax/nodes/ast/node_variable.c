@@ -79,5 +79,9 @@ void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved variable type: %s\n", type_entry->name);
 
     ASTNode* variable_content_node = (ASTNode*)get_from_array(node->nodes, 1);
+    if (variable_content_node->nodes->length == 0)
+        return;
+    ASTNode* expression_node = (ASTNode*)get_from_array(variable_content_node->nodes, 0);
+    resolve_expression(expression_node, symbol_table, state);
     // TODO: check to see if it matches the type
 }
