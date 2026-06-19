@@ -1,5 +1,4 @@
-#include <stdlib.h>
-
+#include "data_structures/ast.h"
 #include "semantic_analyzer.h"
 #include "debug.h"
 #include "data_structures/symbol_table.h"

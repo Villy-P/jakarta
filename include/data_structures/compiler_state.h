@@ -1,7 +1,6 @@
 #pragma once
 
 #include "syntax.h"
-#include "data_structures/hashmap.h"
 #include "data_structures/array.h"
 
 // forward declarations

@@ -7,7 +7,6 @@
 #ifdef __WIN32
 #include <windows.h>
 #include <dbghelp.h>
-#include <stdio.h>
 #endif
 
 #define ERROR_FLAG_INTERNAL (1 << 31)

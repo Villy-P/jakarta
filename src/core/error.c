@@ -4,6 +4,7 @@
 
 #include "core.h"
 #include "debug.h"
+#include "data_structures/ast.h"
 
 #define DEFAULT_ERROR_CODE 1
 

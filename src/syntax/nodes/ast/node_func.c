@@ -1,12 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
-#include <stdio.h>
-#include <errno.h>
 
 #include "data_structures/ast.h"
 #include "data_structures/tokenizer.h"
-#include "data_structures/symbol_table.h"
 #include "types.h"
 #include "types.h"
 #include "syntax.h"

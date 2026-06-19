@@ -1,8 +1,6 @@
-#include <stdlib.h>
-
 #include "core.h"
+#include "data_structures/ast.h"
 #include "syntax.h"
-#include "data_structures/symbol_table.h"
 
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM)

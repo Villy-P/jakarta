@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "core.h"
+#include "data_structures/ast.h"
 #include "syntax.h"
 #include "data_structures/stack.h"
 

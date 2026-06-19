@@ -1,6 +1,6 @@
 #include <stdlib.h>
-#include <stdio.h>
 
+#include "data_structures/ast.h"
 #include "syntax.h"
 #include "core.h"
 

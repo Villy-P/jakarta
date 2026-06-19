@@ -1,8 +1,7 @@
 #pragma once
 
-#include "data_structures/ast.h"
 #include "compiler_state.h"
-#include "types.h"
+#include "data_structures/hashmap.h"
 
 typedef enum {
     SYMBOL_TYPE,

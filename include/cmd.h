@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 
-#include "core.h"
 #include "data_structures/tokenizer.h"
 
 #define STRING_EQUAL 0

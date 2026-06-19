@@ -1,9 +1,9 @@
 #include <stdlib.h>
 
 #include "core.h"
+#include "data_structures/ast.h"
 #include "syntax.h"
 #include "debug.h"
-#include "data_structures/symbol_table.h"
 #include "data_structures/compiler_state.h"
 
 void parse_import(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {

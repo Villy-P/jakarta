@@ -1,9 +1,8 @@
 #include <stdlib.h>
-#include <stdio.h>
 
+#include "data_structures/ast.h"
 #include "syntax.h"
 #include "core.h"
-#include "data_structures/symbol_table.h"
 
 void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     consume(tokenizer);

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "data_structures/stack.h"
 #include "syntax.h"
 #include "core.h"
 #include "types.h"

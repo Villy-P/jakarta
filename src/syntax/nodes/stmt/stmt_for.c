@@ -1,8 +1,8 @@
 #include <stdlib.h>
-#include <stdio.h>
 
+#include "data_structures/ast.h"
+#include "data_structures/tokenizer.h"
 #include "syntax.h"
-#include "core.h"
 
 void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     Token* for_keyword = consume(tokenizer);

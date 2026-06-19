@@ -2,6 +2,8 @@
 #include "data_structures/symbol_table.h"
 #include "core.h"
 
+#include <stdio.h>
+
 CompilerState* create_compiler_state() {
     CompilerState* state = malloc(sizeof(CompilerState));
     if (!state)

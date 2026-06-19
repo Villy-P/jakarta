@@ -1,7 +1,5 @@
 #pragma once
 
-#include "data_structures/ast.h"
-
 #define STACK_EMPTY -1
 #define STACK_OK 0
 #define STACK_ERR_ALLOC 1

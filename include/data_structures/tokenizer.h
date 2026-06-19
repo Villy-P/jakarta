@@ -2,10 +2,7 @@
 
 #include <stdbool.h>
 
-#include "data_structures/hashmap.h"
 #include "data_structures/array.h"
-#include "data_structures/stack.h"
-#include "types.h"
 #include "syntax.h"
 
 typedef struct TokenizerDef {
