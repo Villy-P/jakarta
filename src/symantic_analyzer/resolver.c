@@ -18,42 +18,8 @@ void resolve_types(CompilerState* state) {
 
 void resolve_node(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
     switch (node->identifier) {
-        case AST_IDENTIFIER_FUNCTION_DEFINITION: {
-            log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function definition: %s\n", node->token->content);
-
-            SymbolTable* function_scope = create_symbol_table();
-            add_to_array(symbol_table->children, function_scope);
-            function_scope->parent = symbol_table;
-
-            ASTNode* return_type_node = (ASTNode*)get_from_array(node->nodes, 0);
-            SymbolTableEntry* return_type_entry = lookup_type(return_type_node->token->content, function_scope, state);
-            if (return_type_entry == NULL) {
-                handle_error(ERROR_UNDEFINED_RETURN_TYPE, return_type_node->token, state, return_type_node->token->content);
-                break;
-            }
-            log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type: %s\n", return_type_entry->name);
-
-            ASTNode* parameters_node = (ASTNode*)get_from_array(node->nodes, 1);
-            for (unsigned int i = 0; i < parameters_node->nodes->length; ++i) {
-                ASTNode* parameter_node = (ASTNode*)get_from_array(parameters_node->nodes, i);
-                ASTNode* parameter_type_node = (ASTNode*)get_from_array(parameter_node->nodes, 0);
-                SymbolTableEntry* parameter_type_entry = lookup_type(parameter_type_node->token->content, function_scope, state);
-                if (parameter_type_entry == NULL) {
-                    handle_error(ERROR_UNDEFINED_FUNCTION_PARAMETER_TYPE, parameter_type_node->token, state, parameter_type_node->token->content);
-                    continue;
-                }
-                log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved parameter type: %s\n", parameter_type_entry->name);
-
-                add_symbol_tree_token(parameter_node->token, create_symbol_table_entry(parameter_node->token->content, SYMBOL_VARIABLE, parameter_node), function_scope, state);
-            }
-
-            ASTNode* function_body_node = (ASTNode*)get_from_array(node->nodes, 2);
-            for (unsigned int i = 0; i < function_body_node->nodes->length; ++i) {
-                ASTNode* child = (ASTNode*)get_from_array(function_body_node->nodes, i);
-                resolve_node(child, function_scope, state);
-            }
-            return;
-        }
+        case AST_IDENTIFIER_FUNCTION_DEFINITION:
+            return resolve_function_definition(node, symbol_table, state);
         default:
             break;
     }
