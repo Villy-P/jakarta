@@ -60,15 +60,19 @@ void jakarta_cmd_out_file(const char* file_location) {
 
 static FILE* open_file_read(const char* path) {
     FILE* file = fopen(path, "r");
-    if (!file)
+    if (!file) {
         handle_error(ERROR_INVALID_FILE_NAME, NULL, NULL, path);
+        return NULL;
+    }
     return file;
 }
 
 static FILE* open_file_write(const char* path) {
     FILE* file = fopen(path, "w");
-    if (!file)
+    if (!file) {
         handle_error(ERROR_INVALID_FILE_NAME, NULL, NULL, path);
+        return NULL;
+    }
     return file;
 }
 

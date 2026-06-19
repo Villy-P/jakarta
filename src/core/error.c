@@ -134,6 +134,11 @@ void handle_error(int error_code, Token* token, CompilerState* state, ...) {
         }
     }
 
+    state->error_count++;
+    if (state->error_count > 20) {
+        printf("Error max of 20 reached. Aborting.\n");
+        exit(DEFAULT_ERROR_CODE);
+    }
     va_end(args);
     printf("\033[0m\n");
 }

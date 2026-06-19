@@ -26,3 +26,10 @@ func factorial_type factorial(factorial_type n) {
     }
     ret n * factorial(n - 1);
 }
+
+func factorial_type factorial(factorial_type n) {
+    if (n == 0) {
+        ret 0;
+    }
+    ret n * factorial(n - 1);
+}

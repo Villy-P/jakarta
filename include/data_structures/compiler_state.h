@@ -17,6 +17,7 @@ typedef struct CompilerStateDef {
     Array* files_to_parse;
 
     Array* error_list;
+    int error_count;
 } CompilerState;
 
 ForestEntry* create_forest_entry(char* file_path, ASTNode* root);

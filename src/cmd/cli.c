@@ -2,13 +2,13 @@
 #include "core.h"
 
 static void set_input_file(CmdArgs* args, const char* value) {
-    if (!value) handle_error(ERROR_INVALID_FILE_LOCATION, NULL, NULL, INPUT_FILE_ARGUMENT);
+    if (!value) return handle_error(ERROR_INVALID_FILE_LOCATION, NULL, NULL, INPUT_FILE_ARGUMENT);
     strncpy(args->input_file, value, FILE_NAME_SIZE - 1);
     args->input_file[FILE_NAME_SIZE - 1] = '\0';
 }
 
 static void set_output_file(CmdArgs* args, const char* value) {
-    if (!value) handle_error(ERROR_INVALID_FILE_LOCATION, NULL, NULL, OUTPUT_FILE_ARGUMENT);
+    if (!value) return handle_error(ERROR_INVALID_FILE_LOCATION, NULL, NULL, OUTPUT_FILE_ARGUMENT);
     strncpy(args->output_file, value, FILE_NAME_SIZE - 1);
     args->output_file[FILE_NAME_SIZE - 1] = '\0';
 }
