@@ -1,4 +1,3 @@
-#include "core.h"
 #include "data_structures/ast.h"
 #include "data_structures/symbol_table.h"
 #include "semantic_analyzer.h"

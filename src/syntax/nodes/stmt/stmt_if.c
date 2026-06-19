@@ -22,6 +22,7 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
         parse(tokenizer, if_body, state);
     Token* close_brace = consume(tokenizer);
 
+    add_to_array(if_node->nodes, if_condition);
     add_to_array(if_node->nodes, if_body);
     add_to_array(ast_node->nodes, if_node);
 

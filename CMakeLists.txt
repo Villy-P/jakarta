@@ -7,8 +7,10 @@ set(CMAKE_C_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_C_COMPILER "C:/Programs/Programming/msys2/ucrt64/bin/clang.exe")
+set(CMAKE_CXX_COMPILER "C:/Programs/Programming/msys2/ucrt64/bin/clang++.exe")
 
-file(GLOB_RECURSE JAKARTA_SOURCES CONFIGURE_DEPENDS "src/*.c" "src/**/*.c" "src/*.cpp")
+file(GLOB_RECURSE JAKARTA_SOURCES CONFIGURE_DEPENDS "src/*.c" "src/*.cpp")
 file(GLOB_RECURSE JAKARTA_TEST_SOURCES CONFIGURE_DEPENDS "src/*.c" "src/**/*.c" "test/*.c" "src/*.cpp")
 
 list(FILTER JAKARTA_TEST_SOURCES EXCLUDE REGEX ".*src/main.c$")

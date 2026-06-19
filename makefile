@@ -24,11 +24,14 @@ endif
 
 # Run once when first initializing project
 setup:
-	cmake -S . -B $(BUILD_DIR) -GNinja -DCMAKE_BUILD_TYPE=Debug
+	cmake -S . -B $(BUILD_DIR) -G Ninja \
+	-DCMAKE_C_COMPILER=clang \
+	-DCMAKE_CXX_COMPILER=clang++ \
+	-DCMAKE_BUILD_TYPE=Debug
 
 # Sets up program to be build for production
 setup-prod:
-	cmake -S . -B $(BUILD_DIR) -GNinja -DCMAKE_BUILD_TYPE=Release
+	cmake -S . -B $(BUILD_DIR) -G Ninja -DCMAKE_BUILD_TYPE=Release
 
 # Runs the CMake file
 build:
