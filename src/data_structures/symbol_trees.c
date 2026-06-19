@@ -4,16 +4,9 @@
 #include "debug.h"
 #include <string.h>
 
-static HashMap* global_function_tree;
-static HashMap* global_class_tree;
-static HashMap* global_type_tree;
-
 static HashMap* global_symbol_tree;
 
 void symbol_table_init(void) {
-    global_function_tree = create_hashmap();
-    global_class_tree = create_hashmap();
-    global_type_tree = create_hashmap();
     global_symbol_tree = create_hashmap();
 }
 
