@@ -21,6 +21,6 @@ bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, unsigned int offset);
 bool peek_type(Tokenizer* tokenizer);
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol);
 
-void create_base_types();
+void create_base_types(CompilerState* state);
 
-void add_built_in_functions();
+void add_built_in_functions(CompilerState* state);

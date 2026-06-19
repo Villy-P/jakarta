@@ -1,4 +1,5 @@
 #include "data_structures/compiler_state.h"
+#include "data_structures/symbol_table.h"
 #include "core.h"
 
 CompilerState* create_compiler_state() {
@@ -9,6 +10,7 @@ CompilerState* create_compiler_state() {
     state->files_to_parse = create_array(10);
     state->error_list = create_array(20);
     state->error_count = 0;
+    state->symbol_tree = create_symbol_table();
     return state;
 }
 

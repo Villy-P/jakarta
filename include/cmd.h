@@ -18,7 +18,7 @@ typedef struct {
     char output_file[FILE_NAME_SIZE];
 } CmdArgs;
 
-void jakarta_cmd_read_file(const char* file_location);
+void jakarta_cmd_read_file(const char* file_location, CompilerState* state);
 void jakarta_cmd_out_file(const char* file_location);
 
 void tokenize_file(FILE* file, const char* file_location, Tokenizer* tokenizer);

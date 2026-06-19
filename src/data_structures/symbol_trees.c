@@ -4,29 +4,31 @@
 #include "debug.h"
 #include <string.h>
 
-static HashMap* global_symbol_tree;
-
-void symbol_table_init(void) {
-    global_symbol_tree = create_hashmap();
+SymbolTable* create_symbol_table() {
+    SymbolTable* symbol_table = malloc(sizeof(SymbolTable));
+    if (!symbol_table)
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "SymbolTable");
+    symbol_table->table = create_hashmap();
+    return symbol_table;
 }
 
-void add_symbol_tree_token(Token* token, SymbolType type, void* data, CompilerState* state) {
-    void* existing_node = get(global_symbol_tree, token->content);
+void add_symbol_tree_token(Token* token, SymbolType type, void* data, SymbolTable* symbol_table, CompilerState* state) {
+    void* existing_node = get(symbol_table->table, token->content);
     if (existing_node != NULL)
         return handle_error(ERROR_DUPLICATE_IDENTIFIER, token, state, (ASTNode*)existing_node);
-    insert(global_symbol_tree, token->content, data);
+    insert(symbol_table->table, token->content, data);
     log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", token->content);
 }
 
-void add_symbol_tree_entry(const char* name, SymbolType type, void* data) {
-    if (get(global_symbol_tree, name) != NULL)
+void add_symbol_tree_entry(const char* name, SymbolType type, void* data, SymbolTable* symbol_table) {
+    if (get(symbol_table->table, name) != NULL)
         jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, name);
-    insert(global_symbol_tree, name, data);
+    insert(symbol_table->table, name, data);
     log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", name);
 }
 
-void get_symbol_tree_entry(const char* name, SymbolTableEntry* target) {
-    void* data = get(global_symbol_tree, name);
+void get_symbol_tree_entry(const char* name, SymbolTableEntry* target, SymbolTable* symbol_table) {
+    void* data = get(symbol_table->table, name);
     if (data == NULL)
         jakarta_error(ERR_UNDEFINED_IDENTIFIER, NULL, name);
     memcpy(target, data, sizeof(SymbolTableEntry));

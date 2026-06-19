@@ -6,6 +6,7 @@
 
 // forward declarations
 typedef struct ASTNodeDef ASTNode;
+typedef struct SymbolTableDef SymbolTable;
 
 typedef struct {
     char *file_path;
@@ -18,6 +19,8 @@ typedef struct CompilerStateDef {
 
     Array* error_list;
     int error_count;
+
+    SymbolTable* symbol_tree;
 } CompilerState;
 
 ForestEntry* create_forest_entry(char* file_path, ASTNode* root);

@@ -16,9 +16,7 @@ static FILE* open_file_write(const char* path);
 static void close_file(FILE* f, const char* path);
 static void process(const char* file_location, CompilerState* state);
 
-void jakarta_cmd_read_file(const char* file_location) {
-    CompilerState* state = create_compiler_state();
-    
+void jakarta_cmd_read_file(const char* file_location, CompilerState* state) {    
     add_to_array(state->files_to_parse, file_location);
 
     while (state->files_to_parse->length > 0) {

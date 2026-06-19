@@ -20,9 +20,13 @@ typedef struct SymbolTableEntryDef {
     void* data;
 } SymbolTableEntry;
 
-void symbol_table_init(void);
+typedef struct SymbolTableDef {
+    HashMap* table;
+} SymbolTable;
 
-void add_symbol_tree_token(Token* token, SymbolType type, void* data, CompilerState* state);
-void add_symbol_tree_entry(const char* name, SymbolType type, void* data);
+SymbolTable* create_symbol_table();
 
-void get_symbol_tree_entry(const char* name, SymbolTableEntry* target);
+void add_symbol_tree_token(Token* token, SymbolType type, void* data, SymbolTable* symbol_table, CompilerState* state);
+void add_symbol_tree_entry(const char* name, SymbolType type, void* data, SymbolTable* symbol_table);
+
+void get_symbol_tree_entry(const char* name, SymbolTableEntry* target, SymbolTable* symbol_table);

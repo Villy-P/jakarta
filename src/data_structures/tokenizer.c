@@ -69,9 +69,9 @@ Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     return consume(tokenizer);
 }
 
-void add_built_in_functions() {
+void add_built_in_functions(CompilerState* state) {
     FunctionDefinition* write_function = create_function_definition("write", "void");
     Variable* write_param = create_variable("value", "char", false);
     add_to_array(write_function->parameters, write_param);
-    add_symbol_tree_entry("write", SYMBOL_BUILTIN_FUNCTION, write_function);
+    add_symbol_tree_entry("write", SYMBOL_BUILTIN_FUNCTION, write_function, state->symbol_tree);
 }
