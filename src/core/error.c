@@ -133,6 +133,11 @@ void handle_error(int error_code, Token* token, CompilerState* state, ...) {
                 printf("First declared at %s:%d:%d\n", duplicate_identifier->token->file_name, duplicate_identifier->token->line, duplicate_identifier->token->col);
             break;
         }
+        case ERROR_UNDEFINED_RETURN_TYPE: {
+            const char* return_type = va_arg(args, const char*);
+            printf("Undefined return type: %s\n", return_type);
+            break;
+        }
     }
 
     state->error_count++;

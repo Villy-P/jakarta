@@ -31,6 +31,7 @@ void jakarta_cmd_read_file(const char* file_location, CompilerState* state) {
     }
 
     gather_declarations(state);
+    resolve_types(state);
 }
 
 static void process(const char* file_location, CompilerState* state) {

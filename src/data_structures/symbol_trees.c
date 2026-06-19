@@ -42,9 +42,6 @@ void add_symbol_tree_entry(SymbolTableEntry* entry, SymbolTable* symbol_table) {
     log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", entry->name);
 }
 
-void get_symbol_tree_entry(const char* name, SymbolTableEntry* target, SymbolTable* symbol_table) {
-    void* data = get(symbol_table->table, name);
-    if (data == NULL)
-        jakarta_error(ERR_UNDEFINED_IDENTIFIER, NULL, name);
-    memcpy(target, data, sizeof(SymbolTableEntry));
+SymbolTableEntry* get_symbol_tree_entry(char* name, SymbolTable* symbol_table) {
+    return (SymbolTableEntry*)get(symbol_table->table, name);
 }
