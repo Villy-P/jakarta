@@ -78,21 +78,6 @@ static ASTNode* create_dummy_function_node(char* name) {
     return func_node;
 }
 
-static ASTNode* create_dummy_parameter_node(char* name, char* type_name) {
-    Token* name_token = create_token(SYMBOL_IDENTIFIER, 0, 0, name, "internal");
-    ASTNode* param_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
-
-    Token* type_token = create_token(SYMBOL_IDENTIFIER, 0, 0, type_name, "internal");
-    add_to_array(param_node->nodes, create_ast_node(AST_IDENTIFIER_VARIABLE_TYPE, type_token));
-
-    return param_node;
-}
-
-static ASTNode* create_dummy_return_node(char* name) {
-    Token* dummy_token = create_token(SYMBOL_IDENTIFIER, 0, 0, name, "internal");
-    return create_ast_node(AST_IDENTIFIER_FUNCTION_RETURN_TYPE, dummy_token);
-}
-
 void add_built_in_functions(CompilerState* state) {
     Array* write_parameters = create_array(1);
     add_to_array(write_parameters, "char");
