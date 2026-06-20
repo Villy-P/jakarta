@@ -42,4 +42,6 @@ TypeRegistryEntry* create_type_registry_entry(unsigned char bit_size, TypeOption
 ForestEntry* create_forest_entry(char* file_path, ASTNode* root);
 CompilerState* create_compiler_state();
 
+FunctionRegistryEntry* create_function_registry_entry_from_astnode(ASTNode* node);
+
 void print_error_list(CompilerState* state);

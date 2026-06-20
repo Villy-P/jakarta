@@ -59,3 +59,19 @@ FunctionRegistryEntry* create_function_registry_entry(const char* return_type, A
     entry->body = body;
     return entry;
 }
+
+FunctionRegistryEntry* create_function_registry_entry_from_astnode(ASTNode* node) {
+    ASTNode* return_type_node = (ASTNode*)get_from_array(node->nodes, 0);
+    ASTNode* parameters_node = (ASTNode*)get_from_array(node->nodes, 1);
+    ASTNode* body_node = (ASTNode*)get_from_array(node->nodes, 2);
+
+    char* return_type = return_type_node->token->content;
+    Array* parameter_types = create_array(parameters_node->nodes->length);
+    for (unsigned int i = 0; i < parameters_node->nodes->length; ++i) {
+        ASTNode* parameter_node = (ASTNode*)get_from_array(parameters_node->nodes, i);
+        ASTNode* parameter_type_node = (ASTNode*)get_from_array(parameter_node->nodes, 0);
+        add_to_array(parameter_types, parameter_type_node->token->content);
+    }
+
+    return create_function_registry_entry(return_type, parameter_types, body_node);
+}
