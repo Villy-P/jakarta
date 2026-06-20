@@ -21,23 +21,23 @@ static ASTNode* create_dummy_type_node(char* name) {
 
 void create_base_types(CompilerState* state) {
     log_msg(logs.main, "[TYPES] Creating base types\n");
-    add_symbol_tree_entry(create_symbol_table_entry("char", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("char")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("bool", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("bool")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("byte", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("byte")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("short", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("short")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("int", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("int")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("long", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("long")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("llong", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("llong")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("ubyte", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ubyte")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("ushort", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ushort")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("uint", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("uint")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("ulong", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ulong")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("ullong" , SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ullong" )), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("float", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("float")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("double", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("double")), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("ldouble", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("ldouble")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("char", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("bool", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("byte", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("short", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("int", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("long", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("llong", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ubyte", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ushort", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("uint", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ulong", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ullong" , SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("float", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("double", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("ldouble", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
 
-    add_symbol_tree_entry(create_symbol_table_entry("void", SYMBOL_BUILTIN_TYPE, create_dummy_type_node("void")), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("void", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
     log_msg(logs.main, "[TYPES] Success Creating Base Types\n");
 }
 

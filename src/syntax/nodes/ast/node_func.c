@@ -114,7 +114,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
         }
         log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved parameter type: %s\n", parameter_type_entry->name);
 
-        add_symbol_tree_token(parameter_node->token, create_symbol_table_entry(parameter_node->token->content, SYMBOL_VARIABLE, parameter_node), function_scope, state);
+        add_symbol_tree_token(parameter_node->token, create_symbol_table_entry(parameter_node->token->content, SYMBOL_VARIABLE), function_scope, state);
     }
 
     ASTNode* function_body_node = (ASTNode*)get_from_array(node->nodes, 2);

@@ -14,7 +14,7 @@ SymbolTable* create_symbol_table() {
     return symbol_table;
 }
 
-SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_type, ASTNode* data) {
+SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_type) {
     SymbolTableEntry* entry = malloc(sizeof(SymbolTableEntry));
     if (!entry)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "SymbolTableEntry");
@@ -23,7 +23,7 @@ SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_ty
         jakarta_error(ERR_MALLOC_FAIL, NULL, "SymbolTableEntry name");
     strcpy(entry->name, name);
     entry->data_type = data_type;
-    entry->data = data;
+    entry->meta_data = NULL;
     return entry;
 }
 

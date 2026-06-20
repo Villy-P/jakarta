@@ -98,5 +98,5 @@ void add_built_in_functions(CompilerState* state) {
     add_to_array(write_func->nodes, create_dummy_return_node("void"));
     add_to_array(write_func->nodes, create_dummy_parameter_node("value", "char"));
 
-    add_symbol_tree_entry(create_symbol_table_entry("write", SYMBOL_BUILTIN_FUNCTION, write_func), state->symbol_tree);
+    add_symbol_tree_entry(create_symbol_table_entry("write", SYMBOL_BUILTIN_FUNCTION), state->symbol_tree);
 }

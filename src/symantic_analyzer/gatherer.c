@@ -14,13 +14,13 @@ void gather_declarations(CompilerState* state) {
         for (unsigned int j = 0; j < ast_root->nodes->length; ++j) {
             ASTNode* node = (ASTNode*)get_from_array(ast_root->nodes, j);
             if (node->identifier == AST_IDENTIFIER_FUNCTION_DEFINITION)
-                add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_FUNCTION, node), state->symbol_tree, state);
+                add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_FUNCTION), state->symbol_tree, state);
             else if (node->identifier == AST_IDENTIFIER_CLASS_CREATOR)
-                add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_CLASS, node), state->symbol_tree, state);
+                add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_CLASS), state->symbol_tree, state);
             else if (node->identifier == AST_IDENTIFIER_TYPE_DEFINITION)
-                add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_TYPE, node), state->symbol_tree, state);
+                add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_TYPE), state->symbol_tree, state);
             else if (node->identifier == AST_IDENTIFIER_VARIABLE_DEFINITION)
-                add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_VARIABLE, node), state->symbol_tree, state);
+                add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_VARIABLE), state->symbol_tree, state);
         }
     }
 }
