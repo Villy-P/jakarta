@@ -38,27 +38,19 @@ void print_error_list(CompilerState* state) {
     }
 }
 
-TypeRegistryEntry* create_type_registry_entry(const char* name, unsigned char bit_size, TypeOptions option) {
+TypeRegistryEntry* create_type_registry_entry(unsigned char bit_size, TypeOptions option) {
     TypeRegistryEntry* entry = malloc(sizeof(TypeRegistryEntry));
     if (!entry)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "TypeRegistryEntry");
-    entry->name = malloc(strlen(name) + 1);
-    if (!entry->name)
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "TypeRegistryEntry name");
-    strcpy(entry->name, name);
     entry->bit_size = bit_size;
     entry->option = option;
     return entry;
 }
 
-FunctionRegistryEntry* create_function_registry_entry(const char* name, const char* return_type, int parameter_count, Array* parameter_types, ASTNode* body) {
+FunctionRegistryEntry* create_function_registry_entry(const char* return_type, int parameter_count, Array* parameter_types, ASTNode* body) {
     FunctionRegistryEntry* entry = malloc(sizeof(FunctionRegistryEntry));
     if (!entry)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "FunctionRegistryEntry");
-    entry->name = malloc(strlen(name) + 1);
-    if (!entry->name)
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "FunctionRegistryEntry name");
-    strcpy(entry->name, name);
     entry->return_type = malloc(strlen(return_type) + 1);
     if (!entry->return_type)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "FunctionRegistryEntry return type");

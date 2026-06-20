@@ -15,7 +15,6 @@ typedef struct {
 } ForestEntry;
 
 typedef struct {
-    char* name;
     char* return_type;
     int parameter_count;
     Array* parameter_types;
@@ -23,7 +22,6 @@ typedef struct {
 } FunctionRegistryEntry;
 
 typedef struct {
-    char* name;
     unsigned char bit_size;
     TypeOptions option;
 } TypeRegistryEntry;
@@ -40,8 +38,8 @@ typedef struct CompilerStateDef {
     HashMap* function_registry;
 } CompilerState;
 
-FunctionRegistryEntry* create_function_registry_entry(const char* name, const char* return_type, int parameter_count, Array* parameter_types, ASTNode* body);
-TypeRegistryEntry* create_type_registry_entry(const char* name, unsigned char bit_size, TypeOptions option);
+FunctionRegistryEntry* create_function_registry_entry(const char* return_type, int parameter_count, Array* parameter_types, ASTNode* body);
+TypeRegistryEntry* create_type_registry_entry(unsigned char bit_size, TypeOptions option);
 ForestEntry* create_forest_entry(char* file_path, ASTNode* root);
 CompilerState* create_compiler_state();
 
