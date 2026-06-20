@@ -94,9 +94,11 @@ static ASTNode* create_dummy_return_node(char* name) {
 }
 
 void add_built_in_functions(CompilerState* state) {
-    ASTNode* write_func = create_dummy_function_node("write");
-    add_to_array(write_func->nodes, create_dummy_return_node("void"));
-    add_to_array(write_func->nodes, create_dummy_parameter_node("value", "char"));
+    Array* write_parameters = create_array(1);
+    add_to_array(write_parameters, "char");
+
+    FunctionRegistryEntry* write_entry = create_function_registry_entry("void", write_parameters, create_dummy_function_node("write"));
 
     add_symbol_tree_entry(create_symbol_table_entry("write", SYMBOL_BUILTIN_FUNCTION), state->symbol_tree);
+    insert(state->function_registry, "write", write_entry);
 }

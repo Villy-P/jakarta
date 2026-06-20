@@ -47,7 +47,7 @@ TypeRegistryEntry* create_type_registry_entry(unsigned char bit_size, TypeOption
     return entry;
 }
 
-FunctionRegistryEntry* create_function_registry_entry(const char* return_type, int parameter_count, Array* parameter_types, ASTNode* body) {
+FunctionRegistryEntry* create_function_registry_entry(const char* return_type, Array* parameter_types, ASTNode* body) {
     FunctionRegistryEntry* entry = malloc(sizeof(FunctionRegistryEntry));
     if (!entry)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "FunctionRegistryEntry");
@@ -55,7 +55,6 @@ FunctionRegistryEntry* create_function_registry_entry(const char* return_type, i
     if (!entry->return_type)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "FunctionRegistryEntry return type");
     strcpy(entry->return_type, return_type);
-    entry->parameter_count = parameter_count;
     entry->parameter_types = parameter_types;
     entry->body = body;
     return entry;
