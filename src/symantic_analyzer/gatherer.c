@@ -15,7 +15,7 @@ void gather_declarations(CompilerState* state) {
             ASTNode* node = (ASTNode*)get_from_array(ast_root->nodes, j);
             if (node->identifier == AST_IDENTIFIER_FUNCTION_DEFINITION) {
                 add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_FUNCTION), state->symbol_tree, state);
-                create_function_registry_entry_from_astnode(node);
+                insert(state->function_registry, node->token->content, create_function_registry_entry_from_astnode(node));
             } else if (node->identifier == AST_IDENTIFIER_CLASS_CREATOR) {
                 add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_CLASS), state->symbol_tree, state);
             } else if (node->identifier == AST_IDENTIFIER_TYPE_DEFINITION) {
