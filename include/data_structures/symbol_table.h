@@ -16,7 +16,7 @@ typedef enum {
 
 typedef struct SymbolTableEntryDef {
     char* name;
-    char* type;
+    char* meta_data;
     SymbolType data_type;
     ASTNode* data;
 } SymbolTableEntry;
