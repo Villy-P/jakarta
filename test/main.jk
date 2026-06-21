@@ -7,7 +7,7 @@ typedef factorial_type uint;
 func int main() {
     factorial_type f10 = factorial(10);
 
-    print(f10);
+    print(f10 - f5, print(f5, f10 + 400));
 
     ret 0;
 }

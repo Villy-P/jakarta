@@ -5,6 +5,7 @@
 
 #include "data_structures/stack.h"
 #include "semantic_analyzer.h"
+#include "symbol.h"
 #include "syntax.h"
 #include "core.h"
 #include "types.h"
@@ -94,6 +95,15 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
     int open_parenthesis_count = 1;
 
     while (true) {
+        if (peek(tokenizer, SYMBOL_COMMA)) {
+            log_msg(logs.main, "[AST] Comma found; breaking\n");
+            while (operators->top > STACK_EMPTY) {
+                ASTNode* op = malloc(sizeof(ASTNode));
+                pop_from_stack(operators, op);
+                push_to_stack(output, op);
+            }
+            break;
+        }
         Token* token = consume(tokenizer);
         if (!token) break;
 
@@ -115,9 +125,13 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
                 consume(tokenizer);
 
                 ASTNode* func_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
-                Stack* args_postfix = infix_to_postfix(tokenizer); // stops at ')'
-                ASTNode* args_node = postfix_to_ast(args_postfix);
-                add_to_array(func_node->nodes, args_node);
+                do {
+                    if (peek(tokenizer, SYMBOL_COMMA))
+                        consume(tokenizer);
+                    Stack* args_postfix = infix_to_postfix(tokenizer); // stops at ')'
+                    ASTNode* args_node = postfix_to_ast(args_postfix);
+                    add_to_array(func_node->nodes, args_node);
+                } while (peek(tokenizer, SYMBOL_COMMA));
 
                 push_to_stack(output, func_node);
             } else {
@@ -181,7 +195,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         // --- Statement endings ---
         if (token->symbol == SYMBOL_SEMICOLON || token->symbol == SYMBOL_CLOSE_BRACKET) {
-            log_msg(logs.main, "[AST] Processing semicolon/close bracket: %s\n", token->content);
+            log_msg(logs.main, "[AST] Processing closing statement: %s\n", token->content);
             while (operators->top > STACK_EMPTY) {
                 ASTNode* op = malloc(sizeof(ASTNode));
                 pop_from_stack(operators, op);
@@ -231,6 +245,7 @@ ASTNode* postfix_to_ast(Stack* postfix) {
     Stack* output = create_stack(sizeof(ASTNode), 10);
     ASTNode* value = malloc(sizeof(ASTNode));
     if (postfix->top == 0) {
+        log_msg(logs.main, "[AST] Encountered Postfix expression with only one member variable\n");
         pop_from_stack(postfix, value);
         return value;
     }
