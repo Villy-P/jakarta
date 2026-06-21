@@ -1,5 +1,8 @@
+#define PCRE2_CODE_UNIT_WIDTH 8 
+
+#include <pcre2.h>
+
 #include <string.h>
-#include <regex.h>
 
 #include "symbol.h"
 #include "core.h"
@@ -182,14 +185,20 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "[]") == 0)  return OPERATOR_ARRAY_DECLARATION;
     return SYMBOL_IDENTIFIER;
 }
+
 bool is_number_symbol(char* str) {
-    regex_t regex;
-    int reti;
+    pcre2_code *re;
+    int errornumber;
+    PCRE2_SIZE erroroffset;
+    
+    PCRE2_SPTR pattern = (PCRE2_SPTR)"^-?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)$";
 
-    reti = regcomp(&regex, "^-?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)$", REG_EXTENDED);
+    re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
+    if (!re) return false;
 
-    reti = regexec(&regex, str, 0, NULL, 0);
-    regfree(&regex);
+    int rc = pcre2_match(re, (PCRE2_SPTR)str, strlen(str), 0, 0, NULL, NULL);
 
-    return !reti;
+    pcre2_code_free(re);
+
+    return rc >= 0;
 }

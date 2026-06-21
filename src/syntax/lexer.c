@@ -1,4 +1,6 @@
-#include <regex.h>
+#define PCRE2_CODE_UNIT_WIDTH 8
+#include <pcre2.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -80,33 +82,34 @@ char* get_string_literal(char** line) {
 }
 
 char* get_string(char** line) {
-    regex_t reegex;
-    regmatch_t groups[MAX_REGEX_GROUPS];
-    int value = 0;
+    pcre2_code *re;
+    int errornumber;
+    PCRE2_SIZE erroroffset;
+    PCRE2_SPTR pattern = (PCRE2_SPTR)"^(\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?|&&?|\\|\\|?|>=|<=|!|!=|\\[\\])";
 
-    value = regcomp(&reegex, "^(\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?|&&?|\\|\\|?|>=|<=|!|!=|\\[\\])", REG_EXTENDED);
-    value = regexec(&reegex, *line, MAX_REGEX_GROUPS, groups, REGEX_FLAGS);
+    // Compile the pattern
+    re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
+    if (!re) return NULL; // Compilation failed
 
+    // Create match data
+    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(re, NULL);
+    
+    // Perform match
+    int rc = pcre2_match(re, (PCRE2_SPTR)*line, strlen(*line), 0, 0, match_data, NULL);
+    
     char* str = NULL;
-    size_t size = 1;
-
-    if (value != REG_NOMATCH) {
-        for (unsigned int g = 0; g < MAX_REGEX_GROUPS; g++){
-            if ((size_t)groups[g].rm_so == (size_t) - 1)
-                break;
-            size_t substr_len = (size_t)groups[g].rm_eo;
-            str = calloc(sizeof(char), substr_len + 1);
-            memcpy(str, *line, substr_len);
-            size = substr_len;
-        }
-    } else {
-        regfree(&reegex);
-        return NULL;
+    if (rc > 0) {
+        PCRE2_SIZE *ovector = pcre2_get_ovector_pointer(match_data);
+        size_t match_len = ovector[1] - ovector[0];
+        str = calloc(match_len + 1, sizeof(char));
+        memcpy(str, *line + ovector[0], match_len);
+        
+        *line += match_len; // Advance the pointer
     }
 
-    regfree(&reegex);
-
-    *line += size;
+    // Cleanup
+    pcre2_match_data_free(match_data);
+    pcre2_code_free(re);
 
     return str;
 }
