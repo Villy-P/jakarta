@@ -1,3 +1,4 @@
+#include "symbol.h"
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include <pcre2.h>
 
@@ -112,4 +113,23 @@ char* get_string(char** line) {
     pcre2_code_free(re);
 
     return str;
+}
+
+bool is_number_symbol(char* str) {
+    pcre2_code *re;
+    int errornumber;
+    PCRE2_SIZE erroroffset;
+    
+    // -?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)
+    PCRE2_SPTR pattern = (PCRE2_SPTR)"^[0-9]+$";
+    
+    re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
+    if (!re) return false;
+    
+    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(re, NULL);
+    int rc = pcre2_match(re, (PCRE2_SPTR)str, strlen(str), 0, 0, match_data, NULL);
+    
+    pcre2_code_free(re);
+
+    return rc >= 0;
 }

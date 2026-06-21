@@ -1,7 +1,4 @@
 #include "debug.h"
-#define PCRE2_CODE_UNIT_WIDTH 8 
-
-#include <pcre2.h>
 
 #include <string.h>
 
@@ -185,22 +182,4 @@ Symbol get_keyword_from_str(char* str) {
     if (strcmp(str, "||") == 0)  return OPERATOR_LOGICAL_OR;
     if (strcmp(str, "[]") == 0)  return OPERATOR_ARRAY_DECLARATION;
     return SYMBOL_IDENTIFIER;
-}
-
-bool is_number_symbol(char* str) {
-    pcre2_code *re;
-    int errornumber;
-    PCRE2_SIZE erroroffset;
-    
-    // -?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)
-    PCRE2_SPTR pattern = (PCRE2_SPTR)"^\\D+$";
-    
-    re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
-    if (!re) return false;
-    
-    int rc = pcre2_match(re, (PCRE2_SPTR)str, strlen(str), 0, 0, NULL, NULL);
-    
-    pcre2_code_free(re);
-
-    return rc >= 0;
 }
