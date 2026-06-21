@@ -131,4 +131,10 @@ void resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerSta
     FunctionRegistryEntry* function_definition = get(state->function_registry, node->token->content);
     if (function_entry == NULL || function_definition == NULL)
         return handle_error(ERROR_UNDEFINED_IDENTIFIER, node->token, state, node->token->content);
+
+    unsigned int expected = function_definition->parameter_types->length;
+    unsigned int got = node->nodes->length;
+
+    if (expected != got)
+        return handle_error(ERROR_MISMATCH_PARAMETER_COUNT, node->token, state, node->token->content, expected, got);
 }

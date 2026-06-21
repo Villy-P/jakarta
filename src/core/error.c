@@ -1,3 +1,4 @@
+#include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctrace/ctrace.h>
@@ -142,6 +143,13 @@ void handle_error(int error_code, Token* token, CompilerState* state, ...) {
             const char* identifier = va_arg(args, const char*);
             printf("Undefined identifier: %s\n", identifier);
             break;
+        }
+        case ERROR_MISMATCH_PARAMETER_COUNT: {
+            const char* identifier = va_arg(args, const char*);
+            unsigned int expected = va_arg(args, unsigned int);
+            unsigned int got = va_arg(args, unsigned int);
+            printf("Mismatch in function parameter count for function %s: ", identifier);
+            printf("Expected %d parameters, got %d parameters.", expected, got);
         }
     }
 
