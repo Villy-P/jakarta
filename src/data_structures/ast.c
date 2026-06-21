@@ -57,7 +57,8 @@ const char* AST_NODE_NAMES[] = {
     [AST_IDENTIFIER_ARRAY_ACCESS] = "Array Access",
     [AST_IDENTIFIER_INDEX] = "Array Index",
 
-    [AST_LITERAL] = "Literal",
+    [AST_LITERAL] = "Variable",
+    [AST_NUMBER] = "Number",
     [AST_OPERATOR] = "Operator",
     [AST_DOT_OPERATOR] = "Dot Operator"
 };

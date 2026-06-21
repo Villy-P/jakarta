@@ -56,6 +56,7 @@ typedef enum ASTIdentifierDef {
     AST_IDENTIFIER_INDEX,
 
     AST_LITERAL,
+    AST_NUMBER,
     AST_OPERATOR,
     AST_DOT_OPERATOR
 } ASTIdentifier;

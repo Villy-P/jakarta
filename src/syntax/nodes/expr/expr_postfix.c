@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "data_structures/ast.h"
 #include "data_structures/stack.h"
 #include "semantic_analyzer.h"
 #include "symbol.h"
@@ -109,10 +110,18 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
         ASTNode* node = NULL;
 
-        // --- Literals ---
-        if (token->symbol == SYMBOL_NUMBER || token->symbol == SYMBOL_STRING_LITERAL) {
-            log_msg(logs.main, "[AST] Processing number/string: %s\n", token->content);
+        // --- String Literals ---
+        if (token->symbol == SYMBOL_STRING_LITERAL) {
+            log_msg(logs.main, "[AST] Processing string: %s\n", token->content);
             node = create_ast_node(AST_LITERAL, token);
+            push_to_stack(output, node);
+            continue; // skip operator logic
+        }
+
+        // --- Numbers ---
+        if (token->symbol == SYMBOL_NUMBER) {
+            log_msg(logs.main, "[AST] Processing number: %s\n", token->content);
+            node = create_ast_node(AST_NUMBER, token);
             push_to_stack(output, node);
             continue; // skip operator logic
         }

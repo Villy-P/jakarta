@@ -1,3 +1,4 @@
+#include "debug.h"
 #define PCRE2_CODE_UNIT_WIDTH 8 
 
 #include <pcre2.h>
@@ -126,7 +127,7 @@ char* get_string_from_symbol(Symbol symbol) {
 }
 
 Symbol get_keyword_from_str(char* str) {
-    if (is_number_symbol(str))         return SYMBOL_NUMBER;
+    if (is_number_symbol(str))                    return SYMBOL_NUMBER;
     if (strcmp(str, "as")        == 0) return KEYWORD_AS;
     if (strcmp(str, "assert")    == 0) return KEYWORD_ASSERT;
     if (strcmp(str, "break")     == 0) return KEYWORD_BREAK;
@@ -191,13 +192,14 @@ bool is_number_symbol(char* str) {
     int errornumber;
     PCRE2_SIZE erroroffset;
     
-    PCRE2_SPTR pattern = (PCRE2_SPTR)"^-?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)$";
-
+    // -?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)
+    PCRE2_SPTR pattern = (PCRE2_SPTR)"^\\D+$";
+    
     re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
     if (!re) return false;
-
+    
     int rc = pcre2_match(re, (PCRE2_SPTR)str, strlen(str), 0, 0, NULL, NULL);
-
+    
     pcre2_code_free(re);
 
     return rc >= 0;
