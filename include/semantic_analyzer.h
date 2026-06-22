@@ -12,5 +12,5 @@ SymbolTableEntry* lookup_function(const char* target, SymbolTable* symbol_table,
 
 void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
 void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
-void resolve_expression(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
-void resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
+TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
+TypeRegistryEntry* resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);

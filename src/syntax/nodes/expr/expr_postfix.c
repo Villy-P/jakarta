@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "data_structures/ast.h"
+#include "data_structures/compiler_state.h"
 #include "data_structures/stack.h"
 #include "semantic_analyzer.h"
 #include "symbol.h"
@@ -325,10 +326,13 @@ void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type)
         parse_variable_members(tokenizer, ast_node, type);
 }
 
-void resolve_expression(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
+TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
     switch (node->identifier) {
         case AST_IDENTIFIER_FUNCTION_CALL:
             return resolve_function_call(node, symbol_table, state);
+        case AST_NUMBER:
+            return (TypeRegistryEntry*)get(state->type_registry, "llong");
+
         default:
             break;
     }

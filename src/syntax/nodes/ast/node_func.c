@@ -4,6 +4,7 @@
 
 #include "data_structures/array.h"
 #include "data_structures/ast.h"
+#include "data_structures/compiler_state.h"
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
 #include "semantic_analyzer.h"
@@ -125,23 +126,28 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     }
 }
 
-void resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
+TypeRegistryEntry* resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function call: %s", node->token->content);
 
     SymbolTableEntry* function_entry = lookup_function(node->token->content, symbol_table, state);
     FunctionRegistryEntry* function_definition = get(state->function_registry, node->token->content);
-    if (function_entry == NULL || function_definition == NULL)
-        return handle_error(ERROR_UNDEFINED_IDENTIFIER, node->token, state, node->token->content);
+    if (function_entry == NULL || function_definition == NULL) {
+        handle_error(ERROR_UNDEFINED_IDENTIFIER, node->token, state, node->token->content);
+        return NULL;
+    }
 
     unsigned int expected = function_definition->parameter_types->length;
     unsigned int got = node->nodes->length;
 
-    if (expected != got)
-        return handle_error(ERROR_MISMATCH_PARAMETER_COUNT, node->token, state, node->token->content, expected, got);
+    if (expected != got) {
+        handle_error(ERROR_MISMATCH_PARAMETER_COUNT, node->token, state, node->token->content, expected, got);
+        return NULL;
+    }
 
     // TODO: Add type checking
     for (unsigned int i = 0; i < node->nodes->length; i++) {
         ASTNode* child_node = (ASTNode*)get_from_array(node->nodes, i);
         resolve_expression(child_node, symbol_table, state);
     }
+    return (TypeRegistryEntry*)get(state->type_registry, function_definition->return_type);
 }
