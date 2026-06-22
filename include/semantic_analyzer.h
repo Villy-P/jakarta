@@ -14,3 +14,6 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
 void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
 void resolve_expression(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
 void resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
+
+Type* get_raw_number_type(char* number);
+long long string_to_number(char* str);
