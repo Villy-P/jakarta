@@ -1,8 +1,8 @@
 class string {
     char[] data;
-    uint length;
+    int length;
 
-    func char __index(uint n) {
+    func char __index(int n) {
         // ERRORS
         ret this.data[n];
     }

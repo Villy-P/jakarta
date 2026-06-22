@@ -19,6 +19,7 @@ static ASTNode* create_dummy_type_node(char* name) {
     return create_ast_node(AST_IDENTIFIER_DUMMY_TYPE, dummy_token);
 }
 
+// TODO: Unsigned Types
 void create_base_types(CompilerState* state) {
     log_msg(logs.main, "[TYPES] Adding base types to symbol table");
     add_symbol_tree_entry(create_symbol_table_entry("char", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
@@ -28,11 +29,11 @@ void create_base_types(CompilerState* state) {
     add_symbol_tree_entry(create_symbol_table_entry("int", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
     add_symbol_tree_entry(create_symbol_table_entry("long", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
     add_symbol_tree_entry(create_symbol_table_entry("llong", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("ubyte", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("ushort", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("uint", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("ulong", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
-    add_symbol_tree_entry(create_symbol_table_entry("ullong" , SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    // add_symbol_tree_entry(create_symbol_table_entry("ubyte", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    // add_symbol_tree_entry(create_symbol_table_entry("ushort", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    // add_symbol_tree_entry(create_symbol_table_entry("uint", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    // add_symbol_tree_entry(create_symbol_table_entry("ulong", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
+    // add_symbol_tree_entry(create_symbol_table_entry("ullong" , SYMBOL_BUILTIN_TYPE), state->symbol_tree);
     add_symbol_tree_entry(create_symbol_table_entry("float", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
     add_symbol_tree_entry(create_symbol_table_entry("double", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
     add_symbol_tree_entry(create_symbol_table_entry("ldouble", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
@@ -46,11 +47,11 @@ void create_base_types(CompilerState* state) {
     insert(state->type_registry, "int", create_type_registry_entry(INT_SIZE, NUM));
     insert(state->type_registry, "long", create_type_registry_entry(LONG_SIZE, NUM));
     insert(state->type_registry, "llong", create_type_registry_entry(LLONG_SIZE, NUM));
-    insert(state->type_registry, "ubyte", create_type_registry_entry(BYTE_SIZE, UNUM));
-    insert(state->type_registry, "ushort", create_type_registry_entry(SHORT_SIZE, UNUM));
-    insert(state->type_registry, "uint", create_type_registry_entry(INT_SIZE, UNUM));
-    insert(state->type_registry, "ulong", create_type_registry_entry(LONG_SIZE, UNUM));
-    insert(state->type_registry, "ullong", create_type_registry_entry(LLONG_SIZE, UNUM));
+    // insert(state->type_registry, "ubyte", create_type_registry_entry(BYTE_SIZE, UNUM));
+    // insert(state->type_registry, "ushort", create_type_registry_entry(SHORT_SIZE, UNUM));
+    // insert(state->type_registry, "uint", create_type_registry_entry(INT_SIZE, UNUM));
+    // insert(state->type_registry, "ulong", create_type_registry_entry(LONG_SIZE, UNUM));
+    // insert(state->type_registry, "ullong", create_type_registry_entry(LLONG_SIZE, UNUM));
     insert(state->type_registry, "float", create_type_registry_entry(32, NUM_DECIMAL));
     insert(state->type_registry, "double", create_type_registry_entry(64, NUM_DECIMAL));
     insert(state->type_registry, "ldouble", create_type_registry_entry(128, NUM_DECIMAL));

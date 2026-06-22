@@ -1,14 +1,14 @@
 import "lib/stdio.jk";
 
 func int main() {
-    uint f10 = factorial(10.0);
+    int f10 = factorial(10.0);
 
     print(f10);
 
     ret 0.00;
 }
 
-func uint factorial(uint n) {
+func int factorial(int n) {
     if (n == 0) {
         ret 4.06 - 3.02 - 0.04;
     }
