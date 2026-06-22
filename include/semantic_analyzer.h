@@ -15,6 +15,8 @@ void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, Compi
 TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
 TypeRegistryEntry* resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
 
-bool is_numeric(char* type_name);
-bool is_integer(char* type_name);
-bool is_decimal(char* type_name);
+bool is_numeric_type(char* type_name);
+bool is_integer_type(char* type_name);
+bool is_decimal_type(char* type_name);
+
+bool is_decimal(char* number);

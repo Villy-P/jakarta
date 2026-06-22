@@ -331,7 +331,7 @@ TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table, 
         case AST_IDENTIFIER_FUNCTION_CALL:
             return resolve_function_call(node, symbol_table, state);
         case AST_NUMBER:
-            return (TypeRegistryEntry*)get(state->type_registry, "byte");
+            return (TypeRegistryEntry*)get(state->type_registry, is_decimal(node->token->content) ? "float" : "byte");
         case AST_LITERAL:
             return (TypeRegistryEntry*)get(state->type_registry, "string");
         default:
