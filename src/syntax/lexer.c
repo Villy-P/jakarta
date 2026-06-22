@@ -86,7 +86,7 @@ char* get_string(char** line) {
     pcre2_code *re;
     int errornumber;
     PCRE2_SIZE erroroffset;
-    PCRE2_SPTR pattern = (PCRE2_SPTR)"^(\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?|&&?|\\|\\|?|>=|<=|!|!=|\\[\\])";
+    PCRE2_SPTR pattern = (PCRE2_SPTR)"^(\\d+\\.?\\d*|\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?|&&?|\\|\\|?|>=|<=|!|!=|\\[\\])";
 
     // Compile the pattern
     re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
@@ -121,7 +121,7 @@ bool is_number_symbol(char* str) {
     PCRE2_SIZE erroroffset;
     
     // -?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)
-    PCRE2_SPTR pattern = (PCRE2_SPTR)"^[0-9]+$";
+    PCRE2_SPTR pattern = (PCRE2_SPTR)"^[0-9]+\\.?[0-9]*$";
     
     re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
     if (!re) return false;

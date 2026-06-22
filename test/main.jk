@@ -9,7 +9,7 @@ func int main() {
 
     print(f10);
 
-    ret 0;
+    ret 0.00;
 }
 
 func factorial_type factorial(factorial_type n) {
