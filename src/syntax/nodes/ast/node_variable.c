@@ -66,7 +66,7 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
 
 
 void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
-    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving variable definition: %s\n", node->token->content);
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving variable definition: %s", node->token->content);
 
     ASTNode* variable_type_node = (ASTNode*)get_from_array(node->nodes, 0);
     SymbolTableEntry* type_entry = lookup_type(variable_type_node->token->content, symbol_table, state);
@@ -76,7 +76,7 @@ void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, Compi
             variable_type_node->token, 
             state, 
             variable_type_node->token->content);
-    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved variable type: %s\n", type_entry->name);
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved variable type: %s", type_entry->name);
 
     ASTNode* variable_content_node = (ASTNode*)get_from_array(node->nodes, 1);
     if (variable_content_node->nodes->length == 0)

@@ -4,10 +4,10 @@
 
 int main(int argc, char *argv[]) {
     setup_logs();
-    log_msg(logs.main, "[PROGRAM] Program started with %d arguments\n", argc);
+    log_msg(logs.main, "[PROGRAM] Program started with %d arguments", argc);
 
     SetUnhandledExceptionFilter(handle_seg_fault);
-    log_msg(logs.main, "[PROGRAM] Set up segmentation fault handler\n");
+    log_msg(logs.main, "[PROGRAM] Set up segmentation fault handler");
 
     CmdArgs args = {0};
     parse_args(argc, argv, &args);
@@ -21,5 +21,5 @@ int main(int argc, char *argv[]) {
     jakarta_cmd_out_file(args.output_file);
 
     cleanup_logs();
-    log_msg(logs.main, "[PROGRAM] Program finished\n");
+    log_msg(logs.main, "[PROGRAM] Program finished");
 }

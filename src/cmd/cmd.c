@@ -20,14 +20,14 @@ void jakarta_cmd_read_file(const char* file_location, CompilerState* state) {
     add_to_array(state->files_to_parse, file_location);
 
     while (state->files_to_parse->length > 0) {
-        log_msg(logs.main, "[IMPORT] Files left to parse: %d\n", state->files_to_parse->length);
+        log_msg(logs.main, "[IMPORT] Files left to parse: %d", state->files_to_parse->length);
         char* base_file_path = (char*)get_from_array(state->files_to_parse, 0);
 
-        log_msg(logs.main, "[IMPORT] Parsing imported file: %s\n", base_file_path);
+        log_msg(logs.main, "[IMPORT] Parsing imported file: %s", base_file_path);
         process(base_file_path, state);
 
         remove_from_array(state->files_to_parse, 0);
-        log_msg(logs.main, "[IMPORT] Finished processing file: %s\n", base_file_path);
+        log_msg(logs.main, "[IMPORT] Finished processing file: %s", base_file_path);
     }
 
     gather_declarations(state);
@@ -40,10 +40,10 @@ static void process(const char* file_location, CompilerState* state) {
     tokenize_file(file_ptr, file_location, tokenizer);
 
     ASTNode* ast_root = parse_tokens(tokenizer, state);
-    log_msg(logs.main, "[AST] Finished parsing tokens into AST for file: %s\n", file_location);
+    log_msg(logs.main, "[AST] Finished parsing tokens into AST for file: %s", file_location);
     ForestEntry* entry = create_forest_entry(file_location, ast_root);
     add_to_array(state->forest, entry);
-    log_msg(logs.main, "[AST] Added AST to forest for file: %s\n", file_location);
+    log_msg(logs.main, "[AST] Added AST to forest for file: %s", file_location);
 
     print_ast_node(ast_root, "", true);
 
@@ -81,7 +81,7 @@ static void close_file(FILE* f, const char* path) {
 }
 
 void tokenize_file(FILE* file, const char* file_location, Tokenizer* tokenizer) {
-    log_msg(logs.main, "[TOKENIZER] Tokenizing new file\n");
+    log_msg(logs.main, "[TOKENIZER] Tokenizing new file");
     char buffer[STRING_BUFFER_LENGTH];
     unsigned int line_number = 1;
     while (fgets(buffer, sizeof(buffer), file))
@@ -89,7 +89,7 @@ void tokenize_file(FILE* file, const char* file_location, Tokenizer* tokenizer) 
 }
 
 static ASTNode* parse_tokens(Tokenizer* tokenizer, CompilerState* state) {
-    log_msg(logs.main, "[AST] Parsing tokens into AST: %d tokens\n", tokenizer->tokens->length);
+    log_msg(logs.main, "[AST] Parsing tokens into AST: %d tokens", tokenizer->tokens->length);
     ASTNode* ast_root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, NULL);
     while (tokenizer->tokens->length > 0)
         parse(tokenizer, ast_root, state);

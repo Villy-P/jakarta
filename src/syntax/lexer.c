@@ -25,7 +25,7 @@ void read_line(char* line, char* file_name, unsigned int line_number, Tokenizer*
             Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col, str_lit, file_name);
             col += strlen(str_lit) + 2;
             add_to_array(tokenizer->tokens, token);
-            log_msg(logs.main, "[TOKEN] Added string literal %d @ (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
+            log_msg(logs.main, "[TOKEN] Added string literal %d @ (%d, %d): %s", token->symbol, token->line, token->col, token->content);
 
             free(str_lit);
             continue;
@@ -36,7 +36,7 @@ void read_line(char* line, char* file_name, unsigned int line_number, Tokenizer*
             Token* token = create_token(symbol, line_number, col, str, file_name);
             col += strlen(str);
             add_to_array(tokenizer->tokens, token);
-            log_msg(logs.main, "[TOKEN] Added string token %d @ (%d, %d): %s\n", token->symbol, token->line, token->col, token->content);
+            log_msg(logs.main, "[TOKEN] Added string token %d @ (%d, %d): %s", token->symbol, token->line, token->col, token->content);
         } else {
             char token = line[0];
             if (token == ' ' || token == '\n') {
@@ -50,7 +50,7 @@ void read_line(char* line, char* file_name, unsigned int line_number, Tokenizer*
             Symbol token_symbol = get_symbol_from_char(token);
             Token* token_obj = create_token(token_symbol, line_number, col, token_ptr, file_name);
             add_to_array(tokenizer->tokens, token_obj);
-            log_msg(logs.main, "[TOKEN] Added non-string token %d @ (%d, %d): %s\n", token_obj->symbol, token_obj->line, token_obj->col, token_obj->content);
+            log_msg(logs.main, "[TOKEN] Added non-string token %d @ (%d, %d): %s", token_obj->symbol, token_obj->line, token_obj->col, token_obj->content);
             line++;
             col++;
             free(token_ptr);

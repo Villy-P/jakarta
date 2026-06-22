@@ -4,12 +4,12 @@
 #include "debug.h"
 
 void resolve_types(CompilerState* state) {
-    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from AST\n");
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from AST");
 
     for (unsigned int i = 0; i < state->forest->length; ++i) {
         ForestEntry* entry = (ForestEntry*)get_from_array(state->forest, i);
         ASTNode* ast_root = entry->root;
-        log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from file: %s\n", entry->file_path);
+        log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from file: %s", entry->file_path);
 
         resolve_node(ast_root, state->symbol_tree, state);
     }

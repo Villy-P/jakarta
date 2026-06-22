@@ -32,14 +32,14 @@ void add_symbol_tree_token(Token* token, SymbolTableEntry* entry, SymbolTable* s
     if (existing_node != NULL)
         return handle_error(ERROR_DUPLICATE_IDENTIFIER, token, state, (ASTNode*)existing_node);
     insert(symbol_table->table, entry->name, entry);
-    log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", token->content);
+    log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s", token->content);
 }
 
 void add_symbol_tree_entry(SymbolTableEntry* entry, SymbolTable* symbol_table) {
     if (get(symbol_table->table, entry->name) != NULL)
         jakarta_error(ERR_DUPLICATE_IDENTIFIER, NULL, entry->name);
     insert(symbol_table->table, entry->name, entry);
-    log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s\n", entry->name);
+    log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s", entry->name);
 }
 
 SymbolTableEntry* get_symbol_tree_entry(char* name, SymbolTable* symbol_table) {

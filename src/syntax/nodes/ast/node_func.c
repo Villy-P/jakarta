@@ -79,7 +79,7 @@ void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition
         if (i < function->parameters->length - 1 && peek(tokenizer, SYMBOL_COMMA))
             consume(tokenizer); // comma
     }
-    log_msg(logs.main, "[AST] Parsed Function Call\n");
+    log_msg(logs.main, "[AST] Parsed Function Call");
 }
 
 
@@ -92,7 +92,7 @@ void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition
 
 
 void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
-    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function definition: %s\n", node->token->content);
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function definition: %s", node->token->content);
 
     SymbolTable* function_scope = create_symbol_table();
     add_to_array(symbol_table->children, function_scope);
@@ -102,7 +102,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     SymbolTableEntry* return_type_entry = lookup_type(return_type_node->token->content, function_scope, state);
     if (return_type_entry == NULL)
         handle_error(ERROR_UNDEFINED_TYPE, return_type_node->token, state, return_type_node->token->content);
-    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type: %s\n", return_type_entry->name);
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type: %s", return_type_entry->name);
 
     ASTNode* parameters_node = (ASTNode*)get_from_array(node->nodes, 1);
     for (unsigned int i = 0; i < parameters_node->nodes->length; ++i) {
@@ -113,7 +113,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
             handle_error(ERROR_UNDEFINED_TYPE, parameter_type_node->token, state, parameter_type_node->token->content);
             continue;
         }
-        log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved parameter type: %s\n", parameter_type_entry->name);
+        log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved parameter type: %s", parameter_type_entry->name);
 
         add_symbol_tree_token(parameter_node->token, create_symbol_table_entry(parameter_node->token->content, SYMBOL_VARIABLE), function_scope, state);
     }
@@ -126,7 +126,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
 }
 
 void resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
-    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function call: %s\n", node->token->content);
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function call: %s", node->token->content);
 
     SymbolTableEntry* function_entry = lookup_function(node->token->content, symbol_table, state);
     FunctionRegistryEntry* function_definition = get(state->function_registry, node->token->content);

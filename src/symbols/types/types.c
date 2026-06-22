@@ -20,7 +20,7 @@ static ASTNode* create_dummy_type_node(char* name) {
 }
 
 void create_base_types(CompilerState* state) {
-    log_msg(logs.main, "[TYPES] Adding base types to symbol table\n");
+    log_msg(logs.main, "[TYPES] Adding base types to symbol table");
     add_symbol_tree_entry(create_symbol_table_entry("char", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
     add_symbol_tree_entry(create_symbol_table_entry("bool", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
     add_symbol_tree_entry(create_symbol_table_entry("byte", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
@@ -38,7 +38,7 @@ void create_base_types(CompilerState* state) {
     add_symbol_tree_entry(create_symbol_table_entry("ldouble", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
     add_symbol_tree_entry(create_symbol_table_entry("void", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
 
-    log_msg(logs.main, "[TYPES] Adding base types to type registry\n");
+    log_msg(logs.main, "[TYPES] Adding base types to type registry");
     insert(state->type_registry, "char", create_type_registry_entry(BIT_SIZE, ONEBIT));
     insert(state->type_registry, "bool", create_type_registry_entry(BIT_SIZE, ONEBIT));
     insert(state->type_registry, "byte", create_type_registry_entry(BYTE_SIZE, NUM));
@@ -56,7 +56,7 @@ void create_base_types(CompilerState* state) {
     insert(state->type_registry, "ldouble", create_type_registry_entry(128, NUM_DECIMAL));
     insert(state->type_registry, "void", create_type_registry_entry(0, NUM));
 
-    log_msg(logs.main, "[TYPES] Success Creating Base Types\n");
+    log_msg(logs.main, "[TYPES] Success Creating Base Types");
 }
 
 Type* create_type(const char* name, unsigned char bit_size, TypeOptions option) {

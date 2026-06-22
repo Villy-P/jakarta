@@ -62,6 +62,7 @@ void log_msg(FILE* file, const char* format, ...) {
 
     fprintf(file, "[%s] ", timestamp);
     vfprintf(file, format, args);
+    fprintf(file, "\n");
     
     va_end(args);
 }
