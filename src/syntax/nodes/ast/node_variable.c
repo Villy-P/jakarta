@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "data_structures/ast.h"
+#include "data_structures/compiler_state.h"
 #include "data_structures/tokenizer.h"
 #include "data_structures/array.h"
 #include "data_structures/stack.h"
@@ -82,6 +83,6 @@ void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     if (variable_content_node->nodes->length == 0)
         return;
     ASTNode* expression_node = (ASTNode*)get_from_array(variable_content_node->nodes, 0);
-    resolve_expression(expression_node, symbol_table, state);
+    TypeRegistryEntry* type = resolve_expression(expression_node, symbol_table, state);
     // TODO: check to see if it matches the type
 }

@@ -147,7 +147,7 @@ TypeRegistryEntry* resolve_function_call(ASTNode* node, SymbolTable* symbol_tabl
     // TODO: Add type checking
     for (unsigned int i = 0; i < node->nodes->length; i++) {
         ASTNode* child_node = (ASTNode*)get_from_array(node->nodes, i);
-        resolve_expression(child_node, symbol_table, state);
+        TypeRegistryEntry* type = resolve_expression(child_node, symbol_table, state);
     }
     return (TypeRegistryEntry*)get(state->type_registry, function_definition->return_type);
 }
