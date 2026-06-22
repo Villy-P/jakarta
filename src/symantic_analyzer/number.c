@@ -10,10 +10,10 @@ bool is_integer(char* type_name) {
            strcmp(type_name, "short") == 0 ||
            strcmp(type_name, "int")   == 0 ||
            strcmp(type_name, "long")  == 0 ||
-           strcmp(type_name, "llong") == 0
+           strcmp(type_name, "llong") == 0;
 }
 
 bool is_decimal(char* type_name) {
     return strcmp(type_name, "float")  == 0 ||
-           strcmp(type_name, "double") == 0
+           strcmp(type_name, "double") == 0;
 }
