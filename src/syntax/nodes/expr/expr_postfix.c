@@ -331,7 +331,7 @@ TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table, 
         case AST_IDENTIFIER_FUNCTION_CALL:
             return resolve_function_call(node, symbol_table, state);
         case AST_NUMBER:
-            return (TypeRegistryEntry*)get(state->type_registry, "llong");
+            return (TypeRegistryEntry*)get(state->type_registry, "byte");
 
         default:
             break;
