@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdint.h>
 #define PRODUCTION 1
 
 #define TOP_LEVEL 34
@@ -16,7 +17,7 @@ typedef struct {
 
 extern LogFiles logs;
 
-void debug_message(const char* message, unsigned char type);
+void debug_message(const char* message, uint8_t type);
 void setup_logs();
 void cleanup_logs();
 void log_msg(FILE* file, const char* format, ...);

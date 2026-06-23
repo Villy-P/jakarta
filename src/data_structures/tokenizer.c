@@ -14,7 +14,7 @@
 #define INITIAL_TYPE_ALIAS_SIZE 2
 #define INITIAL_VARIABLE_STACK_SIZE 16
 
-Tokenizer* create_tokenizer(unsigned int initial_size) {
+Tokenizer* create_tokenizer(size_t initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
     if (tokenizer == NULL)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Tokenizer");
@@ -23,7 +23,7 @@ Tokenizer* create_tokenizer(unsigned int initial_size) {
 }
 
 void print_tokens(Tokenizer* tokenizer) {
-    for (unsigned int i = 0; i < tokenizer->tokens->length; i++) {
+    for (size_t i = 0; i < tokenizer->tokens->length; i++) {
         Token* token = get_from_array(tokenizer->tokens, i);
         printf(
             "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
@@ -45,7 +45,7 @@ bool peek(Tokenizer* tokenizer, Symbol symbol) {
     return token->symbol == symbol;
 }
 
-bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, unsigned int offset) {
+bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, size_t offset) {
     if (offset >= tokenizer->tokens->length)
         return false;
     Token* token = get_from_array(tokenizer->tokens, offset);

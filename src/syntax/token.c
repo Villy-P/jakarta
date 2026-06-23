@@ -3,7 +3,7 @@
 
 #include "syntax.h"
 
-Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content, char* file_name) {
+Token* create_token(Symbol symbol, uint32_t line, uint32_t col, char* content, char* file_name) {
     Token* item = malloc(sizeof(Token));
     item->symbol = symbol;
     item->line = line;

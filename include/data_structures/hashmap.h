@@ -13,7 +13,7 @@ typedef struct HashMapDef {
 } HashMap;
 
 int hash(char* key);
-int insert(HashMap* hashmap, char* key, void* value);
+bool insert(HashMap* hashmap, char* key, void* value);
 void* get(HashMap* hashmap, char* key);
 HashMap* create_hashmap();
 HashNode* create_hashnode(char* key, void* value);

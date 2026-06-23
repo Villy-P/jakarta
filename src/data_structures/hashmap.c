@@ -14,27 +14,27 @@ int hash(char* key) {
     return (int)(hash_value % HASHMAP_ARRAY_SIZE);
 }
 
-int insert(HashMap* hashmap, char* key, void* value) {
+bool insert(HashMap* hashmap, char* key, void* value) {
     int index = hash(key);
     HashNode* node = hashmap->array[index];
 
     if (node == NULL) {
         hashmap->array[index] = create_hashnode(key, value);
-        return 0;
+        return false;
     }
 
     HashNode* prev = NULL;
     while (node != NULL) {
         if (strcmp(node->key, key) == 0) {
             node->value = value;
-            return 0;
+            return false;
         }
         prev = node;
         node = node->next;
     }
 
     prev->next = create_hashnode(key, value);
-    return 0;
+    return false;
 }
 
 void* get(HashMap* hashmap, char* key) {

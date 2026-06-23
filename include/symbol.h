@@ -100,7 +100,7 @@ typedef enum SymbolDef {
     OPERATOR_ARRAY_DECLARATION,         // []
 } Symbol;
 
-Symbol get_symbol_from_char(char ch);
+Symbol get_symbol_from_char(char character);
 Symbol get_keyword_from_str(char* str);
 char* get_string_from_symbol(Symbol symbol);
 bool is_number_symbol(char* str);

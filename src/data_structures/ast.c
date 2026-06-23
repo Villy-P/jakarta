@@ -8,7 +8,7 @@
 #define INITIAL_ASTNODE_CHILDREN_CAPACITY 2
 #define AST_INDENT_SPACES 4
 
-const char* AST_NODE_NAMES[] = {
+const char* const AST_NODE_NAMES[] = {
     [AST_IDENTIFIER_BASE_PROGRAM] = "ROOT",
 
     [AST_IDENTIFIER_IMPORT_STATEMENT] = "Import Statement",

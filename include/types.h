@@ -16,7 +16,7 @@ typedef enum TypeOptionsDef {
 
 typedef struct TypeDef {
     char* name;
-    unsigned char bit_size;
+    uint8_t bit_size;
     TypeOptions option;
 } Type;
 
@@ -25,7 +25,7 @@ typedef struct TypeAliasDef {
     Type* refers_to;
 } TypeAlias;
 
-Type* create_type(const char* name, unsigned char bit_size, TypeOptions option);
+Type* create_type(const char* name, uint8_t bit_size, TypeOptions option);
 TypeAlias* create_type_alias(const char* name, Type* refers_to);
 
 // type_class.c

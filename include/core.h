@@ -1,12 +1,12 @@
 #pragma once
 
 #include "syntax.h"
-#include "data_structures/tokenizer.h"
 #include "data_structures/compiler_state.h"
+
+#include "data_structures/tokenizer.h"
 
 #ifdef __WIN32
 #include <windows.h>
-#include <dbghelp.h>
 #endif
 
 #define ERROR_FLAG_INTERNAL (1 << 31)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "symbol.h"
+#include <stdint.h>
 
 #define INITIAL_TOKENS_LENGTH 64
 
@@ -15,16 +16,16 @@ typedef struct CompilerStateDef CompilerState;
 // token.c
 typedef struct TokenDef {
     Symbol symbol;
-    unsigned int line;
-    unsigned int col;
+    uint32_t line;
+    uint32_t col;
     char* content;
     char* file_name;
 } Token;
 
-Token* create_token(Symbol symbol, unsigned int line, unsigned int col, char* content, char* file_name);
+Token* create_token(Symbol symbol, uint32_t line, uint32_t col, char* content, char* file_name);
 
 // lexer.c
-void read_line(char* line, const char* file_name, unsigned int line_number, Tokenizer* tokenizer);
+void read_line(char* line, const char* file_name, uint32_t line_number, Tokenizer* tokenizer);
 char* get_string(char** line);
 char* get_string_literal(char** line);
 
@@ -50,8 +51,8 @@ void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 // Expressions
 Stack* infix_to_postfix(Tokenizer* tokenizer);
 ASTNode* postfix_to_ast(Stack* postfix);
-unsigned int precedence(char* op);
+unsigned int precedence(char* operator);
 void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type);
 bool is_operator(Symbol sym);
-bool is_right_associative(const char* op);
+bool is_right_associative(const char* operator);

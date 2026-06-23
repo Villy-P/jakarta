@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stddef.h>
+
 #define STACK_EMPTY -1
 #define STACK_OK 0
 #define STACK_ERR_ALLOC 1
@@ -8,14 +10,14 @@
 
 typedef struct StackDef {
     void* data;
-    int top;
-    int total_elements;
-    int member_size;
+    size_t top;
+    size_t total_elements;
+    size_t member_size;
 } Stack;
 
-Stack* create_stack(int member_size, int total_elements);
-int push_to_stack(Stack* s, void* data);
-int expand_stack(Stack* s);
-int pop_from_stack(Stack* s, void* target);
-void reverse_stack(Stack* s);
-int get_stack_index(Stack* s, int index, void* target);
+Stack* create_stack(size_t member_size, size_t total_elements);
+bool push_to_stack(Stack* stack, void* data);
+bool expand_stack(Stack* stack);
+bool pop_from_stack(Stack* stack, void* target);
+void reverse_stack(Stack* stack);
+bool get_stack_index(Stack* stack, size_t index, void* target);

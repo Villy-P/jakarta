@@ -2,15 +2,13 @@
 
 #include <stdint.h>
 
-#define ARRAY_ALIGNMENT 16
-
-typedef struct alignas(ARRAY_ALIGNMENT) ArrayDef {
+typedef struct ArrayDef {
     void** data;
     size_t length;
     size_t capacity;
 } Array;
 
-Array* create_array(unsigned int initial_size);
+Array* create_array(size_t initial_size);
 void add_to_array(Array* array, void* data);
 void* get_from_array(Array* array, size_t index);
 void remove_from_array(Array* array, size_t index);

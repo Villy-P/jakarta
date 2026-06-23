@@ -61,7 +61,7 @@ typedef enum ASTIdentifierDef {
     AST_DOT_OPERATOR
 } ASTIdentifier;
 
-extern const char* AST_NODE_NAMES[];
+extern const char* const AST_NODE_NAMES[];
 
 typedef struct ASTNodeDef {
     ASTIdentifier identifier;
@@ -71,5 +71,3 @@ typedef struct ASTNodeDef {
 
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token);
 void print_ast_node(ASTNode* node, const char* prefix, bool is_last);
-
-unsigned int precedence(char* operator);

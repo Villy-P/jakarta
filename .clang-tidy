@@ -1,4 +1,8 @@
-Checks: '* -llvmlibc-restrict-system-libc-headers'
+Checks: >
+  *, 
+  -altera-struct-pack-align,
+  -llvmlibc-restrict-system-libc-headers,
+  -cppcoreguidelines-avoid-non-const-global-variables
 WarningsAsErrors: ''
 HeaderFilterRegex: '.*'
 FormatStyle: file

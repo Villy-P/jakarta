@@ -7,7 +7,7 @@
 #define ARRAY_CAPACITY_INCREASE_MULTIPLIER 2
 #define ARRAY_INITIAL_SIZE_DEFAULT 4
 
-Array* create_array(unsigned int initial_size) {
+Array* create_array(size_t initial_size) {
     if (initial_size == 0) initial_size = ARRAY_INITIAL_SIZE_DEFAULT;
     Array* array = malloc(sizeof(Array));
     if (!array)
@@ -41,7 +41,7 @@ void add_to_array(Array* array, void* data) {
     array->data[array->length++] = data;
 }
 
-void* get_from_array(Array* array, unsigned int index) {
+void* get_from_array(Array* array, size_t index) {
     if (!array)
         jakarta_error(ERR_CUSTOM, NULL, "Null Array Exception");
     if (index >= array->length)
@@ -49,7 +49,7 @@ void* get_from_array(Array* array, unsigned int index) {
     return array->data[index];
 }
 
-void remove_from_array(Array* array, unsigned int index) {
+void remove_from_array(Array* array, size_t index) {
     if (index >= array->length)
         jakarta_error(ERR_CUSTOM, NULL, "Index out of bounds");
     for (unsigned int i = index; i < array->length - 1; ++i)

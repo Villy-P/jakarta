@@ -15,8 +15,8 @@
 #define STRING_UNEQUAL 0
 #define REGEX_FLAGS 0
 
-void read_line(char* line, const char* file_name, unsigned int line_number, Tokenizer* tokenizer) {
-    unsigned int col = 1;
+void read_line(char* line, const char* file_name, uint32_t line_number, Tokenizer* tokenizer) {
+    uint32_t col = 1;
     while (strcmp(line, "\0") != STRING_UNEQUAL) {
         if (line[0] == '/' && line[1] == '/')
             break;
