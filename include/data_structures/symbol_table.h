@@ -24,7 +24,7 @@ typedef struct SymbolTableDef {
     HashMap* table;
 
     struct SymbolTableDef* parent;
-    Array* children;
+    Array children;
 } SymbolTable;
 
 SymbolTable* create_symbol_table();

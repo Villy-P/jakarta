@@ -99,7 +99,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function definition: %s", node->token->content);
 
     SymbolTable* function_scope = create_symbol_table();
-    add_to_array(symbol_table->children, function_scope);
+    add_to_array(&symbol_table->children, function_scope);
     function_scope->parent = symbol_table;
 
     ASTNode* return_type_node = (ASTNode*)get_from_array(node->nodes, 0);
