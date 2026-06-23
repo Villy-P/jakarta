@@ -26,6 +26,22 @@ Array* create_array(size_t initial_size) {
     return array;
 }
 
+bool init_array(Array* array, size_t initial_size) {
+    if (!array) {
+        return false;
+    }
+    size_t size = (initial_size == 0) ? ARRAY_INITIAL_SIZE_DEFAULT : initial_size;
+
+    array->data = malloc(size * sizeof(void*));
+    if (!array->data) {
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "Array data\n");
+    }
+
+    array->length = 0;
+    array->capacity = initial_size;
+    return true;
+}
+
 void ensure_capacity(Array* array) {
     if (array->capacity == 0) {
         array->capacity = ARRAY_INITIAL_SIZE_DEFAULT;
