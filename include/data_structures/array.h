@@ -9,7 +9,7 @@ typedef struct ArrayDef {
 } Array;
 
 Array* create_array(size_t initial_size);
-void add_to_array(Array* array, void* data);
+void add_to_array(Array* array, const void* data);
 void* get_from_array(Array* array, size_t index);
 void remove_from_array(Array* array, size_t index);
 void free_array(Array* array);

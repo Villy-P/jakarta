@@ -27,6 +27,7 @@ target_compile_options(common_flags INTERFACE
     -Wall 
     -Wextra 
     -g 
+    -O0
     -gcodeview
     $<$<CONFIG:Debug>:-fdiagnostics-color=always>
 )

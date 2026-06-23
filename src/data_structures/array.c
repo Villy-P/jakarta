@@ -27,8 +27,8 @@ void ensure_capacity(Array* array) {
         array->data = malloc(array->capacity * sizeof(void*));
         if (!array->data)
             jakarta_error(ERR_CUSTOM, NULL, "Failed to increase Array Capacity");
-    } else if (array->length == array->capacity) {
-        void** temp = realloc(array->data, array->capacity * 2 * sizeof(void*));
+    } else if (array->length >= array->capacity) {
+        void* temp = realloc(array->data, array->capacity * 2 * sizeof(void*));
         if (!temp)
             jakarta_error(ERR_CUSTOM, NULL, "Failed to increase Array Capacity");
         array->data = temp;
@@ -36,9 +36,11 @@ void ensure_capacity(Array* array) {
     }
 }
 
-void add_to_array(Array* array, void* data) {
+void add_to_array(Array* array, const void* data) {
     ensure_capacity(array);
-    array->data[array->length++] = data;
+    void** data_ptr = (void**)array->data;
+    data_ptr[array->length] = (void*)data;
+    array->length++;
 }
 
 void* get_from_array(Array* array, size_t index) {
@@ -46,14 +48,18 @@ void* get_from_array(Array* array, size_t index) {
         jakarta_error(ERR_CUSTOM, NULL, "Null Array Exception");
     if (index >= array->length)
         jakarta_error(ERR_CUSTOM, NULL, "Index out of bounds");
-    return array->data[index];
+    void** data_ptr = (void**)array->data;
+    return data_ptr[index];
 }
 
 void remove_from_array(Array* array, size_t index) {
     if (index >= array->length)
         jakarta_error(ERR_CUSTOM, NULL, "Index out of bounds");
-    for (unsigned int i = index; i < array->length - 1; ++i)
-        array->data[i] = array->data[i + 1];
+
+    void** data_ptr = (void**)array->data;
+    for (size_t i = index; i < array->length - 1; i++) {
+        data_ptr[i] = data_ptr[i + 1];
+    }
     array->length--;
 }
 

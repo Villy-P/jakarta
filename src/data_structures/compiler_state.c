@@ -18,7 +18,7 @@ CompilerState* create_compiler_state() {
     return state;
 }
 
-ForestEntry* create_forest_entry(char* file_path, ASTNode* root) {
+ForestEntry* create_forest_entry(const char* file_path, ASTNode* root) {
     ForestEntry* entry = malloc(sizeof(ForestEntry));
     if (!entry)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "ForestEntry");

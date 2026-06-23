@@ -9,7 +9,7 @@
 
 #define DEFAULT_ERROR_CODE 1
 
-void jakarta_error(int error_code, Token* token, const char* additional_info) {
+void jakarta_error(uint32_t error_code, Token* token, const char* additional_info) {
     printf("\033[31m");
     if (token != NULL)
         printf("%s:%d:%d: Error: ", token->file_name, token->line, token->col);
@@ -91,7 +91,7 @@ void jakarta_error_invalid_typedef_location(Token* token) {
 
 
 
-void handle_error(int error_code, Token* token, CompilerState* state, ...) {
+void handle_error(uint32_t error_code, Token* token, CompilerState* state, ...) {
     va_list args;
     va_start(args, state);
     log_msg(logs.main, "[ERROR] Handling error with code %d", error_code);

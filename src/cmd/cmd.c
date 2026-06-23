@@ -1,14 +1,16 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+
 
 #include "cmd.h"
 #include "core.h"
-#include "syntax.h"
-#include "debug.h"
-#include "semantic_analyzer.h"
-#include "data_structures/tokenizer.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
+#include "data_structures/tokenizer.h"
+#include "debug.h"
+#include "semantic_analyzer.h"
+#include "syntax.h"
+
 
 static ASTNode* parse_tokens(Tokenizer* tokenizer, CompilerState* state);
 static FILE* open_file_read(const char* path);
@@ -38,6 +40,7 @@ static void process(const char* file_location, CompilerState* state) {
     FILE* file_ptr = open_file_read(file_location);
     Tokenizer* tokenizer = create_tokenizer(INITIAL_TOKENS_LENGTH);
     tokenize_file(file_ptr, file_location, tokenizer);
+
 
     ASTNode* ast_root = parse_tokens(tokenizer, state);
     log_msg(logs.main, "[AST] Finished parsing tokens into AST for file: %s", file_location);
@@ -75,8 +78,8 @@ static FILE* open_file_write(const char* path) {
     return file;
 }
 
-static void close_file(FILE* f, const char* path) {
-    if (fclose(f) != 0) {
+static void close_file(FILE* file, const char* path) {
+    if (fclose(file) != 0) {
         jakarta_error(ERR_CANNOT_CLOSE_FILE, NULL, path);
     }
 }

@@ -251,7 +251,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 }
 
 ASTNode* postfix_to_ast(Stack* postfix) {
-    log_msg(logs.main, "[AST] Converting postfix to AST");
+    log_msg(logs.main, "[AST] Converting postfix to AST; stack size of %d", postfix->top + 1);
     Stack* output = create_stack(sizeof(ASTNode), 10);
     ASTNode* value = malloc(sizeof(ASTNode));
     if (postfix->top == 0) {
@@ -261,6 +261,7 @@ ASTNode* postfix_to_ast(Stack* postfix) {
     }
     while (postfix->top > STACK_EMPTY) {
         ASTNode* node = malloc(sizeof(ASTNode));
+        log_msg(logs.main, "[AST] Popping from postfix stack; current size: %d", postfix->top + 1);
         pop_from_stack(postfix, node);
         if (node->token->symbol == SYMBOL_IDENTIFIER || node->token->symbol == SYMBOL_NUMBER || node->token->symbol == SYMBOL_STRING_LITERAL || node->token->symbol == SYMBOL_PERIOD) {
             push_to_stack(output, node);

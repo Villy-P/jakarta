@@ -7,7 +7,7 @@
 #include "data_structures/stack.h"
 #include "core.h"
 
-Stack* create_stack(size_t member_size, size_t total_elements) {
+Stack* create_stack(int64_t member_size, int64_t total_elements) {
     Stack *s = malloc(sizeof(Stack));
     if (s == NULL)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Stack");
@@ -66,7 +66,7 @@ bool pop_from_stack(Stack* s, void* target) {
     return true;
 }
 
-bool get_stack_index(Stack* s, size_t index, void* target) {
+bool get_stack_index(Stack* s, int64_t index, void* target) {
     if (!s || !target)
         jakarta_error(ERR_CUSTOM, NULL, "Stack or target is NULL");
     if (s->top == STACK_EMPTY)
@@ -85,8 +85,8 @@ void reverse_stack(Stack* s) {
     void* temp = malloc(s->member_size);
     if (temp == NULL)
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Temporary memory for stack reversal");
-    size_t start = 0;
-    size_t end = s->top;
+    int64_t start = 0;
+    int64_t end = s->top;
     while (start < end) {
         void* startPtr = (char*)s->data + (start * s->member_size);
         void* endPtr = (char*)s->data + (end * s->member_size);
