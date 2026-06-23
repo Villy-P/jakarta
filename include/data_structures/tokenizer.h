@@ -6,7 +6,7 @@
 #include "syntax.h"
 
 typedef struct TokenizerDef {
-    Array* tokens;
+    Array tokens;
 } Tokenizer;
 
 Tokenizer* create_tokenizer(size_t initial_size);

@@ -20,13 +20,15 @@ Tokenizer* create_tokenizer(size_t initial_size) {
     if (tokenizer == NULL) {
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Tokenizer");
     }
-    tokenizer->tokens = create_array(initial_size);
+    if (!init_array(&tokenizer->tokens, initial_size)) {
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "Tokenizer tokens array");
+    }
     return tokenizer;
 }
 
 void print_tokens(Tokenizer* tokenizer) {
-    for (size_t i = 0; i < tokenizer->tokens->length; i++) {
-        Token* token = get_from_array(tokenizer->tokens, i);
+    for (size_t i = 0; i < tokenizer->tokens.length; i++) {
+        Token* token = get_from_array(&tokenizer->tokens, i);
         printf(
             "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
             token->content, 
@@ -37,36 +39,36 @@ void print_tokens(Tokenizer* tokenizer) {
 }
 
 Token* consume(Tokenizer* tokenizer) {
-    Token* content = get_from_array(tokenizer->tokens, 0);
-    remove_from_array(tokenizer->tokens, 0);
+    Token* content = get_from_array(&tokenizer->tokens, 0);
+    remove_from_array(&tokenizer->tokens, 0);
     return content;
 }
 
 bool peek(Tokenizer* tokenizer, Symbol symbol) {
-    Token* token = get_from_array(tokenizer->tokens, 0);
+    Token* token = get_from_array(&tokenizer->tokens, 0);
     return token->symbol == symbol;
 }
 
 bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, size_t offset) {
-    if (offset >= tokenizer->tokens->length) {
+    if (offset >= tokenizer->tokens.length) {
         return false;
     }
-    Token* token = get_from_array(tokenizer->tokens, offset);
+    Token* token = get_from_array(&tokenizer->tokens, offset);
     return token->symbol == symbol;
 }
 
 bool peek_type(Tokenizer* tokenizer) {
-    if (tokenizer->tokens->length == 0) {
+    if (tokenizer->tokens.length == 0) {
         return false;
     }
-    Token* token = get_from_array(tokenizer->tokens, 0);
+    Token* token = get_from_array(&tokenizer->tokens, 0);
     return (token->symbol == SYMBOL_IDENTIFIER);
 }
 
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     if (!peek(tokenizer, symbol)) {
         char* expected = get_string_from_symbol(symbol);
-        Token* token = get_from_array(tokenizer->tokens, 0);
+        Token* token = get_from_array(&tokenizer->tokens, 0);
         char* got = token->content;
         jakarta_error_invalid_token(expected, got);
     }

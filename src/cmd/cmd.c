@@ -95,9 +95,9 @@ void tokenize_file(FILE* file, const char* file_location, Tokenizer* tokenizer) 
 }
 
 static ASTNode* parse_tokens(Tokenizer* tokenizer, CompilerState* state) {
-    log_msg(logs.main, "[AST] Parsing tokens into AST: %d tokens", tokenizer->tokens->length);
+    log_msg(logs.main, "[AST] Parsing tokens into AST: %d tokens", tokenizer->tokens.length);
     ASTNode* ast_root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, NULL);
-    while (tokenizer->tokens->length > 0) {
+    while (tokenizer->tokens.length > 0) {
         parse(tokenizer, ast_root, state);
     }
     return ast_root;

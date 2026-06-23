@@ -6,7 +6,7 @@
 
 
 void free_tokenizer(Tokenizer* tokenizer) {
-    free_array(tokenizer->tokens);
+    free_array(&tokenizer->tokens);
     free(tokenizer);
 }
 
