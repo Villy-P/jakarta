@@ -1,20 +1,24 @@
-#include <stdarg.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <ctrace/ctrace.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 
 #include "core.h"
-#include "debug.h"
 #include "data_structures/ast.h"
+#include "debug.h"
 
 #define DEFAULT_ERROR_CODE 1
+#define MAX_CTRACE_DEPTH 32
+#define MAX_ERROR_COUNT 20
 
-void jakarta_error(uint32_t error_code, Token* token, const char* additional_info) {
+void jakarta_error(int32_t error_code, Token* token, const char* additional_info) {
     printf("\033[31m");
-    if (token != NULL)
+    if (token != NULL) {
         printf("%s:%d:%d: Error: ", token->file_name, token->line, token->col);
-    else
+    } else {
         printf("Error: ");
+    }
     printf("ERR_CODE_%d\n", error_code);
     switch (error_code) {
         // additional_info: the symbol
@@ -50,54 +54,56 @@ void jakarta_error(uint32_t error_code, Token* token, const char* additional_inf
             printf("Unterminated string literal: %s\n", additional_info);
             break;
         default:
-            if (token != NULL)
+            if (token != NULL) {
                 printf("%s:%d:%d: %s\n", token->file_name, token->line, token->col, token->content);
-            else
+            } else {
                 printf("An error occurred.\n");
+            }
     }
-    ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
+    ctrace_stacktrace trace = ctrace_generate_trace(0, MAX_CTRACE_DEPTH);
     ctrace_print_stacktrace(&trace, stdout, 1);
     
     ctrace_free_stacktrace(&trace);
     printf("\033[0m\n");
-    exit(error_code);
+    _Exit(error_code);
 }
 
 // Code 5
 void jakarta_error_invalid_token(const char* expected, const char* got) {
     printf("\033[31mThere was an error while running your code: ERR_CODE_5\n");
     printf("Invalid Token Error: Expected token %s but got %s\033[0m\n", expected, got);
-    ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
+    ctrace_stacktrace trace = ctrace_generate_trace(0, MAX_CTRACE_DEPTH);
     ctrace_print_stacktrace(&trace, stdout, 1);
     
     ctrace_free_stacktrace(&trace);
-    exit(DEFAULT_ERROR_CODE);
+    _Exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 6
 void jakarta_error_undefined_identifier(Token* identifier) {
     printf("\033[31mThere was an error while running your code at position %s:%d:%d: ERR_CODE_6\033[0m\n", identifier->file_name, identifier->line, identifier->col);
     printf("Undefined Identifier: Could not find identifier %s\033[0m\n", identifier->content);
-    exit(DEFAULT_ERROR_CODE);
+    _Exit(DEFAULT_ERROR_CODE);
 }
 
 // Code 7
 void jakarta_error_invalid_typedef_location(Token* token) {
     printf("\033[31mThere was an error while running your code at position %s:%d:%d: ERR_CODE_7\033[0m\n", token->file_name, token->line, token->col);
     printf("Typedef statement cannot be used outside of global context\033[0m\n");
-    exit(DEFAULT_ERROR_CODE);
+    _Exit(DEFAULT_ERROR_CODE);
 }
 
 
 
 
-void handle_error(uint32_t error_code, Token* token, CompilerState* state, ...) {
-    va_list args;
+void handle_error(int32_t error_code, Token* token, CompilerState* state, ...) {
+    va_list args = NULL;
     va_start(args, state);
     log_msg(logs.main, "[ERROR] Handling error with code %d", error_code);
     printf("\033[31m");
-    if (token != NULL)
+    if (token != NULL) {
         printf("%s:%d:%d: ", token->file_name, token->line, token->col);
+    }
     if (error_code & ERROR_FLAG_INTERNAL) {
         // an internal error with the compiler itself. print stack trace and exit with the error code
         printf("Internal Compiler Error: ");
@@ -115,8 +121,10 @@ void handle_error(uint32_t error_code, Token* token, CompilerState* state, ...) 
                 printf("Enter a correct file name after -f.\n");
                 break;
             }
+            default:
+                printf("An internal compiler error occurred.\n");
         }
-        ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
+        ctrace_stacktrace trace = ctrace_generate_trace(0, MAX_CTRACE_DEPTH);
         ctrace_print_stacktrace(&trace, stdout, 1);
         
         ctrace_free_stacktrace(&trace);
@@ -130,8 +138,9 @@ void handle_error(uint32_t error_code, Token* token, CompilerState* state, ...) 
         case ERROR_DUPLICATE_IDENTIFIER: {
             ASTNode* duplicate_identifier = va_arg(args, ASTNode*);
             printf("Identifier %s already exists in current scope.\n", token->content);
-            if (duplicate_identifier != NULL)
+            if (duplicate_identifier != NULL) {
                 printf("First declared at %s:%d:%d\n", duplicate_identifier->token->file_name, duplicate_identifier->token->line, duplicate_identifier->token->col);
+            }
             break;
         }
         case ERROR_UNDEFINED_TYPE: {
@@ -151,12 +160,14 @@ void handle_error(uint32_t error_code, Token* token, CompilerState* state, ...) 
             printf("Mismatch in function parameter count for function %s: ", identifier);
             printf("Expected %d parameters, got %d parameters.", expected, got);
         }
+        default:
+            printf("An error occurred.\n");
     }
 
     state->error_count++;
-    if (state->error_count > 20) {
-        printf("Error max of 20 reached. Aborting.\n");
-        exit(DEFAULT_ERROR_CODE);
+    if (state->error_count > MAX_ERROR_COUNT) {
+        printf("Error max of %d reached. Aborting.\n", MAX_ERROR_COUNT);
+        _Exit(DEFAULT_ERROR_CODE);
     }
     va_end(args);
     printf("\033[0m\n");
@@ -165,11 +176,11 @@ void handle_error(uint32_t error_code, Token* token, CompilerState* state, ...) 
 long WINAPI handle_seg_fault(EXCEPTION_POINTERS* exception_pointers) {
     if (exception_pointers->ExceptionRecord->ExceptionCode == EXCEPTION_ACCESS_VIOLATION) {
         printf("\033[31mSegmentation Fault (Access Violation) detected at address %p\033[0m\n", exception_pointers->ExceptionRecord->ExceptionAddress);
-        ctrace_stacktrace trace = ctrace_generate_trace(0, 32);
+        ctrace_stacktrace trace = ctrace_generate_trace(0, MAX_CTRACE_DEPTH);
         ctrace_print_stacktrace(&trace, stdout, 1);
         
         ctrace_free_stacktrace(&trace);
-        exit(DEFAULT_ERROR_CODE);
+        _Exit(DEFAULT_ERROR_CODE);
     }
     return EXCEPTION_EXECUTE_HANDLER;
 }

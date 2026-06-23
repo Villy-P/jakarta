@@ -13,7 +13,7 @@ typedef struct ASTNodeDef ASTNode;
 typedef struct SymbolTableDef SymbolTable;
 
 typedef struct {
-    char *file_path;
+    const char *file_path;
     ASTNode *root;
 } ForestEntry;
 

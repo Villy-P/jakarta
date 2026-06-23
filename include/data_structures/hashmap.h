@@ -12,8 +12,8 @@ typedef struct HashMapDef {
     HashNode* array[HASHMAP_ARRAY_SIZE];
 } HashMap;
 
-int hash(char* key);
-bool insert(HashMap* hashmap, char* key, void* value);
-void* get(HashMap* hashmap, char* key);
+int hash(const char* key);
+bool insert(HashMap* hashmap, const char* key, void* value);
+void* get(HashMap* hashmap, const char* key);
 HashMap* create_hashmap();
-HashNode* create_hashnode(char* key, void* value);
+HashNode* create_hashnode(const char* key, void* value);

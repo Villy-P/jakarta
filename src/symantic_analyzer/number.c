@@ -19,10 +19,12 @@ bool is_decimal_type(char* type_name) {
 }
 
 
-// TODO: Refactor
+// TODO(Valerius Petrini): Refactor
 bool is_decimal(char* number) {
-    for (int i = 0; i < strlen(number); i++)
-        if (number[i] == '.')
+    for (unsigned long long i = 0; i < strlen(number); i++) {
+        if (number[i] == '.') {
             return true;
+        }
+    }
     return false;
 } 

@@ -1,8 +1,9 @@
 #include <stdlib.h>
 
 #include "data_structures/ast.h"
-#include "syntax.h"
 #include "core.h"
+#include "syntax.h"
+
 
 void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     consume(tokenizer);
@@ -14,12 +15,13 @@ void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) 
     ASTNode* class_body = create_ast_node(AST_IDENTIFIER_CLASS_BODY, NULL);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE)) {
-        if (peek_type(tokenizer)) 
-            parse_variable(tokenizer, class_body, state);
-        else if (peek(tokenizer, KEYWORD_FUNC))
+        if (peek_type(tokenizer)) {
+            parse_variable(tokenizer, class_body);
+        } else if (peek(tokenizer, KEYWORD_FUNC)) {
             parse_func(tokenizer, class_body, state);
-        else
+        } else {
             jakarta_error(ERR_INVALID_TOKEN, consume(tokenizer), "variable or function");
+        }
     }
 
     add_to_array(class_node->nodes, class_body);

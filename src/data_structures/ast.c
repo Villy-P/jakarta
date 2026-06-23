@@ -2,11 +2,12 @@
 #include "core.h"
 #include "debug.h"
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define INITIAL_ASTNODE_CHILDREN_CAPACITY 2
 #define AST_INDENT_SPACES 4
+#define AST_PRINT_BUFFER_SIZE 512
 
 const char* const AST_NODE_NAMES[] = {
     [AST_IDENTIFIER_BASE_PROGRAM] = "ROOT",
@@ -65,8 +66,9 @@ const char* const AST_NODE_NAMES[] = {
 
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
-    if (node == NULL)
+    if (node == NULL) {
         jakarta_error(ERR_MALLOC_FAIL, NULL, "ASTNode");
+    }
     node->identifier = identifier;
     node->token = token;
     node->nodes = create_array(INITIAL_ASTNODE_CHILDREN_CAPACITY);
@@ -74,22 +76,33 @@ ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
 }
 
 void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
-    if (node == NULL) 
+    if (node == NULL) {
         return;
+    }
 
     const char* node_name = AST_NODE_NAMES[node->identifier];
-    if (node_name == NULL)
+    if (node_name == NULL) {
         node_name = "UNKNOWN_NODE";
+    }
 
     const char* marker = is_last ? "└── " : "├── ";
-    fprintf(logs.ast, "%s%s%s", prefix, marker, node_name);
+    if (fprintf(logs.ast, "%s%s%s", prefix, marker, node_name) < 0) {
+        jakarta_error(ERR_CUSTOM, NULL, "Failed to print AST node");
+    }
 
-    if (node->token != NULL && node->token->content != NULL)
-        fprintf(logs.ast, ": %s", node->token->content);
-    fprintf(logs.ast, "\n");
+    if (node->token != NULL && node->token->content != NULL) {
+        if (fprintf(logs.ast, ": %s", node->token->content) < 0) {
+            jakarta_error(ERR_CUSTOM, NULL, "Failed to print AST node content");
+        }
+    }
+    if (fprintf(logs.ast, "\n") < 0) {
+        jakarta_error(ERR_CUSTOM, NULL, "Failed to print AST node newline");
+    }
 
-    char new_prefix[512];
-    snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ");
+    char new_prefix[AST_PRINT_BUFFER_SIZE];
+    if (snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ") < 0) {
+        jakarta_error(ERR_CUSTOM, NULL, "Failed to create new prefix");
+    }
 
     unsigned int num_children = node->nodes->length;
     for (unsigned int i = 0; i < num_children; ++i) {

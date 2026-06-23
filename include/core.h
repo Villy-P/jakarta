@@ -37,12 +37,12 @@
 #define ERR_UNTERMINATED_STRING 10
 
 // error.c
-void jakarta_error(uint32_t error_code, Token* token, const char* additional_info);
+void jakarta_error(int32_t error_code, Token* token, const char* additional_info);
 void jakarta_error_invalid_token(const char* expected, const char* got);
 void jakarta_error_invalid_typedef_location(Token* token);
 void jakarta_error_undefined_identifier(Token* identifier);
 
-void handle_error(uint32_t error_code, Token* token, CompilerState* state, ...);
+void handle_error(int32_t error_code, Token* token, CompilerState* state, ...);
 long WINAPI handle_seg_fault(EXCEPTION_POINTERS* exception_pointers);
 
 // free.c

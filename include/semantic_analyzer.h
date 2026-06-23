@@ -7,8 +7,8 @@ void gather_declarations(CompilerState* state);
 void resolve_types(CompilerState* state);
 
 void resolve_node(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
-SymbolTableEntry* lookup_type(const char* target, SymbolTable* symbol_table, CompilerState* state);
-SymbolTableEntry* lookup_function(const char* target, SymbolTable* symbol_table, CompilerState* state);
+SymbolTableEntry* lookup_type(const char* target, SymbolTable* symbol_table);
+SymbolTableEntry* lookup_function(const char* target, SymbolTable* symbol_table);
 
 void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);
 void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, CompilerState* state);

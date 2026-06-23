@@ -1,22 +1,23 @@
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stddef.h>
 
 #include "data_structures/array.h"
+#include "core.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
-#include "semantic_analyzer.h"
-#include "types.h"
-#include "types.h"
-#include "syntax.h"
-#include "core.h"
 #include "debug.h"
+#include "semantic_analyzer.h"
+#include "syntax.h"
+#include "types.h"
+
 
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
-    if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM && ast_node->identifier != AST_IDENTIFIER_CLASS_BODY)
+    if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM && ast_node->identifier != AST_IDENTIFIER_CLASS_BODY) {
         jakarta_error_invalid_typedef_location(consume(tokenizer));
+    }
 
     Token* func_keyword = consume(tokenizer);
     Token* func_type = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
@@ -44,16 +45,17 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
         add_to_array(parameter_node->nodes, parameter_type_node);
         add_to_array(parameters_node->nodes, parameter_node);
 
-        if (comma != NULL)
+        if (comma != NULL) {
             free_token(comma);
+        }
     }
 
     Token* close_parenthesis = consume(tokenizer);
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
-    Type* type = malloc(sizeof(Type));
 
-    while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
+    while (!peek(tokenizer, SYMBOL_CLOSE_BRACE)) {
         parse(tokenizer, body_node, state);
+    }
 
     Token* close_bracket = consume(tokenizer);
 
@@ -72,13 +74,14 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     free_token(close_bracket);
 }
 
-void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function, CompilerState* state) {
+void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
     for (unsigned int i = 0; i < function->parameters->length; i++) {
         Stack* arg = infix_to_postfix(tokenizer);
         ASTNode* arg_node = postfix_to_ast(arg);
         add_to_array(ast_node->nodes, arg_node);
-        if (i < function->parameters->length - 1 && peek(tokenizer, SYMBOL_COMMA))
+        if (i < function->parameters->length - 1 && peek(tokenizer, SYMBOL_COMMA)) {
             consume(tokenizer); // comma
+        }
     }
     log_msg(logs.main, "[AST] Parsed Function Call");
 }
@@ -100,16 +103,17 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     function_scope->parent = symbol_table;
 
     ASTNode* return_type_node = (ASTNode*)get_from_array(node->nodes, 0);
-    SymbolTableEntry* return_type_entry = lookup_type(return_type_node->token->content, function_scope, state);
-    if (return_type_entry == NULL)
+    SymbolTableEntry* return_type_entry = lookup_type(return_type_node->token->content, function_scope);
+    if (return_type_entry == NULL) {
         handle_error(ERROR_UNDEFINED_TYPE, return_type_node->token, state, return_type_node->token->content);
+    }
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type: %s", return_type_entry->name);
 
     ASTNode* parameters_node = (ASTNode*)get_from_array(node->nodes, 1);
     for (unsigned int i = 0; i < parameters_node->nodes->length; ++i) {
         ASTNode* parameter_node = (ASTNode*)get_from_array(parameters_node->nodes, i);
         ASTNode* parameter_type_node = (ASTNode*)get_from_array(parameter_node->nodes, 0);
-        SymbolTableEntry* parameter_type_entry = lookup_type(parameter_type_node->token->content, function_scope, state);
+        SymbolTableEntry* parameter_type_entry = lookup_type(parameter_type_node->token->content, function_scope);
         if (parameter_type_entry == NULL) {
             handle_error(ERROR_UNDEFINED_TYPE, parameter_type_node->token, state, parameter_type_node->token->content);
             continue;
@@ -129,7 +133,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
 TypeRegistryEntry* resolve_function_call(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function call: %s", node->token->content);
 
-    SymbolTableEntry* function_entry = lookup_function(node->token->content, symbol_table, state);
+    SymbolTableEntry* function_entry = lookup_function(node->token->content, symbol_table);
     FunctionRegistryEntry* function_definition = get(state->function_registry, node->token->content);
     if (function_entry == NULL || function_definition == NULL) {
         handle_error(ERROR_UNDEFINED_IDENTIFIER, node->token, state, node->token->content);
@@ -144,10 +148,10 @@ TypeRegistryEntry* resolve_function_call(ASTNode* node, SymbolTable* symbol_tabl
         return NULL;
     }
 
-    // TODO: Add type checking
+    // TODO(Valerius Petrini): Add type checking
     for (unsigned int i = 0; i < node->nodes->length; i++) {
-        ASTNode* child_node = (ASTNode*)get_from_array(node->nodes, i);
-        TypeRegistryEntry* type = resolve_expression(child_node, symbol_table, state);
+        // ASTNode* child_node = (ASTNode*)get_from_array(node->nodes, i);
+        // TypeRegistryEntry* type = resolve_expression(child_node, symbol_table, state);
     }
     return (TypeRegistryEntry*)get(state->type_registry, function_definition->return_type);
 }

@@ -1,58 +1,74 @@
 #include <stddef.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "data_structures/ast.h"
+#include "core.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/stack.h"
+#include "debug.h"
 #include "semantic_analyzer.h"
 #include "symbol.h"
 #include "syntax.h"
-#include "core.h"
 #include "types.h"
-#include "debug.h"
 
-unsigned int precedence(char* op) {
-    if (strcmp(op, "=") == 0 || strcmp(op, "+=") == 0 || strcmp(op, "-=") == 0 || strcmp(op, "*=") == 0 || strcmp(op, "/=") == 0 || strcmp(op, "%=") == 0 || strcmp(op, "&=") == 0 || strcmp(op, "|=") == 0 || strcmp(op, "^=") == 0 || strcmp(op, "<<=") == 0 || strcmp(op, ">>=") == 0 || strcmp(op, ">>>=") == 0)
-        return 1;
-    if (strcmp(op, "||") == 0)
-        return 2;
-    if (strcmp(op, "&&") == 0)
-        return 3;
-    if (strcmp(op, "|") == 0)
-        return 4;
-    if (strcmp(op, "^") == 0)
-        return 5;
-    if (strcmp(op, "&") == 0)
-        return 6;
-    if (strcmp(op, "==") == 0 || strcmp(op, "!=") == 0)
-        return 7;
-    if (strcmp(op, "<") == 0 || strcmp(op, ">") == 0 || strcmp(op, "<=") == 0 || strcmp(op, ">=") == 0)
-        return 8;
-    if (strcmp(op, "<<") == 0 || strcmp(op, ">>") == 0 || strcmp(op, ">>>") == 0)
-        return 9;
-    if (strcmp(op, "+") == 0 || strcmp(op, "-") == 0)
-        return 10;
-    if (strcmp(op, "*") == 0 || strcmp(op, "/") == 0 || strcmp(op, "%") == 0)
-        return 11;
-    if (strcmp(op, "!") == 0 || strcmp(op, "++") == 0 || strcmp(op, "--") == 0 || strcmp(op, "~") == 0)
-        return 12;
+#define POSTFIX_STACK_INITIAL_SIZE 10
+
+typedef enum {
+    PREC_NONE = 0,
+    PREC_ASSIGNMENT,    // 1
+    PREC_LOGICAL_OR,    // 2
+    PREC_LOGICAL_AND,   // 3
+    PREC_BITWISE_OR,    // 4
+    PREC_BITWISE_XOR,   // 5
+    PREC_BITWISE_AND,   // 6
+    PREC_EQUALITY,      // 7
+    PREC_RELATIONAL,    // 8
+    PREC_SHIFT,         // 9
+    PREC_ADDITIVE,      // 10
+    PREC_MULTIPLICATIVE,// 11
+    PREC_UNARY          // 12
+} Precedence;
+
+unsigned int precedence(char* operator) {
+    if (strcmp(operator, "=") == 0 || strcmp(operator, "+=") == 0 || strcmp(operator, "-=") == 0 || strcmp(operator, "*=") == 0 || strcmp(operator, "/=") == 0 || strcmp(operator, "%=") == 0 || strcmp(operator, "&=") == 0 || strcmp(operator, "|=") == 0 || strcmp(operator, "^=") == 0 || strcmp(operator, "<<=") == 0 || strcmp(operator, ">>=") == 0 || strcmp(operator, ">>>=") == 0) {
+        return PREC_ASSIGNMENT;
+    } if (strcmp(operator, "||") == 0) {
+        return PREC_LOGICAL_OR;
+    } if (strcmp(operator, "&&") == 0) {
+        return PREC_LOGICAL_AND;
+    } if (strcmp(operator, "|") == 0) {
+        return PREC_BITWISE_OR;
+    } if (strcmp(operator, "^") == 0) {
+        return PREC_BITWISE_XOR;
+    } if (strcmp(operator, "&") == 0) {
+        return PREC_BITWISE_AND;
+    } if (strcmp(operator, "==") == 0 || strcmp(operator, "!=") == 0) {
+        return PREC_EQUALITY;
+    } if (strcmp(operator, "<") == 0 || strcmp(operator, ">") == 0 || strcmp(operator, "<=") == 0 || strcmp(operator, ">=") == 0) {
+        return PREC_RELATIONAL;
+    } if (strcmp(operator, "<<") == 0 || strcmp(operator, ">>") == 0 || strcmp(operator, ">>>") == 0) {
+        return PREC_SHIFT;
+    } if (strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0) {
+        return PREC_ADDITIVE;
+    } if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0 || strcmp(operator, "%") == 0) {
+        return PREC_MULTIPLICATIVE;
+    } if (strcmp(operator, "!") == 0 || strcmp(operator, "++") == 0 || strcmp(operator, "--") == 0 || strcmp(operator, "~") == 0) {
+        return PREC_UNARY;
+    }
     return 0;
 }
 
-bool is_right_associative(const char* op) {
+bool is_right_associative(const char* operator) {
     // Assignment operators and exponentiation are usually right-associative
-    if (strcmp(op, "=") == 0 ||
-        strcmp(op, "+=") == 0 ||
-        strcmp(op, "-=") == 0 ||
-        strcmp(op, "*=") == 0 ||
-        strcmp(op, "/=") == 0 ||
-        strcmp(op, "%=") == 0 ||
-        strcmp(op, "^") == 0) {
-        return true;
-    }
-    return false; // everything else is left-associative
+    return (strcmp(operator, "=") == 0 ||
+        strcmp(operator, "+=") == 0 ||
+        strcmp(operator, "-=") == 0 ||
+        strcmp(operator, "*=") == 0 ||
+        strcmp(operator, "/=") == 0 ||
+        strcmp(operator, "%=") == 0 ||
+        strcmp(operator, "^") == 0); // everything else is left-associative
 }
 
 bool is_operator(Symbol sym) {
@@ -91,8 +107,8 @@ bool is_operator(Symbol sym) {
 }
 
 Stack* infix_to_postfix(Tokenizer* tokenizer) {
-    Stack* output = create_stack(sizeof(ASTNode), 10);
-    Stack* operators = create_stack(sizeof(ASTNode), 10);
+    Stack* output = create_stack(sizeof(ASTNode), POSTFIX_STACK_INITIAL_SIZE);
+    Stack* operators = create_stack(sizeof(ASTNode), POSTFIX_STACK_INITIAL_SIZE);
 
     int open_parenthesis_count = 1;
 
@@ -100,14 +116,16 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         if (peek(tokenizer, SYMBOL_COMMA)) {
             log_msg(logs.main, "[AST] Comma found; breaking");
             while (operators->top > STACK_EMPTY) {
-                ASTNode* op = malloc(sizeof(ASTNode));
-                pop_from_stack(operators, op);
-                push_to_stack(output, op);
+                ASTNode* operator = malloc(sizeof(ASTNode));
+                pop_from_stack(operators, operator);
+                push_to_stack(output, operator);
             }
             break;
         }
         Token* token = consume(tokenizer);
-        if (!token) break;
+        if (!token) { 
+            break;
+        }
 
         ASTNode* node = NULL;
 
@@ -136,8 +154,9 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
                 ASTNode* func_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
                 do {
-                    if (peek(tokenizer, SYMBOL_COMMA))
+                    if (peek(tokenizer, SYMBOL_COMMA)) {
                         consume(tokenizer);
+                    }
                     Stack* args_postfix = infix_to_postfix(tokenizer); // stops at ')'
                     ASTNode* args_node = postfix_to_ast(args_postfix);
                     add_to_array(func_node->nodes, args_node);
@@ -192,14 +211,16 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             log_msg(logs.main, "[AST] Processing close parenthesis: %s", token->content);
             open_parenthesis_count--;
             while (operators->top > STACK_EMPTY) {
-                ASTNode* op = malloc(sizeof(ASTNode));
-                pop_from_stack(operators, op);
-                if (op->token->symbol == SYMBOL_OPEN_PARENTHESIS)
+                ASTNode* operator = malloc(sizeof(ASTNode));
+                pop_from_stack(operators, operator);
+                if (operator->token->symbol == SYMBOL_OPEN_PARENTHESIS) {
                     break;
-                push_to_stack(output, op);
+                }
+                push_to_stack(output, operator);
             }
-            if (open_parenthesis_count == 0)
+            if (open_parenthesis_count == 0) {
                 break;
+            }
             continue;
         }
 
@@ -207,9 +228,9 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         if (token->symbol == SYMBOL_SEMICOLON || token->symbol == SYMBOL_CLOSE_BRACKET) {
             log_msg(logs.main, "[AST] Processing closing statement: %s", token->content);
             while (operators->top > STACK_EMPTY) {
-                ASTNode* op = malloc(sizeof(ASTNode));
-                pop_from_stack(operators, op);
-                push_to_stack(output, op);
+                ASTNode* operator = malloc(sizeof(ASTNode));
+                pop_from_stack(operators, operator);
+                push_to_stack(output, operator);
             }
             break;
         }
@@ -220,20 +241,20 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             node = create_ast_node(AST_OPERATOR, token);
 
             while (operators->top > STACK_EMPTY) {
-                ASTNode* op = malloc(sizeof(ASTNode));
-                pop_from_stack(operators, op);
+                ASTNode* operator = malloc(sizeof(ASTNode));
+                pop_from_stack(operators, operator);
 
 
-                if (!is_operator(op->token->symbol)) {
-                    push_to_stack(operators, op);
+                if (!is_operator(operator->token->symbol)) {
+                    push_to_stack(operators, operator);
                     break;
                 }
 
-                if (precedence(op->token->content) < precedence(token->content) ||
-                    (precedence(op->token->content) == precedence(token->content) && !is_right_associative(token->content))) {
-                    push_to_stack(output, op);
+                if (precedence(operator->token->content) < precedence(token->content) ||
+                    (precedence(operator->token->content) == precedence(token->content) && !is_right_associative(token->content))) {
+                    push_to_stack(output, operator);
                 } else {
-                    push_to_stack(operators, op);
+                    push_to_stack(operators, operator);
                     break;
                 }
             }
@@ -252,7 +273,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
 ASTNode* postfix_to_ast(Stack* postfix) {
     log_msg(logs.main, "[AST] Converting postfix to AST; stack size of %d", postfix->top + 1);
-    Stack* output = create_stack(sizeof(ASTNode), 10);
+    Stack* output = create_stack(sizeof(ASTNode), POSTFIX_STACK_INITIAL_SIZE);
     ASTNode* value = malloc(sizeof(ASTNode));
     if (postfix->top == 0) {
         log_msg(logs.main, "[AST] Encountered Postfix expression with only one member variable");
@@ -284,7 +305,7 @@ ASTNode* postfix_to_ast(Stack* postfix) {
     return value;
 }
 
-void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
+void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node) {
     // first, check if its a variable declaration. these can be in four forms:
     // 1. TYPE IDENTIFIER;
     // 2. TYPE IDENTIFIER = EXPRESSION;
@@ -294,7 +315,7 @@ void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* st
         (peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 1) && peek_ahead(tokenizer, SYMBOL_EQUALS, 2)) ||
         (peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, OPERATOR_ARRAY_DECLARATION, 1) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 2)) ||
         (peek(tokenizer, SYMBOL_IDENTIFIER) && peek_ahead(tokenizer, OPERATOR_ARRAY_DECLARATION, 1) && peek_ahead(tokenizer, SYMBOL_IDENTIFIER, 2) && peek_ahead(tokenizer, SYMBOL_EQUALS, 3))) {
-        parse_variable(tokenizer, ast_node, state);
+        parse_variable(tokenizer, ast_node);
         return;
     }
 
@@ -323,8 +344,9 @@ void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type)
         ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);
         add_to_array(ast_node->nodes, node);
     }
-    if (peek(tokenizer, SYMBOL_PERIOD))
+    if (peek(tokenizer, SYMBOL_PERIOD)) {
         parse_variable_members(tokenizer, ast_node, type);
+    }
 }
 
 TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
@@ -336,6 +358,6 @@ TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table, 
         case AST_LITERAL:
             return (TypeRegistryEntry*)get(state->type_registry, "string");
         default:
-            break;
+            return NULL;
     }
 }

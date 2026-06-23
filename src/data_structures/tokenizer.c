@@ -1,14 +1,15 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "data_structures/tokenizer.h"
+#include "core.h"
 #include "data_structures/array.h"
 #include "data_structures/ast.h"
 #include "data_structures/symbol_table.h"
-#include "types.h"
-#include "core.h"
 #include "debug.h"
+#include "types.h"
+
 
 #define INITIAL_TYPE_SIZE 64
 #define INITIAL_TYPE_ALIAS_SIZE 2
@@ -16,8 +17,9 @@
 
 Tokenizer* create_tokenizer(size_t initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
-    if (tokenizer == NULL)
+    if (tokenizer == NULL) {
         jakarta_error(ERR_MALLOC_FAIL, NULL, "Tokenizer");
+    }
     tokenizer->tokens = create_array(initial_size);
     return tokenizer;
 }
@@ -46,19 +48,19 @@ bool peek(Tokenizer* tokenizer, Symbol symbol) {
 }
 
 bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, size_t offset) {
-    if (offset >= tokenizer->tokens->length)
+    if (offset >= tokenizer->tokens->length) {
         return false;
+    }
     Token* token = get_from_array(tokenizer->tokens, offset);
     return token->symbol == symbol;
 }
 
 bool peek_type(Tokenizer* tokenizer) {
-    if (tokenizer->tokens->length == 0)
+    if (tokenizer->tokens->length == 0) {
         return false;
+    }
     Token* token = get_from_array(tokenizer->tokens, 0);
-    if (token->symbol != SYMBOL_IDENTIFIER)
-        return false;
-    return true;
+    return (token->symbol == SYMBOL_IDENTIFIER);
 }
 
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {

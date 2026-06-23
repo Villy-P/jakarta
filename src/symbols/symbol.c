@@ -2,11 +2,11 @@
 
 #include <string.h>
 
-#include "symbol.h"
 #include "core.h"
+#include "symbol.h"
 
-Symbol get_symbol_from_char(char ch) {
-    switch (ch) {
+Symbol get_symbol_from_char(char character) {
+    switch (character) {
         case '`': return SYMBOL_BACKTICK;
         case '~': return SYMBOL_TILDE;
         case '!': return SYMBOL_EXCLAMATION;
@@ -43,7 +43,7 @@ Symbol get_symbol_from_char(char ch) {
         case '\'': return SYMBOL_APOSTRAPHE;
         default: break;
     };
-    char ch_str[2] = {ch, '\0'};
+    char ch_str[2] = {character, '\0'};
     jakarta_error(ERR_UNKNOWN_SYMBOL, NULL, ch_str);
     return SYMBOL_NONE;
 }
@@ -124,62 +124,62 @@ char* get_string_from_symbol(Symbol symbol) {
 }
 
 Symbol get_keyword_from_str(char* str) {
-    if (is_number_symbol(str))                    return SYMBOL_NUMBER;
-    if (strcmp(str, "as")        == 0) return KEYWORD_AS;
-    if (strcmp(str, "assert")    == 0) return KEYWORD_ASSERT;
-    if (strcmp(str, "break")     == 0) return KEYWORD_BREAK;
-    if (strcmp(str, "case")      == 0) return KEYWORD_CASE;
-    if (strcmp(str, "catch")     == 0) return KEYWORD_CATCH;
-    if (strcmp(str, "class")     == 0) return KEYWORD_CLASS;
-    if (strcmp(str, "constant")  == 0) return KEYWORD_CONSTANT;
-    if (strcmp(str, "do")        == 0) return KEYWORD_DO;
-    if (strcmp(str, "else")      == 0) return KEYWORD_ELSE;
-    if (strcmp(str, "enum")      == 0) return KEYWORD_ENUM;
-    if (strcmp(str, "extends")   == 0) return KEYWORD_EXTENDS;
-    if (strcmp(str, "finally")   == 0) return KEYWORD_FINALLY;
-    if (strcmp(str, "for")       == 0) return KEYWORD_FOR;
-    if (strcmp(str, "from")      == 0) return KEYWORD_FROM;
-    if (strcmp(str, "func")      == 0) return KEYWORD_FUNC;
-    if (strcmp(str, "goto")      == 0) return KEYWORD_GOTO;
-    if (strcmp(str, "if")        == 0) return KEYWORD_IF;
-    if (strcmp(str, "interface") == 0) return KEYWORD_INTERFACE;
-    if (strcmp(str, "import")    == 0) return KEYWORD_IMPORT;
-    if (strcmp(str, "new")       == 0) return KEYWORD_NEW;
-    if (strcmp(str, "priv")      == 0) return KEYWORD_PRIV;
-    if (strcmp(str, "prot")      == 0) return KEYWORD_PROT;
-    if (strcmp(str, "pub")       == 0) return KEYWORD_PUB;
-    if (strcmp(str, "ret")       == 0) return KEYWORD_RET;
-    if (strcmp(str, "static")    == 0) return KEYWORD_STATIC;
-    if (strcmp(str, "switch")    == 0) return KEYWORD_SWITCH;
-    if (strcmp(str, "throws")    == 0) return KEYWORD_THROWS;
-    if (strcmp(str, "try")       == 0) return KEYWORD_TRY;
-    if (strcmp(str, "typedef")   == 0) return KEYWORD_TYPEDEF;
-    if (strcmp(str, "while")     == 0) return KEYWORD_WHILE;
+    if (is_number_symbol(str))                    { return SYMBOL_NUMBER; }
+    if (strcmp(str, "as")        == 0) { return KEYWORD_AS; }
+    if (strcmp(str, "assert")    == 0) { return KEYWORD_ASSERT; }
+    if (strcmp(str, "break")     == 0) { return KEYWORD_BREAK; }
+    if (strcmp(str, "case")      == 0) { return KEYWORD_CASE; }
+    if (strcmp(str, "catch")     == 0) { return KEYWORD_CATCH; }
+    if (strcmp(str, "class")     == 0) { return KEYWORD_CLASS; }
+    if (strcmp(str, "constant")  == 0) { return KEYWORD_CONSTANT; }
+    if (strcmp(str, "do")        == 0) { return KEYWORD_DO; }
+    if (strcmp(str, "else")      == 0) { return KEYWORD_ELSE; }
+    if (strcmp(str, "enum")      == 0) { return KEYWORD_ENUM; }
+    if (strcmp(str, "extends")   == 0) { return KEYWORD_EXTENDS; }
+    if (strcmp(str, "finally")   == 0) { return KEYWORD_FINALLY; }
+    if (strcmp(str, "for")       == 0) { return KEYWORD_FOR; }
+    if (strcmp(str, "from")      == 0) { return KEYWORD_FROM; }
+    if (strcmp(str, "func")      == 0) { return KEYWORD_FUNC; }
+    if (strcmp(str, "goto")      == 0) { return KEYWORD_GOTO; }
+    if (strcmp(str, "if")        == 0) { return KEYWORD_IF; }
+    if (strcmp(str, "interface") == 0) { return KEYWORD_INTERFACE; }
+    if (strcmp(str, "import")    == 0) { return KEYWORD_IMPORT; }
+    if (strcmp(str, "new")       == 0) { return KEYWORD_NEW; }
+    if (strcmp(str, "priv")      == 0) { return KEYWORD_PRIV; }
+    if (strcmp(str, "prot")      == 0) { return KEYWORD_PROT; }
+    if (strcmp(str, "pub")       == 0) { return KEYWORD_PUB; }
+    if (strcmp(str, "ret")       == 0) { return KEYWORD_RET; }
+    if (strcmp(str, "static")    == 0) { return KEYWORD_STATIC; }
+    if (strcmp(str, "switch")    == 0) { return KEYWORD_SWITCH; }
+    if (strcmp(str, "throws")    == 0) { return KEYWORD_THROWS; }
+    if (strcmp(str, "try")       == 0) { return KEYWORD_TRY; }
+    if (strcmp(str, "typedef")   == 0) { return KEYWORD_TYPEDEF; }
+    if (strcmp(str, "while")     == 0) { return KEYWORD_WHILE; }
 
-    if (strcmp(str, "==") == 0)  return OPERATOR_EQUIVALENCE;
-    if (strcmp(str, "!=") == 0)  return OPERATOR_NOT_EQUIVALENCE;
-    if (strcmp(str, ">=") == 0)  return OPERATOR_GREATER_THAN_OR_EQUAL_TO;
-    if (strcmp(str, "<=") == 0)  return OPERATOR_LESS_THAN_OR_EQUAL_TO;
-    if (strcmp(str, "++") == 0)  return OPERATOR_INCREMENT;
-    if (strcmp(str, "--") == 0)  return OPERATOR_DECREMENT;
-    if (strcmp(str, "+=") == 0)  return OPERATOR_ADDITION_ASSIGNMENT;
-    if (strcmp(str, "-=") == 0)  return OPERATOR_SUBTRACTION_ASSIGNMENT;
-    if (strcmp(str, "*=") == 0)  return OPERATOR_MULTIPLICATION_ASSIGNMENT;
-    if (strcmp(str, "/=") == 0)  return OPERATOR_DIVISION_ASSIGNMENT;
-    if (strcmp(str, "%=") == 0)  return OPERATOR_MODULUS_ASSIGNMENT;
-    if (strcmp(str, "&=") == 0)  return OPERATOR_BITWISE_AND_ASSIGNMENT;
-    if (strcmp(str, "|=") == 0)  return OPERATOR_BITWISE_OR_ASSIGNMENT;
-    if (strcmp(str, "^=") == 0)  return OPERATOR_BITWISE_XOR_ASSIGNMENT;
-    if (strcmp(str, "<<") == 0)  return OPERATOR_LEFT_SHIFT;
-    if (strcmp(str, ">>") == 0)  return OPERATOR_RIGHT_SHIFT;
-    if (strcmp(str, ">>>") == 0) return OPERATOR_RIGHT_SHIFT_UNSIGNED;
-    if (strcmp(str, "!") == 0)   return OPERATOR_NOT;
-    if (strcmp(str, "&") == 0)   return OPERATOR_BITWISE_AND;
-    if (strcmp(str, "|") == 0)   return OPERATOR_BITWISE_OR;
-    if (strcmp(str, "^") == 0)   return OPERATOR_BITWISE_XOR;
-    if (strcmp(str, "~") == 0)   return OPERATOR_BITWISE_NOT;
-    if (strcmp(str, "&&") == 0)  return OPERATOR_LOGICAL_AND;
-    if (strcmp(str, "||") == 0)  return OPERATOR_LOGICAL_OR;
-    if (strcmp(str, "[]") == 0)  return OPERATOR_ARRAY_DECLARATION;
+    if (strcmp(str, "==") == 0)  { return OPERATOR_EQUIVALENCE; }
+    if (strcmp(str, "!=") == 0)  { return OPERATOR_NOT_EQUIVALENCE; }
+    if (strcmp(str, ">=") == 0)  { return OPERATOR_GREATER_THAN_OR_EQUAL_TO; }
+    if (strcmp(str, "<=") == 0)  { return OPERATOR_LESS_THAN_OR_EQUAL_TO; }
+    if (strcmp(str, "++") == 0)  { return OPERATOR_INCREMENT; }
+    if (strcmp(str, "--") == 0)  { return OPERATOR_DECREMENT; }
+    if (strcmp(str, "+=") == 0)  { return OPERATOR_ADDITION_ASSIGNMENT; }
+    if (strcmp(str, "-=") == 0)  { return OPERATOR_SUBTRACTION_ASSIGNMENT; }
+    if (strcmp(str, "*=") == 0)  { return OPERATOR_MULTIPLICATION_ASSIGNMENT; }
+    if (strcmp(str, "/=") == 0)  { return OPERATOR_DIVISION_ASSIGNMENT; }
+    if (strcmp(str, "%=") == 0)  { return OPERATOR_MODULUS_ASSIGNMENT; }
+    if (strcmp(str, "&=") == 0)  { return OPERATOR_BITWISE_AND_ASSIGNMENT; }
+    if (strcmp(str, "|=") == 0)  { return OPERATOR_BITWISE_OR_ASSIGNMENT; }
+    if (strcmp(str, "^=") == 0)  { return OPERATOR_BITWISE_XOR_ASSIGNMENT; }
+    if (strcmp(str, "<<") == 0)  { return OPERATOR_LEFT_SHIFT; }
+    if (strcmp(str, ">>") == 0)  { return OPERATOR_RIGHT_SHIFT; }
+    if (strcmp(str, ">>>") == 0) { return OPERATOR_RIGHT_SHIFT_UNSIGNED; }
+    if (strcmp(str, "!") == 0)   { return OPERATOR_NOT; }
+    if (strcmp(str, "&") == 0)   { return OPERATOR_BITWISE_AND; }
+    if (strcmp(str, "|") == 0)   { return OPERATOR_BITWISE_OR; }
+    if (strcmp(str, "^") == 0)   { return OPERATOR_BITWISE_XOR; }
+    if (strcmp(str, "~") == 0)   { return OPERATOR_BITWISE_NOT; }
+    if (strcmp(str, "&&") == 0)  { return OPERATOR_LOGICAL_AND; }
+    if (strcmp(str, "||") == 0)  { return OPERATOR_LOGICAL_OR; }
+    if (strcmp(str, "[]") == 0)  { return OPERATOR_ARRAY_DECLARATION; }
     return SYMBOL_IDENTIFIER;
 }

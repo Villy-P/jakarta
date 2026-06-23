@@ -3,9 +3,10 @@
 
 #include "types.h"
 #include "data_structures/ast.h"
-#include "debug.h"
-#include "data_structures/tokenizer.h"
 #include "data_structures/symbol_table.h"
+#include "data_structures/tokenizer.h"
+#include "debug.h"
+
 
 #define BIT_SIZE 1
 #define BYTE_SIZE 8
@@ -14,12 +15,7 @@
 #define LONG_SIZE 64
 #define LLONG_SIZE 128
 
-static ASTNode* create_dummy_type_node(char* name) {
-    Token* dummy_token = create_token(SYMBOL_IDENTIFIER, 0, 0, name, "internal");
-    return create_ast_node(AST_IDENTIFIER_DUMMY_TYPE, dummy_token);
-}
-
-// TODO: Unsigned Types
+// TODO(Valerius Petrini): Unsigned Types
 void create_base_types(CompilerState* state) {
     log_msg(logs.main, "[TYPES] Adding base types to symbol table");
     add_symbol_tree_entry(create_symbol_table_entry("char", SYMBOL_BUILTIN_TYPE), state->symbol_tree);
@@ -51,8 +47,8 @@ void create_base_types(CompilerState* state) {
     // insert(state->type_registry, "uint", create_type_registry_entry(INT_SIZE, UNUM));
     // insert(state->type_registry, "ulong", create_type_registry_entry(LONG_SIZE, UNUM));
     // insert(state->type_registry, "ullong", create_type_registry_entry(LLONG_SIZE, UNUM));
-    insert(state->type_registry, "float", create_type_registry_entry(32, NUM_DECIMAL));
-    insert(state->type_registry, "double", create_type_registry_entry(64, NUM_DECIMAL));
+    insert(state->type_registry, "float", create_type_registry_entry(INT_SIZE, NUM_DECIMAL));
+    insert(state->type_registry, "double", create_type_registry_entry(LONG_SIZE, NUM_DECIMAL));
     insert(state->type_registry, "void", create_type_registry_entry(0, NUM));
 
     log_msg(logs.main, "[TYPES] Success Creating Base Types");

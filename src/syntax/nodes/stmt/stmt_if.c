@@ -1,8 +1,9 @@
 #include <stdlib.h>
 
 #include "data_structures/ast.h"
-#include "syntax.h"
 #include "core.h"
+#include "syntax.h"
+
 
 void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {    
     Token* if_statement = consume(tokenizer);
@@ -18,8 +19,9 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     add_to_array(if_condition->nodes, expression);
 
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
-    while (!peek(tokenizer, SYMBOL_CLOSE_BRACE))
+    while (!peek(tokenizer, SYMBOL_CLOSE_BRACE)) {
         parse(tokenizer, if_body, state);
+    }
     Token* close_brace = consume(tokenizer);
 
     add_to_array(if_node->nodes, if_condition);

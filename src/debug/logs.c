@@ -1,19 +1,22 @@
+#include <stdarg.h>
 #include <stdio.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <sys/types.h>
 #include <time.h>
-#include <stdarg.h>
-#include <sys/time.h>
 
 #include "debug.h"
 
 LogFiles logs;
 
+#define LOG_TIMESTAMP_BUFFER 30
+#define LOG_TIME_STRING_BUFFER 20
+
 void setup_logs() {
     debug_message("Setting up logs", TOP_LEVEL);
 
-    struct stat st = {0};
-    if (stat("logs", &st) == -1) {
+    struct stat stats = {0};
+    if (stat("logs", &stats) == -1) {
         if (mkdir("logs") != 0) {
             debug_message("Error: Failed to create 'logs' directory", LOG);
             return;
@@ -21,48 +24,68 @@ void setup_logs() {
     }
 
     logs.ast = fopen("logs/ast.log", "w");
-    if (logs.ast != NULL)
-        setvbuf(logs.ast, NULL, _IONBF, 0);
+    if (logs.ast != NULL) {
+        if (setvbuf(logs.ast, NULL, _IONBF, 0) != 0) {
+            debug_message("Error: Failed to set buffer for ast log file", LOG);
+        }
+    }
 
     logs.main = fopen("logs/main.log", "w");
-    if (logs.main == NULL)
-        setvbuf(logs.main, NULL, _IONBF, 0);
+    if (logs.main != NULL) {
+        if (setvbuf(logs.main, NULL, _IONBF, 0) != 0) {
+            debug_message("Error: Failed to set buffer for main log file", LOG);
+        }
+    }
 }
 
 void cleanup_logs() {
     debug_message("Cleaning up logs", TOP_LEVEL);
 
-    if (logs.ast != NULL)
-        fclose(logs.ast);
+    if (logs.ast != NULL) {
+        if (fclose(logs.ast) != 0) {
+            debug_message("Error: Failed to close ast log file", LOG);
+        }
+    }
 
-    if (logs.main != NULL)
-        fclose(logs.main);
+    if (logs.main != NULL) {
+        if (fclose(logs.main) != 0) {
+            debug_message("Error: Failed to close main log file", LOG);
+        }
+    }
 }
 
 void log_msg(FILE* file, const char* format, ...) {
-    va_list args;
+    va_list args = NULL;
     va_start(args, format);
 
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
+    struct timeval timev;
+    gettimeofday(&timev, NULL);
     
     struct tm time_info;
     #ifdef _WIN32
-        time_t raw_time = (time_t)tv.tv_sec;
-        localtime_s(&time_info, &raw_time);
+        time_t raw_time = (time_t)timev.tv_sec;
+        if (localtime_s(&time_info, &raw_time) != 0) {
+            debug_message("Error: Failed to get local time", LOG);
+        }
     #else
-        localtime_r(&tv.tv_sec, &time_info);
+        localtime_r(&timev.tv_sec, &time_info);
     #endif
 
-    char timestamp[30];
-    char time_str[20];
-    strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", &time_info);
-    
-    sprintf(timestamp, "%s.%03d", time_str, (int)(tv.tv_usec / 1000));
+    char timestamp[LOG_TIMESTAMP_BUFFER];
+    char time_str[LOG_TIME_STRING_BUFFER];
+    if (strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", &time_info) == 0) {
+        debug_message("Error: Failed to format time", LOG);
+    }
 
-    fprintf(file, "[%s] ", timestamp);
-    vfprintf(file, format, args);
-    fprintf(file, "\n");
-    
+    if (fprintf(file, "[%s] ", timestamp) < 0) {
+        debug_message("Error: Failed to write timestamp to log file", LOG);
+    }
+    if (vfprintf(file, format, args) < 0) {
+        debug_message("Error: Failed to write log message", LOG);
+    }
+    if (fprintf(file, "\n") < 0) {
+        debug_message("Error: Failed to write newline to log file", LOG);
+    }
+
     va_end(args);
 }

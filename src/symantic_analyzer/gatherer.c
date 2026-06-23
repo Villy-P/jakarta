@@ -1,7 +1,8 @@
 #include "data_structures/ast.h"
-#include "semantic_analyzer.h"
-#include "debug.h"
 #include "data_structures/symbol_table.h"
+#include "debug.h"
+#include "semantic_analyzer.h"
+
 
 void gather_declarations(CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Gathering declarations from AST");

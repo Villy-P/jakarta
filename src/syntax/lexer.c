@@ -3,13 +3,13 @@
 #include <pcre2.h>
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include "syntax.h"
 #include "core.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
+#include "syntax.h"
 
 #define MAX_REGEX_GROUPS 1
 #define STRING_UNEQUAL 0
@@ -18,8 +18,9 @@
 void read_line(char* line, const char* file_name, uint32_t line_number, Tokenizer* tokenizer) {
     uint32_t col = 1;
     while (strcmp(line, "\0") != STRING_UNEQUAL) {
-        if (line[0] == '/' && line[1] == '/')
+        if (line[0] == '/' && line[1] == '/') {
             break;
+        }
         if (line[0] == '"') {
             char* str_lit = get_string_literal(&line);
             Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col, str_lit, file_name);
@@ -65,8 +66,9 @@ char* get_string_literal(char** line) {
     size_t length = 0;
 
     while ((*line)[0] != '"' && (*line)[0] != '\0') {
-        if ((*line)[0] == '\\')
+        if ((*line)[0] == '\\') {
             (*line)++;
+        }
         (*line)++;
         length++;
     }
@@ -76,30 +78,31 @@ char* get_string_literal(char** line) {
         memcpy(str, start, length);
         (*line)++;
         return str;
-    } else {
-        jakarta_error(ERR_UNTERMINATED_STRING, NULL, start);
-        return NULL;
-    }
+    } 
+    jakarta_error(ERR_UNTERMINATED_STRING, NULL, start);
+    return NULL;
 }
 
 char* get_string(char** line) {
-    pcre2_code *re;
-    int errornumber;
-    PCRE2_SIZE erroroffset;
+    pcre2_code *regex = NULL;
+    int errornumber = 0;
+    PCRE2_SIZE erroroffset = 0;
     PCRE2_SPTR pattern = (PCRE2_SPTR)"^(\\d+\\.?\\d*|\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?|&&?|\\|\\|?|>=|<=|!|!=|\\[\\])";
 
     // Compile the pattern
-    re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
-    if (!re) return NULL; // Compilation failed
+    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
+    if (!regex) {
+        return NULL; // Compilation failed
+    }
 
     // Create match data
-    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(re, NULL);
+    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(regex, NULL);
     
     // Perform match
-    int rc = pcre2_match(re, (PCRE2_SPTR)*line, strlen(*line), 0, 0, match_data, NULL);
+    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)*line, strlen(*line), 0, 0, match_data, NULL);
     
     char* str = NULL;
-    if (rc > 0) {
+    if (rcmatch > 0) {
         PCRE2_SIZE *ovector = pcre2_get_ovector_pointer(match_data);
         size_t match_len = ovector[1] - ovector[0];
         str = calloc(match_len + 1, sizeof(char));
@@ -110,26 +113,28 @@ char* get_string(char** line) {
 
     // Cleanup
     pcre2_match_data_free(match_data);
-    pcre2_code_free(re);
+    pcre2_code_free(regex);
 
     return str;
 }
 
 bool is_number_symbol(char* str) {
-    pcre2_code *re;
-    int errornumber;
-    PCRE2_SIZE erroroffset;
+    pcre2_code *regex = NULL;
+    int errornumber = 0;
+    PCRE2_SIZE erroroffset = 0;
     
     // -?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)
     PCRE2_SPTR pattern = (PCRE2_SPTR)"^[0-9]+\\.?[0-9]*$";
     
-    re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
-    if (!re) return false;
+    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
+    if (!regex) {
+        return false;
+    }
     
-    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(re, NULL);
-    int rc = pcre2_match(re, (PCRE2_SPTR)str, strlen(str), 0, 0, match_data, NULL);
+    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(regex, NULL);
+    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)str, strlen(str), 0, 0, match_data, NULL);
     
-    pcre2_code_free(re);
+    pcre2_code_free(regex);
 
-    return rc >= 0;
+    return rcmatch >= 0;
 }

@@ -33,4 +33,4 @@ SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_ty
 void add_symbol_tree_token(Token* token, SymbolTableEntry* entry, SymbolTable* symbol_table, CompilerState* state);
 void add_symbol_tree_entry(SymbolTableEntry* entry, SymbolTable* symbol_table);
 
-SymbolTableEntry* get_symbol_tree_entry(char* name, SymbolTable* symbol_table);
+SymbolTableEntry* get_symbol_tree_entry(const char* name, SymbolTable* symbol_table);
