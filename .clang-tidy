@@ -1,0 +1,4 @@
+Checks: '* -llvmlibc-restrict-system-libc-headers'
+WarningsAsErrors: ''
+HeaderFilterRegex: '.*'
+FormatStyle: file

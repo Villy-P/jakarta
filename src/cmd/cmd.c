@@ -13,7 +13,7 @@
 static ASTNode* parse_tokens(Tokenizer* tokenizer, CompilerState* state);
 static FILE* open_file_read(const char* path);
 static FILE* open_file_write(const char* path);
-static void close_file(FILE* f, const char* path);
+static void close_file(FILE* file, const char* path);
 static void process(const char* file_location, CompilerState* state);
 
 void jakarta_cmd_read_file(const char* file_location, CompilerState* state) {    
@@ -76,22 +76,25 @@ static FILE* open_file_write(const char* path) {
 }
 
 static void close_file(FILE* f, const char* path) {
-    if (fclose(f) != 0)
+    if (fclose(f) != 0) {
         jakarta_error(ERR_CANNOT_CLOSE_FILE, NULL, path);
+    }
 }
 
 void tokenize_file(FILE* file, const char* file_location, Tokenizer* tokenizer) {
     log_msg(logs.main, "[TOKENIZER] Tokenizing new file");
     char buffer[STRING_BUFFER_LENGTH];
     unsigned int line_number = 1;
-    while (fgets(buffer, sizeof(buffer), file))
+    while (fgets(buffer, sizeof(buffer), file)) {
         read_line(buffer, file_location, line_number++, tokenizer);
+    }
 }
 
 static ASTNode* parse_tokens(Tokenizer* tokenizer, CompilerState* state) {
     log_msg(logs.main, "[AST] Parsing tokens into AST: %d tokens", tokenizer->tokens->length);
     ASTNode* ast_root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, NULL);
-    while (tokenizer->tokens->length > 0)
+    while (tokenizer->tokens->length > 0) {
         parse(tokenizer, ast_root, state);
+    }
     return ast_root;
 }
