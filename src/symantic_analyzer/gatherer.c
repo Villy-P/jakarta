@@ -7,8 +7,8 @@
 void gather_declarations(CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Gathering declarations from AST");
 
-    for (unsigned int i = 0; i < state->forest->length; ++i) {
-        ForestEntry* entry = (ForestEntry*)get_from_array(state->forest, i);
+    for (unsigned int i = 0; i < state->forest.length; ++i) {
+        ForestEntry* entry = (ForestEntry*)get_from_array(&state->forest, i);
         ASTNode* ast_root = entry->root;
         log_msg(logs.main, "[SEMANTIC ANALYZER] Gathering declarations from file: %s", entry->file_path);
 

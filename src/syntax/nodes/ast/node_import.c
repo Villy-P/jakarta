@@ -19,7 +19,7 @@ void parse_import(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state)
     ASTNode* import_node = create_ast_node(AST_IDENTIFIER_IMPORT_STATEMENT, module_token);
     add_to_array(ast_node->nodes, import_node);
 
-    add_to_array(state->files_to_parse, module_token->content);
+    add_to_array(&state->files_to_parse, module_token->content);
 
     log_msg(logs.main, "[IMPORT] Added import statement: %s", module_token->content);
 

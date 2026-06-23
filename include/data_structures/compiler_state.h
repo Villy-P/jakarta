@@ -29,10 +29,10 @@ typedef struct {
 } TypeRegistryEntry;
 
 typedef struct CompilerStateDef {
-    Array* forest;
-    Array* files_to_parse;
+    Array forest;
+    Array files_to_parse;
 
-    Array* error_list;
+    Array error_list;
     uint32_t error_count;
 
     SymbolTable* symbol_tree;

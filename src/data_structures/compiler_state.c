@@ -10,13 +10,16 @@
 #define INITIAL_ERROR_LIST_SIZE 20
 
 CompilerState* create_compiler_state() {
-    CompilerState* state = malloc(sizeof(CompilerState));
+    CompilerState* state = calloc(1, sizeof(CompilerState));
     if (!state) {
         jakarta_error(ERR_MALLOC_FAIL, NULL, "CompilerState");
     }
-    state->forest = create_array(INITIAL_FOREST_SIZE);
-    state->files_to_parse = create_array(INITIAL_FILES_TO_PARSE_SIZE);
-    state->error_list = create_array(INITIAL_ERROR_LIST_SIZE);
+    
+    if (!init_array(&state->forest, INITIAL_FOREST_SIZE) ||
+        !init_array(&state->files_to_parse, INITIAL_FILES_TO_PARSE_SIZE) ||
+        !init_array(&state->error_list, INITIAL_ERROR_LIST_SIZE)) {
+        jakarta_error(ERR_MALLOC_FAIL, NULL, "CompilerState arrays");
+    }
     state->error_count = 0;
     state->symbol_tree = create_symbol_table();
     state->type_registry = create_hashmap();
@@ -35,13 +38,13 @@ ForestEntry* create_forest_entry(const char* file_path, ASTNode* root) {
 }
 
 void print_error_list(CompilerState* state) {
-    if (state->error_list->length == 0) {
+    if (state->error_list.length == 0) {
         return;
     }
 
-    printf("Your program has %d unresolved errors:\n", state->error_list->length);
-    for (unsigned int i = 0; i < state->error_list->length; ++i) {
-        char* error_message = (char*)get_from_array(state->error_list, i);
+    printf("Your program has %d unresolved errors:\n", state->error_list.length);
+    for (unsigned int i = 0; i < state->error_list.length; ++i) {
+        char* error_message = (char*)get_from_array(&state->error_list, i);
         printf("%s\n", error_message);
     }
 }
