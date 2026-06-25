@@ -1,4 +1,6 @@
 #include "data_structures/ast.h"
+#include "data_structures/array.h"
+#include "data_structures/compiler_state.h"
 #include "data_structures/symbol_table.h"
 #include "debug.h"
 #include "semantic_analyzer.h"

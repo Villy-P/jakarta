@@ -2,16 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "data_structures/tokenizer.h"
 #include "core.h"
 #include "data_structures/array.h"
 #include "data_structures/ast.h"
+#include "data_structures/compiler_state.h"
+#include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
-
-
-#define INITIAL_TYPE_SIZE 64
-#define INITIAL_TYPE_ALIAS_SIZE 2
-#define INITIAL_VARIABLE_STACK_SIZE 16
+#include "data_structures/tokenizer.h"
+#include "symbol.h"
+#include "syntax.h"
 
 Tokenizer* create_tokenizer(size_t initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));

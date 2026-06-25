@@ -1,6 +1,8 @@
-#include "syntax.h"
+#include "symbol.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/tokenizer.h"
+#include "syntax.h"
+
 
 
 void parse(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {

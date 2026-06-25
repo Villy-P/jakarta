@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "core.h"
+#include "symbol.h"
 #include "syntax.h"
 
 Token* create_token(Symbol symbol, uint32_t line, uint32_t col, char* content, const char* file_name) {

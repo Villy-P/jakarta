@@ -1,6 +1,4 @@
 #include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "data_structures/array.h"
 #include "core.h"
@@ -29,10 +27,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     ASTNode* parameters_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETERS, nullptr);
     ASTNode* body_node = create_ast_node(AST_IDENTIFIER_FUNCTION_BODY, nullptr);
     ASTNode* return_type_node = create_ast_node(AST_IDENTIFIER_FUNCTION_RETURN_TYPE, func_type);
-
-    FunctionDefinition* function_definition = create_function_definition(
-        func_name->content, 
-        func_type->content);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
         Token* parameter_type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
@@ -63,9 +57,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     add_to_array(func_node->nodes, parameters_node);
     add_to_array(func_node->nodes, body_node);
     add_to_array(ast_node->nodes, func_node);
-
-    function_definition->body = malloc(sizeof(ASTNode));
-    memcpy(function_definition->body, body_node, sizeof(ASTNode));
 
     free_token(func_keyword);
     free_token(open_parenthesis);

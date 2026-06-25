@@ -1,16 +1,18 @@
+#include <_timeval.h>
+#include <io.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/time.h>
-#include <sys/types.h>
 #include <time.h>
 
 #include "debug.h"
 
 LogFiles logs;
 
-#define LOG_TIMESTAMP_BUFFER 30
-#define LOG_TIME_STRING_BUFFER 20
+static const int LOG_TIMESTAMP_BUFFER = 30;
+static const int LOG_TIME_STRING_BUFFER = 20;
 
 void setup_logs() {
     debug_message("Setting up logs", TOP_LEVEL);

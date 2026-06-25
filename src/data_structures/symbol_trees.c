@@ -1,10 +1,15 @@
-#include "data_structures/symbol_table.h"
 #include "core.h"
+#include "data_structures/array.h"
+#include "data_structures/ast.h"
+#include "data_structures/compiler_state.h"
 #include "data_structures/hashmap.h"
+#include "data_structures/symbol_table.h"
 #include "debug.h"
+#include "syntax.h"
+
 #include <string.h>
 
-#define INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY 10
+static const int INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY = 10;
 
 SymbolTable* create_symbol_table() {
     SymbolTable* symbol_table = malloc(sizeof(SymbolTable));
@@ -24,11 +29,7 @@ SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_ty
     if (!entry) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTableEntry");
     }
-    entry->name = malloc(strlen(name) + 1);
-    if (!entry->name) {
-        jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTableEntry name");
-    }
-    strcpy(entry->name, name);
+    entry->name = strdup(name);
     entry->data_type = data_type;
     entry->meta_data = nullptr;
     return entry;

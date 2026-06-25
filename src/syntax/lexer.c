@@ -2,22 +2,20 @@
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include <pcre2.h>
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "core.h"
+#include "data_structures/array.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 #include "syntax.h"
 
-#define MAX_REGEX_GROUPS 1
-#define STRING_UNEQUAL 0
-#define REGEX_FLAGS 0
-
 void read_line(char* line, const char* file_name, uint32_t line_number, Tokenizer* tokenizer) {
     uint32_t col = 1;
-    while (strcmp(line, "\0") != STRING_UNEQUAL) {
+    while (strcmp(line, "\0") != 0) {
         if (line[0] == '/' && line[1] == '/') {
             break;
         }

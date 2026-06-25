@@ -10,7 +10,9 @@ Checks: >
   -readability-implicit-bool-conversion,
   -misc-no-recursion,
   -altera-id-dependent-backward-branch,
-  -bugprone-easily-swappable-parameters
+  -bugprone-easily-swappable-parameters,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
 WarningsAsErrors: ''
 HeaderFilterRegex: '^(src|include)/.*'
+ExcludeHeaderFilterRegex: '.*(mingw|msys|ucrt|usr|clang|windows|build).*'
 FormatStyle: file

@@ -1,6 +1,10 @@
-#include "core.h"
 #include "cmd.h"
+#include "core.h"
+#include "data_structures/compiler_state.h"
+#include "data_structures/tokenizer.h"
 #include "debug.h"
+
+#include <errhandlingapi.h>
 
 int main(int argc, char *argv[]) {
     setup_logs();

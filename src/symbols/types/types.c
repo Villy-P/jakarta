@@ -1,18 +1,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "types.h"
+#include "data_structures/compiler_state.h"
+#include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
+#include "types.h"
 
 
-#define BIT_SIZE 1
-#define BYTE_SIZE 8
-#define SHORT_SIZE 16
-#define INT_SIZE 32
-#define LONG_SIZE 64
-#define LLONG_SIZE 128
+typedef enum {
+    BIT_SIZE = 1,
+    BYTE_SIZE = 8,
+    SHORT_SIZE = 16,
+    INT_SIZE = 32,
+    LONG_SIZE = 64,
+    LLONG_SIZE = 128
+} BitSizes;
 
 // TODO(Valerius Petrini): Unsigned Types
 void create_base_types(CompilerState* state) {
@@ -55,8 +59,7 @@ void create_base_types(CompilerState* state) {
 
 Type* create_type(const char* name, unsigned char bit_size, TypeOptions option) {
     Type* type = malloc(sizeof(Type));
-    type->name = malloc(strlen(name) + 1);
-    strcpy(type->name, name);
+    type->name = strdup(name);
     type->bit_size = bit_size;
     type->option = option;
     return type;
@@ -64,8 +67,7 @@ Type* create_type(const char* name, unsigned char bit_size, TypeOptions option) 
 
 TypeAlias* create_type_alias(const char* name, Type* refers_to) {
     TypeAlias* type_alias = malloc(sizeof(TypeAlias));
-    type_alias->name = malloc(strlen(name) + 1);
-    strcpy(type_alias->name, name);
+    type_alias->name = strdup(name);
     type_alias->refers_to = refers_to;
     return type_alias;
 }
