@@ -31,7 +31,7 @@ typedef enum {
     PREC_UNARY          // 12
 } Precedence;
 
-unsigned int precedence(char* operator) {
+unsigned int precedence(const char* operator) {
     if (strcmp(operator, "=") == 0 || strcmp(operator, "+=") == 0 || strcmp(operator, "-=") == 0 || strcmp(operator, "*=") == 0 || strcmp(operator, "/=") == 0 || strcmp(operator, "%=") == 0 || strcmp(operator, "&=") == 0 || strcmp(operator, "|=") == 0 || strcmp(operator, "^=") == 0 || strcmp(operator, "<<=") == 0 || strcmp(operator, ">>=") == 0 || strcmp(operator, ">>>=") == 0) {
         return PREC_ASSIGNMENT;
     } if (strcmp(operator, "||") == 0) {
@@ -158,7 +158,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
                         consume(tokenizer);
                     }
                     Stack* args_postfix = infix_to_postfix(tokenizer); // stops at ')'
-                    ASTNode* args_node = postfix_to_ast(args_postfix);
+                    const ASTNode* args_node = postfix_to_ast(args_postfix);
                     add_to_array(func_node->nodes, args_node);
                 } while (peek(tokenizer, SYMBOL_COMMA));
 
@@ -168,7 +168,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
                 while (peek(tokenizer, SYMBOL_PERIOD)) {
                     Token* dot_token = consume(tokenizer);
                     Token* member_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
-                    ASTNode* member_node = create_ast_node(AST_IDENTIFIER_VALUE, member_token);
+                    const ASTNode* member_node = create_ast_node(AST_IDENTIFIER_VALUE, member_token);
                     ASTNode* dot_node = create_ast_node(AST_DOT_OPERATOR, dot_token);
                     add_to_array(dot_node->nodes, node);
                     add_to_array(dot_node->nodes, member_node);
@@ -184,7 +184,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             log_msg(logs.main, "[AST] Processing array access ([]): %s", token->content);
             ASTNode* array_node = create_ast_node(AST_IDENTIFIER_ARRAY_ACCESS, nullptr);
             Stack* index_postfix = infix_to_postfix(tokenizer); // stops at ']'
-            ASTNode* index_node = postfix_to_ast(index_postfix);
+            const ASTNode* index_node = postfix_to_ast(index_postfix);
 
             ASTNode* left_node = malloc(sizeof(ASTNode));
             pop_from_stack(output, left_node);
@@ -242,6 +242,10 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
 
             while (operators->top > STACK_EMPTY) {
                 ASTNode* operator = malloc(sizeof(ASTNode));
+                if (operator == nullptr) {
+                    jakarta_error(ERR_MALLOC_FAIL, nullptr, "ASTNode");
+                    return nullptr;
+                }
                 pop_from_stack(operators, operator);
 
 
@@ -282,6 +286,10 @@ ASTNode* postfix_to_ast(Stack* postfix) {
     }
     while (postfix->top > STACK_EMPTY) {
         ASTNode* node = malloc(sizeof(ASTNode));
+        if (node == nullptr) {
+            jakarta_error(ERR_MALLOC_FAIL, nullptr, "ASTNode");
+            return nullptr;
+        }
         log_msg(logs.main, "[AST] Popping from postfix stack; current size: %d", postfix->top + 1);
         pop_from_stack(postfix, node);
         if (node->token->symbol == SYMBOL_IDENTIFIER || node->token->symbol == SYMBOL_NUMBER || node->token->symbol == SYMBOL_STRING_LITERAL || node->token->symbol == SYMBOL_PERIOD) {
@@ -320,7 +328,7 @@ void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node) {
     }
 
     Stack* postfix = infix_to_postfix(tokenizer);
-    ASTNode* expression = postfix_to_ast(postfix);
+    const ASTNode* expression = postfix_to_ast(postfix);
 
     add_to_array(ast_node->nodes, expression);
 }
@@ -334,14 +342,14 @@ void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type)
     if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
         // if (function == nullptr)
         //     jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
-        ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
+        const ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
         // parse_func_call(tokenizer, function_node, function);
         add_to_array(ast_node->nodes, function_node);
     } else if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
         jakarta_error(ERR_UNDEFINED_IDENTIFIER, nullptr, token->content);
     } else {
         // Variable* variable = get(class->member_variables, token->content);
-        ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);
+        const ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);
         add_to_array(ast_node->nodes, node);
     }
     if (peek(tokenizer, SYMBOL_PERIOD)) {

@@ -6,7 +6,7 @@
 #include "symbol.h"
 #include "syntax.h"
 
-Token* create_token(Symbol symbol, uint32_t line, uint32_t col, char* content, const char* file_name) {
+Token* create_token(Symbol symbol, uint32_t line, uint32_t col, const char* content, const char* file_name) {
     if (content == nullptr) {
         jakarta_error(ERR_CUSTOM, nullptr, "Token content cannot be null");
         return nullptr;
@@ -16,6 +16,10 @@ Token* create_token(Symbol symbol, uint32_t line, uint32_t col, char* content, c
         return nullptr;
     }
     Token* item = malloc(sizeof(Token));
+    if (item == nullptr) {
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "Token");
+        return nullptr;
+    }
     item->symbol = symbol;
     item->line = line;
     item->col = col;

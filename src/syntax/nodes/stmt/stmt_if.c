@@ -13,7 +13,7 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
 
     // parse expression here
     Stack* postfix = infix_to_postfix(tokenizer);
-    ASTNode* expression = postfix_to_ast(postfix);
+    const ASTNode* expression = postfix_to_ast(postfix);
     add_to_array(if_condition->nodes, expression);
 
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);

@@ -22,7 +22,7 @@ typedef struct TokenDef {
     const char* file_name;
 } Token;
 
-Token* create_token(Symbol symbol, uint32_t line, uint32_t col, char* content, const char* file_name);
+Token* create_token(Symbol symbol, uint32_t line, uint32_t col, const char* content, const char* file_name);
 
 // lexer.c
 void read_line(char* line, const char* file_name, uint32_t line_number, Tokenizer* tokenizer);
@@ -51,7 +51,7 @@ void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node);
 // Expressions
 Stack* infix_to_postfix(Tokenizer* tokenizer);
 ASTNode* postfix_to_ast(Stack* postfix);
-unsigned int precedence(char* operator);
+unsigned int precedence(const char* operator);
 void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type);
 bool is_operator(Symbol sym);

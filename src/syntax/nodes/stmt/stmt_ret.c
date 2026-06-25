@@ -8,7 +8,7 @@ void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* ret = consume(tokenizer);
 
     Stack* postfix = infix_to_postfix(tokenizer);
-    ASTNode* expression = postfix_to_ast(postfix);
+    const ASTNode* expression = postfix_to_ast(postfix);
 
     ASTNode* ret_node = create_ast_node(AST_IDENTIFIER_RETURN, nullptr);
     add_to_array(ret_node->nodes, expression);

@@ -17,11 +17,11 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     parse_variable(tokenizer, for_node);
 
     Stack* condition_postfix = infix_to_postfix(tokenizer);
-    ASTNode* condition_expression = postfix_to_ast(condition_postfix);
+    const ASTNode* condition_expression = postfix_to_ast(condition_postfix);
     add_to_array(for_condition->nodes, condition_expression);
 
     Stack* iteration_postfix = infix_to_postfix(tokenizer);
-    ASTNode* iteration_expression = postfix_to_ast(iteration_postfix);
+    const ASTNode* iteration_expression = postfix_to_ast(iteration_postfix);
     add_to_array(for_iteration->nodes, iteration_expression);
 
     peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
