@@ -1,24 +1,31 @@
-#include "data_structures/compiler_state.h"
 #include "core.h"
+#include "data_structures/array.h"
+#include "data_structures/compiler_state.h"
+#include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
-
+#include "types.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#define INITIAL_FOREST_SIZE 10
-#define INITIAL_FILES_TO_PARSE_SIZE 10
-#define INITIAL_ERROR_LIST_SIZE 20
+static const int INITIAL_FOREST_SIZE = 10;
+static const int INITIAL_FILES_TO_PARSE_SIZE = 10;
+static const int INITIAL_ERROR_LIST_SIZE = 20;
 
 CompilerState* create_compiler_state() {
     CompilerState* state = calloc(1, sizeof(CompilerState));
     if (!state) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "CompilerState");
+        return nullptr;
     }
     
     if (!init_array(&state->forest, INITIAL_FOREST_SIZE) ||
         !init_array(&state->files_to_parse, INITIAL_FILES_TO_PARSE_SIZE) ||
         !init_array(&state->error_list, INITIAL_ERROR_LIST_SIZE)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "CompilerState arrays");
+        free(state);
+        return nullptr;
     }
     state->error_count = 0;
     state->symbol_tree = create_symbol_table();
@@ -31,8 +38,9 @@ ForestEntry* create_forest_entry(const char* file_path, ASTNode* root) {
     ForestEntry* entry = malloc(sizeof(ForestEntry));
     if (!entry) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "ForestEntry");
+        return nullptr;
     }
-    entry->file_path = file_path;
+    entry->file_path = strdup(file_path);
     entry->root = root;
     return entry;
 }
@@ -53,6 +61,7 @@ TypeRegistryEntry* create_type_registry_entry(unsigned char bit_size, TypeOption
     TypeRegistryEntry* entry = malloc(sizeof(TypeRegistryEntry));
     if (!entry) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "TypeRegistryEntry");
+        return nullptr;
     }
     entry->bit_size = bit_size;
     entry->option = option;
@@ -63,12 +72,9 @@ FunctionRegistryEntry* create_function_registry_entry(const char* return_type, A
     FunctionRegistryEntry* entry = malloc(sizeof(FunctionRegistryEntry));
     if (!entry) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "FunctionRegistryEntry");
+        return nullptr;
     }
-    entry->return_type = malloc(strlen(return_type) + 1);
-    if (!entry->return_type) {
-        jakarta_error(ERR_MALLOC_FAIL, nullptr, "FunctionRegistryEntry return type");
-    }
-    strcpy(entry->return_type, return_type);
+    entry->return_type = strdup(return_type);
     entry->parameter_types = parameter_types;
     entry->body = body;
     return entry;

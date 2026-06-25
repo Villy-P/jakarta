@@ -1,16 +1,21 @@
 #include <ctrace/ctrace.h>
+#include <excpt.h>
+#include <minwindef.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <winnt.h>
 
 #include "core.h"
 #include "data_structures/ast.h"
+#include "data_structures/compiler_state.h"
 #include "debug.h"
+#include "syntax.h"
 
-#define DEFAULT_ERROR_CODE 1
-#define MAX_CTRACE_DEPTH 32
-#define MAX_ERROR_COUNT 20
+static const int DEFAULT_ERROR_CODE = 1;
+static const int MAX_CTRACE_DEPTH = 32;
+static const int MAX_ERROR_COUNT = 20;
 
 void jakarta_error(int32_t error_code, Token* token, const char* additional_info) {
     printf("\033[31m");
@@ -27,6 +32,10 @@ void jakarta_error(int32_t error_code, Token* token, const char* additional_info
             break;
         // additional_info: the token that was expected
         case ERR_INVALID_TOKEN:
+            if (token == NULL) {
+                printf("Invalid token encountered, but no token was provided.\n");
+                break;
+            }
             printf("Invalid token encountered: %d, expected %s.\n", token->symbol, additional_info);
             break;
         // additional_info: the file name that could not be closed
@@ -97,7 +106,7 @@ void jakarta_error_invalid_typedef_location(Token* token) {
 
 
 void handle_error(int32_t error_code, Token* token, CompilerState* state, ...) {
-    va_list args = nullptr;
+    va_list args;
     va_start(args, state);
     log_msg(logs.main, "[ERROR] Handling error with code %d", error_code);
     printf("\033[31m");
@@ -136,6 +145,10 @@ void handle_error(int32_t error_code, Token* token, CompilerState* state, ...) {
     printf("ERR_CODE_%d\n", error_code);
     switch (error_code) {
         case ERROR_DUPLICATE_IDENTIFIER: {
+            if (token == nullptr) {
+                printf("Duplicate identifier error occurred, but no token was provided.\n");
+                break;
+            }
             ASTNode* duplicate_identifier = va_arg(args, ASTNode*);
             printf("Identifier %s already exists in current scope.\n", token->content);
             if (duplicate_identifier != nullptr) {

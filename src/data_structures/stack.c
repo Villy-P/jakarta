@@ -1,14 +1,16 @@
 #include <stddef.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "data_structures/stack.h"
 #include "core.h"
+#include "data_structures/stack.h"
 
 Stack* create_stack(int64_t member_size, int64_t total_elements) {
     Stack *stack = malloc(sizeof(Stack));
     if (stack == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Stack");
+        return nullptr;
     }
     stack->top = STACK_EMPTY;
     stack->member_size = member_size;
@@ -16,6 +18,8 @@ Stack* create_stack(int64_t member_size, int64_t total_elements) {
     stack->data = calloc(total_elements, member_size);
     if (stack->data == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Stack Data");
+        free(stack);
+        return nullptr;
     }
     return stack;
 }
@@ -23,12 +27,14 @@ Stack* create_stack(int64_t member_size, int64_t total_elements) {
 bool expand_stack(Stack* stack) {
     if (!stack) {
         jakarta_error(ERR_CUSTOM, nullptr, "Stack is NULL");
+        return false;
     }
 
     int64_t new_capacity = stack->total_elements * 2;
     void* new_data = realloc(stack->data, new_capacity * stack->member_size);
     if (!new_data) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Stack Data Expansion");
+        return false;
     }
 
     stack->data = new_data;
@@ -39,6 +45,7 @@ bool expand_stack(Stack* stack) {
 bool push_to_stack(Stack* stack, void* data) {
     if (!stack || !data) {
         jakarta_error(ERR_CUSTOM, nullptr, "Stack or data is NULL");
+        return false;
     }
 
     if (stack->top == stack->total_elements - 1) {
@@ -59,9 +66,11 @@ bool push_to_stack(Stack* stack, void* data) {
 bool pop_from_stack(Stack* stack, void* target) {
     if (!stack) {
         jakarta_error(ERR_CUSTOM, nullptr, "Stack is NULL");
+        return false;
     }
     if (stack->top == STACK_EMPTY) {
         jakarta_error(ERR_CUSTOM, nullptr, "Stack is empty");
+        return false;
     }
 
     void* source = (char*)stack->data + (stack->top * stack->member_size);
@@ -77,9 +86,11 @@ bool pop_from_stack(Stack* stack, void* target) {
 bool get_stack_index(Stack* stack, int64_t index, void* target) {
     if (!stack || !target) {
         jakarta_error(ERR_CUSTOM, nullptr, "Stack or target is NULL");
+        return false;
     }
     if (stack->top == STACK_EMPTY) {
         jakarta_error(ERR_CUSTOM, nullptr, "Stack is empty");
+        return false;
     }
 
     void* source = (char*)stack->data + (index * stack->member_size);
@@ -96,6 +107,7 @@ void reverse_stack(Stack* stack) {
     void* temp = malloc(stack->member_size);
     if (temp == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Temporary memory for stack reversal");
+        return;
     }
     int64_t start = 0;
     int64_t end = stack->top;

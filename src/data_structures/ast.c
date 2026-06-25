@@ -1,13 +1,14 @@
-#include "data_structures/ast.h"
 #include "core.h"
+#include "data_structures/array.h"
+#include "data_structures/ast.h"
 #include "debug.h"
+#include "syntax.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#define INITIAL_ASTNODE_CHILDREN_CAPACITY 2
-#define AST_INDENT_SPACES 4
-#define AST_PRINT_BUFFER_SIZE 512
+static const int INITIAL_ASTNODE_CHILDREN_CAPACITY = 2;
+static const int AST_PRINT_BUFFER_SIZE = 512;
 
 const char* const AST_NODE_NAMES[] = {
     [AST_IDENTIFIER_BASE_PROGRAM] = "ROOT",
@@ -68,10 +69,16 @@ ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
     if (node == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "ASTNode");
+        return nullptr;
     }
     node->identifier = identifier;
     node->token = token;
     node->nodes = create_array(INITIAL_ASTNODE_CHILDREN_CAPACITY);
+    if (node->nodes == nullptr) {
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "ASTNode children");
+        free(node);
+        return nullptr;
+    }
     return node;
 }
 

@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-
-#include "data_structures/array.h"
 #include "core.h"
+#include "data_structures/array.h"
 
-#define ARRAY_CAPACITY_INCREASE_MULTIPLIER 2
-#define ARRAY_INITIAL_SIZE_DEFAULT 4
+static const int ARRAY_CAPACITY_INCREASE_MULTIPLIER = 2;
+static const int ARRAY_INITIAL_SIZE_DEFAULT = 4;
 
 Array* create_array(size_t initial_size) {
     if (initial_size == 0) { 
@@ -15,10 +15,13 @@ Array* create_array(size_t initial_size) {
     Array* array = malloc(sizeof(Array));
     if (!array) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Array");
+        return nullptr;
     }
     array->data = (void**)malloc(initial_size * sizeof(void*));
     if (!array->data) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Array data\n");
+        free(array);
+        return nullptr;
     }
 
     array->length = 0;
@@ -35,6 +38,7 @@ bool init_array(Array* array, size_t initial_size) {
     array->data = (void**)malloc(size * sizeof(void*));
     if (!array->data) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Array data\n");
+        return false;
     }
 
     array->length = 0;
@@ -53,6 +57,7 @@ void ensure_capacity(Array* array) {
         void* temp = realloc((void*)array->data, array->capacity * 2 * sizeof(void*));
         if (!temp) {
             jakarta_error(ERR_CUSTOM, nullptr, "Failed to increase Array Capacity");
+            return;
         }
         array->data = (void**)temp;
         array->capacity *= ARRAY_CAPACITY_INCREASE_MULTIPLIER;
@@ -69,9 +74,11 @@ void add_to_array(Array* array, const void* data) {
 void* get_from_array(Array* array, size_t index) {
     if (!array) {
         jakarta_error(ERR_CUSTOM, nullptr, "Null Array Exception");
+        return nullptr;
     }
     if (index >= array->length) {
         jakarta_error(ERR_CUSTOM, nullptr, "Index out of bounds");
+        return nullptr;
     }
     void** data_ptr = array->data;
     return data_ptr[index];
@@ -80,9 +87,11 @@ void* get_from_array(Array* array, size_t index) {
 void remove_from_array(Array* array, size_t index) {
     if (!array) {
         jakarta_error(ERR_CUSTOM, nullptr, "Null Array Exception");
+        return;
     }
     if (index >= array->length) {
         jakarta_error(ERR_CUSTOM, nullptr, "Index out of bounds");
+        return;
     }
 
     void** data_ptr = array->data;

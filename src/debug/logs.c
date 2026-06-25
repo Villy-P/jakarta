@@ -11,7 +11,6 @@
 
 LogFiles logs;
 
-static const int LOG_TIMESTAMP_BUFFER = 30;
 static const int LOG_TIME_STRING_BUFFER = 20;
 
 void setup_logs() {
@@ -57,7 +56,7 @@ void cleanup_logs() {
 }
 
 void log_msg(FILE* file, const char* format, ...) {
-    va_list args = nullptr;
+    va_list args;
     va_start(args, format);
 
     struct timeval timev;
@@ -73,13 +72,12 @@ void log_msg(FILE* file, const char* format, ...) {
         localtime_r(&timev.tv_sec, &time_info);
     #endif
 
-    char timestamp[LOG_TIMESTAMP_BUFFER];
     char time_str[LOG_TIME_STRING_BUFFER];
     if (strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", &time_info) == 0) {
         debug_message("Error: Failed to format time", LOG);
     }
 
-    if (fprintf(file, "[%s] ", timestamp) < 0) {
+    if (fprintf(file, "[%s] ", time_str) < 0) {
         debug_message("Error: Failed to write timestamp to log file", LOG);
     }
     if (vfprintf(file, format, args) < 0) {

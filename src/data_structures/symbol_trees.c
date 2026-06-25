@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "syntax.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 static const int INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY = 10;
@@ -15,11 +16,13 @@ SymbolTable* create_symbol_table() {
     SymbolTable* symbol_table = malloc(sizeof(SymbolTable));
     if (!symbol_table) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTable");
+        return nullptr;
     }
     symbol_table->table = create_hashmap();
     symbol_table->parent = nullptr;
     if (!init_array(&symbol_table->children, INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTable children array");
+        return nullptr;
     }
     return symbol_table;
 }
@@ -28,6 +31,7 @@ SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_ty
     SymbolTableEntry* entry = malloc(sizeof(SymbolTableEntry));
     if (!entry) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTableEntry");
+        return nullptr;
     }
     entry->name = strdup(name);
     entry->data_type = data_type;

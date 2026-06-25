@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-#include "data_structures/hashmap.h"
 #include "core.h"
+#include "data_structures/hashmap.h"
 
-#define HASHMAP_HASH_VALUE 5381
-#define HASHMAP_HASH_VALUE_SHIFT 5
+static const int HASHMAP_HASH_VALUE = 5381;
+static const int HASHMAP_HASH_VALUE_SHIFT = 5;
 
 int hash(const char* key) {
     unsigned long hash_value = HASHMAP_HASH_VALUE;
@@ -44,6 +43,7 @@ bool insert(HashMap* hashmap, const char* key, void* value) {
 void* get(HashMap* hashmap, const char* key) {
     if (hashmap == nullptr) {
         jakarta_error(ERR_CUSTOM, nullptr, "HashMap is not initialized");
+        return nullptr;
     }
     int index = hash(key);
     HashNode* node = hashmap->array[index];
@@ -60,6 +60,7 @@ HashMap* create_hashmap() {
     HashMap* hashmap = (HashMap*)calloc(1, sizeof(HashMap));
     if (!hashmap) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "HashMap");
+        return nullptr;
     }
     return hashmap;
 }
@@ -68,6 +69,7 @@ HashNode* create_hashnode(const char* key, void* value) {
     HashNode* hashnode = (HashNode*)malloc(sizeof(HashNode));
     if (!hashnode) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "HashNode");
+        return nullptr;
     }
     hashnode->key = strdup(key);
     hashnode->value = value;

@@ -2,6 +2,7 @@
 
 #include "cmd.h"
 #include "core.h"
+#include "data_structures/array.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/tokenizer.h"

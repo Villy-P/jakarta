@@ -1,6 +1,8 @@
 #include "cmd.h"
 #include "core.h"
 
+#include <string.h>
+
 static void set_input_file(CmdArgs* args, const char* value) {
     if (!value) { 
         return handle_error(ERROR_INVALID_FILE_LOCATION, nullptr, nullptr, INPUT_FILE_ARGUMENT);
