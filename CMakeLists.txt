@@ -43,6 +43,8 @@ if(CPPCHECK_EXE)
     add_custom_target(cppcheck
         COMMAND ${CPPCHECK_EXE}
             --project=${CMAKE_BINARY_DIR}/compile_commands.json
+            --file-filter=${CMAKE_SOURCE_DIR}/src/*
+            --file-filter=${CMAKE_SOURCE_DIR}/include/*
             --enable=warning,style,performance,portability
             --suppress=missingIncludeSystem
             --inline-suppr

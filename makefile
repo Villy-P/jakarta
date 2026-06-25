@@ -10,6 +10,7 @@ EXECUTABLE := JAKARTA
 EXECUTABLE_TEST := JAKARTA_TEST
 CLANG_TIDY := clang-tidy
 CPPCHECK   := cppcheck
+SRC_FILES := $(wildcard src/*.c src/**/*.c src/**/**/*.c)
 
 # Sets up cross-platform support
 ifeq ($(OS),Windows_NT)
@@ -44,16 +45,12 @@ build-prod:
 	cmake --build $(BUILD_DIR) --config Release -- -j$(JOBS)
 
 lint:
-	cmake --build $(BUILD_DIR) --config Debug --target $(EXECUTABLE) -- -j$(JOBS)
+	clang-tidy -quiet -p $(BUILD_DIR) $(SRC_FILES)
 
 cppcheck:
 	cmake --build $(BUILD_DIR) --target cppcheck
 
 analyze: lint cppcheck
-
-lint-files:
-	@echo Running clang-tidy on src/...
-	run-clang-tidy -p $(BUILD_DIR) -j$(JOBS) "src/.*\.(c|cpp)$$"
 
 # Runs the program: Use this when you make changed
 run: build
@@ -84,7 +81,6 @@ help:
 	@echo "  run-test    - Run Debug test executable"
 	@echo "  clean       - Remove build directory"
 	@echo "  rebuild     - Clean, setup Debug, build and run"
-	@echo "  lint        - Run clang-tidy via build"
+	@echo "  lint        - Run clang-tidy"
 	@echo "  cppcheck    - Run cppcheck"
 	@echo "  analyze     - Run both analyzers"
-	@echo "  lint-files  - Run clang-tidy directly on src/ (faster)"
