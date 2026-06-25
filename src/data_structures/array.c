@@ -14,11 +14,11 @@ Array* create_array(size_t initial_size) {
     }
     Array* array = malloc(sizeof(Array));
     if (!array) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "Array");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "Array");
     }
-    array->data = malloc(initial_size * sizeof(void*));
+    array->data = (void**)malloc(initial_size * sizeof(void*));
     if (!array->data) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "Array data\n");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "Array data\n");
     }
 
     array->length = 0;
@@ -32,9 +32,9 @@ bool init_array(Array* array, size_t initial_size) {
     }
     size_t size = (initial_size == 0) ? ARRAY_INITIAL_SIZE_DEFAULT : initial_size;
 
-    array->data = malloc(size * sizeof(void*));
+    array->data = (void**)malloc(size * sizeof(void*));
     if (!array->data) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "Array data\n");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "Array data\n");
     }
 
     array->length = 0;
@@ -45,16 +45,16 @@ bool init_array(Array* array, size_t initial_size) {
 void ensure_capacity(Array* array) {
     if (array->capacity == 0) {
         array->capacity = ARRAY_INITIAL_SIZE_DEFAULT;
-        array->data = malloc(array->capacity * sizeof(void*));
+        array->data = (void**)malloc(array->capacity * sizeof(void*));
         if (!array->data) {
-            jakarta_error(ERR_CUSTOM, NULL, "Failed to increase Array Capacity");
+            jakarta_error(ERR_CUSTOM, nullptr, "Failed to increase Array Capacity");
         }
     } else if (array->length >= array->capacity) {
-        void* temp = realloc(array->data, array->capacity * 2 * sizeof(void*));
+        void* temp = realloc((void*)array->data, array->capacity * 2 * sizeof(void*));
         if (!temp) {
-            jakarta_error(ERR_CUSTOM, NULL, "Failed to increase Array Capacity");
+            jakarta_error(ERR_CUSTOM, nullptr, "Failed to increase Array Capacity");
         }
-        array->data = temp;
+        array->data = (void**)temp;
         array->capacity *= ARRAY_CAPACITY_INCREASE_MULTIPLIER;
     }
 }
@@ -68,10 +68,10 @@ void add_to_array(Array* array, const void* data) {
 
 void* get_from_array(Array* array, size_t index) {
     if (!array) {
-        jakarta_error(ERR_CUSTOM, NULL, "Null Array Exception");
+        jakarta_error(ERR_CUSTOM, nullptr, "Null Array Exception");
     }
     if (index >= array->length) {
-        jakarta_error(ERR_CUSTOM, NULL, "Index out of bounds");
+        jakarta_error(ERR_CUSTOM, nullptr, "Index out of bounds");
     }
     void** data_ptr = array->data;
     return data_ptr[index];
@@ -79,10 +79,10 @@ void* get_from_array(Array* array, size_t index) {
 
 void remove_from_array(Array* array, size_t index) {
     if (!array) {
-        jakarta_error(ERR_CUSTOM, NULL, "Null Array Exception");
+        jakarta_error(ERR_CUSTOM, nullptr, "Null Array Exception");
     }
     if (index >= array->length) {
-        jakarta_error(ERR_CUSTOM, NULL, "Index out of bounds");
+        jakarta_error(ERR_CUSTOM, nullptr, "Index out of bounds");
     }
 
     void** data_ptr = array->data;
@@ -90,13 +90,13 @@ void remove_from_array(Array* array, size_t index) {
     size_t num_elements_to_move = (array->length - 1) - index;
 
     if (num_elements_to_move > 0) {
-        memmove(&data_ptr[index], &data_ptr[index + 1], num_elements_to_move * sizeof(void*));
+        memmove((void*)&data_ptr[index], (void*)&data_ptr[index + 1], num_elements_to_move * sizeof(void*));
     }
     
     array->length--;
 }
 
 void free_array(Array* array) {
-    free(array->data);
+    free((void*)array->data);
     free(array);
 }

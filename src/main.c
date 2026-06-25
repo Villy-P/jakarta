@@ -1,7 +1,6 @@
 #include "core.h"
 #include "cmd.h"
 #include "debug.h"
-#include "semantic_analyzer.h"
 
 int main(int argc, char *argv[]) {
     setup_logs();

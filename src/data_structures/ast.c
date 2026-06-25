@@ -66,8 +66,8 @@ const char* const AST_NODE_NAMES[] = {
 
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
-    if (node == NULL) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "ASTNode");
+    if (node == nullptr) {
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "ASTNode");
     }
     node->identifier = identifier;
     node->token = token;
@@ -76,32 +76,32 @@ ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
 }
 
 void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
-    if (node == NULL) {
+    if (node == nullptr) {
         return;
     }
 
     const char* node_name = AST_NODE_NAMES[node->identifier];
-    if (node_name == NULL) {
+    if (node_name == nullptr) {
         node_name = "UNKNOWN_NODE";
     }
 
     const char* marker = is_last ? "└── " : "├── ";
     if (fprintf(logs.ast, "%s%s%s", prefix, marker, node_name) < 0) {
-        jakarta_error(ERR_CUSTOM, NULL, "Failed to print AST node");
+        jakarta_error(ERR_CUSTOM, nullptr, "Failed to print AST node");
     }
 
-    if (node->token != NULL && node->token->content != NULL) {
+    if (node->token != nullptr && node->token->content != nullptr) {
         if (fprintf(logs.ast, ": %s", node->token->content) < 0) {
-            jakarta_error(ERR_CUSTOM, NULL, "Failed to print AST node content");
+            jakarta_error(ERR_CUSTOM, nullptr, "Failed to print AST node content");
         }
     }
     if (fprintf(logs.ast, "\n") < 0) {
-        jakarta_error(ERR_CUSTOM, NULL, "Failed to print AST node newline");
+        jakarta_error(ERR_CUSTOM, nullptr, "Failed to print AST node newline");
     }
 
     char new_prefix[AST_PRINT_BUFFER_SIZE];
     if (snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ") < 0) {
-        jakarta_error(ERR_CUSTOM, NULL, "Failed to create new prefix");
+        jakarta_error(ERR_CUSTOM, nullptr, "Failed to create new prefix");
     }
 
     unsigned int num_children = node->nodes->length;

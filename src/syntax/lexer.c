@@ -131,7 +131,7 @@ bool is_number_symbol(char* str) {
         return false;
     }
     
-    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(regex, NULL);
+    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(regex, nullptr);
     int rcmatch = pcre2_match(regex, (PCRE2_SPTR)str, strlen(str), 0, 0, match_data, NULL);
     
     pcre2_code_free(regex);

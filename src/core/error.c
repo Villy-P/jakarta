@@ -97,11 +97,11 @@ void jakarta_error_invalid_typedef_location(Token* token) {
 
 
 void handle_error(int32_t error_code, Token* token, CompilerState* state, ...) {
-    va_list args = NULL;
+    va_list args = nullptr;
     va_start(args, state);
     log_msg(logs.main, "[ERROR] Handling error with code %d", error_code);
     printf("\033[31m");
-    if (token != NULL) {
+    if (token != nullptr) {
         printf("%s:%d:%d: ", token->file_name, token->line, token->col);
     }
     if (error_code & ERROR_FLAG_INTERNAL) {
@@ -138,7 +138,7 @@ void handle_error(int32_t error_code, Token* token, CompilerState* state, ...) {
         case ERROR_DUPLICATE_IDENTIFIER: {
             ASTNode* duplicate_identifier = va_arg(args, ASTNode*);
             printf("Identifier %s already exists in current scope.\n", token->content);
-            if (duplicate_identifier != NULL) {
+            if (duplicate_identifier != nullptr) {
                 printf("First declared at %s:%d:%d\n", duplicate_identifier->token->file_name, duplicate_identifier->token->line, duplicate_identifier->token->col);
             }
             break;

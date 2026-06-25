@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-
 
 #include "cmd.h"
 #include "core.h"
@@ -64,8 +62,8 @@ void jakarta_cmd_out_file(const char* file_location) {
 static FILE* open_file_read(const char* path) {
     FILE* file = fopen(path, "r");
     if (!file) {
-        handle_error(ERROR_INVALID_FILE_NAME, NULL, NULL, path);
-        return NULL;
+        handle_error(ERROR_INVALID_FILE_NAME, nullptr, nullptr, path);
+        return nullptr;
     }
     return file;
 }
@@ -73,15 +71,15 @@ static FILE* open_file_read(const char* path) {
 static FILE* open_file_write(const char* path) {
     FILE* file = fopen(path, "w");
     if (!file) {
-        handle_error(ERROR_INVALID_FILE_NAME, NULL, NULL, path);
-        return NULL;
+        handle_error(ERROR_INVALID_FILE_NAME, nullptr, nullptr, path);
+        return nullptr;
     }
     return file;
 }
 
 static void close_file(FILE* file, const char* path) {
     if (fclose(file) != 0) {
-        jakarta_error(ERR_CANNOT_CLOSE_FILE, NULL, path);
+        jakarta_error(ERR_CANNOT_CLOSE_FILE, nullptr, path);
     }
 }
 
@@ -96,7 +94,7 @@ void tokenize_file(FILE* file, const char* file_location, Tokenizer* tokenizer) 
 
 static ASTNode* parse_tokens(Tokenizer* tokenizer, CompilerState* state) {
     log_msg(logs.main, "[AST] Parsing tokens into AST: %d tokens", tokenizer->tokens.length);
-    ASTNode* ast_root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, NULL);
+    ASTNode* ast_root = create_ast_node(AST_IDENTIFIER_BASE_PROGRAM, nullptr);
     while (tokenizer->tokens.length > 0) {
         parse(tokenizer, ast_root, state);
     }

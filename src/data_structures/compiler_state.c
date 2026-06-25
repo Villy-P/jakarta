@@ -12,13 +12,13 @@
 CompilerState* create_compiler_state() {
     CompilerState* state = calloc(1, sizeof(CompilerState));
     if (!state) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "CompilerState");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "CompilerState");
     }
     
     if (!init_array(&state->forest, INITIAL_FOREST_SIZE) ||
         !init_array(&state->files_to_parse, INITIAL_FILES_TO_PARSE_SIZE) ||
         !init_array(&state->error_list, INITIAL_ERROR_LIST_SIZE)) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "CompilerState arrays");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "CompilerState arrays");
     }
     state->error_count = 0;
     state->symbol_tree = create_symbol_table();
@@ -30,7 +30,7 @@ CompilerState* create_compiler_state() {
 ForestEntry* create_forest_entry(const char* file_path, ASTNode* root) {
     ForestEntry* entry = malloc(sizeof(ForestEntry));
     if (!entry) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "ForestEntry");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "ForestEntry");
     }
     entry->file_path = file_path;
     entry->root = root;
@@ -42,7 +42,7 @@ void print_error_list(CompilerState* state) {
         return;
     }
 
-    printf("Your program has %d unresolved errors:\n", state->error_list.length);
+    printf("Your program has %zu unresolved errors:\n", state->error_list.length);
     for (unsigned int i = 0; i < state->error_list.length; ++i) {
         char* error_message = (char*)get_from_array(&state->error_list, i);
         printf("%s\n", error_message);
@@ -52,7 +52,7 @@ void print_error_list(CompilerState* state) {
 TypeRegistryEntry* create_type_registry_entry(unsigned char bit_size, TypeOptions option) {
     TypeRegistryEntry* entry = malloc(sizeof(TypeRegistryEntry));
     if (!entry) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "TypeRegistryEntry");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "TypeRegistryEntry");
     }
     entry->bit_size = bit_size;
     entry->option = option;
@@ -62,11 +62,11 @@ TypeRegistryEntry* create_type_registry_entry(unsigned char bit_size, TypeOption
 FunctionRegistryEntry* create_function_registry_entry(const char* return_type, Array* parameter_types, ASTNode* body) {
     FunctionRegistryEntry* entry = malloc(sizeof(FunctionRegistryEntry));
     if (!entry) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "FunctionRegistryEntry");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "FunctionRegistryEntry");
     }
     entry->return_type = malloc(strlen(return_type) + 1);
     if (!entry->return_type) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "FunctionRegistryEntry return type");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "FunctionRegistryEntry return type");
     }
     strcpy(entry->return_type, return_type);
     entry->parameter_types = parameter_types;
