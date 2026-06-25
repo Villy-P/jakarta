@@ -7,8 +7,6 @@
 #include "data_structures/array.h"
 #include "data_structures/ast.h"
 #include "data_structures/symbol_table.h"
-#include "debug.h"
-#include "types.h"
 
 
 #define INITIAL_TYPE_SIZE 64
@@ -17,11 +15,11 @@
 
 Tokenizer* create_tokenizer(size_t initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
-    if (tokenizer == NULL) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "Tokenizer");
+    if (tokenizer == nullptr) {
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer");
     }
     if (!init_array(&tokenizer->tokens, initial_size)) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "Tokenizer tokens array");
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer tokens array");
     }
     return tokenizer;
 }
@@ -30,7 +28,7 @@ void print_tokens(Tokenizer* tokenizer) {
     for (size_t i = 0; i < tokenizer->tokens.length; i++) {
         Token* token = get_from_array(&tokenizer->tokens, i);
         printf(
-            "Token #%.2d: %10s at %d:%d, with symbol %d\n", i, 
+            "Token #%.2zu: %10s at %d:%d, with symbol %d\n", i, 
             token->content, 
             token->line, 
             token->col, 

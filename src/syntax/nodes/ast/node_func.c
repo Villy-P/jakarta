@@ -26,8 +26,8 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
 
     ASTNode* func_node = create_ast_node(AST_IDENTIFIER_FUNCTION_DEFINITION, func_name);
 
-    ASTNode* parameters_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETERS, NULL);
-    ASTNode* body_node = create_ast_node(AST_IDENTIFIER_FUNCTION_BODY, NULL);
+    ASTNode* parameters_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETERS, nullptr);
+    ASTNode* body_node = create_ast_node(AST_IDENTIFIER_FUNCTION_BODY, nullptr);
     ASTNode* return_type_node = create_ast_node(AST_IDENTIFIER_FUNCTION_RETURN_TYPE, func_type);
 
     FunctionDefinition* function_definition = create_function_definition(
@@ -37,7 +37,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     while (!peek(tokenizer, SYMBOL_CLOSE_PARENTHESIS)) {
         Token* parameter_type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
         Token* parameter_name_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
-        Token* comma = peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : NULL;
+        Token* comma = peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : nullptr;
 
         ASTNode* parameter_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, parameter_name_token);
         ASTNode* parameter_type_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER_TYPE, parameter_type_token);
@@ -45,7 +45,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
         add_to_array(parameter_node->nodes, parameter_type_node);
         add_to_array(parameters_node->nodes, parameter_node);
 
-        if (comma != NULL) {
+        if (comma != nullptr) {
             free_token(comma);
         }
     }
@@ -104,7 +104,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
 
     ASTNode* return_type_node = (ASTNode*)get_from_array(node->nodes, 0);
     SymbolTableEntry* return_type_entry = lookup_type(return_type_node->token->content, function_scope);
-    if (return_type_entry == NULL) {
+    if (return_type_entry == nullptr) {
         handle_error(ERROR_UNDEFINED_TYPE, return_type_node->token, state, return_type_node->token->content);
     }
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type: %s", return_type_entry->name);
@@ -114,7 +114,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
         ASTNode* parameter_node = (ASTNode*)get_from_array(parameters_node->nodes, i);
         ASTNode* parameter_type_node = (ASTNode*)get_from_array(parameter_node->nodes, 0);
         SymbolTableEntry* parameter_type_entry = lookup_type(parameter_type_node->token->content, function_scope);
-        if (parameter_type_entry == NULL) {
+        if (parameter_type_entry == nullptr) {
             handle_error(ERROR_UNDEFINED_TYPE, parameter_type_node->token, state, parameter_type_node->token->content);
             continue;
         }
@@ -135,9 +135,9 @@ TypeRegistryEntry* resolve_function_call(ASTNode* node, SymbolTable* symbol_tabl
 
     SymbolTableEntry* function_entry = lookup_function(node->token->content, symbol_table);
     FunctionRegistryEntry* function_definition = get(state->function_registry, node->token->content);
-    if (function_entry == NULL || function_definition == NULL) {
+    if (function_entry == nullptr || function_definition == nullptr) {
         handle_error(ERROR_UNDEFINED_IDENTIFIER, node->token, state, node->token->content);
-        return NULL;
+        return nullptr;
     }
 
     unsigned int expected = function_definition->parameter_types->length;
@@ -145,7 +145,7 @@ TypeRegistryEntry* resolve_function_call(ASTNode* node, SymbolTable* symbol_tabl
 
     if (expected != got) {
         handle_error(ERROR_MISMATCH_PARAMETER_COUNT, node->token, state, node->token->content, expected, got);
-        return NULL;
+        return nullptr;
     }
 
     // TODO(Valerius Petrini): Add type checking

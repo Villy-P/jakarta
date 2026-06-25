@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 #include "data_structures/ast.h"
 #include "core.h"
 #include "syntax.h"
@@ -12,7 +10,7 @@ void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) 
     consume(tokenizer);
 
     ASTNode* class_node = create_ast_node(AST_IDENTIFIER_CLASS_CREATOR, name);
-    ASTNode* class_body = create_ast_node(AST_IDENTIFIER_CLASS_BODY, NULL);
+    ASTNode* class_body = create_ast_node(AST_IDENTIFIER_CLASS_BODY, nullptr);
 
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE)) {
         if (peek_type(tokenizer)) {

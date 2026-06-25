@@ -1,5 +1,4 @@
 #include <stddef.h>
-#include <stdio.h>
 
 #include "data_structures/ast.h"
 #include "core.h"
@@ -15,10 +14,10 @@
 
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
-    ASTNode* variable_node = parse_variable_declaration(tokenizer, NULL);
+    ASTNode* variable_node = parse_variable_declaration(tokenizer, nullptr);
     if (peek(tokenizer, SYMBOL_SEMICOLON)) {
         consume(tokenizer);
-        ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, NULL);
+        ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, nullptr);
         add_to_array(variable_node->nodes, variable_content_node);
         add_to_array(ast_node->nodes, variable_node);
         return;
@@ -28,7 +27,7 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     Stack* postfix = infix_to_postfix(tokenizer);
     ASTNode* expression = postfix_to_ast(postfix);
 
-    ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, NULL);
+    ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, nullptr);
 
     add_to_array(variable_content_node->nodes, expression);
     add_to_array(variable_node->nodes, variable_content_node);
@@ -56,7 +55,7 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
 
     add_to_array(variable_node->nodes, variable_type_node);
 
-    if (function_definition != NULL) {
+    if (function_definition != nullptr) {
         add_to_array(function_definition->parameters, variable);
     }
 
@@ -73,7 +72,7 @@ void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, Compi
 
     ASTNode* variable_type_node = (ASTNode*)get_from_array(node->nodes, 0);
     SymbolTableEntry* type_entry = lookup_type(variable_type_node->token->content, symbol_table);
-    if (type_entry == NULL) {
+    if (type_entry == nullptr) {
         return handle_error(
             ERROR_UNDEFINED_TYPE, 
             variable_type_node->token, 

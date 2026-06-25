@@ -32,7 +32,7 @@ void read_line(char* line, const char* file_name, uint32_t line_number, Tokenize
             continue;
         }
         char* str = get_string(&line);
-        if (str != NULL) {
+        if (str != nullptr) {
             Symbol symbol = get_keyword_from_str(str);
             Token* token = create_token(symbol, line_number, col, str, file_name);
             col += strlen(str);
@@ -79,29 +79,29 @@ char* get_string_literal(char** line) {
         (*line)++;
         return str;
     } 
-    jakarta_error(ERR_UNTERMINATED_STRING, NULL, start);
-    return NULL;
+    jakarta_error(ERR_UNTERMINATED_STRING, nullptr, start);
+    return nullptr;
 }
 
 char* get_string(char** line) {
-    pcre2_code *regex = NULL;
+    pcre2_code *regex = nullptr;
     int errornumber = 0;
     PCRE2_SIZE erroroffset = 0;
     PCRE2_SPTR pattern = (PCRE2_SPTR)"^(\\d+\\.?\\d*|\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?|&&?|\\|\\|?|>=|<=|!|!=|\\[\\])";
 
     // Compile the pattern
-    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
+    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, nullptr);
     if (!regex) {
-        return NULL; // Compilation failed
+        return nullptr; // Compilation failed
     }
 
     // Create match data
-    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(regex, NULL);
+    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(regex, nullptr);
     
     // Perform match
-    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)*line, strlen(*line), 0, 0, match_data, NULL);
+    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)*line, strlen(*line), 0, 0, match_data, nullptr);
     
-    char* str = NULL;
+    char* str = nullptr;
     if (rcmatch > 0) {
         PCRE2_SIZE *ovector = pcre2_get_ovector_pointer(match_data);
         size_t match_len = ovector[1] - ovector[0];
@@ -119,20 +119,20 @@ char* get_string(char** line) {
 }
 
 bool is_number_symbol(char* str) {
-    pcre2_code *regex = NULL;
+    pcre2_code *regex = nullptr;
     int errornumber = 0;
     PCRE2_SIZE erroroffset = 0;
     
     // -?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)
     PCRE2_SPTR pattern = (PCRE2_SPTR)"^[0-9]+\\.?[0-9]*$";
     
-    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, NULL);
+    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, nullptr);
     if (!regex) {
         return false;
     }
     
     pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(regex, nullptr);
-    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)str, strlen(str), 0, 0, match_data, NULL);
+    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)str, strlen(str), 0, 0, match_data, nullptr);
     
     pcre2_code_free(regex);
 

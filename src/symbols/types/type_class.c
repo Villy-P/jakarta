@@ -6,8 +6,8 @@
 
 ClassDefinition* create_class_definition(const char* name) {
     ClassDefinition* class = malloc(sizeof(ClassDefinition));
-    if (class == NULL) {
-        jakarta_error(ERR_MALLOC_FAIL, NULL, "Class");
+    if (class == nullptr) {
+        jakarta_error(ERR_MALLOC_FAIL, nullptr, "Class");
     }
     class->name = malloc(strlen(name) + 1);
     strncpy(class->name, name, strlen(name) + 1);

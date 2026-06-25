@@ -1,5 +1,3 @@
-#include "debug.h"
-
 #include <string.h>
 
 #include "core.h"
@@ -44,7 +42,7 @@ Symbol get_symbol_from_char(char character) {
         default: break;
     };
     char ch_str[2] = {character, '\0'};
-    jakarta_error(ERR_UNKNOWN_SYMBOL, NULL, ch_str);
+    jakarta_error(ERR_UNKNOWN_SYMBOL, nullptr, ch_str);
     return SYMBOL_NONE;
 }
 

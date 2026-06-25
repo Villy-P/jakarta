@@ -8,11 +8,11 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     Token* for_keyword = consume(tokenizer);
     Token* open_parenthesis = peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
 
-    ASTNode* for_node = create_ast_node(AST_IDENTIFIER_FOR, NULL);
-    ASTNode* for_initialization = create_ast_node(AST_IDENTIFIER_FOR_INITIALIZATION, NULL);
-    ASTNode* for_condition = create_ast_node(AST_IDENTIFIER_FOR_CONDITION, NULL);
-    ASTNode* for_iteration = create_ast_node(AST_IDENTIFIER_FOR_ITERATION, NULL);
-    ASTNode* for_body = create_ast_node(AST_IDENTIFIER_FOR_BODY, NULL);
+    ASTNode* for_node = create_ast_node(AST_IDENTIFIER_FOR, nullptr);
+    ASTNode* for_initialization = create_ast_node(AST_IDENTIFIER_FOR_INITIALIZATION, nullptr);
+    ASTNode* for_condition = create_ast_node(AST_IDENTIFIER_FOR_CONDITION, nullptr);
+    ASTNode* for_iteration = create_ast_node(AST_IDENTIFIER_FOR_ITERATION, nullptr);
+    ASTNode* for_body = create_ast_node(AST_IDENTIFIER_FOR_BODY, nullptr);
 
     parse_variable(tokenizer, for_node);
 

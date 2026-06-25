@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 #include "data_structures/ast.h"
 #include "core.h"
 #include "syntax.h"
@@ -9,9 +7,9 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     Token* if_statement = consume(tokenizer);
     Token* open_parenthesis = peek_consume(tokenizer, SYMBOL_OPEN_PARENTHESIS);
 
-    ASTNode* if_node = create_ast_node(AST_IDENTIFIER_IF_STATEMENT, NULL);
-    ASTNode* if_condition = create_ast_node(AST_IDENTIFIER_IF_CONDITION, NULL);
-    ASTNode* if_body = create_ast_node(AST_IDENTIFIER_IF_BODY, NULL);
+    ASTNode* if_node = create_ast_node(AST_IDENTIFIER_IF_STATEMENT, nullptr);
+    ASTNode* if_condition = create_ast_node(AST_IDENTIFIER_IF_CONDITION, nullptr);
+    ASTNode* if_body = create_ast_node(AST_IDENTIFIER_IF_BODY, nullptr);
 
     // parse expression here
     Stack* postfix = infix_to_postfix(tokenizer);

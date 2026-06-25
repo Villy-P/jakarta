@@ -127,7 +127,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             break;
         }
 
-        ASTNode* node = NULL;
+        ASTNode* node = nullptr;
 
         // --- String Literals ---
         if (token->symbol == SYMBOL_STRING_LITERAL) {
@@ -182,7 +182,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         // --- Array access ---
         if (token->symbol == SYMBOL_OPEN_BRACKET) {
             log_msg(logs.main, "[AST] Processing array access ([]): %s", token->content);
-            ASTNode* array_node = create_ast_node(AST_IDENTIFIER_ARRAY_ACCESS, NULL);
+            ASTNode* array_node = create_ast_node(AST_IDENTIFIER_ARRAY_ACCESS, nullptr);
             Stack* index_postfix = infix_to_postfix(tokenizer); // stops at ']'
             ASTNode* index_node = postfix_to_ast(index_postfix);
 
@@ -190,7 +190,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
             pop_from_stack(output, left_node);
 
             add_to_array(array_node->nodes, index_node);
-            ASTNode* index_wrapper = create_ast_node(AST_IDENTIFIER_INDEX, NULL);
+            ASTNode* index_wrapper = create_ast_node(AST_IDENTIFIER_INDEX, nullptr);
             add_to_array(index_wrapper->nodes, left_node);
             add_to_array(index_wrapper->nodes, array_node);
 
@@ -263,7 +263,7 @@ Stack* infix_to_postfix(Tokenizer* tokenizer) {
         }
 
         // --- Unexpected token ---
-        jakarta_error(ERR_INVALID_TOKEN, token, NULL);
+        jakarta_error(ERR_INVALID_TOKEN, token, nullptr);
     }
 
     // Reverse output to maintain correct order
@@ -332,13 +332,13 @@ void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type)
     printf("Parsing Variable Members\n");
     // FunctionDefinition* function = get(class->member_functions, token->content);
     if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
-        // if (function == NULL)
+        // if (function == nullptr)
         //     jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
         ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
         // parse_func_call(tokenizer, function_node, function);
         add_to_array(ast_node->nodes, function_node);
     } else if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
-        jakarta_error(ERR_UNDEFINED_IDENTIFIER, NULL, token->content);
+        jakarta_error(ERR_UNDEFINED_IDENTIFIER, nullptr, token->content);
     } else {
         // Variable* variable = get(class->member_variables, token->content);
         ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);
@@ -358,6 +358,6 @@ TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table, 
         case AST_LITERAL:
             return (TypeRegistryEntry*)get(state->type_registry, "string");
         default:
-            return NULL;
+            return nullptr;
     }
 }

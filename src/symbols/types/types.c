@@ -2,7 +2,6 @@
 #include <string.h>
 
 #include "types.h"
-#include "data_structures/ast.h"
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"

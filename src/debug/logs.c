@@ -24,15 +24,15 @@ void setup_logs() {
     }
 
     logs.ast = fopen("logs/ast.log", "w");
-    if (logs.ast != NULL) {
-        if (setvbuf(logs.ast, NULL, _IONBF, 0) != 0) {
+    if (logs.ast != nullptr) {
+        if (setvbuf(logs.ast, nullptr, _IONBF, 0) != 0) {
             debug_message("Error: Failed to set buffer for ast log file", LOG);
         }
     }
 
     logs.main = fopen("logs/main.log", "w");
-    if (logs.main != NULL) {
-        if (setvbuf(logs.main, NULL, _IONBF, 0) != 0) {
+    if (logs.main != nullptr) {
+        if (setvbuf(logs.main, nullptr, _IONBF, 0) != 0) {
             debug_message("Error: Failed to set buffer for main log file", LOG);
         }
     }
@@ -41,13 +41,13 @@ void setup_logs() {
 void cleanup_logs() {
     debug_message("Cleaning up logs", TOP_LEVEL);
 
-    if (logs.ast != NULL) {
+    if (logs.ast != nullptr) {
         if (fclose(logs.ast) != 0) {
             debug_message("Error: Failed to close ast log file", LOG);
         }
     }
 
-    if (logs.main != NULL) {
+    if (logs.main != nullptr) {
         if (fclose(logs.main) != 0) {
             debug_message("Error: Failed to close main log file", LOG);
         }
@@ -55,11 +55,11 @@ void cleanup_logs() {
 }
 
 void log_msg(FILE* file, const char* format, ...) {
-    va_list args = NULL;
+    va_list args = nullptr;
     va_start(args, format);
 
     struct timeval timev;
-    gettimeofday(&timev, NULL);
+    gettimeofday(&timev, nullptr);
     
     struct tm time_info;
     #ifdef _WIN32
