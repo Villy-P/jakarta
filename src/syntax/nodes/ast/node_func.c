@@ -12,7 +12,6 @@
 #include "syntax.h"
 #include "types.h"
 
-
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM && ast_node->identifier != AST_IDENTIFIER_CLASS_BODY) {
         jakarta_error_invalid_typedef_location(consume(tokenizer));
@@ -98,6 +97,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     SymbolTableEntry* return_type_entry = lookup_type(return_type_node->token->content, function_scope);
     if (return_type_entry == nullptr) {
         handle_error(ERROR_UNDEFINED_TYPE, return_type_node->token, state, return_type_node->token->content);
+        return;
     }
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type: %s", return_type_entry->name);
 
