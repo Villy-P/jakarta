@@ -57,6 +57,7 @@ if(CPPCHECK_EXE)
             --inline-suppr
             --error-exitcode=1
             --quiet
+            -j8
         COMMENT "Running cppcheck..."
         USES_TERMINAL
         VERBATIM
@@ -89,17 +90,12 @@ target_include_directories(${EXEC_NAME} PRIVATE include/ ${PCRE2_INCLUDE_DIRS})
 
 target_link_libraries(${EXEC_NAME} PRIVATE cpptrace::cpptrace common_flags)
 
-# 5. Define the test target
 add_executable(${EXEC_NAME_TEST} ${JAKARTA_TEST_SOURCES})
 target_include_directories(${EXEC_NAME_TEST} PRIVATE include/ ${PCRE2_INCLUDE_DIRS})
 target_link_libraries(${EXEC_NAME_TEST} PRIVATE cpptrace::cpptrace common_flags)
 
-if(UNIX)
-    # Unix specific links if needed
-else()
-    target_link_libraries(${EXEC_NAME} PRIVATE ${PCRE2_LIBRARIES} dbghelp psapi)
-    target_link_libraries(${EXEC_NAME_TEST} PRIVATE ${PCRE2_LIBRARIES} dbghelp psapi)
-endif()
+target_link_libraries(${EXEC_NAME} PRIVATE ${PCRE2_LIBRARIES})
+target_link_libraries(${EXEC_NAME_TEST} PRIVATE ${PCRE2_LIBRARIES})
 
 if(CLANG_TIDY_EXE)
     set_target_properties(${EXEC_NAME} PROPERTIES C_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
