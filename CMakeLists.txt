@@ -71,18 +71,17 @@ target_compile_options(common_flags INTERFACE
     -Wextra 
     -g 
     -O0
-    -gcodeview
+    $<$<PLATFORM_ID:Windows>:-gcodeview>
     $<$<CONFIG:Debug>:-fdiagnostics-color=always>
 )
 
-set(PCRE2_INCLUDE_DIRS "C:/msys64/mingw64/include")
-set(PCRE2_LIBRARIES "C:/msys64/mingw64/lib/libpcre2-8.dll.a")
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(PCRE2 REQUIRED libpcre2-8)
 
-target_compile_definitions(common_flags INTERFACE _WIN32)
 target_link_options(common_flags INTERFACE
     -g
-    -Wl,--export-all-symbols
-    -Wl,--enable-auto-image-base
+    $<$<PLATFORM_ID:Windows>:-Wl,--export-all-symbols>
+    $<$<PLATFORM_ID:Windows>:-Wl,--enable-auto-image-base>
 )
 
 add_executable(${EXEC_NAME} ${JAKARTA_SOURCES})
@@ -94,8 +93,8 @@ add_executable(${EXEC_NAME_TEST} ${JAKARTA_TEST_SOURCES})
 target_include_directories(${EXEC_NAME_TEST} PRIVATE include/ ${PCRE2_INCLUDE_DIRS})
 target_link_libraries(${EXEC_NAME_TEST} PRIVATE cpptrace::cpptrace common_flags)
 
-target_link_libraries(${EXEC_NAME} PRIVATE ${PCRE2_LIBRARIES})
-target_link_libraries(${EXEC_NAME_TEST} PRIVATE ${PCRE2_LIBRARIES})
+target_link_libraries(${EXEC_NAME} PRIVATE ${PCRE2_LINK_LIBRARIES})
+target_link_libraries(${EXEC_NAME_TEST} PRIVATE ${PCRE2_LINK_LIBRARIES})
 
 if(CLANG_TIDY_EXE)
     set_target_properties(${EXEC_NAME} PROPERTIES C_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
