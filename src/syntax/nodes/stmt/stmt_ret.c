@@ -1,6 +1,8 @@
 #include "core.h"
+#include "data_structures/array.h"
 #include "data_structures/ast.h"
 #include "data_structures/stack.h"
+#include "data_structures/tokenizer.h"
 #include "syntax.h"
 
 

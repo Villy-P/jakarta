@@ -8,6 +8,7 @@
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 #include "semantic_analyzer.h"
+#include "symbol.h"
 #include "syntax.h"
 #include "types.h"
 

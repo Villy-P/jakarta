@@ -2,6 +2,7 @@
 
 #include "data_structures/ast.h"
 #include "data_structures/tokenizer.h"
+#include "symbol.h"
 #include "syntax.h"
 
 void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {

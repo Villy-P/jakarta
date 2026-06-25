@@ -10,7 +10,6 @@ EXECUTABLE := JAKARTA
 EXECUTABLE_TEST := JAKARTA_TEST
 CLANG_TIDY := clang-tidy
 CPPCHECK   := cppcheck
-SRC_FILES := $(wildcard src/*.c src/**/*.c src/**/**/*.c)
 
 # Sets up cross-platform support
 ifeq ($(OS),Windows_NT)
@@ -45,7 +44,7 @@ build-prod:
 	cmake --build $(BUILD_DIR) --config Release -- -j$(JOBS)
 
 lint:
-	clang-tidy -quiet -p $(BUILD_DIR) $(SRC_FILES)
+	cmake --build $(BUILD_DIR) --target clang-tidy
 
 cppcheck:
 	cmake --build $(BUILD_DIR) --target cppcheck

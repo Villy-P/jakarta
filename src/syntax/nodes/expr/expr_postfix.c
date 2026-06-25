@@ -3,9 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "data_structures/ast.h"
 #include "core.h"
+#include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
+#include "data_structures/hashmap.h"
 #include "data_structures/stack.h"
 #include "debug.h"
 #include "semantic_analyzer.h"
@@ -288,6 +289,8 @@ ASTNode* postfix_to_ast(Stack* postfix) {
         ASTNode* node = malloc(sizeof(ASTNode));
         if (node == nullptr) {
             jakarta_error(ERR_MALLOC_FAIL, nullptr, "ASTNode");
+            free(value);
+            free(node);
             return nullptr;
         }
         log_msg(logs.main, "[AST] Popping from postfix stack; current size: %d", postfix->top + 1);

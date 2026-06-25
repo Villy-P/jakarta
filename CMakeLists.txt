@@ -31,8 +31,15 @@ if(CLANG_TIDY_EXE)
     message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
     set(CLANG_TIDY_COMMAND
         ${CLANG_TIDY_EXE}
+        -quiet
         --config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
         -p ${CMAKE_BINARY_DIR}
+    )
+    add_custom_target(clang-tidy
+        COMMAND ${CLANG_TIDY_COMMAND} ${JAKARTA_SOURCES}
+        COMMENT "Running clang-tidy..."
+        USES_TERMINAL
+        VERBATIM
     )
 else()
     message(STATUS "clang-tidy not found")
@@ -51,6 +58,7 @@ if(CPPCHECK_EXE)
             --error-exitcode=1
             --quiet
         COMMENT "Running cppcheck..."
+        USES_TERMINAL
         VERBATIM
     )
 else()

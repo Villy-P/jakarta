@@ -1,5 +1,6 @@
 #include "data_structures/ast.h"
 #include "core.h"
+#include "symbol.h"
 #include "syntax.h"
 
 
