@@ -14,7 +14,7 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     ASTNode* if_body = create_ast_node(AST_IDENTIFIER_IF_BODY, nullptr);
 
     // parse expression here
-    Stack* postfix = infix_to_postfix(tokenizer);
+    ds_stack* postfix = infix_to_postfix(tokenizer);
     ASTNode* expression = postfix_to_ast(postfix);
     ds_array_push(if_condition->nodes, expression);
 

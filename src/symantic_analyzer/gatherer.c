@@ -1,5 +1,4 @@
 #define DS_C_IMPLEMENTATION
-#define DS_DEFINE_STACK
 #include <libds_c.h>
 
 #include "data_structures/ast.h"

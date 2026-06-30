@@ -28,6 +28,8 @@ fetchcontent_declare(libds-c
 )
 fetchcontent_makeavailable(libds-c)
 
+add_definitions(-DDS_DEFINE_STACK)
+
 add_library(jakarta_common_flags INTERFACE)
 
 target_compile_options(jakarta_common_flags INTERFACE

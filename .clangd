@@ -1,0 +1,2 @@
+CompileFlags:
+  Add: [-DDS_DEFINE_STACK]

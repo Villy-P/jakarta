@@ -3,13 +3,11 @@
 #include "core.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
-#include "data_structures/stack.h"
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 #include "semantic_analyzer.h"
 #include "syntax.h"
-
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* variable_node = parse_variable_declaration(tokenizer);
@@ -22,7 +20,7 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     }
     Token* equal_token = peek_consume(tokenizer, SYMBOL_EQUALS);
 
-    Stack* postfix = infix_to_postfix(tokenizer);
+    ds_stack* postfix = infix_to_postfix(tokenizer);
     ASTNode* expression = postfix_to_ast(postfix);
 
     ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, nullptr);

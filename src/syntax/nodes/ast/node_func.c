@@ -6,7 +6,6 @@
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
-#include "libds_c.h"
 #include "semantic_analyzer.h"
 #include "symbol.h"
 #include "syntax.h"
