@@ -22,9 +22,15 @@ fetchcontent_declare(cpptrace
 )
 fetchcontent_makeavailable(cpptrace)
 
-add_library(common_flags INTERFACE)
+fetchcontent_declare(libds-c
+    GIT_REPOSITORY https://github.com/Villy-P/libds-c.git
+    GIT_TAG        main
+)
+fetchcontent_makeavailable(libds-c)
 
-target_compile_options(common_flags INTERFACE
+add_library(jakarta_common_flags INTERFACE)
+
+target_compile_options(jakarta_common_flags INTERFACE
     -Wall 
     -Wextra 
     -g 
@@ -36,20 +42,20 @@ target_compile_options(common_flags INTERFACE
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(PCRE2 REQUIRED libpcre2-8)
 
-target_link_options(common_flags INTERFACE
+target_link_options(jakarta_common_flags INTERFACE
     -g
     $<$<PLATFORM_ID:Windows>:-Wl,--export-all-symbols>
     $<$<PLATFORM_ID:Windows>:-Wl,--enable-auto-image-base>
 )
 
 add_executable(${EXEC_NAME} ${JAKARTA_SOURCES})
-target_include_directories(${EXEC_NAME} PRIVATE include/ ${PCRE2_INCLUDE_DIRS})
+target_include_directories(${EXEC_NAME} PRIVATE include/ ${PCRE2_INCLUDE_DIRS} libds-c)
 
-target_link_libraries(${EXEC_NAME} PRIVATE cpptrace::cpptrace common_flags)
+target_link_libraries(${EXEC_NAME} PRIVATE libds-c::libds-c cpptrace::cpptrace jakarta_common_flags)
 
 add_executable(${EXEC_NAME_TEST} ${JAKARTA_TEST_SOURCES})
 target_include_directories(${EXEC_NAME_TEST} PRIVATE include/ ${PCRE2_INCLUDE_DIRS})
-target_link_libraries(${EXEC_NAME_TEST} PRIVATE cpptrace::cpptrace common_flags)
+target_link_libraries(${EXEC_NAME_TEST} PRIVATE libds-c::libds-c cpptrace::cpptrace jakarta_common_flags)
 
 target_link_libraries(${EXEC_NAME} PRIVATE ${PCRE2_LINK_LIBRARIES})
 target_link_libraries(${EXEC_NAME_TEST} PRIVATE ${PCRE2_LINK_LIBRARIES})

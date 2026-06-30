@@ -6,6 +6,8 @@
 #include "syntax.h"
 
 #include "types.h"
+
+#include <libds-c.h>
 #include <stdint.h>
 
 // forward declarations
@@ -29,7 +31,7 @@ typedef struct {
 } TypeRegistryEntry;
 
 typedef struct CompilerStateDef {
-    Array forest;
+    ds_array forest;
     Array files_to_parse;
 
     Array error_list;

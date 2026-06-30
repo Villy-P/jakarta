@@ -7,6 +7,7 @@
 #include "data_structures/compiler_state.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
+#include "libds-c.h"
 #include "semantic_analyzer.h"
 #include "syntax.h"
 
@@ -45,7 +46,7 @@ static void process(const char* file_location, CompilerState* state) {
     ASTNode* ast_root = parse_tokens(tokenizer, state);
     log_msg(logs.main, "[AST] Finished parsing tokens into AST for file: %s", file_location);
     ForestEntry* entry = create_forest_entry(file_location, ast_root);
-    add_to_array(&state->forest, entry);
+    ds_array_push(&state->forest, entry);
     log_msg(logs.main, "[AST] Added AST to forest for file: %s", file_location);
 
     print_ast_node(ast_root, "", true);

@@ -3,6 +3,7 @@
 #include "data_structures/compiler_state.h"
 #include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
+#include "libds-c.h"
 #include "types.h"
 
 #include <stdio.h>
@@ -20,7 +21,7 @@ CompilerState* create_compiler_state() {
         return nullptr;
     }
     
-    if (!init_array(&state->forest, INITIAL_FOREST_SIZE) ||
+    if (!ds_array_init(&state->forest, INITIAL_FOREST_SIZE) ||
         !init_array(&state->files_to_parse, INITIAL_FILES_TO_PARSE_SIZE) ||
         !init_array(&state->error_list, INITIAL_ERROR_LIST_SIZE)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "CompilerState arrays");
