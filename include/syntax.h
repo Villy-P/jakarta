@@ -8,7 +8,6 @@
 // forward declerations
 typedef struct TokenizerDef Tokenizer;
 typedef struct ASTNodeDef ASTNode;
-typedef struct FunctionDefinitionDef FunctionDefinition;
 typedef struct TypeDef Type;
 typedef struct StackDef Stack;
 typedef struct CompilerStateDef CompilerState;
@@ -37,11 +36,10 @@ void parse(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 // AST
 void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
-void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function);
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_import(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
-ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition);
+ASTNode* parse_variable_declaration(Tokenizer* tokenizer);
 
 // Statements
 void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);

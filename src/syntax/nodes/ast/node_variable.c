@@ -13,7 +13,7 @@
 
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
-    ASTNode* variable_node = parse_variable_declaration(tokenizer, nullptr);
+    ASTNode* variable_node = parse_variable_declaration(tokenizer);
     if (peek(tokenizer, SYMBOL_SEMICOLON)) {
         consume(tokenizer);
         ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, nullptr);
@@ -35,14 +35,11 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     free_token(equal_token);
 }
 
-ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* function_definition) {
-    bool is_array = false;
-
+ASTNode* parse_variable_declaration(Tokenizer* tokenizer) {
     Token* type_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
 
     if (peek(tokenizer, OPERATOR_ARRAY_DECLARATION)) {
         consume(tokenizer);
-        is_array = true;
     }
 
     Token* name_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
@@ -50,13 +47,7 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
     ASTNode* variable_type_node = create_ast_node(AST_IDENTIFIER_VARIABLE_TYPE, type_token);
     ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
 
-    Variable* variable = create_variable(name_token->content, type_token->content, is_array);
-
     ds_array_push(variable_node->nodes, variable_type_node);
-
-    if (function_definition != nullptr) {
-        ds_array_push(function_definition->parameters, variable);
-    }
 
     return variable_node;
 }

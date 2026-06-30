@@ -65,20 +65,6 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     free_token(close_bracket);
 }
 
-void parse_func_call(Tokenizer* tokenizer, ASTNode* ast_node, FunctionDefinition* function) {
-    for (unsigned int i = 0; i < function->parameters->length; i++) {
-        Stack* arg = infix_to_postfix(tokenizer);
-        ASTNode* arg_node = postfix_to_ast(arg);
-        ds_array_push(ast_node->nodes, arg_node);
-        if (i < function->parameters->length - 1 && peek(tokenizer, SYMBOL_COMMA)) {
-            consume(tokenizer); // comma
-        }
-    }
-    log_msg(logs.main, "[AST] Parsed Function Call");
-}
-
-
-
 
 
 
