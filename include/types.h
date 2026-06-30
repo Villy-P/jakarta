@@ -1,7 +1,6 @@
 #pragma once
 
 #include "data_structures/ast.h"
-#include "data_structures/array.h"
 #include "data_structures/hashmap.h"
 
 // types.c
@@ -42,7 +41,7 @@ ClassDefinition* create_class_definition(const char* name);
 typedef struct FunctionDefinitionDef {
     char* name;
     char* return_type;
-    Array* parameters;
+    ds_array* parameters;
     ASTNode* body;
 } FunctionDefinition;
 

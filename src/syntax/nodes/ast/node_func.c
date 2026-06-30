@@ -1,6 +1,5 @@
 #include <stddef.h>
 
-#include "data_structures/array.h"
 #include "core.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
@@ -91,7 +90,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function definition: %s", node->token->content);
 
     SymbolTable* function_scope = create_symbol_table();
-    add_to_array(&symbol_table->children, function_scope);
+    ds_array_push(&symbol_table->children, function_scope);
     function_scope->parent = symbol_table;
 
     ASTNode* return_type_node = DSM_ARRAY_GET(node->nodes, 0, ASTNode*);

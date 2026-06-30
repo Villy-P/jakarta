@@ -2,7 +2,6 @@
 
 #include "data_structures/ast.h"
 #include "core.h"
-#include "data_structures/array.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/stack.h"
 #include "data_structures/symbol_table.h"
@@ -56,7 +55,7 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer, FunctionDefinition* fu
     ds_array_push(variable_node->nodes, variable_type_node);
 
     if (function_definition != nullptr) {
-        add_to_array(function_definition->parameters, variable);
+        ds_array_push(function_definition->parameters, variable);
     }
 
     return variable_node;

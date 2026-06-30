@@ -1,5 +1,4 @@
 #include "core.h"
-#include "data_structures/array.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/hashmap.h"
@@ -20,7 +19,7 @@ SymbolTable* create_symbol_table() {
     }
     symbol_table->table = create_hashmap();
     symbol_table->parent = nullptr;
-    if (!init_array(&symbol_table->children, INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY)) {
+    if (!ds_array_init(&symbol_table->children, INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTable children array");
         return nullptr;
     }
