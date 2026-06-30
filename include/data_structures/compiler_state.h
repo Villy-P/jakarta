@@ -32,9 +32,9 @@ typedef struct {
 
 typedef struct CompilerStateDef {
     ds_array forest;
-    Array files_to_parse;
+    ds_array files_to_parse;
 
-    Array error_list;
+    ds_array error_list;
     uint32_t error_count;
 
     SymbolTable* symbol_tree;

@@ -22,8 +22,8 @@ CompilerState* create_compiler_state() {
     }
     
     if (!ds_array_init(&state->forest, INITIAL_FOREST_SIZE) ||
-        !init_array(&state->files_to_parse, INITIAL_FILES_TO_PARSE_SIZE) ||
-        !init_array(&state->error_list, INITIAL_ERROR_LIST_SIZE)) {
+        !ds_array_init(&state->files_to_parse, INITIAL_FILES_TO_PARSE_SIZE) ||
+        !ds_array_init(&state->error_list, INITIAL_ERROR_LIST_SIZE)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "CompilerState arrays");
         free(state);
         return nullptr;
@@ -53,7 +53,7 @@ void print_error_list(CompilerState* state) {
 
     printf("Your program has %zu unresolved errors:\n", state->error_list.length);
     for (unsigned int i = 0; i < state->error_list.length; ++i) {
-        char* error_message = (char*)get_from_array(&state->error_list, i);
+        char* error_message = DSM_ARRAY_GET(&state->error_list, i, char*);
         printf("%s\n", error_message);
     }
 }

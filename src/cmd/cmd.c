@@ -19,17 +19,17 @@ static void close_file(FILE* file, const char* path);
 static void process(const char* file_location, CompilerState* state);
 
 void jakarta_cmd_read_file(const char* file_location, CompilerState* state) {    
-    add_to_array(&state->files_to_parse, file_location);
+    ds_array_push(&state->files_to_parse, file_location);
 
     while (state->files_to_parse.length > 0) {
         log_msg(logs.main, "[IMPORT] Files left to parse: %d", state->files_to_parse.length);
-        char* base_file_path = (char*)get_from_array(&state->files_to_parse, 0);
+        char* base_file_path = DSM_ARRAY_GET(&state->files_to_parse, 0, char*);
         printf("DEBUG: The pointer retrieved is: %p\n", base_file_path);
 
         log_msg(logs.main, "[IMPORT] Parsing imported file: %s", base_file_path);
         process(base_file_path, state);
 
-        remove_from_array(&state->files_to_parse, 0);
+        ds_array_remove(&state->files_to_parse, 0);
         log_msg(logs.main, "[IMPORT] Finished processing file: %s", base_file_path);
     }
 
