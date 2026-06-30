@@ -1,5 +1,3 @@
-#define DS_DEFINE_STACK
-
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -158,7 +156,7 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
                         consume(tokenizer);
                     }
                     ds_stack* args_postfix = infix_to_postfix(tokenizer); // stops at ')'
-                    const ASTNode* args_node = postfix_to_ast(args_postfix);
+                    ASTNode* args_node = postfix_to_ast(args_postfix);
                     ds_array_push(func_node->nodes, args_node);
                 } while (peek(tokenizer, SYMBOL_COMMA));
 
@@ -168,7 +166,7 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
                 while (peek(tokenizer, SYMBOL_PERIOD)) {
                     Token* dot_token = consume(tokenizer);
                     Token* member_token = peek_consume(tokenizer, SYMBOL_IDENTIFIER);
-                    const ASTNode* member_node = create_ast_node(AST_IDENTIFIER_VALUE, member_token);
+                    ASTNode* member_node = create_ast_node(AST_IDENTIFIER_VALUE, member_token);
                     ASTNode* dot_node = create_ast_node(AST_DOT_OPERATOR, dot_token);
                     ds_array_push(dot_node->nodes, node);
                     ds_array_push(dot_node->nodes, member_node);
@@ -323,14 +321,14 @@ void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type)
     if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
         // if (function == nullptr)
         //     jakarta_error(ERR_UNDEFINED_IDENTIFIER, token, "");
-        const ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
+        ASTNode* function_node = create_ast_node(AST_IDENTIFIER_FUNCTION_CALL, token);
         // parse_func_call(tokenizer, function_node, function);
         ds_array_push(ast_node->nodes, function_node);
     } else if (peek(tokenizer, SYMBOL_OPEN_PARENTHESIS)) {
         jakarta_error(ERR_UNDEFINED_IDENTIFIER, nullptr, token->content);
     } else {
         // Variable* variable = get(class->member_variables, token->content);
-        const ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);
+        ASTNode* node = create_ast_node(AST_IDENTIFIER_VALUE, token);
         ds_array_push(ast_node->nodes, node);
     }
     if (peek(tokenizer, SYMBOL_PERIOD)) {
