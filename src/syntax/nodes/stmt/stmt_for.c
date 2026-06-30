@@ -17,12 +17,12 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
 
     parse_variable(tokenizer, for_node);
 
-    ds_stack* condition_postfix = infix_to_postfix(tokenizer);
-    ASTNode* condition_expression = postfix_to_ast(condition_postfix);
+    ds_stack condition_postfix = infix_to_postfix(tokenizer);
+    ASTNode* condition_expression = postfix_to_ast(&condition_postfix);
     ds_array_push(for_condition->nodes, condition_expression);
 
-    ds_stack* iteration_postfix = infix_to_postfix(tokenizer);
-    ASTNode* iteration_expression = postfix_to_ast(iteration_postfix);
+    ds_stack iteration_postfix = infix_to_postfix(tokenizer);
+    ASTNode* iteration_expression = postfix_to_ast(&iteration_postfix);
     ds_array_push(for_iteration->nodes, iteration_expression);
 
     peek_consume(tokenizer, SYMBOL_OPEN_BRACE);

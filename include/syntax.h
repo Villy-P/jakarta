@@ -47,7 +47,7 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node);
 
 // Expressions
-ds_stack* infix_to_postfix(Tokenizer* tokenizer);
+ds_stack infix_to_postfix(Tokenizer* tokenizer);
 ASTNode* postfix_to_ast(ds_stack* postfix);
 unsigned int precedence(const char* operator);
 void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node);

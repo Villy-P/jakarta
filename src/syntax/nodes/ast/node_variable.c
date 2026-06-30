@@ -20,8 +20,8 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     }
     Token* equal_token = peek_consume(tokenizer, SYMBOL_EQUALS);
 
-    ds_stack* postfix = infix_to_postfix(tokenizer);
-    ASTNode* expression = postfix_to_ast(postfix);
+    ds_stack postfix = infix_to_postfix(tokenizer);
+    ASTNode* expression = postfix_to_ast(&postfix);
 
     ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, nullptr);
 

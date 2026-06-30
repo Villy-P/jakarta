@@ -105,18 +105,20 @@ bool is_operator(Symbol sym) {
            sym == OPERATOR_ARRAY_DECLARATION;
 }
 
-ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
-    ds_stack* output = ds_stack_create(POSTFIX_STACK_INITIAL_SIZE);
-    ds_stack* operators = ds_stack_create(POSTFIX_STACK_INITIAL_SIZE);
+ds_stack infix_to_postfix(Tokenizer* tokenizer) {
+    ds_stack output = {0};
+    ds_stack operators = {0};
+    ds_stack_init(&output, POSTFIX_STACK_INITIAL_SIZE);
+    ds_stack_init(&operators, POSTFIX_STACK_INITIAL_SIZE);
 
     int open_parenthesis_count = 1;
 
     while (true) {
         if (peek(tokenizer, SYMBOL_COMMA)) {
             log_msg(logs.main, "[AST] Comma found; breaking");
-            while (operators->length > 0) {
-                ASTNode* operator = ds_stack_pop(operators);
-                ds_stack_push(output, operator);
+            while (operators.length > 0) {
+                ASTNode* operator = ds_stack_pop(&operators);
+                ds_stack_push(&output, operator);
             }
             break;
         }
@@ -131,7 +133,7 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
         if (token->symbol == SYMBOL_STRING_LITERAL) {
             log_msg(logs.main, "[AST] Processing string: %s", token->content);
             node = create_ast_node(AST_LITERAL, token);
-            ds_stack_push(output, node);
+            ds_stack_push(&output, node);
             continue; // skip operator logic
         }
 
@@ -139,7 +141,7 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
         if (token->symbol == SYMBOL_NUMBER) {
             log_msg(logs.main, "[AST] Processing number: %s", token->content);
             node = create_ast_node(AST_NUMBER, token);
-            ds_stack_push(output, node);
+            ds_stack_push(&output, node);
             continue; // skip operator logic
         }
 
@@ -155,12 +157,12 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
                     if (peek(tokenizer, SYMBOL_COMMA)) {
                         consume(tokenizer);
                     }
-                    ds_stack* args_postfix = infix_to_postfix(tokenizer); // stops at ')'
-                    ASTNode* args_node = postfix_to_ast(args_postfix);
+                    ds_stack args_postfix = infix_to_postfix(tokenizer); // stops at ')'
+                    ASTNode* args_node = postfix_to_ast(&args_postfix);
                     ds_array_push(func_node->nodes, args_node);
                 } while (peek(tokenizer, SYMBOL_COMMA));
 
-                ds_stack_push(output, func_node);
+                ds_stack_push(&output, func_node);
             } else {
                 node = create_ast_node(AST_IDENTIFIER_VALUE, token);
                 while (peek(tokenizer, SYMBOL_PERIOD)) {
@@ -172,7 +174,7 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
                     ds_array_push(dot_node->nodes, member_node);
                     node = dot_node;
                 }
-                ds_stack_push(output, node);
+                ds_stack_push(&output, node);
             }
             continue;
         }
@@ -181,17 +183,17 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
         if (token->symbol == SYMBOL_OPEN_BRACKET) {
             log_msg(logs.main, "[AST] Processing array access ([]): %s", token->content);
             ASTNode* array_node = create_ast_node(AST_IDENTIFIER_ARRAY_ACCESS, nullptr);
-            ds_stack* index_postfix = infix_to_postfix(tokenizer); // stops at ']'
-            ASTNode* index_node = postfix_to_ast(index_postfix);
+            ds_stack index_postfix = infix_to_postfix(tokenizer); // stops at ']'
+            ASTNode* index_node = postfix_to_ast(&index_postfix);
 
-            ASTNode* left_node = ds_stack_pop(output);
+            ASTNode* left_node = ds_stack_pop(&output);
 
             ds_array_push(array_node->nodes, index_node);
             ASTNode* index_wrapper = create_ast_node(AST_IDENTIFIER_INDEX, nullptr);
             ds_array_push(index_wrapper->nodes, left_node);
             ds_array_push(index_wrapper->nodes, array_node);
 
-            ds_stack_push(output, index_wrapper);
+            ds_stack_push(&output, index_wrapper);
             continue;
         }
 
@@ -199,7 +201,7 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
         if (token->symbol == SYMBOL_OPEN_PARENTHESIS) {
             log_msg(logs.main, "[AST] Processing open parenthesis: %s", token->content);
             node = create_ast_node(AST_OPERATOR, token);
-            ds_stack_push(operators, node);
+            ds_stack_push(&operators, node);
             open_parenthesis_count++;
             continue;
         }
@@ -207,12 +209,12 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
         if (token->symbol == SYMBOL_CLOSE_PARENTHESIS) {
             log_msg(logs.main, "[AST] Processing close parenthesis: %s", token->content);
             open_parenthesis_count--;
-            while (operators->length > 0) {
-                ASTNode* operator = ds_stack_pop(operators);
+            while (operators.length > 0) {
+                ASTNode* operator = ds_stack_pop(&operators);
                 if (operator->token->symbol == SYMBOL_OPEN_PARENTHESIS) {
                     break;
                 }
-                ds_stack_push(output, operator);
+                ds_stack_push(&output, operator);
             }
             if (open_parenthesis_count == 0) {
                 break;
@@ -223,9 +225,9 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
         // --- Statement endings ---
         if (token->symbol == SYMBOL_SEMICOLON || token->symbol == SYMBOL_CLOSE_BRACKET) {
             log_msg(logs.main, "[AST] Processing closing statement: %s", token->content);
-            while (operators->length > 0) {
-                ASTNode* operator = ds_stack_pop(operators);
-                ds_stack_push(output, operator);
+            while (operators.length > 0) {
+                ASTNode* operator = ds_stack_pop(&operators);
+                ds_stack_push(&output, operator);
             }
             break;
         }
@@ -235,24 +237,24 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
             log_msg(logs.main, "[AST] Processing operator: %s", token->content);
             node = create_ast_node(AST_OPERATOR, token);
 
-            while (operators->length > 0) {
-                ASTNode* operator = ds_stack_pop(operators);
+            while (operators.length > 0) {
+                ASTNode* operator = ds_stack_pop(&operators);
 
 
                 if (!is_operator(operator->token->symbol)) {
-                    ds_stack_push(operators, operator);
+                    ds_stack_push(&operators, operator);
                     break;
                 }
 
                 if (precedence(operator->token->content) < precedence(token->content) ||
                     (precedence(operator->token->content) == precedence(token->content) && !is_right_associative(token->content))) {
-                    ds_stack_push(output, operator);
+                    ds_stack_push(&output, operator);
                 } else {
-                    ds_stack_push(operators, operator);
+                    ds_stack_push(&operators, operator);
                     break;
                 }
             }
-            ds_stack_push(operators, node);
+            ds_stack_push(&operators, node);
             continue;
         }
 
@@ -261,7 +263,7 @@ ds_stack* infix_to_postfix(Tokenizer* tokenizer) {
     }
 
     // Reverse output to maintain correct order
-    ds_stack_reverse(output);
+    ds_stack_reverse(&output);
     return output;
 }
 
@@ -306,8 +308,8 @@ void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node) {
         return;
     }
 
-    ds_stack* postfix = infix_to_postfix(tokenizer);
-    ASTNode* expression = postfix_to_ast(postfix);
+    ds_stack postfix = infix_to_postfix(tokenizer);
+    ASTNode* expression = postfix_to_ast(&postfix);
 
     ds_array_push(ast_node->nodes, expression);
 }
