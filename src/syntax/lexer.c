@@ -8,7 +8,6 @@
 #include <string.h>
 
 #include "core.h"
-#include "data_structures/array.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 #include "syntax.h"
@@ -23,7 +22,7 @@ void read_line(char* line, const char* file_name, uint32_t line_number, Tokenize
             char* str_lit = get_string_literal(&line);
             Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col, str_lit, file_name);
             col += strlen(str_lit) + 2;
-            add_to_array(&tokenizer->tokens, token);
+            ds_array_push(&tokenizer->tokens, token);
             log_msg(logs.main, "[TOKEN] Added string literal %d @ (%d, %d): %s", token->symbol, token->line, token->col, token->content);
 
             free(str_lit);
@@ -34,7 +33,7 @@ void read_line(char* line, const char* file_name, uint32_t line_number, Tokenize
             Symbol symbol = get_keyword_from_str(str);
             Token* token = create_token(symbol, line_number, col, str, file_name);
             col += strlen(str);
-            add_to_array(&tokenizer->tokens, token);
+            ds_array_push(&tokenizer->tokens, token);
             log_msg(logs.main, "[TOKEN] Added string token %d @ (%d, %d): %s", token->symbol, token->line, token->col, token->content);
         } else {
             char token = line[0];
@@ -48,7 +47,7 @@ void read_line(char* line, const char* file_name, uint32_t line_number, Tokenize
             token_ptr[1] = '\0';
             Symbol token_symbol = get_symbol_from_char(token);
             Token* token_obj = create_token(token_symbol, line_number, col, token_ptr, file_name);
-            add_to_array(&tokenizer->tokens, token_obj);
+            ds_array_push(&tokenizer->tokens, token_obj);
             log_msg(logs.main, "[TOKEN] Added non-string token %d @ (%d, %d): %s", token_obj->symbol, token_obj->line, token_obj->col, token_obj->content);
             line++;
             col++;

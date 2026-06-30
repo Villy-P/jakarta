@@ -1,13 +1,12 @@
 #include <stdlib.h>
 
 #include "core.h"
-#include "data_structures/array.h"
 #include "data_structures/tokenizer.h"
 #include "syntax.h"
 #include "types.h"
 
 void free_tokenizer(Tokenizer* tokenizer) {
-    free_array(&tokenizer->tokens);
+    ds_array_destroy(&tokenizer->tokens);
     free(tokenizer);
 }
 

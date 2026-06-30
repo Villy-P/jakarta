@@ -3,12 +3,12 @@
 #include <string.h>
 
 #include "core.h"
-#include "data_structures/array.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
+#include "libds-c.h"
 #include "symbol.h"
 #include "syntax.h"
 
@@ -17,7 +17,7 @@ Tokenizer* create_tokenizer(size_t initial_size) {
     if (tokenizer == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer");
     }
-    if (!init_array(&tokenizer->tokens, initial_size)) {
+    if (!ds_array_init(&tokenizer->tokens, initial_size)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer tokens array");
     }
     return tokenizer;
@@ -25,7 +25,7 @@ Tokenizer* create_tokenizer(size_t initial_size) {
 
 void print_tokens(Tokenizer* tokenizer) {
     for (size_t i = 0; i < tokenizer->tokens.length; i++) {
-        Token* token = get_from_array(&tokenizer->tokens, i);
+        Token* token = DSM_ARRAY_GET(&tokenizer->tokens, i, Token*);
         printf(
             "Token #%.2zu: %10s at %d:%d, with symbol %d\n", i, 
             token->content, 
@@ -36,13 +36,13 @@ void print_tokens(Tokenizer* tokenizer) {
 }
 
 Token* consume(Tokenizer* tokenizer) {
-    Token* content = get_from_array(&tokenizer->tokens, 0);
-    remove_from_array(&tokenizer->tokens, 0);
+    Token* content = DSM_ARRAY_GET(&tokenizer->tokens, 0, Token*);
+    ds_array_remove(&tokenizer->tokens, 0);
     return content;
 }
 
 bool peek(Tokenizer* tokenizer, Symbol symbol) {
-    Token* token = get_from_array(&tokenizer->tokens, 0);
+    Token* token = DSM_ARRAY_GET(&tokenizer->tokens, 0, Token*);
     return token->symbol == symbol;
 }
 
@@ -50,7 +50,7 @@ bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, size_t offset) {
     if (offset >= tokenizer->tokens.length) {
         return false;
     }
-    Token* token = get_from_array(&tokenizer->tokens, offset);
+    Token* token = DSM_ARRAY_GET(&tokenizer->tokens, offset, Token*);
     return token->symbol == symbol;
 }
 
@@ -58,14 +58,14 @@ bool peek_type(Tokenizer* tokenizer) {
     if (tokenizer->tokens.length == 0) {
         return false;
     }
-    Token* token = get_from_array(&tokenizer->tokens, 0);
+    Token* token = DSM_ARRAY_GET(&tokenizer->tokens, 0, Token*);
     return (token->symbol == SYMBOL_IDENTIFIER);
 }
 
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     if (!peek(tokenizer, symbol)) {
         char* expected = get_string_from_symbol(symbol);
-        Token* token = get_from_array(&tokenizer->tokens, 0);
+        Token* token = DSM_ARRAY_GET(&tokenizer->tokens, 0, Token*);
         char* got = token->content;
         jakarta_error_invalid_token(expected, got);
     }
