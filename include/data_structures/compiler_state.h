@@ -1,7 +1,6 @@
 #pragma once
 
 #include "data_structures/hashmap.h"
-#include "data_structures/array.h"
 
 #include "syntax.h"
 
@@ -21,7 +20,7 @@ typedef struct {
 
 typedef struct {
     char* return_type;
-    Array* parameter_types;
+    ds_array* parameter_types;
     ASTNode* body;
 } FunctionRegistryEntry;
 
@@ -42,7 +41,7 @@ typedef struct CompilerStateDef {
     HashMap* function_registry;
 } CompilerState;
 
-FunctionRegistryEntry* create_function_registry_entry(const char* return_type, Array* parameter_types, ASTNode* body);
+FunctionRegistryEntry* create_function_registry_entry(const char* return_type, ds_array* parameter_types, ASTNode* body);
 TypeRegistryEntry* create_type_registry_entry(uint8_t bit_size, TypeOptions option);
 ForestEntry* create_forest_entry(const char* file_path, ASTNode* root);
 CompilerState* create_compiler_state();

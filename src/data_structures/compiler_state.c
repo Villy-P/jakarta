@@ -1,5 +1,4 @@
 #include "core.h"
-#include "data_structures/array.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
@@ -69,7 +68,7 @@ TypeRegistryEntry* create_type_registry_entry(unsigned char bit_size, TypeOption
     return entry;
 }
 
-FunctionRegistryEntry* create_function_registry_entry(const char* return_type, Array* parameter_types, ASTNode* body) {
+FunctionRegistryEntry* create_function_registry_entry(const char* return_type, ds_array* parameter_types, ASTNode* body) {
     FunctionRegistryEntry* entry = malloc(sizeof(FunctionRegistryEntry));
     if (!entry) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "FunctionRegistryEntry");
@@ -87,11 +86,11 @@ FunctionRegistryEntry* create_function_registry_entry_from_astnode(ASTNode* node
     ASTNode* body_node = DSM_ARRAY_GET(node->nodes, 2, ASTNode*);
 
     char* return_type = return_type_node->token->content;
-    Array* parameter_types = create_array(parameters_node->nodes->length);
+    ds_array* parameter_types = ds_array_create(parameters_node->nodes->length);
     for (unsigned int i = 0; i < parameters_node->nodes->length; ++i) {
         ASTNode* parameter_node = DSM_ARRAY_GET(parameters_node->nodes, i, ASTNode*);
         ASTNode* parameter_type_node = DSM_ARRAY_GET(parameter_node->nodes, 0, ASTNode*);
-        add_to_array(parameter_types, parameter_type_node->token->content);
+        ds_array_push(parameter_types, parameter_type_node->token->content);
     }
 
     return create_function_registry_entry(return_type, parameter_types, body_node);

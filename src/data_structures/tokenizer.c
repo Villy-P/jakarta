@@ -80,8 +80,8 @@ static ASTNode* create_dummy_function_node(char* name) {
 }
 
 void add_built_in_functions(CompilerState* state) {
-    Array* write_parameters = create_array(1);
-    add_to_array(write_parameters, "char");
+    ds_array* write_parameters = ds_array_create(1);
+    ds_array_push(write_parameters, "char");
 
     FunctionRegistryEntry* write_entry = create_function_registry_entry("void", write_parameters, create_dummy_function_node("write"));
 
