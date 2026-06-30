@@ -8,7 +8,7 @@
 #include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
-#include "libds-c.h"
+#include "libds_c.h"
 #include "symbol.h"
 #include "syntax.h"
 

@@ -1,13 +1,9 @@
-#include <stdlib.h>
-#include <string.h>
-
 #include "data_structures/compiler_state.h"
 #include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 #include "types.h"
-
 
 typedef enum {
     BIT_SIZE = 1,

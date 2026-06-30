@@ -1,8 +1,9 @@
 #include "core.h"
+#include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
-#include "libds-c.h"
+#include "libds_c.h"
 #include "types.h"
 
 #include <stdio.h>

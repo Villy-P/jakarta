@@ -2,7 +2,7 @@
 
 #include <stdbool.h>
 
-#include "libds-c.h"
+#include "libds_c.h"
 #include "syntax.h"
 
 typedef struct TokenizerDef {

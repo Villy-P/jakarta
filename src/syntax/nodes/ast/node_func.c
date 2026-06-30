@@ -6,11 +6,10 @@
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
-#include "libds-c.h"
+#include "libds_c.h"
 #include "semantic_analyzer.h"
 #include "symbol.h"
 #include "syntax.h"
-#include "types.h"
 
 void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     if (ast_node->identifier != AST_IDENTIFIER_BASE_PROGRAM && ast_node->identifier != AST_IDENTIFIER_CLASS_BODY) {

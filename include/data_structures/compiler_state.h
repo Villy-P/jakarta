@@ -6,7 +6,7 @@
 
 #include "types.h"
 
-#include <libds-c.h>
+#include <libds_c.h>
 #include <stdint.h>
 
 // forward declarations

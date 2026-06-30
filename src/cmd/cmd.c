@@ -6,7 +6,7 @@
 #include "data_structures/compiler_state.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
-#include "libds-c.h"
+#include "libds_c.h"
 #include "semantic_analyzer.h"
 #include "syntax.h"
 

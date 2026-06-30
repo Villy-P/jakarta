@@ -1,7 +1,7 @@
 #include <stddef.h>
 
-#include "data_structures/ast.h"
 #include "core.h"
+#include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/stack.h"
 #include "data_structures/symbol_table.h"
@@ -9,7 +9,6 @@
 #include "debug.h"
 #include "semantic_analyzer.h"
 #include "syntax.h"
-#include "types.h"
 
 
 void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {

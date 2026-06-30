@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libds-c.h"
+#include "libds_c.h"
 #include "syntax.h"
 
 typedef enum ASTIdentifierDef {
