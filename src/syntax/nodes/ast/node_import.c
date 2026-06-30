@@ -15,7 +15,7 @@ void parse_import(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state)
     Token* module_token = peek_consume(tokenizer, SYMBOL_STRING_LITERAL);
 
     ASTNode* import_node = create_ast_node(AST_IDENTIFIER_IMPORT_STATEMENT, module_token);
-    add_to_array(ast_node->nodes, import_node);
+    ds_array_push(ast_node->nodes, import_node);
 
     ds_array_push(&state->files_to_parse, module_token->content);
 

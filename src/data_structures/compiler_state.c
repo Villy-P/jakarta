@@ -82,15 +82,15 @@ FunctionRegistryEntry* create_function_registry_entry(const char* return_type, A
 }
 
 FunctionRegistryEntry* create_function_registry_entry_from_astnode(ASTNode* node) {
-    ASTNode* return_type_node = (ASTNode*)get_from_array(node->nodes, 0);
-    ASTNode* parameters_node = (ASTNode*)get_from_array(node->nodes, 1);
-    ASTNode* body_node = (ASTNode*)get_from_array(node->nodes, 2);
+    ASTNode* return_type_node = DSM_ARRAY_GET(node->nodes, 0, ASTNode*);
+    ASTNode* parameters_node = DSM_ARRAY_GET(node->nodes, 1, ASTNode*);
+    ASTNode* body_node = DSM_ARRAY_GET(node->nodes, 2, ASTNode*);
 
     char* return_type = return_type_node->token->content;
     Array* parameter_types = create_array(parameters_node->nodes->length);
     for (unsigned int i = 0; i < parameters_node->nodes->length; ++i) {
-        ASTNode* parameter_node = (ASTNode*)get_from_array(parameters_node->nodes, i);
-        ASTNode* parameter_type_node = (ASTNode*)get_from_array(parameter_node->nodes, 0);
+        ASTNode* parameter_node = DSM_ARRAY_GET(parameters_node->nodes, i, ASTNode*);
+        ASTNode* parameter_type_node = DSM_ARRAY_GET(parameter_node->nodes, 0, ASTNode*);
         add_to_array(parameter_types, parameter_type_node->token->content);
     }
 

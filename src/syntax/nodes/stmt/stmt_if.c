@@ -15,8 +15,8 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
 
     // parse expression here
     Stack* postfix = infix_to_postfix(tokenizer);
-    const ASTNode* expression = postfix_to_ast(postfix);
-    add_to_array(if_condition->nodes, expression);
+    ASTNode* expression = postfix_to_ast(postfix);
+    ds_array_push(if_condition->nodes, expression);
 
     Token* open_brace = peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE)) {
@@ -24,9 +24,9 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     }
     Token* close_brace = consume(tokenizer);
 
-    add_to_array(if_node->nodes, if_condition);
-    add_to_array(if_node->nodes, if_body);
-    add_to_array(ast_node->nodes, if_node);
+    ds_array_push(if_node->nodes, if_condition);
+    ds_array_push(if_node->nodes, if_body);
+    ds_array_push(ast_node->nodes, if_node);
 
     free_token(if_statement);
     free_token(open_parenthesis);

@@ -1,10 +1,8 @@
 #include "data_structures/ast.h"
-#include "data_structures/array.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/symbol_table.h"
 #include "debug.h"
 #include "semantic_analyzer.h"
-
 
 void resolve_types(CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from AST");
@@ -29,7 +27,7 @@ void resolve_node(ASTNode* node, SymbolTable* symbol_table, CompilerState* state
     }
 
     for (unsigned int i = 0; i < node->nodes->length; ++i) {
-        ASTNode* child = (ASTNode*)get_from_array(node->nodes, i);
+        ASTNode* child = DSM_ARRAY_GET(node->nodes, i, ASTNode*);
         resolve_node(child, symbol_table, state);
     }
 }

@@ -18,12 +18,12 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     parse_variable(tokenizer, for_node);
 
     Stack* condition_postfix = infix_to_postfix(tokenizer);
-    const ASTNode* condition_expression = postfix_to_ast(condition_postfix);
-    add_to_array(for_condition->nodes, condition_expression);
+    ASTNode* condition_expression = postfix_to_ast(condition_postfix);
+    ds_array_push(for_condition->nodes, condition_expression);
 
     Stack* iteration_postfix = infix_to_postfix(tokenizer);
-    const ASTNode* iteration_expression = postfix_to_ast(iteration_postfix);
-    add_to_array(for_iteration->nodes, iteration_expression);
+    ASTNode* iteration_expression = postfix_to_ast(iteration_postfix);
+    ds_array_push(for_iteration->nodes, iteration_expression);
 
     peek_consume(tokenizer, SYMBOL_OPEN_BRACE);
     while (!peek(tokenizer, SYMBOL_CLOSE_BRACE)) {
@@ -31,11 +31,11 @@ void parse_for(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     }
     consume(tokenizer);
 
-    add_to_array(for_node->nodes, for_condition);
-    add_to_array(for_node->nodes, for_iteration);
-    add_to_array(for_node->nodes, for_body);
+    ds_array_push(for_node->nodes, for_condition);
+    ds_array_push(for_node->nodes, for_iteration);
+    ds_array_push(for_node->nodes, for_body);
 
-    add_to_array(ast_node->nodes, for_node);
+    ds_array_push(ast_node->nodes, for_node);
 
     free(for_keyword);
     free(open_parenthesis);

@@ -1,5 +1,4 @@
 #include "core.h"
-#include "data_structures/array.h"
 #include "data_structures/ast.h"
 #include "debug.h"
 #include "syntax.h"
@@ -73,7 +72,7 @@ ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     }
     node->identifier = identifier;
     node->token = token;
-    node->nodes = create_array(INITIAL_ASTNODE_CHILDREN_CAPACITY);
+    node->nodes = ds_array_create(INITIAL_ASTNODE_CHILDREN_CAPACITY);
     if (node->nodes == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "ASTNode children");
         free(node);
@@ -113,7 +112,7 @@ void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
 
     unsigned int num_children = node->nodes->length;
     for (unsigned int i = 0; i < num_children; ++i) {
-        ASTNode* child = get_from_array(node->nodes, i);
+        ASTNode* child = ds_array_get(node->nodes, i);
         bool child_is_last = (i == num_children - 1);
         
         print_ast_node(child, new_prefix, child_is_last);

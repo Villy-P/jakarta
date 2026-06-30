@@ -2,7 +2,6 @@
 #include <libds-c.h>
 
 #include "data_structures/ast.h"
-#include "data_structures/array.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
@@ -18,7 +17,7 @@ void gather_declarations(CompilerState* state) {
         log_msg(logs.main, "[SEMANTIC ANALYZER] Gathering declarations from file: %s", entry->file_path);
 
         for (unsigned int j = 0; j < ast_root->nodes->length; ++j) {
-            ASTNode* node = (ASTNode*)get_from_array(ast_root->nodes, j);
+            ASTNode* node = DSM_ARRAY_GET(ast_root->nodes, j, ASTNode*);
             if (node->identifier == AST_IDENTIFIER_FUNCTION_DEFINITION) {
                 add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_FUNCTION), state->symbol_tree, state);
                 insert(state->function_registry, node->token->content, create_function_registry_entry_from_astnode(node));

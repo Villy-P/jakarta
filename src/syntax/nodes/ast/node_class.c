@@ -1,5 +1,4 @@
 #include "core.h"
-#include "data_structures/array.h"
 #include "data_structures/ast.h"
 #include "data_structures/tokenizer.h"
 #include "symbol.h"
@@ -24,6 +23,6 @@ void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) 
         }
     }
 
-    add_to_array(class_node->nodes, class_body);
-    add_to_array(ast_node->nodes, class_node);
+    ds_array_push(class_node->nodes, class_body);
+    ds_array_push(ast_node->nodes, class_node);
 }
