@@ -56,18 +56,3 @@ void create_base_types(CompilerState* state) {
 
     log_msg(logs.main, "[TYPES] Success Creating Base Types");
 }
-
-Type* create_type(const char* name, unsigned char bit_size, TypeOptions option) {
-    Type* type = malloc(sizeof(Type));
-    type->name = strdup(name);
-    type->bit_size = bit_size;
-    type->option = option;
-    return type;
-}
-
-TypeAlias* create_type_alias(const char* name, Type* refers_to) {
-    TypeAlias* type_alias = malloc(sizeof(TypeAlias));
-    type_alias->name = strdup(name);
-    type_alias->refers_to = refers_to;
-    return type_alias;
-}
