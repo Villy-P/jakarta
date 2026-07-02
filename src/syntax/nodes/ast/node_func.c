@@ -34,8 +34,8 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
         ASTNode* parameter_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER, parameter_name_token);
         ASTNode* parameter_type_node = create_ast_node(AST_IDENTIFIER_FUNCTION_PARAMETER_TYPE, parameter_type_token);
 
-        ds_array_push(parameter_node->nodes, parameter_type_node);
-        ds_array_push(parameters_node->nodes, parameter_node);
+        ds_astnode_ptr_array_push(parameter_node->nodes, parameter_type_node);
+        ds_astnode_ptr_array_push(parameters_node->nodes, parameter_node);
 
         if (comma != nullptr) {
             free_token(comma);
@@ -51,10 +51,10 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
 
     Token* close_bracket = consume(tokenizer);
 
-    ds_array_push(func_node->nodes, return_type_node);
-    ds_array_push(func_node->nodes, parameters_node);
-    ds_array_push(func_node->nodes, body_node);
-    ds_array_push(ast_node->nodes, func_node);
+    ds_astnode_ptr_array_push(func_node->nodes, return_type_node);
+    ds_astnode_ptr_array_push(func_node->nodes, parameters_node);
+    ds_astnode_ptr_array_push(func_node->nodes, body_node);
+    ds_astnode_ptr_array_push(ast_node->nodes, func_node);
 
     free_token(func_keyword);
     free_token(open_parenthesis);
@@ -74,10 +74,10 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function definition: %s", node->token->content);
 
     SymbolTable* function_scope = create_symbol_table();
-    ds_array_push(&symbol_table->children, function_scope);
+    ds_symbol_table_ptr_array_push(&symbol_table->children, function_scope);
     function_scope->parent = symbol_table;
 
-    ASTNode* return_type_node = DSM_ARRAY_GET(node->nodes, 0, ASTNode*);
+    ASTNode* return_type_node = ds_astnode_ptr_array_get(node->nodes, 0);
     SymbolTableEntry* return_type_entry = lookup_type(return_type_node->token->content, function_scope);
     if (return_type_entry == nullptr) {
         handle_error(ERROR_UNDEFINED_TYPE, return_type_node->token, state, return_type_node->token->content);
@@ -85,10 +85,10 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     }
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type: %s", return_type_entry->name);
 
-    ASTNode* parameters_node = DSM_ARRAY_GET(node->nodes, 1, ASTNode*);
+    ASTNode* parameters_node = ds_astnode_ptr_array_get(node->nodes, 1);
     for (unsigned int i = 0; i < parameters_node->nodes->length; ++i) {
-        ASTNode* parameter_node = DSM_ARRAY_GET(parameters_node->nodes, i, ASTNode*);
-        ASTNode* parameter_type_node = DSM_ARRAY_GET(parameter_node->nodes, 0, ASTNode*);
+        ASTNode* parameter_node = ds_astnode_ptr_array_get(parameters_node->nodes, i);
+        ASTNode* parameter_type_node = ds_astnode_ptr_array_get(parameter_node->nodes, 0);
         SymbolTableEntry* parameter_type_entry = lookup_type(parameter_type_node->token->content, function_scope);
         if (parameter_type_entry == nullptr) {
             handle_error(ERROR_UNDEFINED_TYPE, parameter_type_node->token, state, parameter_type_node->token->content);
@@ -99,9 +99,9 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table, Compi
         add_symbol_tree_token(parameter_node->token, create_symbol_table_entry(parameter_node->token->content, SYMBOL_VARIABLE), function_scope, state);
     }
 
-    ASTNode* function_body_node = DSM_ARRAY_GET(node->nodes, 2, ASTNode*);
+    ASTNode* function_body_node = ds_astnode_ptr_array_get(node->nodes, 2);
     for (unsigned int i = 0; i < function_body_node->nodes->length; ++i) {
-        ASTNode* child = DSM_ARRAY_GET(function_body_node->nodes, i, ASTNode*);
+        ASTNode* child = ds_astnode_ptr_array_get(function_body_node->nodes, i);
         resolve_node(child, function_scope, state);
     }
 }

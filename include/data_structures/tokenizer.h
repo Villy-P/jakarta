@@ -2,11 +2,11 @@
 
 #include <stdbool.h>
 
-#include "libds_c.h"
+#include "container.h"
 #include "syntax.h"
 
 typedef struct TokenizerDef {
-    ds_array tokens;
+    ds_token_ptr_array tokens;
 } Tokenizer;
 
 Tokenizer* create_tokenizer(size_t initial_size);

@@ -8,7 +8,7 @@ void resolve_types(CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from AST");
 
     for (unsigned int i = 0; i < state->forest.length; ++i) {
-        ForestEntry* entry = DSM_ARRAY_GET(&state->forest, i, ForestEntry*);
+        ForestEntry* entry = ds_forest_entry_ptr_array_get(&state->forest, i);
         ASTNode* ast_root = entry->root;
         log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from file: %s", entry->file_path);
 
@@ -27,7 +27,7 @@ void resolve_node(ASTNode* node, SymbolTable* symbol_table, CompilerState* state
     }
 
     for (unsigned int i = 0; i < node->nodes->length; ++i) {
-        ASTNode* child = DSM_ARRAY_GET(node->nodes, i, ASTNode*);
+        ASTNode* child = ds_astnode_ptr_array_get(node->nodes, i);
         resolve_node(child, symbol_table, state);
     }
 }

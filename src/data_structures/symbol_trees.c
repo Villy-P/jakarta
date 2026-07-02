@@ -19,7 +19,7 @@ SymbolTable* create_symbol_table() {
     }
     symbol_table->table = create_hashmap();
     symbol_table->parent = nullptr;
-    if (!ds_array_init(&symbol_table->children, INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY)) {
+    if (!ds_symbol_table_ptr_array_init(&symbol_table->children, INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY, nullptr, nullptr)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTable children array");
         return nullptr;
     }

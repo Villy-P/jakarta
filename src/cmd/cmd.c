@@ -18,17 +18,17 @@ static void close_file(FILE* file, const char* path);
 static void process(const char* file_location, CompilerState* state);
 
 void jakarta_cmd_read_file(const char* file_location, CompilerState* state) {    
-    ds_array_push(&state->files_to_parse, file_location);
+    ds_char_ptr_array_push(&state->files_to_parse, file_location);
 
     while (state->files_to_parse.length > 0) {
         log_msg(logs.main, "[IMPORT] Files left to parse: %d", state->files_to_parse.length);
-        char* base_file_path = DSM_ARRAY_GET(&state->files_to_parse, 0, char*);
+        char* base_file_path = ds_char_ptr_array_get(&state->files_to_parse, 0);
         printf("DEBUG: The pointer retrieved is: %p\n", base_file_path);
 
         log_msg(logs.main, "[IMPORT] Parsing imported file: %s", base_file_path);
         process(base_file_path, state);
 
-        ds_array_remove(&state->files_to_parse, 0);
+        ds_char_ptr_array_remove(&state->files_to_parse, 0, nullptr);
         log_msg(logs.main, "[IMPORT] Finished processing file: %s", base_file_path);
     }
 
@@ -45,7 +45,7 @@ static void process(const char* file_location, CompilerState* state) {
     ASTNode* ast_root = parse_tokens(tokenizer, state);
     log_msg(logs.main, "[AST] Finished parsing tokens into AST for file: %s", file_location);
     ForestEntry* entry = create_forest_entry(file_location, ast_root);
-    ds_array_push(&state->forest, entry);
+    ds_forest_entry_ptr_array_push(&state->forest, entry);
     log_msg(logs.main, "[AST] Added AST to forest for file: %s", file_location);
 
     print_ast_node(ast_root, "", true);

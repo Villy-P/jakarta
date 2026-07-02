@@ -1,5 +1,6 @@
 #pragma once
 
+#include "container.h"
 #include "data_structures/hashmap.h"
 
 #include "syntax.h"
@@ -13,14 +14,14 @@
 typedef struct ASTNodeDef ASTNode;
 typedef struct SymbolTableDef SymbolTable;
 
-typedef struct {
+typedef struct ForestEntryDef {
     const char *file_path;
     ASTNode *root;
 } ForestEntry;
 
 typedef struct {
     char* return_type;
-    ds_array* parameter_types;
+    ds_char_ptr_array* parameter_types;
     ASTNode* body;
 } FunctionRegistryEntry;
 
@@ -30,10 +31,10 @@ typedef struct {
 } TypeRegistryEntry;
 
 typedef struct CompilerStateDef {
-    ds_array forest;
-    ds_array files_to_parse;
+    ds_forest_entry_ptr_array forest;
+    ds_char_ptr_array files_to_parse;
 
-    ds_array error_list;
+    ds_char_ptr_array error_list;
     uint32_t error_count;
 
     SymbolTable* symbol_tree;
@@ -41,7 +42,7 @@ typedef struct CompilerStateDef {
     HashMap* function_registry;
 } CompilerState;
 
-FunctionRegistryEntry* create_function_registry_entry(const char* return_type, ds_array* parameter_types, ASTNode* body);
+FunctionRegistryEntry* create_function_registry_entry(const char* return_type, ds_char_ptr_array* parameter_types, ASTNode* body);
 TypeRegistryEntry* create_type_registry_entry(uint8_t bit_size, TypeOptions option);
 ForestEntry* create_forest_entry(const char* file_path, ASTNode* root);
 CompilerState* create_compiler_state();

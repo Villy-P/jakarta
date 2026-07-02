@@ -1,6 +1,7 @@
 #pragma once
 
 #include "compiler_state.h"
+#include "container.h"
 #include "data_structures/hashmap.h"
 #include "syntax.h"
 
@@ -24,7 +25,7 @@ typedef struct SymbolTableDef {
     HashMap* table;
 
     struct SymbolTableDef* parent;
-    ds_array children;
+    ds_symbol_table_ptr_array children;
 } SymbolTable;
 
 SymbolTable* create_symbol_table();

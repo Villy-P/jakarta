@@ -23,6 +23,6 @@ void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) 
         }
     }
 
-    ds_array_push(class_node->nodes, class_body);
-    ds_array_push(ast_node->nodes, class_node);
+    ds_astnode_ptr_array_push(class_node->nodes, class_body);
+    ds_astnode_ptr_array_push(ast_node->nodes, class_node);
 }

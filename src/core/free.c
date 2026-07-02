@@ -5,7 +5,6 @@
 #include "syntax.h"
 
 void free_tokenizer(Tokenizer* tokenizer) {
-    ds_array_destroy(&tokenizer->tokens);
     free(tokenizer);
 }
 

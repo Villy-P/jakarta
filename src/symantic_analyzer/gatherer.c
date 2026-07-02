@@ -1,5 +1,4 @@
-#define DS_C_IMPLEMENTATION
-#include <libds_c.h>
+#include "data_structures/container.h"
 
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
@@ -12,12 +11,12 @@ void gather_declarations(CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Gathering declarations from AST");
 
     for (unsigned int i = 0; i < state->forest.length; ++i) {
-        ForestEntry* entry = DSM_ARRAY_GET(&state->forest, i, ForestEntry*);
+        ForestEntry* entry = ds_forest_entry_ptr_array_get(&state->forest, i);
         ASTNode* ast_root = entry->root;
         log_msg(logs.main, "[SEMANTIC ANALYZER] Gathering declarations from file: %s", entry->file_path);
 
         for (unsigned int j = 0; j < ast_root->nodes->length; ++j) {
-            ASTNode* node = DSM_ARRAY_GET(ast_root->nodes, j, ASTNode*);
+            ASTNode* node = ds_astnode_ptr_array_get(ast_root->nodes, j);
             if (node->identifier == AST_IDENTIFIER_FUNCTION_DEFINITION) {
                 add_symbol_tree_token(node->token, create_symbol_table_entry(node->token->content, SYMBOL_FUNCTION), state->symbol_tree, state);
                 insert(state->function_registry, node->token->content, create_function_registry_entry_from_astnode(node));

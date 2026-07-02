@@ -14,20 +14,20 @@ void parse_variable(Tokenizer* tokenizer, ASTNode* ast_node) {
     if (peek(tokenizer, SYMBOL_SEMICOLON)) {
         consume(tokenizer);
         ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, nullptr);
-        ds_array_push(variable_node->nodes, variable_content_node);
-        ds_array_push(ast_node->nodes, variable_node);
+        ds_astnode_ptr_array_push(variable_node->nodes, variable_content_node);
+        ds_astnode_ptr_array_push(ast_node->nodes, variable_node);
         return;
     }
     Token* equal_token = peek_consume(tokenizer, SYMBOL_EQUALS);
 
-    ds_stack postfix = infix_to_postfix(tokenizer);
+    ds_astnode_ptr_stack postfix = infix_to_postfix(tokenizer);
     ASTNode* expression = postfix_to_ast(&postfix);
 
     ASTNode* variable_content_node = create_ast_node(AST_IDENTIFIER_VARIABLE_CONTENT, nullptr);
 
-    ds_array_push(variable_content_node->nodes, expression);
-    ds_array_push(variable_node->nodes, variable_content_node);
-    ds_array_push(ast_node->nodes, variable_node);
+    ds_astnode_ptr_array_push(variable_content_node->nodes, expression);
+    ds_astnode_ptr_array_push(variable_node->nodes, variable_content_node);
+    ds_astnode_ptr_array_push(ast_node->nodes, variable_node);
 
     free_token(equal_token);
 }
@@ -44,7 +44,7 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer) {
     ASTNode* variable_type_node = create_ast_node(AST_IDENTIFIER_VARIABLE_TYPE, type_token);
     ASTNode* variable_node = create_ast_node(AST_IDENTIFIER_VARIABLE_DEFINITION, name_token);
 
-    ds_array_push(variable_node->nodes, variable_type_node);
+    ds_astnode_ptr_array_push(variable_node->nodes, variable_type_node);
 
     return variable_node;
 }
@@ -57,7 +57,7 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer) {
 void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving variable definition: %s", node->token->content);
 
-    ASTNode* variable_type_node = DSM_ARRAY_GET(node->nodes, 0, ASTNode*);
+    ASTNode* variable_type_node = ds_astnode_ptr_array_get(node->nodes, 0);
     SymbolTableEntry* type_entry = lookup_type(variable_type_node->token->content, symbol_table);
     if (type_entry == nullptr) {
         return handle_error(
@@ -68,7 +68,7 @@ void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table, Compi
     }
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved variable type: %s", type_entry->name);
 
-    ASTNode* variable_content_node = DSM_ARRAY_GET(node->nodes, 1, ASTNode*);
+    ASTNode* variable_content_node = ds_astnode_ptr_array_get(node->nodes, 1);
     if (variable_content_node->nodes->length == 0) {
         return;
     }

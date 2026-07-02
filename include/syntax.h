@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ds_stack.h"
+#include "data_structures/container.h"
 #include "symbol.h"
 #include <stdint.h>
 
@@ -47,8 +47,8 @@ void parse_if(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state);
 void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node);
 
 // Expressions
-ds_stack infix_to_postfix(Tokenizer* tokenizer);
-ASTNode* postfix_to_ast(ds_stack* postfix);
+ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer);
+ASTNode* postfix_to_ast(ds_astnode_ptr_stack* postfix);
 unsigned int precedence(const char* operator);
 void parse_expression(Tokenizer* tokenizer, ASTNode* ast_node);
 void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node, Type* type);

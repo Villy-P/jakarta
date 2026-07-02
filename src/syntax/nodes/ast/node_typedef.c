@@ -15,8 +15,8 @@ void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {
     ASTNode* typedef_node = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION, type_alias);
     ASTNode* type_node = create_ast_node(AST_IDENTIFIER_TYPE_DEFINITION_TYPE, type_name);
 
-    ds_array_push(typedef_node->nodes, type_node);
-    ds_array_push(ast_node->nodes, typedef_node);
+    ds_astnode_ptr_array_push(typedef_node->nodes, type_node);
+    ds_astnode_ptr_array_push(ast_node->nodes, typedef_node);
 
     free_token(typedef_keyword);
     free_token(semicolon);

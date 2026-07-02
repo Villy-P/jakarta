@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libds_c.h"
+#include "container.h"
 #include "syntax.h"
 
 typedef enum ASTIdentifierDef {
@@ -66,7 +66,7 @@ extern const char* const AST_NODE_NAMES[];
 typedef struct ASTNodeDef {
     ASTIdentifier identifier;
     Token* token;
-    ds_array* nodes;
+    ds_astnode_ptr_array* nodes;
 } ASTNode;
 
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token);

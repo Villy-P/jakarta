@@ -17,7 +17,7 @@ Tokenizer* create_tokenizer(size_t initial_size) {
     if (tokenizer == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer");
     }
-    if (!ds_array_init(&tokenizer->tokens, initial_size)) {
+    if (!ds_token_ptr_array_init(&tokenizer->tokens, initial_size, nullptr, nullptr)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer tokens array");
     }
     return tokenizer;
@@ -25,7 +25,7 @@ Tokenizer* create_tokenizer(size_t initial_size) {
 
 void print_tokens(Tokenizer* tokenizer) {
     for (size_t i = 0; i < tokenizer->tokens.length; i++) {
-        Token* token = DSM_ARRAY_GET(&tokenizer->tokens, i, Token*);
+        Token* token = ds_token_ptr_array_get(&tokenizer->tokens, i);
         printf(
             "Token #%.2zu: %10s at %d:%d, with symbol %d\n", i, 
             token->content, 
@@ -36,13 +36,13 @@ void print_tokens(Tokenizer* tokenizer) {
 }
 
 Token* consume(Tokenizer* tokenizer) {
-    Token* content = DSM_ARRAY_GET(&tokenizer->tokens, 0, Token*);
-    ds_array_remove(&tokenizer->tokens, 0);
+    Token* content = ds_token_ptr_array_get(&tokenizer->tokens, 0);
+    ds_token_ptr_array_remove(&tokenizer->tokens, 0, nullptr);
     return content;
 }
 
 bool peek(Tokenizer* tokenizer, Symbol symbol) {
-    Token* token = DSM_ARRAY_GET(&tokenizer->tokens, 0, Token*);
+    Token* token = ds_token_ptr_array_get(&tokenizer->tokens, 0);
     return token->symbol == symbol;
 }
 
@@ -50,7 +50,7 @@ bool peek_ahead(Tokenizer* tokenizer, Symbol symbol, size_t offset) {
     if (offset >= tokenizer->tokens.length) {
         return false;
     }
-    Token* token = DSM_ARRAY_GET(&tokenizer->tokens, offset, Token*);
+    Token* token = ds_token_ptr_array_get(&tokenizer->tokens, offset);
     return token->symbol == symbol;
 }
 
@@ -58,14 +58,14 @@ bool peek_type(Tokenizer* tokenizer) {
     if (tokenizer->tokens.length == 0) {
         return false;
     }
-    Token* token = DSM_ARRAY_GET(&tokenizer->tokens, 0, Token*);
+    Token* token = ds_token_ptr_array_get(&tokenizer->tokens, 0);
     return (token->symbol == SYMBOL_IDENTIFIER);
 }
 
 Token* peek_consume(Tokenizer* tokenizer, Symbol symbol) {
     if (!peek(tokenizer, symbol)) {
         char* expected = get_string_from_symbol(symbol);
-        Token* token = DSM_ARRAY_GET(&tokenizer->tokens, 0, Token*);
+        Token* token = ds_token_ptr_array_get(&tokenizer->tokens, 0);
         char* got = token->content;
         jakarta_error_invalid_token(expected, got);
     }
@@ -80,8 +80,8 @@ static ASTNode* create_dummy_function_node(char* name) {
 }
 
 void add_built_in_functions(CompilerState* state) {
-    ds_array* write_parameters = ds_array_create(1);
-    ds_array_push(write_parameters, "char");
+    ds_char_ptr_array* write_parameters = ds_char_ptr_array_create(1, nullptr, nullptr);
+    ds_char_ptr_array_push(write_parameters, "char");
 
     FunctionRegistryEntry* write_entry = create_function_registry_entry("void", write_parameters, create_dummy_function_node("write"));
 
