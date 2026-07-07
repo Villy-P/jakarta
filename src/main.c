@@ -6,7 +6,6 @@
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 
-
 int main(int argc, char* argv[]) {
     setup_logs();
     log_msg(logs.main, "[PROGRAM] Program started with %d arguments", argc);
