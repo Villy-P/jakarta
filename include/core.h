@@ -24,15 +24,15 @@
 #define ERROR_UNDEFINED_IDENTIFIER PACK_ERROR(2, 1, 0, 0)
 #define ERROR_MISMATCH_PARAMETER_COUNT PACK_ERROR(3, 3, 0, 0)
 
-#define ERR_UNKNOWN_SYMBOL 2
-#define ERR_CANNOT_CLOSE_FILE 3
-#define ERR_INVALID_TOKEN 4
-#define ERR_UNDEFINED_IDENTIFIER 5
-#define ERR_INVALID_TYPEDEF_LOCATION 6
-#define ERR_DUPLICATE_IDENTIFIER 7
-#define ERR_CUSTOM 8
-#define ERR_MALLOC_FAIL 9
-#define ERR_UNTERMINATED_STRING 10
+static const int32_t ERR_UNKNOWN_SYMBOL = 2;
+static const int32_t ERR_CANNOT_CLOSE_FILE = 3;
+static const int32_t ERR_INVALID_TOKEN = 4;
+static const int32_t ERR_UNDEFINED_IDENTIFIER = 5;
+static const int32_t ERR_INVALID_TYPEDEF_LOCATION = 6;
+static const int32_t ERR_DUPLICATE_IDENTIFIER = 7;
+static const int32_t ERR_CUSTOM = 8;
+static const int32_t ERR_MALLOC_FAIL = 9;
+static const int32_t ERR_UNTERMINATED_STRING = 10;
 
 // error.c
 void jakarta_error(int32_t error_code, Token* token,

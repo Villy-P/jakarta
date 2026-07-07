@@ -13,10 +13,13 @@ Checks: >
   readability-*,
 
   -misc-no-recursion,
+  -llvm-header-guard,
+  -portability-avoid-pragma-once,
+  -clang-analyzer-security.VAList,
   -bugprone-easily-swappable-parameters,
   -readability-function-cognitive-complexity,
-  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
 WarningsAsErrors: ''
-HeaderFilterRegex: '^(src|include|test)/.*'
+HeaderFilterRegex: '^(include|src|test)/.*'
 ExcludeHeaderFilterRegex: '.*(mingw|msys|ucrt|usr|clang|windows|build).*'
 FormatStyle: file

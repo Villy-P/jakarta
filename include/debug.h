@@ -3,10 +3,10 @@
 #include <stdint.h>
 #define PRODUCTION 1
 
-#define TOP_LEVEL 34
-#define CREATION 32
-#define REMOVAL 31
-#define LOG 36
+static const uint8_t TOP_LEVEL = 34;
+static const uint8_t CREATION = 32;
+static const uint8_t REMOVAL = 31;
+static const uint8_t LOG = 36;
 
 #include <stdio.h>
 
@@ -15,7 +15,7 @@ typedef struct {
     FILE* main;
 } LogFiles;
 
-extern LogFiles logs;
+extern LogFiles logs;  // NOLINT
 
 void debug_message(const char* message, uint8_t type);
 void setup_logs();
