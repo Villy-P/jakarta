@@ -20,6 +20,6 @@ Checks: >
   -readability-function-cognitive-complexity,
   -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
 WarningsAsErrors: ''
-HeaderFilterRegex: '^(include|src|test)/.*'
+HeaderFilterRegex: '.*/(include|src|test)/.*'
 ExcludeHeaderFilterRegex: '.*(mingw|msys|ucrt|usr|clang|windows|build).*'
 FormatStyle: file
