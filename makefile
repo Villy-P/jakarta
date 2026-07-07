@@ -1,6 +1,6 @@
 # Ensures commands run in one shell and prevent issues with file names
 .ONESHELL:
-.PHONY: setup setup-prod build build-prod run run-build-if clean rebuild production help
+.PHONY: setup setup-prod build build-prod run run-build-if clean rebuild production help cppcheck lint analyze
 
 # Sets up basic build variables
 BUILD_DIR := build
@@ -26,6 +26,7 @@ endif
 
 # Run once when first initializing project
 setup:
+	pre-commit install
 	cmake -S . -B $(BUILD_DIR) -G Ninja \
 	-DCMAKE_C_COMPILER=clang \
 	-DCMAKE_CXX_COMPILER=clang++ \

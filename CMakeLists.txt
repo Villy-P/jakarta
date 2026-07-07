@@ -8,12 +8,26 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-file(GLOB_RECURSE JAKARTA_SOURCES CONFIGURE_DEPENDS "src/*.c" "src/*.cpp")
-file(GLOB_RECURSE JAKARTA_TEST_SOURCES CONFIGURE_DEPENDS "src/*.c" "src/**/*.c" "test/*.c" "src/*.cpp")
+file(GLOB_RECURSE JAKARTA_SOURCES CONFIGURE_DEPENDS 
+    ${CMAKE_SOURCE_DIR}/src/*.c
+)
+file(GLOB_RECURSE JAKARTA_TEST_SOURCES CONFIGURE_DEPENDS
+    ${CMAKE_SOURCE_DIR}/src/*.c
+    ${CMAKE_SOURCE_DIR}/tests/*.c
+)
+file(GLOB_RECURSE JAKARTA_FORMAT_SOURCES CONFIGURE_DEPENDS
+    ${CMAKE_SOURCE_DIR}/src/*.c
+    ${CMAKE_SOURCE_DIR}/include/*.h
+)
 
 list(FILTER JAKARTA_TEST_SOURCES EXCLUDE REGEX ".*src/main.c$")
 
 include_directories(include/)
+
+find_program(PRE_COMMIT_EXE NAMES pre-commit)
+if(NOT PRE_COMMIT_EXE)
+    message(WARNING "pre-commit not found — run: pip install pre-commit --break-system-packages")
+endif()
 
 include(FetchContent)
 fetchcontent_declare(cpptrace
