@@ -9,7 +9,7 @@
 
 #include "debug.h"
 
-LogFiles logs;
+LogFiles logs;  // NOLINT
 
 static const int LOG_TIME_STRING_BUFFER = 20;
 
@@ -56,7 +56,7 @@ void cleanup_logs() {
 }
 
 void log_msg(FILE* file, const char* format, ...) {
-    va_list args;
+    va_list args;  // NOLINT
     va_start(args, format);
 
     struct timeval timev;

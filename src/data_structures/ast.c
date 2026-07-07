@@ -92,7 +92,7 @@ void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
         node_name = "UNKNOWN_NODE";
     }
 
-    const char* marker = is_last ? "└── " : "├── ";
+    const char* marker = (int)is_last ? "└── " : "├── ";
     if (fprintf(logs.ast, "%s%s%s", prefix, marker, node_name) < 0) {
         jakarta_error(ERR_CUSTOM, nullptr, "Failed to print AST node");
     }
@@ -109,7 +109,7 @@ void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
 
     char new_prefix[AST_PRINT_BUFFER_SIZE];
     if (snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix,
-                 is_last ? "    " : "│   ") < 0) {
+                 (int)is_last ? "    " : "│   ") < 0) {
         jakarta_error(ERR_CUSTOM, nullptr, "Failed to create new prefix");
     }
 
