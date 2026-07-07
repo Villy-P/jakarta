@@ -18,8 +18,8 @@ Tokenizer* create_tokenizer(size_t initial_size) {
     if (tokenizer == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer");
     }
-    if (!ds_token_ptr_array_init(&tokenizer->tokens, initial_size, nullptr,
-                                 nullptr, nullptr)) {
+    if (ds_token_ptr_array_init(&tokenizer->tokens, initial_size, nullptr,
+                                nullptr, nullptr) != DS_STATUS_OK) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer tokens array");
     }
     return tokenizer;

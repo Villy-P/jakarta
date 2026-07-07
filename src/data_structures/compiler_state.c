@@ -22,13 +22,14 @@ CompilerState* create_compiler_state() {
         return nullptr;
     }
 
-    if (!ds_forest_entry_ptr_array_init(&state->forest, INITIAL_FOREST_SIZE,
-                                        nullptr, nullptr, nullptr) ||
-        !ds_char_ptr_array_init(&state->files_to_parse,
-                                INITIAL_FILES_TO_PARSE_SIZE, nullptr, nullptr,
-                                nullptr) ||
-        !ds_char_ptr_array_init(&state->error_list, INITIAL_ERROR_LIST_SIZE,
-                                nullptr, nullptr, nullptr)) {
+    if (ds_forest_entry_ptr_array_init(&state->forest, INITIAL_FOREST_SIZE,
+                                       nullptr, nullptr,
+                                       nullptr) != DS_STATUS_OK ||
+        ds_char_ptr_array_init(&state->files_to_parse,
+                               INITIAL_FILES_TO_PARSE_SIZE, nullptr, nullptr,
+                               nullptr) != DS_STATUS_OK ||
+        ds_char_ptr_array_init(&state->error_list, INITIAL_ERROR_LIST_SIZE,
+                               nullptr, nullptr, nullptr) != DS_STATUS_OK) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "CompilerState arrays");
         free(state);
         return nullptr;

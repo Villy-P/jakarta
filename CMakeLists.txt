@@ -13,7 +13,7 @@ file(GLOB_RECURSE JAKARTA_SOURCES CONFIGURE_DEPENDS
 )
 file(GLOB_RECURSE JAKARTA_TEST_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/src/*.c
-    ${CMAKE_SOURCE_DIR}/tests/*.c
+    ${CMAKE_SOURCE_DIR}/test/*.c
 )
 file(GLOB_RECURSE JAKARTA_FORMAT_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/src/*.c
@@ -60,6 +60,7 @@ pkg_check_modules(PCRE2 REQUIRED libpcre2-8)
 
 target_link_options(jakarta_common_flags INTERFACE
     -g
+    $<$<PLATFORM_ID:Windows>:-mconsole>
     $<$<PLATFORM_ID:Windows>:-Wl,--export-all-symbols>
     $<$<PLATFORM_ID:Windows>:-Wl,--enable-auto-image-base>
 )

@@ -1,7 +1,5 @@
 #include <assert.h>
 
-#include "symbol.h"
-
 int main() {
     assert(is_number_symbol("10"));
     assert(is_number_symbol("100"));
