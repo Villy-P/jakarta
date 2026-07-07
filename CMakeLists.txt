@@ -20,8 +20,6 @@ file(GLOB_RECURSE JAKARTA_FORMAT_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/include/*.h
 )
 
-include(cmake/ClangFormat.cmake)
-
 list(FILTER JAKARTA_TEST_SOURCES EXCLUDE REGEX ".*src/main.c$")
 
 include_directories(include/)
@@ -80,6 +78,8 @@ target_link_libraries(${EXEC_NAME_TEST} PRIVATE ${PCRE2_LINK_LIBRARIES})
 
 find_program(CLANG_TIDY_EXE NAMES clang-tidy)
 find_program(CPPCHECK_EXE NAMES cppcheck)
+find_program(RUN_CLANG_TIDY_EXE NAMES run-clang-tidy run-clang-tidy.py)
+find_package(Python3 COMPONENTS Interpreter)
 
 if(CLANG_TIDY_EXE)
     message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
@@ -121,4 +121,17 @@ if(CPPCHECK_EXE)
     )
 else()
     message(STATUS "cppcheck not found")
+endif()
+
+if(RUN_CLANG_TIDY_EXE AND Python3_Interpreter_FOUND)
+    message(STATUS "run-clang-tidy found: ${RUN_CLANG_TIDY_EXE}")
+    add_custom_target(run-clang-tidy
+        COMMAND Python3::Interpreter ${RUN_CLANG_TIDY_EXE} -p ${CMAKE_BINARY_DIR} -quiet
+            "^(?!.*build).*(src|include|test)(/|\\\\).*\\.(cpp|h|c|hpp)$"
+        COMMENT "Running run-clang-tidy..."
+        USES_TERMINAL
+        VERBATIM
+    )
+else()
+    message(STATUS "run-clang-tidy/Python not found")
 endif()

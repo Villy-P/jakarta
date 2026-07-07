@@ -47,6 +47,9 @@ build-prod:
 lint:
 	cmake --build $(BUILD_DIR) --target clang-tidy
 
+run-clang-tidy:
+	cmake --build $(BUILD_DIR) --target run-clang-tidy
+
 cppcheck:
 	cmake --build $(BUILD_DIR) --target cppcheck
 
