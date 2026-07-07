@@ -20,6 +20,8 @@ file(GLOB_RECURSE JAKARTA_FORMAT_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/include/*.h
 )
 
+include(cmake/ClangFormat.cmake)
+
 list(FILTER JAKARTA_TEST_SOURCES EXCLUDE REGEX ".*src/main.c$")
 
 include_directories(include/)
@@ -42,7 +44,7 @@ fetchcontent_declare(libds-c
 )
 fetchcontent_makeavailable(libds-c)
 
-add_definitions(-DDS_DEFINE_STACK)
+add_definitions(-DDS_DEFINE_STACK_IMPLEMENTATION)
 
 add_library(jakarta_common_flags INTERFACE)
 

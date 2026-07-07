@@ -22,12 +22,12 @@ CompilerState* create_compiler_state() {
     }
 
     if (!ds_forest_entry_ptr_array_init(&state->forest, INITIAL_FOREST_SIZE,
-                                        nullptr, nullptr) ||
+                                        nullptr, nullptr, nullptr) ||
         !ds_char_ptr_array_init(&state->files_to_parse,
-                                INITIAL_FILES_TO_PARSE_SIZE, nullptr,
+                                INITIAL_FILES_TO_PARSE_SIZE, nullptr, nullptr,
                                 nullptr) ||
         !ds_char_ptr_array_init(&state->error_list, INITIAL_ERROR_LIST_SIZE,
-                                nullptr, nullptr)) {
+                                nullptr, nullptr, nullptr)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "CompilerState arrays");
         free(state);
         return nullptr;
@@ -97,7 +97,7 @@ FunctionRegistryEntry* create_function_registry_entry_from_astnode(
 
     char* return_type = return_type_node->token->content;
     ds_char_ptr_array* parameter_types = ds_char_ptr_array_create(
-        parameters_node->nodes->length, nullptr, nullptr);
+        parameters_node->nodes->length, nullptr, nullptr, nullptr);
     for (unsigned int i = 0; i < parameters_node->nodes->length; ++i) {
         ASTNode* parameter_node =
             ds_astnode_ptr_array_get(parameters_node->nodes, i);

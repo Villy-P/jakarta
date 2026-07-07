@@ -6,7 +6,6 @@
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 
-
 typedef enum {
     BIT_SIZE = 1,
     BYTE_SIZE = 8,

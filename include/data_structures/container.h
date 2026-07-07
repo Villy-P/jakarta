@@ -15,4 +15,4 @@ DS_DEFINE_ARRAY(ForestEntry*, ds_forest_entry_ptr_array)
 DS_DEFINE_ARRAY(Token*, ds_token_ptr_array)
 DS_DEFINE_ARRAY(SymbolTable*, ds_symbol_table_ptr_array)
 
-DS__DEFINE_STACK(ASTNode*, ds_astnode_ptr_stack)
+DS_DEFINE_STACK(ASTNode*, ds_astnode_ptr_stack)

@@ -9,7 +9,6 @@
 #include "debug.h"
 #include "syntax.h"
 
-
 static const int INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY = 10;
 
 SymbolTable* create_symbol_table() {
@@ -22,7 +21,7 @@ SymbolTable* create_symbol_table() {
     symbol_table->parent = nullptr;
     if (!ds_symbol_table_ptr_array_init(&symbol_table->children,
                                         INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY,
-                                        nullptr, nullptr)) {
+                                        nullptr, nullptr, nullptr)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTable children array");
         return nullptr;
     }

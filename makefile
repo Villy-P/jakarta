@@ -67,6 +67,12 @@ run-test: build
 # Cleans up the build directory
 clean:
 	$(CLEAN) $(BUILD_DIR)
+
+clang-format:
+	cmake --build $(BUILD_DIR) --target clang-format
+
+clang-format-check:
+	cmake --build $(BUILD_DIR) --target clang-format-check
 	
 rebuild: clean setup run
 production: clean setup-prod build-prod
@@ -84,3 +90,5 @@ help:
 	@echo "  lint        - Run clang-tidy"
 	@echo "  cppcheck    - Run cppcheck"
 	@echo "  analyze     - Run both analyzers"
+	@echo "  clang-format - Format code using clang-format"
+	@echo "  clang-format-check - Check code formatting using clang-format"

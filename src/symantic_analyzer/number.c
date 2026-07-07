@@ -2,7 +2,6 @@
 
 #include "semantic_analyzer.h"
 
-
 bool is_numeric_type(char* type_name) {
     return is_integer_type(type_name) || is_decimal_type(type_name);
 }

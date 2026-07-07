@@ -12,14 +12,13 @@
 #include "symbol.h"
 #include "syntax.h"
 
-
 Tokenizer* create_tokenizer(size_t initial_size) {
     Tokenizer* tokenizer = malloc(sizeof(Tokenizer));
     if (tokenizer == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer");
     }
     if (!ds_token_ptr_array_init(&tokenizer->tokens, initial_size, nullptr,
-                                 nullptr)) {
+                                 nullptr, nullptr)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "Tokenizer tokens array");
     }
     return tokenizer;
@@ -81,7 +80,7 @@ static ASTNode* create_dummy_function_node(char* name) {
 
 void add_built_in_functions(CompilerState* state) {
     ds_char_ptr_array* write_parameters =
-        ds_char_ptr_array_create(1, nullptr, nullptr);
+        ds_char_ptr_array_create(1, nullptr, nullptr, nullptr);
     ds_char_ptr_array_push(write_parameters, "char");
 
     FunctionRegistryEntry* write_entry = create_function_registry_entry(

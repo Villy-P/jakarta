@@ -29,9 +29,12 @@ typedef struct SymbolTableDef {
 } SymbolTable;
 
 SymbolTable* create_symbol_table();
-SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_type);
+SymbolTableEntry* create_symbol_table_entry(const char* name,
+                                            SymbolType data_type);
 
-void add_symbol_tree_token(Token* token, SymbolTableEntry* entry, SymbolTable* symbol_table, CompilerState* state);
+void add_symbol_tree_token(Token* token, SymbolTableEntry* entry,
+                           SymbolTable* symbol_table, CompilerState* state);
 void add_symbol_tree_entry(SymbolTableEntry* entry, SymbolTable* symbol_table);
 
-SymbolTableEntry* get_symbol_tree_entry(const char* name, SymbolTable* symbol_table);
+SymbolTableEntry* get_symbol_tree_entry(const char* name,
+                                        SymbolTable* symbol_table);

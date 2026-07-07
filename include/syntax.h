@@ -5,7 +5,6 @@
 #include "data_structures/container.h"
 #include "symbol.h"
 
-
 #define INITIAL_TOKENS_LENGTH 64
 
 // forward declerations

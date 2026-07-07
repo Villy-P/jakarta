@@ -6,7 +6,6 @@
 #include "debug.h"
 #include "semantic_analyzer.h"
 
-
 void gather_declarations(CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Gathering declarations from AST");
 

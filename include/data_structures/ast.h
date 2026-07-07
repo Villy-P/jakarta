@@ -43,7 +43,7 @@ typedef enum ASTIdentifierDef {
 
     AST_IDENTIFIER_OPERATOR,
     AST_IDENTIFIER_VALUE,
-    
+
     AST_IDENTIFIER_RETURN,
 
     AST_IDENTIFIER_FOR,

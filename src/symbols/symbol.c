@@ -4,7 +4,6 @@
 
 #include "core.h"
 
-
 Symbol get_symbol_from_char(char character) {
     switch (character) {
         case '`':
