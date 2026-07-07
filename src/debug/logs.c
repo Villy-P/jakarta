@@ -61,19 +61,20 @@ void log_msg(FILE* file, const char* format, ...) {
 
     struct timeval timev;
     gettimeofday(&timev, nullptr);
-    
+
     struct tm time_info;
-    #ifdef _WIN32
-        time_t raw_time = (time_t)timev.tv_sec;
-        if (localtime_s(&time_info, &raw_time) != 0) {
-            debug_message("Error: Failed to get local time", LOG);
-        }
-    #else
-        localtime_r(&timev.tv_sec, &time_info);
-    #endif
+#ifdef _WIN32
+    time_t raw_time = (time_t)timev.tv_sec;
+    if (localtime_s(&time_info, &raw_time) != 0) {
+        debug_message("Error: Failed to get local time", LOG);
+    }
+#else
+    localtime_r(&timev.tv_sec, &time_info);
+#endif
 
     char time_str[LOG_TIME_STRING_BUFFER];
-    if (strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", &time_info) == 0) {
+    if (strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", &time_info) ==
+        0) {
         debug_message("Error: Failed to format time", LOG);
     }
 

@@ -1,7 +1,6 @@
 #include "symbol.h"
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include <pcre2.h>
-
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +11,8 @@
 #include "debug.h"
 #include "syntax.h"
 
-void read_line(char* line, const char* file_name, uint32_t line_number, Tokenizer* tokenizer) {
+void read_line(char* line, const char* file_name, uint32_t line_number,
+               Tokenizer* tokenizer) {
     uint32_t col = 1;
     while (strcmp(line, "\0") != 0) {
         if (line[0] == '/' && line[1] == '/') {
@@ -20,10 +20,12 @@ void read_line(char* line, const char* file_name, uint32_t line_number, Tokenize
         }
         if (line[0] == '"') {
             char* str_lit = get_string_literal(&line);
-            Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col, str_lit, file_name);
+            Token* token = create_token(SYMBOL_STRING_LITERAL, line_number, col,
+                                        str_lit, file_name);
             col += strlen(str_lit) + 2;
             ds_token_ptr_array_push(&tokenizer->tokens, token);
-            log_msg(logs.main, "[TOKEN] Added string literal %d @ (%d, %d): %s", token->symbol, token->line, token->col, token->content);
+            log_msg(logs.main, "[TOKEN] Added string literal %d @ (%d, %d): %s",
+                    token->symbol, token->line, token->col, token->content);
 
             free(str_lit);
             continue;
@@ -31,10 +33,12 @@ void read_line(char* line, const char* file_name, uint32_t line_number, Tokenize
         char* str = get_string(&line);
         if (str != nullptr) {
             Symbol symbol = get_keyword_from_str(str);
-            Token* token = create_token(symbol, line_number, col, str, file_name);
+            Token* token =
+                create_token(symbol, line_number, col, str, file_name);
             col += strlen(str);
             ds_token_ptr_array_push(&tokenizer->tokens, token);
-            log_msg(logs.main, "[TOKEN] Added string token %d @ (%d, %d): %s", token->symbol, token->line, token->col, token->content);
+            log_msg(logs.main, "[TOKEN] Added string token %d @ (%d, %d): %s",
+                    token->symbol, token->line, token->col, token->content);
         } else {
             char token = line[0];
             if (token == ' ' || token == '\n') {
@@ -46,9 +50,13 @@ void read_line(char* line, const char* file_name, uint32_t line_number, Tokenize
             token_ptr[0] = token;
             token_ptr[1] = '\0';
             Symbol token_symbol = get_symbol_from_char(token);
-            Token* token_obj = create_token(token_symbol, line_number, col, token_ptr, file_name);
+            Token* token_obj = create_token(token_symbol, line_number, col,
+                                            token_ptr, file_name);
             ds_token_ptr_array_push(&tokenizer->tokens, token_obj);
-            log_msg(logs.main, "[TOKEN] Added non-string token %d @ (%d, %d): %s", token_obj->symbol, token_obj->line, token_obj->col, token_obj->content);
+            log_msg(logs.main,
+                    "[TOKEN] Added non-string token %d @ (%d, %d): %s",
+                    token_obj->symbol, token_obj->line, token_obj->col,
+                    token_obj->content);
             line++;
             col++;
             free(token_ptr);
@@ -75,37 +83,40 @@ char* get_string_literal(char** line) {
         memcpy(str, start, length);
         (*line)++;
         return str;
-    } 
+    }
     jakarta_error(ERR_UNTERMINATED_STRING, nullptr, start);
     return nullptr;
 }
 
 char* get_string(char** line) {
-    pcre2_code *regex = nullptr;
+    pcre2_code* regex = nullptr;
     int errornumber = 0;
     PCRE2_SIZE erroroffset = 0;
     PCRE2_SPTR pattern = (PCRE2_SPTR)"^(\\d+\\.?\\d*|\\w+|=[=!><]|[\\+\\-\\*\\/%&\\|\\^]=|\\+\\+|--|<<|>>>?|&&?|\\|\\|?|>=|<=|!|!=|\\[\\])";
 
     // Compile the pattern
-    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, nullptr);
+    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber,
+                          &erroroffset, nullptr);
     if (!regex) {
-        return nullptr; // Compilation failed
+        return nullptr;  // Compilation failed
     }
 
     // Create match data
-    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(regex, nullptr);
-    
+    pcre2_match_data* match_data =
+        pcre2_match_data_create_from_pattern(regex, nullptr);
+
     // Perform match
-    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)*line, strlen(*line), 0, 0, match_data, nullptr);
-    
+    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)*line, strlen(*line), 0, 0,
+                              match_data, nullptr);
+
     char* str = nullptr;
     if (rcmatch > 0) {
-        PCRE2_SIZE *ovector = pcre2_get_ovector_pointer(match_data);
+        PCRE2_SIZE* ovector = pcre2_get_ovector_pointer(match_data);
         size_t match_len = ovector[1] - ovector[0];
         str = calloc(match_len + 1, sizeof(char));
         memcpy(str, *line + ovector[0], match_len);
-        
-        *line += match_len; // Advance the pointer
+
+        *line += match_len;  // Advance the pointer
     }
 
     // Cleanup
@@ -116,21 +127,24 @@ char* get_string(char** line) {
 }
 
 bool is_number_symbol(char* str) {
-    pcre2_code *regex = nullptr;
+    pcre2_code* regex = nullptr;
     int errornumber = 0;
     PCRE2_SIZE erroroffset = 0;
-    
+
     // -?(0x[0-9A-Fa-f]+|0b[01]+|0[0-7]+|([0-9]*\\.[0-9]+|[0-9]+\\.?)([eE][+-]?[0-9]+)?)
-    PCRE2_SPTR pattern = (PCRE2_SPTR)"^[0-9]+\\.?[0-9]*$";
-    
-    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber, &erroroffset, nullptr);
+    PCRE2_SPTR pattern = (PCRE2_SPTR) "^[0-9]+\\.?[0-9]*$";
+
+    regex = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errornumber,
+                          &erroroffset, nullptr);
     if (!regex) {
         return false;
     }
-    
-    pcre2_match_data *match_data = pcre2_match_data_create_from_pattern(regex, nullptr);
-    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)str, strlen(str), 0, 0, match_data, nullptr);
-    
+
+    pcre2_match_data* match_data =
+        pcre2_match_data_create_from_pattern(regex, nullptr);
+    int rcmatch = pcre2_match(regex, (PCRE2_SPTR)str, strlen(str), 0, 0,
+                              match_data, nullptr);
+
     pcre2_code_free(regex);
 
     return rcmatch >= 0;

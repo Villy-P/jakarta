@@ -1,12 +1,13 @@
+#include <errhandlingapi.h>
+
 #include "cmd.h"
 #include "core.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 
-#include <errhandlingapi.h>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     setup_logs();
     log_msg(logs.main, "[PROGRAM] Program started with %d arguments", argc);
 

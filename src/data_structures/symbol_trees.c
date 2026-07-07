@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "core.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
@@ -6,8 +9,6 @@
 #include "debug.h"
 #include "syntax.h"
 
-#include <stdlib.h>
-#include <string.h>
 
 static const int INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY = 10;
 
@@ -19,14 +20,17 @@ SymbolTable* create_symbol_table() {
     }
     symbol_table->table = create_hashmap();
     symbol_table->parent = nullptr;
-    if (!ds_symbol_table_ptr_array_init(&symbol_table->children, INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY, nullptr, nullptr)) {
+    if (!ds_symbol_table_ptr_array_init(&symbol_table->children,
+                                        INITIAL_SYMBOL_TABLE_CHILDREN_CAPACITY,
+                                        nullptr, nullptr)) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTable children array");
         return nullptr;
     }
     return symbol_table;
 }
 
-SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_type) {
+SymbolTableEntry* create_symbol_table_entry(const char* name,
+                                            SymbolType data_type) {
     SymbolTableEntry* entry = malloc(sizeof(SymbolTableEntry));
     if (!entry) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "SymbolTableEntry");
@@ -38,10 +42,12 @@ SymbolTableEntry* create_symbol_table_entry(const char* name, SymbolType data_ty
     return entry;
 }
 
-void add_symbol_tree_token(Token* token, SymbolTableEntry* entry, SymbolTable* symbol_table, CompilerState* state) {
+void add_symbol_tree_token(Token* token, SymbolTableEntry* entry,
+                           SymbolTable* symbol_table, CompilerState* state) {
     void* existing_node = get(symbol_table->table, token->content);
     if (existing_node != nullptr) {
-        return handle_error(ERROR_DUPLICATE_IDENTIFIER, token, state, (ASTNode*)existing_node);
+        return handle_error(ERROR_DUPLICATE_IDENTIFIER, token, state,
+                            (ASTNode*)existing_node);
     }
     insert(symbol_table->table, entry->name, entry);
     log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s", token->content);
@@ -55,6 +61,7 @@ void add_symbol_tree_entry(SymbolTableEntry* entry, SymbolTable* symbol_table) {
     log_msg(logs.main, "[SYMBOL TABLE] Added symbol: %s", entry->name);
 }
 
-SymbolTableEntry* get_symbol_tree_entry(const char* name, SymbolTable* symbol_table) {
+SymbolTableEntry* get_symbol_tree_entry(const char* name,
+                                        SymbolTable* symbol_table) {
     return (SymbolTableEntry*)get(symbol_table->table, name);
 }

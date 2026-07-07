@@ -4,7 +4,8 @@
 #include "symbol.h"
 #include "syntax.h"
 
-void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
+void parse_class(Tokenizer* tokenizer, ASTNode* ast_node,
+                 CompilerState* state) {
     consume(tokenizer);
 
     Token* name = consume(tokenizer);
@@ -19,7 +20,8 @@ void parse_class(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) 
         } else if (peek(tokenizer, KEYWORD_FUNC)) {
             parse_func(tokenizer, class_body, state);
         } else {
-            jakarta_error(ERR_INVALID_TOKEN, consume(tokenizer), "variable or function");
+            jakarta_error(ERR_INVALID_TOKEN, consume(tokenizer),
+                          "variable or function");
         }
     }
 

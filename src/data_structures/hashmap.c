@@ -1,9 +1,10 @@
+#include "data_structures/hashmap.h"
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "core.h"
-#include "data_structures/hashmap.h"
 
 static const int HASHMAP_HASH_VALUE = 5381;
 static const int HASHMAP_HASH_VALUE_SHIFT = 5;
@@ -12,8 +13,9 @@ int hash(const char* key) {
     unsigned long hash_value = HASHMAP_HASH_VALUE;
     int hash = 0;
     while ((hash = *(unsigned char*)key++)) {
-        hash_value = ((hash_value << HASHMAP_HASH_VALUE_SHIFT) + hash_value) + hash;
-}
+        hash_value =
+            ((hash_value << HASHMAP_HASH_VALUE_SHIFT) + hash_value) + hash;
+    }
     return (int)(hash_value % HASHMAP_ARRAY_SIZE);
 }
 

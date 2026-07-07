@@ -73,31 +73,31 @@ typedef enum SymbolDef {
     KEYWORD_TYPEDEF,
     KEYWORD_WHILE,
 
-    OPERATOR_EQUIVALENCE,               // ==
-    OPERATOR_NOT_EQUIVALENCE,           // !=
-    OPERATOR_GREATER_THAN_OR_EQUAL_TO,  // >=
-    OPERATOR_LESS_THAN_OR_EQUAL_TO,     // <=
-    OPERATOR_INCREMENT,                 // ++
-    OPERATOR_DECREMENT,                 // --
-    OPERATOR_ADDITION_ASSIGNMENT,       // +=
-    OPERATOR_SUBTRACTION_ASSIGNMENT,    // -=
-    OPERATOR_MULTIPLICATION_ASSIGNMENT, // *=
-    OPERATOR_DIVISION_ASSIGNMENT,       // /=
-    OPERATOR_MODULUS_ASSIGNMENT,        // %=
-    OPERATOR_BITWISE_AND_ASSIGNMENT,    // &=
-    OPERATOR_BITWISE_OR_ASSIGNMENT,     // |=
-    OPERATOR_BITWISE_XOR_ASSIGNMENT,    // ^=
-    OPERATOR_LEFT_SHIFT,                // <<
-    OPERATOR_RIGHT_SHIFT,               // >>
-    OPERATOR_RIGHT_SHIFT_UNSIGNED,      // >>>
-    OPERATOR_NOT,                       // !
-    OPERATOR_BITWISE_AND,               // &
-    OPERATOR_BITWISE_OR,                // |
-    OPERATOR_BITWISE_XOR,               // ^
-    OPERATOR_BITWISE_NOT,               // ~
-    OPERATOR_LOGICAL_AND,               // &&
-    OPERATOR_LOGICAL_OR,                // ||
-    OPERATOR_ARRAY_DECLARATION,         // []
+    OPERATOR_EQUIVALENCE,                // ==
+    OPERATOR_NOT_EQUIVALENCE,            // !=
+    OPERATOR_GREATER_THAN_OR_EQUAL_TO,   // >=
+    OPERATOR_LESS_THAN_OR_EQUAL_TO,      // <=
+    OPERATOR_INCREMENT,                  // ++
+    OPERATOR_DECREMENT,                  // --
+    OPERATOR_ADDITION_ASSIGNMENT,        // +=
+    OPERATOR_SUBTRACTION_ASSIGNMENT,     // -=
+    OPERATOR_MULTIPLICATION_ASSIGNMENT,  // *=
+    OPERATOR_DIVISION_ASSIGNMENT,        // /=
+    OPERATOR_MODULUS_ASSIGNMENT,         // %=
+    OPERATOR_BITWISE_AND_ASSIGNMENT,     // &=
+    OPERATOR_BITWISE_OR_ASSIGNMENT,      // |=
+    OPERATOR_BITWISE_XOR_ASSIGNMENT,     // ^=
+    OPERATOR_LEFT_SHIFT,                 // <<
+    OPERATOR_RIGHT_SHIFT,                // >>
+    OPERATOR_RIGHT_SHIFT_UNSIGNED,       // >>>
+    OPERATOR_NOT,                        // !
+    OPERATOR_BITWISE_AND,                // &
+    OPERATOR_BITWISE_OR,                 // |
+    OPERATOR_BITWISE_XOR,                // ^
+    OPERATOR_BITWISE_NOT,                // ~
+    OPERATOR_LOGICAL_AND,                // &&
+    OPERATOR_LOGICAL_OR,                 // ||
+    OPERATOR_ARRAY_DECLARATION,          // []
 } Symbol;
 
 Symbol get_symbol_from_char(char character);

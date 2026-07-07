@@ -6,7 +6,8 @@
 #include "symbol.h"
 #include "syntax.h"
 
-Token* create_token(Symbol symbol, uint32_t line, uint32_t col, const char* content, const char* file_name) {
+Token* create_token(Symbol symbol, uint32_t line, uint32_t col,
+                    const char* content, const char* file_name) {
     if (content == nullptr) {
         jakarta_error(ERR_CUSTOM, nullptr, "Token content cannot be null");
         return nullptr;

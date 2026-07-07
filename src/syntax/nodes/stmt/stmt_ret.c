@@ -1,9 +1,7 @@
 #include "core.h"
 #include "data_structures/ast.h"
 #include "data_structures/tokenizer.h"
-#include "ds_stack.h"
 #include "syntax.h"
-
 
 void parse_ret(Tokenizer* tokenizer, ASTNode* ast_node) {
     Token* ret = consume(tokenizer);

@@ -1,9 +1,7 @@
-#include "symbol.h"
 #include "data_structures/compiler_state.h"
 #include "data_structures/tokenizer.h"
+#include "symbol.h"
 #include "syntax.h"
-
-
 
 void parse(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     if (peek(tokenizer, KEYWORD_TYPEDEF)) {

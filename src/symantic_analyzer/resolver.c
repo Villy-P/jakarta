@@ -10,13 +10,15 @@ void resolve_types(CompilerState* state) {
     for (unsigned int i = 0; i < state->forest.length; ++i) {
         ForestEntry* entry = ds_forest_entry_ptr_array_get(&state->forest, i);
         ASTNode* ast_root = entry->root;
-        log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from file: %s", entry->file_path);
+        log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving types from file: %s",
+                entry->file_path);
 
         resolve_node(ast_root, state->symbol_tree, state);
     }
 }
 
-void resolve_node(ASTNode* node, SymbolTable* symbol_table, CompilerState* state) {
+void resolve_node(ASTNode* node, SymbolTable* symbol_table,
+                  CompilerState* state) {
     switch (node->identifier) {
         case AST_IDENTIFIER_FUNCTION_DEFINITION:
             return resolve_function_definition(node, symbol_table, state);
@@ -35,7 +37,9 @@ void resolve_node(ASTNode* node, SymbolTable* symbol_table, CompilerState* state
 SymbolTableEntry* lookup_type(const char* target, SymbolTable* symbol_table) {
     while (symbol_table != nullptr) {
         SymbolTableEntry* entry = get_symbol_tree_entry(target, symbol_table);
-        if (entry && (entry->data_type == SYMBOL_TYPE || entry->data_type == SYMBOL_BUILTIN_TYPE || entry->data_type == SYMBOL_CLASS)) {
+        if (entry && (entry->data_type == SYMBOL_TYPE ||
+                      entry->data_type == SYMBOL_BUILTIN_TYPE ||
+                      entry->data_type == SYMBOL_CLASS)) {
             return entry;
         }
         symbol_table = symbol_table->parent;
@@ -43,10 +47,12 @@ SymbolTableEntry* lookup_type(const char* target, SymbolTable* symbol_table) {
     return nullptr;
 }
 
-SymbolTableEntry* lookup_function(const char* target, SymbolTable* symbol_table) {
+SymbolTableEntry* lookup_function(const char* target,
+                                  SymbolTable* symbol_table) {
     while (symbol_table != nullptr) {
         SymbolTableEntry* entry = get_symbol_tree_entry(target, symbol_table);
-        if (entry && (entry->data_type == SYMBOL_FUNCTION || entry->data_type == SYMBOL_BUILTIN_FUNCTION)) {
+        if (entry && (entry->data_type == SYMBOL_FUNCTION ||
+                      entry->data_type == SYMBOL_BUILTIN_FUNCTION)) {
             return entry;
         }
         symbol_table = symbol_table->parent;

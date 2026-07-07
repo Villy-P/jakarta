@@ -1,10 +1,11 @@
-#include "core.h"
 #include "data_structures/ast.h"
-#include "debug.h"
-#include "syntax.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "core.h"
+#include "debug.h"
+#include "syntax.h"
 
 static const int INITIAL_ASTNODE_CHILDREN_CAPACITY = 2;
 static const int AST_PRINT_BUFFER_SIZE = 512;
@@ -19,7 +20,7 @@ const char* const AST_NODE_NAMES[] = {
     [AST_IDENTIFIER_TYPE_DEFINITION_TYPE] = "Typedef Type",
 
     [AST_IDENTIFIER_FUNCTION_DEFINITION] = "Function Definition",
-    [AST_IDENTIFIER_FUNCTION_RETURN_TYPE] = "Function Return Type", 
+    [AST_IDENTIFIER_FUNCTION_RETURN_TYPE] = "Function Return Type",
     [AST_IDENTIFIER_FUNCTION_PARAMETERS] = "Function Parameters",
     [AST_IDENTIFIER_FUNCTION_PARAMETER] = "Function Parameter",
     [AST_IDENTIFIER_FUNCTION_PARAMETER_TYPE] = "Function Parameter Type",
@@ -61,8 +62,7 @@ const char* const AST_NODE_NAMES[] = {
     [AST_LITERAL] = "Variable",
     [AST_NUMBER] = "Number",
     [AST_OPERATOR] = "Operator",
-    [AST_DOT_OPERATOR] = "Dot Operator"
-};
+    [AST_DOT_OPERATOR] = "Dot Operator"};
 
 ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
@@ -72,7 +72,8 @@ ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     }
     node->identifier = identifier;
     node->token = token;
-    node->nodes = ds_astnode_ptr_array_create(INITIAL_ASTNODE_CHILDREN_CAPACITY, nullptr, nullptr);
+    node->nodes = ds_astnode_ptr_array_create(INITIAL_ASTNODE_CHILDREN_CAPACITY,
+                                              nullptr, nullptr);
     if (node->nodes == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "ASTNode children");
         free(node);
@@ -98,7 +99,8 @@ void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
 
     if (node->token != nullptr && node->token->content != nullptr) {
         if (fprintf(logs.ast, ": %s", node->token->content) < 0) {
-            jakarta_error(ERR_CUSTOM, nullptr, "Failed to print AST node content");
+            jakarta_error(ERR_CUSTOM, nullptr,
+                          "Failed to print AST node content");
         }
     }
     if (fprintf(logs.ast, "\n") < 0) {
@@ -106,7 +108,8 @@ void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
     }
 
     char new_prefix[AST_PRINT_BUFFER_SIZE];
-    if (snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ") < 0) {
+    if (snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix,
+                 is_last ? "    " : "│   ") < 0) {
         jakarta_error(ERR_CUSTOM, nullptr, "Failed to create new prefix");
     }
 
@@ -114,7 +117,7 @@ void print_ast_node(ASTNode* node, const char* prefix, bool is_last) {
     for (unsigned int i = 0; i < num_children; ++i) {
         ASTNode* child = ds_astnode_ptr_array_get(node->nodes, i);
         bool child_is_last = (i == num_children - 1);
-        
+
         print_ast_node(child, new_prefix, child_is_last);
     }
 }
