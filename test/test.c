@@ -1,6 +1,6 @@
-#include "symbol.h"
-
 #include <assert.h>
+
+#include "symbol.h"
 
 int main() {
     assert(is_number_symbol("10"));
