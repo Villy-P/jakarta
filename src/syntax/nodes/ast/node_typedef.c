@@ -1,5 +1,8 @@
 #include "core.h"
 #include "data_structures/ast.h"
+#include "data_structures/container.h"
+#include "data_structures/tokenizer.h"
+#include "symbol.h"
 #include "syntax.h"
 
 void parse_typedef(Tokenizer* tokenizer, ASTNode* ast_node) {

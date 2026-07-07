@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "data_structures/container.h"
+#include "data_structures/tokenizer.h"
+
 #define DS_C_IMPLEMENTATION
-#include <libds_c.h>
 
 #include "core.h"
 #include "data_structures/ast.h"

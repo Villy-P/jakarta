@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "core.h"
+#include "data_structures/container.h"
 #include "debug.h"
 #include "syntax.h"
 
