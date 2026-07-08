@@ -118,10 +118,8 @@ bool is_operator(Symbol sym) {
 ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
     ds_astnode_ptr_stack output = {};
     ds_astnode_ptr_stack operators = {};
-    ds_astnode_ptr_stack_init(&output, POSTFIX_STACK_INITIAL_SIZE, nullptr,
-                              nullptr, nullptr);
-    ds_astnode_ptr_stack_init(&operators, POSTFIX_STACK_INITIAL_SIZE, nullptr,
-                              nullptr, nullptr);
+    ds_astnode_ptr_stack_init(&output, POSTFIX_STACK_INITIAL_SIZE);
+    ds_astnode_ptr_stack_init(&operators, POSTFIX_STACK_INITIAL_SIZE);
 
     int open_parenthesis_count = 1;
 
@@ -303,8 +301,8 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
 ASTNode* postfix_to_ast(ds_astnode_ptr_stack* postfix) {
     log_msg(logs.main, "[AST] Converting postfix to AST; stack size of %d",
             postfix->length + 1);
-    ds_astnode_ptr_stack* output = ds_astnode_ptr_stack_create(
-        POSTFIX_STACK_INITIAL_SIZE, nullptr, nullptr, nullptr);
+    ds_astnode_ptr_stack* output =
+        ds_astnode_ptr_stack_create(POSTFIX_STACK_INITIAL_SIZE);
     if (postfix->length <= 1) {
         log_msg(logs.main,
                 "[AST] Encountered Postfix expression with only one member "
