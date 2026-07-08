@@ -73,8 +73,8 @@ ASTNode* create_ast_node(ASTIdentifier identifier, Token* token) {
     }
     node->identifier = identifier;
     node->token = token;
-    node->nodes = ds_astnode_ptr_array_create(INITIAL_ASTNODE_CHILDREN_CAPACITY,
-                                              nullptr, nullptr, nullptr);
+    node->nodes =
+        ds_astnode_ptr_array_create(INITIAL_ASTNODE_CHILDREN_CAPACITY);
     if (node->nodes == nullptr) {
         jakarta_error(ERR_MALLOC_FAIL, nullptr, "ASTNode children");
         free(node);

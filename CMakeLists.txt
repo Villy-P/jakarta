@@ -77,31 +77,7 @@ target_link_libraries(${EXEC_NAME_TEST} PRIVATE libds-c::libds-c cpptrace::cpptr
 target_link_libraries(${EXEC_NAME} PRIVATE ${PCRE2_LINK_LIBRARIES})
 target_link_libraries(${EXEC_NAME_TEST} PRIVATE ${PCRE2_LINK_LIBRARIES})
 
-find_program(CLANG_TIDY_EXE NAMES clang-tidy)
 find_program(CPPCHECK_EXE NAMES cppcheck)
-find_program(RUN_CLANG_TIDY_EXE NAMES run-clang-tidy run-clang-tidy.py)
-find_package(Python3 COMPONENTS Interpreter)
-
-if(CLANG_TIDY_EXE)
-    message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
-    set(CLANG_TIDY_COMMAND
-        ${CLANG_TIDY_EXE}
-        -quiet
-        --config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
-        -p ${CMAKE_BINARY_DIR}
-    )
-    add_custom_target(clang-tidy
-        COMMAND ${CLANG_TIDY_COMMAND} ${JAKARTA_SOURCES}
-        COMMENT "Running clang-tidy..."
-        USES_TERMINAL
-        VERBATIM
-    )
-
-    set_target_properties(${EXEC_NAME} PROPERTIES C_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
-    set_target_properties(${EXEC_NAME_TEST} PROPERTIES C_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
-else()
-    message(STATUS "clang-tidy not found")
-endif()
 
 if(CPPCHECK_EXE)
     message(STATUS "cppcheck found: ${CPPCHECK_EXE}")
@@ -124,15 +100,5 @@ else()
     message(STATUS "cppcheck not found")
 endif()
 
-if(RUN_CLANG_TIDY_EXE AND Python3_Interpreter_FOUND)
-    message(STATUS "run-clang-tidy found: ${RUN_CLANG_TIDY_EXE}")
-    add_custom_target(run-clang-tidy
-        COMMAND Python3::Interpreter ${RUN_CLANG_TIDY_EXE} -p ${CMAKE_BINARY_DIR} -quiet -use-color 1
-            "^(?!.*build).*(include|src|test)(/|\\\\).*\\.(cpp|h|c|hpp)$"
-        COMMENT "Running run-clang-tidy..."
-        USES_TERMINAL
-        VERBATIM
-    )
-else()
-    message(STATUS "run-clang-tidy/Python not found")
-endif()
+include(cmake/ClangFormat.cmake)
+include(cmake/ClangTidy.cmake)

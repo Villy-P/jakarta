@@ -1,6 +1,6 @@
 # Ensures commands run in one shell and prevent issues with file names
 .ONESHELL:
-.PHONY: setup setup-prod build build-prod run run-build-if clean rebuild production help cppcheck lint analyze
+.PHONY: setup setup-prod build build-prod run run-build-if clean rebuild production help cppcheck lint analyze clang-tidy clang-tidy-check clang-format clang-format-check
 
 # Sets up basic build variables
 BUILD_DIR := build
@@ -8,7 +8,6 @@ BIN_DIR := $(BUILD_DIR)\bin
 JOBS ?= 4
 EXECUTABLE := JAKARTA
 EXECUTABLE_TEST := JAKARTA_TEST
-CLANG_TIDY := clang-tidy
 CPPCHECK   := cppcheck
 
 # Sets up cross-platform support
@@ -44,16 +43,10 @@ build:
 build-prod:
 	cmake --build $(BUILD_DIR) --config Release -- -j$(JOBS)
 
-lint:
-	cmake --build $(BUILD_DIR) --target clang-tidy
-
-run-clang-tidy:
-	cmake --build $(BUILD_DIR) --target run-clang-tidy
-
 cppcheck:
 	cmake --build $(BUILD_DIR) --target cppcheck
 
-analyze: lint cppcheck
+analyze: cppcheck
 
 # Runs the program: Use this when you make changed
 run: build
@@ -72,10 +65,16 @@ clean:
 	$(CLEAN) $(BUILD_DIR)
 
 clang-format:
-	cmake --build $(BUILD_DIR) --target clang-format
+	cmake --build $(BUILD_DIR) --target jakarta-clang-format
 
 clang-format-check:
-	cmake --build $(BUILD_DIR) --target clang-format-check
+	cmake --build $(BUILD_DIR) --target jakarta-clang-format-check
+
+clang-tidy:
+	cmake --build $(BUILD_DIR) --target jakarta-clang-tidy
+
+clang-tidy-check:
+	cmake --build $(BUILD_DIR) --target jakarta-clang-tidy-check
 	
 rebuild: clean setup run
 production: clean setup-prod build-prod
@@ -90,8 +89,9 @@ help:
 	@echo "  run-test    - Run Debug test executable"
 	@echo "  clean       - Remove build directory"
 	@echo "  rebuild     - Clean, setup Debug, build and run"
-	@echo "  lint        - Run clang-tidy"
 	@echo "  cppcheck    - Run cppcheck"
 	@echo "  analyze     - Run both analyzers"
 	@echo "  clang-format - Format code using clang-format"
 	@echo "  clang-format-check - Check code formatting using clang-format"
+	@echo "  clang-tidy - Run clang-tidy"
+	@echo "  clang-tidy-check - Check code using clang-tidy"
