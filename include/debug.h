@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#define PRODUCTION 1
+static const uint8_t PRODUCTION = 1;
 
 static const uint8_t TOP_LEVEL = 34;
 static const uint8_t CREATION = 32;
