@@ -127,7 +127,7 @@ endif()
 if(RUN_CLANG_TIDY_EXE AND Python3_Interpreter_FOUND)
     message(STATUS "run-clang-tidy found: ${RUN_CLANG_TIDY_EXE}")
     add_custom_target(run-clang-tidy
-        COMMAND Python3::Interpreter ${RUN_CLANG_TIDY_EXE} -p ${CMAKE_BINARY_DIR} -quiet
+        COMMAND Python3::Interpreter ${RUN_CLANG_TIDY_EXE} -p ${CMAKE_BINARY_DIR} -quiet -use-color 1
             "^(?!.*build).*(include|src|test)(/|\\\\).*\\.(cpp|h|c|hpp)$"
         COMMENT "Running run-clang-tidy..."
         USES_TERMINAL
