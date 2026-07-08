@@ -13,7 +13,7 @@ file(GLOB_RECURSE JAKARTA_SOURCES CONFIGURE_DEPENDS
 )
 file(GLOB_RECURSE JAKARTA_TEST_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/src/*.c
-    ${CMAKE_SOURCE_DIR}/tests/*.c
+    ${CMAKE_SOURCE_DIR}/test/*.c
 )
 file(GLOB_RECURSE JAKARTA_FORMAT_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/src/*.c
@@ -60,6 +60,7 @@ pkg_check_modules(PCRE2 REQUIRED libpcre2-8)
 
 target_link_options(jakarta_common_flags INTERFACE
     -g
+    $<$<PLATFORM_ID:Windows>:-mconsole>
     $<$<PLATFORM_ID:Windows>:-Wl,--export-all-symbols>
     $<$<PLATFORM_ID:Windows>:-Wl,--enable-auto-image-base>
 )
@@ -127,7 +128,7 @@ if(RUN_CLANG_TIDY_EXE AND Python3_Interpreter_FOUND)
     message(STATUS "run-clang-tidy found: ${RUN_CLANG_TIDY_EXE}")
     add_custom_target(run-clang-tidy
         COMMAND Python3::Interpreter ${RUN_CLANG_TIDY_EXE} -p ${CMAKE_BINARY_DIR} -quiet
-            "^(?!.*build).*(src|include|test)(/|\\\\).*\\.(cpp|h|c|hpp)$"
+            "^(?!.*build).*(include|src|test)(/|\\\\).*\\.(cpp|h|c|hpp)$"
         COMMENT "Running run-clang-tidy..."
         USES_TERMINAL
         VERBATIM

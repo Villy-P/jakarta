@@ -1,20 +1,21 @@
+#define DS_C_IMPLEMENTATION
+
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
-#define DS_C_IMPLEMENTATION
-#include <libds_c.h>
-
 #include "core.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
+#include "data_structures/container.h"
 #include "data_structures/hashmap.h"
+#include "data_structures/tokenizer.h"
 #include "debug.h"
 #include "semantic_analyzer.h"
 #include "symbol.h"
 #include "syntax.h"
 
-#define POSTFIX_STACK_INITIAL_SIZE 10
+static const size_t POSTFIX_STACK_INITIAL_SIZE = 10;
 
 typedef enum {
     PREC_NONE = 0,
@@ -86,36 +87,37 @@ bool is_right_associative(const char* operator) {
     return (strcmp(operator, "=") == 0 || strcmp(operator, "+=") == 0 ||
             strcmp(operator, "-=") == 0 || strcmp(operator, "*=") == 0 ||
             strcmp(operator, "/=") == 0 || strcmp(operator, "%=") == 0 ||
-            strcmp(operator, "^") == 0);  // everything else is left-associative
+            strcmp(operator, "^") == 0) !=
+           0;  // everything else is left-associative
 }
 
 bool is_operator(Symbol sym) {
-    return sym == SYMBOL_PLUS || sym == SYMBOL_DASH || sym == SYMBOL_ASTERISK ||
-           sym == SYMBOL_SLASH || sym == SYMBOL_PERCENT ||
-           sym == SYMBOL_OPEN_ANGLE || sym == SYMBOL_CLOSE_ANGLE ||
-           sym == OPERATOR_ADDITION_ASSIGNMENT ||
-           sym == OPERATOR_SUBTRACTION_ASSIGNMENT ||
-           sym == OPERATOR_MULTIPLICATION_ASSIGNMENT ||
-           sym == OPERATOR_DIVISION_ASSIGNMENT ||
-           sym == OPERATOR_MODULUS_ASSIGNMENT ||
-           sym == OPERATOR_BITWISE_AND_ASSIGNMENT ||
-           sym == OPERATOR_BITWISE_OR_ASSIGNMENT ||
-           sym == OPERATOR_BITWISE_XOR_ASSIGNMENT ||
-           sym == OPERATOR_EQUIVALENCE || sym == OPERATOR_NOT_EQUIVALENCE ||
-           sym == OPERATOR_GREATER_THAN_OR_EQUAL_TO ||
-           sym == OPERATOR_LESS_THAN_OR_EQUAL_TO || sym == OPERATOR_INCREMENT ||
-           sym == OPERATOR_DECREMENT || sym == OPERATOR_LEFT_SHIFT ||
-           sym == OPERATOR_RIGHT_SHIFT ||
-           sym == OPERATOR_RIGHT_SHIFT_UNSIGNED || sym == OPERATOR_NOT ||
-           sym == OPERATOR_BITWISE_AND || sym == OPERATOR_BITWISE_OR ||
-           sym == OPERATOR_BITWISE_XOR || sym == OPERATOR_BITWISE_NOT ||
-           sym == OPERATOR_LOGICAL_AND || sym == OPERATOR_LOGICAL_OR ||
-           sym == OPERATOR_ARRAY_DECLARATION;
+    return (sym == SYMBOL_PLUS || sym == SYMBOL_DASH ||
+            sym == SYMBOL_ASTERISK || sym == SYMBOL_SLASH ||
+            sym == SYMBOL_PERCENT || sym == SYMBOL_OPEN_ANGLE ||
+            sym == SYMBOL_CLOSE_ANGLE || sym == OPERATOR_ADDITION_ASSIGNMENT ||
+            sym == OPERATOR_SUBTRACTION_ASSIGNMENT ||
+            sym == OPERATOR_MULTIPLICATION_ASSIGNMENT ||
+            sym == OPERATOR_DIVISION_ASSIGNMENT ||
+            sym == OPERATOR_MODULUS_ASSIGNMENT ||
+            sym == OPERATOR_BITWISE_AND_ASSIGNMENT ||
+            sym == OPERATOR_BITWISE_OR_ASSIGNMENT ||
+            sym == OPERATOR_BITWISE_XOR_ASSIGNMENT ||
+            sym == OPERATOR_EQUIVALENCE || sym == OPERATOR_NOT_EQUIVALENCE ||
+            sym == OPERATOR_GREATER_THAN_OR_EQUAL_TO ||
+            sym == OPERATOR_LESS_THAN_OR_EQUAL_TO ||
+            sym == OPERATOR_INCREMENT || sym == OPERATOR_DECREMENT ||
+            sym == OPERATOR_LEFT_SHIFT || sym == OPERATOR_RIGHT_SHIFT ||
+            sym == OPERATOR_RIGHT_SHIFT_UNSIGNED || sym == OPERATOR_NOT ||
+            sym == OPERATOR_BITWISE_AND || sym == OPERATOR_BITWISE_OR ||
+            sym == OPERATOR_BITWISE_XOR || sym == OPERATOR_BITWISE_NOT ||
+            sym == OPERATOR_LOGICAL_AND || sym == OPERATOR_LOGICAL_OR ||
+            sym == OPERATOR_ARRAY_DECLARATION) != 0;
 }
 
 ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
-    ds_astnode_ptr_stack output = {nullptr};
-    ds_astnode_ptr_stack operators = {nullptr};
+    ds_astnode_ptr_stack output = {};
+    ds_astnode_ptr_stack operators = {};
     ds_astnode_ptr_stack_init(&output, POSTFIX_STACK_INITIAL_SIZE, nullptr,
                               nullptr, nullptr);
     ds_astnode_ptr_stack_init(&operators, POSTFIX_STACK_INITIAL_SIZE, nullptr,
@@ -127,7 +129,7 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
         if (peek(tokenizer, SYMBOL_COMMA)) {
             log_msg(logs.main, "[AST] Comma found; breaking");
             while (operators.length > 0) {
-                ASTNode* operator;
+                ASTNode* operator= nullptr;
                 ds_astnode_ptr_stack_pop(&operators, &operator);
                 ds_astnode_ptr_stack_push(&output, operator);
             }
@@ -206,7 +208,7 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
                 infix_to_postfix(tokenizer);  // stops at ']'
             ASTNode* index_node = postfix_to_ast(&index_postfix);
 
-            ASTNode* left_node;
+            ASTNode* left_node = nullptr;
             ds_astnode_ptr_stack_pop(&output, &left_node);
 
             ds_astnode_ptr_array_push(array_node->nodes, index_node);
@@ -234,7 +236,7 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
                     token->content);
             open_parenthesis_count--;
             while (operators.length > 0) {
-                ASTNode* operator;
+                ASTNode* operator= nullptr;
                 ds_astnode_ptr_stack_pop(&operators, &operator);
                 if (operator->token->symbol == SYMBOL_OPEN_PARENTHESIS) {
                     break;
@@ -253,7 +255,7 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
             log_msg(logs.main, "[AST] Processing closing statement: %s",
                     token->content);
             while (operators.length > 0) {
-                ASTNode* operator;
+                ASTNode* operator= nullptr;
                 ds_astnode_ptr_stack_pop(&operators, &operator);
                 ds_astnode_ptr_stack_push(&output, operator);
             }
@@ -266,7 +268,7 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
             node = create_ast_node(AST_OPERATOR, token);
 
             while (operators.length > 0) {
-                ASTNode* operator;
+                ASTNode* operator= nullptr;
                 ds_astnode_ptr_stack_pop(&operators, &operator);
 
                 if (!is_operator(operator->token->symbol)) {
@@ -307,12 +309,12 @@ ASTNode* postfix_to_ast(ds_astnode_ptr_stack* postfix) {
         log_msg(logs.main,
                 "[AST] Encountered Postfix expression with only one member "
                 "variable");
-        ASTNode* node;
+        ASTNode* node = nullptr;
         ds_astnode_ptr_stack_pop(postfix, &node);
         return node;
     }
     while (postfix->length > 0) {
-        ASTNode* node;
+        ASTNode* node = nullptr;
         ds_astnode_ptr_stack_pop(postfix, &node);
         log_msg(logs.main, "[AST] Popping from postfix stack; current size: %d",
                 postfix->length + 1);
@@ -407,7 +409,7 @@ TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table,
         case AST_NUMBER:
             return (TypeRegistryEntry*)get(
                 state->type_registry,
-                is_decimal(node->token->content) ? "float" : "byte");
+                (int)is_decimal(node->token->content) ? "float" : "byte");
         case AST_LITERAL:
             return (TypeRegistryEntry*)get(state->type_registry, "string");
         default:

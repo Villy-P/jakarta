@@ -118,7 +118,7 @@ void jakarta_error_invalid_typedef_location(Token* token) {
 }
 
 void handle_error(int32_t error_code, Token* token, CompilerState* state, ...) {
-    va_list args;
+    va_list args;  // NOLINT
     va_start(args, state);
     log_msg(logs.main, "[ERROR] Handling error with code %d", error_code);
     printf("\033[31m");

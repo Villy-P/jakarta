@@ -3,6 +3,8 @@
 #include "core.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
+#include "data_structures/container.h"
+#include "data_structures/hashmap.h"
 #include "data_structures/symbol_table.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
@@ -36,7 +38,7 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
         Token* parameter_name_token =
             peek_consume(tokenizer, SYMBOL_IDENTIFIER);
         Token* comma =
-            peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : nullptr;
+            (int)peek(tokenizer, SYMBOL_COMMA) ? consume(tokenizer) : nullptr;
 
         ASTNode* parameter_node = create_ast_node(
             AST_IDENTIFIER_FUNCTION_PARAMETER, parameter_name_token);

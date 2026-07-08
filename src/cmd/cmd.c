@@ -5,6 +5,7 @@
 #include "core.h"
 #include "data_structures/ast.h"
 #include "data_structures/compiler_state.h"
+#include "data_structures/container.h"
 #include "data_structures/tokenizer.h"
 #include "debug.h"
 #include "semantic_analyzer.h"
@@ -17,7 +18,7 @@ static void close_file(FILE* file, const char* path);
 static void process(const char* file_location, CompilerState* state);
 
 void jakarta_cmd_read_file(const char* file_location, CompilerState* state) {
-    ds_char_ptr_array_push(&state->files_to_parse, file_location);
+    ds_char_ptr_array_push(&state->files_to_parse, file_location);  // NOLINT
 
     while (state->files_to_parse.length > 0) {
         log_msg(logs.main, "[IMPORT] Files left to parse: %d",

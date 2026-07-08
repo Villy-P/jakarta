@@ -5,7 +5,7 @@
 #include "data_structures/container.h"
 #include "symbol.h"
 
-#define INITIAL_TOKENS_LENGTH 64
+static const uint32_t INITIAL_TOKENS_LENGTH = 64;
 
 // forward declerations
 typedef struct TokenizerDef Tokenizer;
