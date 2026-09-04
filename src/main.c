@@ -12,11 +12,11 @@ int main(int argc, char* argv[]) {
     setup_logs();
     log_msg(logs.main, "[PROGRAM] Program started with %d arguments", argc);
 
-    #ifdef __WIN32
+#ifdef __WIN32
     SetUnhandledExceptionFilter(handle_seg_fault);
-    #else
+#else
     install_seg_fault_handler();
-    #endif
+#endif
     log_msg(logs.main, "[PROGRAM] Set up segmentation fault handler");
 
     CmdArgs args = {0};

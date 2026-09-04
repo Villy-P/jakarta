@@ -22,7 +22,8 @@ void setup_logs() {
 
     struct stat stats = {0};
     if (stat("logs", &stats) == -1) {
-        if (mkdir("logs", 0755) != 0) {
+        const int mkdirMode = 0755;
+        if (mkdir("logs", mkdirMode) != 0) {
             debug_message("Error: Failed to create 'logs' directory", LOG);
             return;
         }

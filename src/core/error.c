@@ -248,13 +248,13 @@ void handle_seg_fault(int sig, siginfo_t* info, void* ucontext) {
 }
 
 void install_seg_fault_handler(void) {
-    struct sigaction sa;
-    memset(&sa, 0, sizeof(sa));
-    sa.sa_flags = SA_SIGINFO;
-    sa.sa_sigaction = handle_seg_fault;
-    sigemptyset(&sa.sa_mask);
+    struct sigaction siga;
+    memset(&siga, 0, sizeof(siga));
+    siga.sa_flags = SA_SIGINFO;
+    siga.sa_sigaction = handle_seg_fault;
+    sigemptyset(&siga.sa_mask);
 
-    if (sigaction(SIGSEGV, &sa, NULL) == -1) {
+    if (sigaction(SIGSEGV, &siga, NULL) == -1) {
         perror("sigaction");
         exit(EXIT_FAILURE);
     }
