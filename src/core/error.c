@@ -1,11 +1,5 @@
 #include <ctrace/ctrace.h>
-#ifdef __WIN32
-    #include <excpt.h>
-    #include <minwindef.h>
-    #include <winnt.h>
-#else
-    #include <signal.h>
-#endif
+#include <signal.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>

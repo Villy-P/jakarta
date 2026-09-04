@@ -1,14 +1,8 @@
 #include <errno.h>
-#include <string.h>
-
-#ifdef __WIN32
-    #include <_timeval.h>
-    #include <io.h>
-#endif
-
-#include <stdarg.h>
+#include <stdarg.h>`
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <time.h>
