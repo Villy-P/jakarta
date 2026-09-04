@@ -1,11 +1,15 @@
 #include <ctrace/ctrace.h>
-#include <excpt.h>
-#include <minwindef.h>
+#ifdef __WIN32
+    #include <excpt.h>
+    #include <minwindef.h>
+    #include <winnt.h>
+#else
+    #include <signal.h>
+#endif
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <winnt.h>
 
 #include "core.h"
 #include "data_structures/ast.h"
@@ -209,6 +213,7 @@ void handle_error(int32_t error_code, Token* token, CompilerState* state, ...) {
     printf("\033[0m\n");
 }
 
+#ifdef __WIN32
 long WINAPI handle_seg_fault(EXCEPTION_POINTERS* exception_pointers) {
     if (exception_pointers->ExceptionRecord->ExceptionCode ==
         EXCEPTION_ACCESS_VIOLATION) {
@@ -224,3 +229,34 @@ long WINAPI handle_seg_fault(EXCEPTION_POINTERS* exception_pointers) {
     }
     return EXCEPTION_EXECUTE_HANDLER;
 }
+#else
+void handle_seg_fault(int sig, siginfo_t* info, void* ucontext) {
+    (void)sig;
+    (void)ucontext;
+
+    printf(
+        "\033[31mSegmentation Fault (Access Violation) detected at address "
+        "%p\033[0m\n",
+        info->si_addr);
+    fflush(stdout);
+
+    ctrace_stacktrace trace = ctrace_generate_trace(0, MAX_CTRACE_DEPTH);
+    ctrace_print_stacktrace(&trace, stdout, 1);
+    ctrace_free_stacktrace(&trace);
+
+    _Exit(DEFAULT_ERROR_CODE);
+}
+
+void install_seg_fault_handler(void) {
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(sa));
+    sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = handle_seg_fault;
+    sigemptyset(&sa.sa_mask);
+
+    if (sigaction(SIGSEGV, &sa, NULL) == -1) {
+        perror("sigaction");
+        exit(EXIT_FAILURE);
+    }
+}
+#endif

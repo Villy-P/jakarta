@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef __WIN32
+#include <bits/types/siginfo_t.h>
+#endif
 #include "data_structures/compiler_state.h"
 #include "data_structures/tokenizer.h"
 #include "syntax.h"
@@ -46,8 +49,12 @@ void jakarta_error_invalid_typedef_location(Token* token);
 void jakarta_error_undefined_identifier(Token* identifier);
 
 void handle_error(int32_t error_code, Token* token, CompilerState* state, ...);
+#ifdef __WIN32
 long WINAPI handle_seg_fault(EXCEPTION_POINTERS* exception_pointers);
-
+#else
+void handle_seg_fault(int sig, siginfo_t* info, void* ucontext);
+void install_seg_fault_handler(void);
+#endif
 // free.c
 void free_tokenizer(Tokenizer* tokenizer);
 void free_token(Token* token);

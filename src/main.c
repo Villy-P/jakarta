@@ -1,4 +1,6 @@
+#ifdef __WIN32
 #include <errhandlingapi.h>
+#endif
 
 #include "cmd.h"
 #include "core.h"
@@ -10,7 +12,11 @@ int main(int argc, char* argv[]) {
     setup_logs();
     log_msg(logs.main, "[PROGRAM] Program started with %d arguments", argc);
 
+    #ifdef __WIN32
     SetUnhandledExceptionFilter(handle_seg_fault);
+    #else
+    install_seg_fault_handler();
+    #endif
     log_msg(logs.main, "[PROGRAM] Set up segmentation fault handler");
 
     CmdArgs args = {0};
@@ -24,6 +30,6 @@ int main(int argc, char* argv[]) {
     jakarta_cmd_read_file(args.input_file, state);
     jakarta_cmd_out_file(args.output_file);
 
-    cleanup_logs();
     log_msg(logs.main, "[PROGRAM] Program finished");
+    cleanup_logs();
 }
