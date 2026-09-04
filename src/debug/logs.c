@@ -1,8 +1,8 @@
-#include <_timeval.h>
-#include <io.h>
-#include <stdarg.h>
+#include <errno.h>
+#include <stdarg.h>`
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <time.h>
@@ -18,7 +18,8 @@ void setup_logs() {
 
     struct stat stats = {0};
     if (stat("logs", &stats) == -1) {
-        if (mkdir("logs") != 0) {
+        const int mkdirMode = 0755;
+        if (mkdir("logs", mkdirMode) != 0) {
             debug_message("Error: Failed to create 'logs' directory", LOG);
             return;
         }
@@ -86,6 +87,8 @@ void log_msg(FILE* file, const char* format, ...) {
     }
     if (fprintf(file, "\n") < 0) {
         debug_message("Error: Failed to write newline to log file", LOG);
+        fprintf(stderr, "  errno: %d (%s)\n", errno,
+                strerror(errno));  // add this
     }
 
     va_end(args);

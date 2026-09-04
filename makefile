@@ -1,10 +1,10 @@
 # Ensures commands run in one shell and prevent issues with file names
 .ONESHELL:
-.PHONY: setup setup-prod build build-prod run run-build-if clean rebuild production help cppcheck lint analyze clang-tidy clang-tidy-check clang-format clang-format-check
+.PHONY: setup setup-prod build build-prod run run-test clean rebuild production help cppcheck lint analyze clang-tidy clang-tidy-check clang-format clang-format-check
 
 # Sets up basic build variables
 BUILD_DIR := build
-BIN_DIR := $(BUILD_DIR)\bin
+BIN_DIR := $(BUILD_DIR)/bin
 JOBS ?= 4
 EXECUTABLE := JAKARTA
 EXECUTABLE_TEST := JAKARTA_TEST
@@ -13,14 +13,16 @@ CPPCHECK   := cppcheck
 # Sets up cross-platform support
 ifeq ($(OS),Windows_NT)
 	EXE := .exe
-	SEP := \\
-	CLEAN := cmd /c del /Q
+	CLEAN := cmd /c rmdir /S /Q
+	COPY_DIR = xcopy "$(1)" "$(2)" /E /I /Y >nul
 	EXEC_PREFIX :=
+	NULL_DEV := nul
 else
 	EXE :=
-	SEP := /
 	CLEAN := rm -rf
+	COPY_DIR = mkdir -p "$(2)" && cp -r "$(1)/." "$(2)/"
 	EXEC_PREFIX := ./
+	NULL_DEV := /dev/null
 endif
 
 # Run once when first initializing project
@@ -51,14 +53,14 @@ analyze: cppcheck
 # Runs the program: Use this when you make changed
 run: build
 	@echo Running main executable...
-	xcopy "src$(SEP)lib" "$(BIN_DIR)$(SEP)lib" /E /I /Y
-	xcopy "test" "$(BIN_DIR)$(SEP)test" /E /I /Y
-	cd $(BIN_DIR) && "${EXEC_PREFIX}$(EXECUTABLE)$(EXE)" $(args)
+	$(call COPY_DIR,src/lib,$(BIN_DIR)/lib)
+	$(call COPY_DIR,test,$(BIN_DIR)/test)
+	cd $(BIN_DIR) && "$(EXEC_PREFIX)$(EXECUTABLE)$(EXE)" $(args)
 
 # Same run, but using the test exe
 run-test: build
 	@echo Running test executable...
-	cd $(BIN_DIR) && "${EXEC_PREFIX}$(EXECUTABLE_TEST)$(EXE)" $(args)
+	cd $(BIN_DIR) && "$(EXEC_PREFIX)$(EXECUTABLE_TEST)$(EXE)" $(args)
 
 # Cleans up the build directory
 clean:
@@ -75,7 +77,7 @@ clang-tidy:
 
 clang-tidy-check:
 	cmake --build $(BUILD_DIR) --target jakarta-clang-tidy-check
-	
+
 rebuild: clean setup run
 production: clean setup-prod build-prod
 

@@ -1,3 +1,4 @@
+#include "symbol.h"
 #include <assert.h>
 
 int main() {
