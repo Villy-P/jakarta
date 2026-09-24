@@ -7,6 +7,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <time.h>
@@ -22,7 +23,12 @@ void setup_logs() {
 
     struct stat stats = {0};
     if (stat("logs", &stats) == -1) {
+<<<<<<< HEAD
         if (mkdir("logs", 0755) != 0) {
+=======
+        const int mkdirMode = 0755;
+        if (mkdir("logs", mkdirMode) != 0) {
+>>>>>>> 41c93375f14ffd9a0fad06ea2aef804324541912
             debug_message("Error: Failed to create 'logs' directory", LOG);
             return;
         }
