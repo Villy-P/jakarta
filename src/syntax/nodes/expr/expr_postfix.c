@@ -127,7 +127,7 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
         if (peek(tokenizer, SYMBOL_COMMA)) {
             log_msg(logs.main, "[AST] Comma found; breaking");
             while (operators.length > 0) {
-                ASTNode* operator= nullptr;
+                ASTNode* operator = nullptr;
                 ds_astnode_ptr_stack_pop(&operators, &operator);
                 ds_astnode_ptr_stack_push(&output, operator);
             }
@@ -234,7 +234,7 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
                     token->content);
             open_parenthesis_count--;
             while (operators.length > 0) {
-                ASTNode* operator= nullptr;
+                ASTNode* operator = nullptr;
                 ds_astnode_ptr_stack_pop(&operators, &operator);
                 if (operator->token->symbol == SYMBOL_OPEN_PARENTHESIS) {
                     break;
@@ -253,7 +253,7 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
             log_msg(logs.main, "[AST] Processing closing statement: %s",
                     token->content);
             while (operators.length > 0) {
-                ASTNode* operator= nullptr;
+                ASTNode* operator = nullptr;
                 ds_astnode_ptr_stack_pop(&operators, &operator);
                 ds_astnode_ptr_stack_push(&output, operator);
             }
@@ -266,7 +266,7 @@ ds_astnode_ptr_stack infix_to_postfix(Tokenizer* tokenizer) {
             node = create_ast_node(AST_OPERATOR, token);
 
             while (operators.length > 0) {
-                ASTNode* operator= nullptr;
+                ASTNode* operator = nullptr;
                 ds_astnode_ptr_stack_pop(&operators, &operator);
 
                 if (!is_operator(operator->token->symbol)) {

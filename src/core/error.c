@@ -249,15 +249,6 @@ void handle_seg_fault(int sig, siginfo_t* info, void* ucontext) {
 }
 
 void install_seg_fault_handler(void) {
-<<<<<<< HEAD
-    struct sigaction sa;
-    memset(&sa, 0, sizeof(sa));
-    sa.sa_flags = SA_SIGINFO;
-    sa.sa_sigaction = handle_seg_fault;
-    sigemptyset(&sa.sa_mask);
-
-    if (sigaction(SIGSEGV, &sa, NULL) == -1) {
-=======
     struct sigaction siga;
     memset(&siga, 0, sizeof(siga));
     siga.sa_flags = SA_SIGINFO;
@@ -265,7 +256,6 @@ void install_seg_fault_handler(void) {
     sigemptyset(&siga.sa_mask);
 
     if (sigaction(SIGSEGV, &siga, NULL) == -1) {
->>>>>>> 41c93375f14ffd9a0fad06ea2aef804324541912
         perror("sigaction");
         exit(EXIT_FAILURE);
     }
