@@ -1,4 +1,4 @@
-import "lib/stdio.jk";
+// import "lib/stdio.jk";
 
 func int main() {
     int f10 = factorial(10);
