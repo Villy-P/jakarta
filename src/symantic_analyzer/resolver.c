@@ -18,13 +18,20 @@ void resolve_types(CompilerState* state) {
     }
 }
 
-void resolve_node(ASTNode* node, SymbolTable* symbol_table,
-                  CompilerState* state) {
+TypeRegistryEntry* resolve_node(ASTNode* node, SymbolTable* symbol_table,
+                                CompilerState* state) {
     switch (node->identifier) {
         case AST_IDENTIFIER_FUNCTION_DEFINITION:
             return resolve_function_definition(node, symbol_table, state);
         case AST_IDENTIFIER_VARIABLE_DEFINITION:
             return resolve_variable_definition(node, symbol_table, state);
+        case AST_IDENTIFIER_RETURN:
+            log_msg(logs.main,
+                    "[SEMANTIC ANALYZER] Length of return statement children "
+                    "nodes: %zu",
+                    node->nodes->length);
+            return resolve_expression(ds_astnode_ptr_array_get(node->nodes, 0),
+                                      symbol_table, state);
         default:
             break;
     }
@@ -33,6 +40,8 @@ void resolve_node(ASTNode* node, SymbolTable* symbol_table,
         ASTNode* child = ds_astnode_ptr_array_get(node->nodes, i);
         resolve_node(child, symbol_table, state);
     }
+
+    return nullptr;
 }
 
 SymbolTableEntry* lookup_type(const char* target, SymbolTable* symbol_table) {

@@ -6,15 +6,15 @@
 void gather_declarations(CompilerState* state);
 void resolve_types(CompilerState* state);
 
-void resolve_node(ASTNode* node, SymbolTable* symbol_table,
+TypeRegistryEntry* resolve_node(ASTNode* node, SymbolTable* symbol_table,
                   CompilerState* state);
 SymbolTableEntry* lookup_type(const char* target, SymbolTable* symbol_table);
 SymbolTableEntry* lookup_function(const char* target,
                                   SymbolTable* symbol_table);
 
-void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table,
+TypeRegistryEntry* resolve_function_definition(ASTNode* node, SymbolTable* symbol_table,
                                  CompilerState* state);
-void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table,
+TypeRegistryEntry* resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table,
                                  CompilerState* state);
 TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table,
                                       CompilerState* state);
@@ -27,3 +27,5 @@ bool is_integer_type(char* type_name);
 bool is_decimal_type(char* type_name);
 
 bool is_decimal(char* number);
+
+bool are_types_compatible(TypeRegistryEntry* type1, TypeRegistryEntry* type2);

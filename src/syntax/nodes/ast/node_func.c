@@ -74,8 +74,9 @@ void parse_func(Tokenizer* tokenizer, ASTNode* ast_node, CompilerState* state) {
     free_token(close_bracket);
 }
 
-void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table,
-                                 CompilerState* state) {
+TypeRegistryEntry* resolve_function_definition(ASTNode* node,
+                                               SymbolTable* symbol_table,
+                                               CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving function definition: %s",
             node->token->content);
 
@@ -89,7 +90,7 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table,
     if (return_type_entry == nullptr) {
         handle_error(ERROR_UNDEFINED_TYPE, return_type_node->token, state,
                      return_type_node->token->content);
-        return;
+        return nullptr;
     }
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved return type: %s",
             return_type_entry->name);
@@ -120,8 +121,26 @@ void resolve_function_definition(ASTNode* node, SymbolTable* symbol_table,
     ASTNode* function_body_node = ds_astnode_ptr_array_get(node->nodes, 2);
     for (unsigned int i = 0; i < function_body_node->nodes->length; ++i) {
         ASTNode* child = ds_astnode_ptr_array_get(function_body_node->nodes, i);
-        resolve_node(child, function_scope, state);
+        TypeRegistryEntry* entry = resolve_node(child, function_scope, state);
+
+        if (child->identifier == AST_IDENTIFIER_RETURN) {
+            log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving return statement");
+
+            bool compatible = are_types_compatible(
+                (TypeRegistryEntry*)get(state->type_registry,
+                                        return_type_entry->name),
+                entry);
+
+            if (!compatible) {
+                handle_error(ERROR_INCOMPATIBLE_TYPES, child->token, state,
+                             node->token->content, return_type_entry->name,
+                             entry->option);
+            }
+        }
     }
+
+    return (TypeRegistryEntry*)get(state->type_registry,
+                                   return_type_entry->name);
 }
 
 TypeRegistryEntry* resolve_function_call(ASTNode* node,
@@ -149,11 +168,22 @@ TypeRegistryEntry* resolve_function_call(ASTNode* node,
         return nullptr;
     }
 
-    // TODO(Valerius Petrini): Add type checking
     for (unsigned int i = 0; i < node->nodes->length; i++) {
-        // ASTNode* child_node = (ASTNode*)get_from_array(node->nodes, i);
-        // TypeRegistryEntry* type = resolve_expression(child_node,
-        // symbol_table, state);
+        ASTNode* child_node = ds_astnode_ptr_array_get(node->nodes, i);
+        TypeRegistryEntry* type =
+            resolve_expression(child_node, symbol_table, state);
+        TypeRegistryEntry* expected_type = (TypeRegistryEntry*)get(
+            state->type_registry,
+            ds_char_ptr_array_get(function_definition->parameter_types, i));
+
+        bool compatible = are_types_compatible(expected_type, type);
+        if (!compatible) {
+            handle_error(
+                ERROR_INCOMPATIBLE_TYPES, child_node->token, state,
+                node->token->content,
+                ds_char_ptr_array_get(function_definition->parameter_types, i),
+                type->option);
+        }
     }
     return (TypeRegistryEntry*)get(state->type_registry,
                                    function_definition->return_type);

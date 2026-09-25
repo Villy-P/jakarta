@@ -55,7 +55,7 @@ ASTNode* parse_variable_declaration(Tokenizer* tokenizer) {
     return variable_node;
 }
 
-void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table,
+TypeRegistryEntry* resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table,
                                  CompilerState* state) {
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving variable definition: %s",
             node->token->content);
@@ -64,19 +64,35 @@ void resolve_variable_definition(ASTNode* node, SymbolTable* symbol_table,
     SymbolTableEntry* type_entry =
         lookup_type(variable_type_node->token->content, symbol_table);
     if (type_entry == nullptr) {
-        return handle_error(ERROR_UNDEFINED_TYPE, variable_type_node->token,
+        handle_error(ERROR_UNDEFINED_TYPE, variable_type_node->token,
                             state, variable_type_node->token->content);
+        return nullptr;
     }
     log_msg(logs.main, "[SEMANTIC ANALYZER] Resolved variable type: %s",
             type_entry->name);
 
     ASTNode* variable_content_node = ds_astnode_ptr_array_get(node->nodes, 1);
     if (variable_content_node->nodes->length == 0) {
-        return;
+        return nullptr;
     }
-    // ASTNode* expression_node =
-    // (ASTNode*)get_from_array(variable_content_node->nodes, 0);
-    // TypeRegistryEntry* type = resolve_expression(expression_node,
-    // symbol_table, state);
-    // TODO(Valerius Petrini): check to see if it matches the type
+    ASTNode* expression_node =
+        ds_astnode_ptr_array_get(variable_content_node->nodes, 0);
+    TypeRegistryEntry* type =
+        resolve_expression(expression_node, symbol_table, state);
+    TypeRegistryEntry* variable_type_entry =
+        (TypeRegistryEntry*)get(state->type_registry, type_entry->name);
+
+    bool compatible = are_types_compatible(variable_type_entry, type);
+    if (!compatible) {
+        handle_error(ERROR_INCOMPATIBLE_TYPES, expression_node->token,
+                            state, variable_type_entry->bit_size,
+                            variable_type_entry->option, type->bit_size,
+                            type->option);
+        return nullptr;
+    }
+
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Types %s and %s are compatible",
+            type_entry->name, expression_node->token->content);
+
+    return variable_type_entry;
 }

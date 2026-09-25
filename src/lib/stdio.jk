@@ -13,3 +13,5 @@ func void print(string input) {
         write(input[i]);
     }
 }
+
+

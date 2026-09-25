@@ -401,6 +401,9 @@ void parse_variable_members(Tokenizer* tokenizer, ASTNode* ast_node,
 
 TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table,
                                       CompilerState* state) {
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Type of expression node: %d", node->identifier);
+    log_msg(logs.main, "[SEMANTIC ANALYZER] Resolving expression node: %s",
+            node->token ? node->token->content : "null");
     switch (node->identifier) {
         case AST_IDENTIFIER_FUNCTION_CALL:
             return resolve_function_call(node, symbol_table, state);
@@ -410,6 +413,11 @@ TypeRegistryEntry* resolve_expression(ASTNode* node, SymbolTable* symbol_table,
                 (int)is_decimal(node->token->content) ? "float" : "byte");
         case AST_LITERAL:
             return (TypeRegistryEntry*)get(state->type_registry, "string");
+        case AST_OPERATOR:
+            // Correct this bro
+            return (TypeRegistryEntry*)get(state->type_registry, "byte");
+        case AST_IDENTIFIER_INDEX:
+            return (TypeRegistryEntry*)get(state->type_registry, "char");
         default:
             return nullptr;
     }
