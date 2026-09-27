@@ -1,11 +1,11 @@
 #pragma once
 
+#include "ds_string.h"
 #include "state.h"
-#define FILE_NAME_SIZE 256
 
 typedef struct {
-    char input_file[FILE_NAME_SIZE];
-    char output_file[FILE_NAME_SIZE];
+    ds_string input_file;
+    ds_string output_file;
 } CmdArgs;
 
 void parse_args(int argc, char* argv[], CmdArgs* args,
